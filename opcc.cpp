@@ -118,6 +118,9 @@ enum tokentype_t {
     TOK_SV,
     TOK_SHV,
     TOK_SQW,                    // 105
+    TOK_FPW,
+    TOK_FPDW,
+    TOK_FPV,
 
     TOK_MAX
 };
@@ -228,7 +231,10 @@ const char *tokentype_str[TOK_MAX] = {
     "SDW",
     "SV",
     "SHV",
-    "SQW"                       // 105
+    "SQW",                      // 105
+    "FPW",
+    "FPDW",
+    "FPV"
 };
 
 struct tokenstate_t {
@@ -770,6 +776,18 @@ bool toke(tokenstate_t &tok) {
         }
         if (tok.string == "SQW") {
             tok.type = TOK_SQW;
+            return true;
+        }
+        if (tok.string == "FPW") {
+            tok.type = TOK_FPW;
+            return true;
+        }
+        if (tok.string == "FPDW") {
+            tok.type = TOK_FPDW;
+            return true;
+        }
+        if (tok.string == "FPV") {
+            tok.type = TOK_FPV;
             return true;
         }
     }
