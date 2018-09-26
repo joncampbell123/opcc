@@ -25,6 +25,9 @@ enum tokentype_t {
     TOK_UNKNOWN,                // 10
     TOK_OPEN_PARENS,
     TOK_CLOSE_PARENS,
+    TOK_SILENT,
+    TOK_EXCEPTION,
+    TOK_UD,                     // 15
 
     TOK_MAX
 };
@@ -42,7 +45,10 @@ const char *tokentype_str[TOK_MAX] = {
     "opcode",
     "unknown",                  // 10
     "open_parens",
-    "close_parens"
+    "close_parens",
+    "silent",
+    "exception",
+    "ud"                        // 15
 };
 
 struct tokenstate_t {
@@ -218,6 +224,18 @@ bool toke(tokenstate_t &tok) {
         }
         if (tok.string == "UNKNOWN") {
             tok.type = TOK_UNKNOWN;
+            return true;
+        }
+        if (tok.string == "SILENT") {
+            tok.type = TOK_SILENT;
+            return true;
+        }
+        if (tok.string == "EXCEPTION") {
+            tok.type = TOK_EXCEPTION;
+            return true;
+        }
+        if (tok.string == "UD") {
+            tok.type = TOK_UD;
             return true;
         }
     }
