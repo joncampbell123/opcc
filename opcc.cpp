@@ -121,6 +121,13 @@ enum tokentype_t {
     TOK_FPW,
     TOK_FPDW,
     TOK_FPV,
+    TOK_GENERAL,
+    TOK_SEG,                    // 110
+    TOK_F32,
+    TOK_F64,
+    TOK_F80,
+    TOK_F87ENV,
+    TOK_F87STATE,               // 115
 
     TOK_MAX
 };
@@ -234,7 +241,14 @@ const char *tokentype_str[TOK_MAX] = {
     "SQW",                      // 105
     "FPW",
     "FPDW",
-    "FPV"
+    "FPV",
+    "GENERAL",
+    "SEG",                      // 110
+    "F32",
+    "F64",
+    "F80",
+    "F87ENV",
+    "F87STATE"                  // 115
 };
 
 struct tokenstate_t {
@@ -788,6 +802,34 @@ bool toke(tokenstate_t &tok) {
         }
         if (tok.string == "FPV") {
             tok.type = TOK_FPV;
+            return true;
+        }
+        if (tok.string == "GENERAL") {
+            tok.type = TOK_GENERAL;
+            return true;
+        }
+        if (tok.string == "SEG") {
+            tok.type = TOK_SEG;
+            return true;
+        }
+        if (tok.string == "F32") {
+            tok.type = TOK_F32;
+            return true;
+        }
+        if (tok.string == "F64") {
+            tok.type = TOK_F64;
+            return true;
+        }
+        if (tok.string == "F80") {
+            tok.type = TOK_F80;
+            return true;
+        }
+        if (tok.string == "F87ENV") {
+            tok.type = TOK_F87ENV;
+            return true;
+        }
+        if (tok.string == "F87STATE") {
+            tok.type = TOK_F87STATE;
             return true;
         }
     }
