@@ -28,6 +28,7 @@ enum tokentype_t {
     TOK_SILENT,
     TOK_EXCEPTION,
     TOK_UD,                     // 15
+    TOK_CODE,
 
     TOK_MAX
 };
@@ -48,7 +49,8 @@ const char *tokentype_str[TOK_MAX] = {
     "close_parens",
     "silent",
     "exception",
-    "ud"                        // 15
+    "ud",                       // 15
+    "code"
 };
 
 struct tokenstate_t {
@@ -236,6 +238,10 @@ bool toke(tokenstate_t &tok) {
         }
         if (tok.string == "UD") {
             tok.type = TOK_UD;
+            return true;
+        }
+        if (tok.string == "CODE") {
+            tok.type = TOK_CODE;
             return true;
         }
     }
