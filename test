@@ -1,4 +1,4 @@
 "Hello world" 1 2 666 0777
 0xABCD -3 4.4; 4 (5 2 1) prefix opcode unknown exception silent ud code 0xAA dest param(1) param(2) param(3) param(4)
 -1.5 "This is cool"; mrm mod reg rm , all flags flagsv eflags a b c d e f g h i j k l m n o p q r s t u v w x y z
-eax ah al av bv cv dv siv div bpv spv ipv ; cs ds es ss fs gs ax=4
+eax ah al av bv cv dv siv div bpv spv ipv ; cs ds es ss fs gs ax=4 dw tw qw hv
