@@ -4,6 +4,7 @@
 #include <unistd.h>
 #include <stdlib.h>
 #include <string.h>
+#include <assert.h>
 #include <stdio.h>
 #include <fcntl.h>
 #include <errno.h>
@@ -14,7 +15,20 @@ enum tokentype_t {
     TOK_NONE=0,
     TOK_UINT,
     TOK_INT,
-    TOK_FLOAT
+    TOK_FLOAT,
+    TOK_STRING,
+    TOK_ERROR,
+
+    TOK_MAX
+};
+
+const char *tokentype_str[TOK_MAX] = {
+    "none",
+    "uint",
+    "int",
+    "float",
+    "string",
+    "error"
 };
 
 struct tokenstate_t {
@@ -25,10 +39,127 @@ struct tokenstate_t {
         int64_t         i;
     } intval;
     long double         floatval;
+
+    inline const char *type_str(void) const {
+        return tokentype_str[type];
+    }
 } tokenstate;
 
 FILE*           srcfp = NULL;
 std::string     srcfile;
+int             untoke = -1;
+
+void untokechar(int c) {
+    assert(untoke < 0);
+    untoke = c;
+}
+
+int tokechar(void) {
+    unsigned char c;
+
+    if (untoke >= 0) {
+        c = (unsigned char)untoke;
+        untoke = -1;
+        return c;
+    }
+
+    if (srcfp == NULL) return -1;
+    if (feof(srcfp) || ferror(srcfp)) return -1;
+    if (fread(&c,1,1,srcfp) != 1) return -1;
+    return c;
+}
+
+bool toke(tokenstate_t &tok) {
+    int chr;
+
+    chr = tokechar();
+    while (chr == '\t' || chr == '\n' || chr == '\r' || chr == ' ') chr = tokechar();
+    if (chr < 0) return false;
+
+    if (chr == '\"') { /* it's a string */
+        tok.type = TOK_STRING;
+        tok.string.clear();
+
+        do {
+            chr = tokechar();
+            if (chr < 0) {
+                tok.type = TOK_ERROR;
+                return false;
+            }
+            if (chr == '\"') break;
+
+            if (chr == '\\') {
+                chr = tokechar();
+                if (chr == '\\' || chr == '\'' || chr == '\"') {
+                    tok.string += (char)chr;
+                }
+                else {
+                    tok.type = TOK_ERROR;
+                    return false;
+                }
+            }
+            else {
+                tok.string += (char)chr;
+            }
+        } while (true);
+
+        return true;
+    }
+    else if (isdigit((char)chr)) {
+        tok.type = TOK_UINT;
+        tok.string = (char)chr;
+        tok.intval.u = 0;
+
+        if (chr == '0') {
+            chr = tokechar();
+            if (chr == 'x') {
+                /* hexadecimal */
+                tok.string += (char)chr;
+
+                chr = tokechar();
+                if (!isxdigit(chr)) {
+                    tok.type = TOK_ERROR;
+                    return false;
+                }
+
+                tok.string += (char)chr;
+
+                do {
+                    chr = tokechar();
+                    if (!isxdigit(chr)) {
+                        untokechar(chr);
+                        break;
+                    }
+
+                    tok.string += (char)chr;
+                } while (true);
+
+                tok.intval.u = strtoull(tok.string.c_str(),NULL,0);
+                return true;
+            }
+            else {
+                untokechar(chr);
+                return true;
+            }
+        }
+
+        do {
+            chr = tokechar();
+            if (!isdigit(chr)) {
+                untokechar(chr);
+                break;
+            }
+
+            tok.string += (char)chr;
+        } while (true);
+
+        tok.intval.u = strtoull(tok.string.c_str(),NULL,0);
+        return true;
+    }
+
+    tok.type = TOK_ERROR;
+    return false;
+}
 
 int parse_argv(int argc,char **argv) {
     char *a;
@@ -71,6 +202,19 @@ int main(int argc,char **argv) {
     if ((srcfp=fopen(srcfile.c_str(),"r")) == NULL) {
         fprintf(stderr,"Unable to open file '%s', %s\n",srcfile.c_str(),strerror(errno));
         return 1;
+    }
+
+    {
+        tokenstate_t tok;
+
+        while (toke(/*&*/tok)) {
+            fprintf(stderr,"%s(%d)\n",tok.type_str(),tok.type);
+            if (tok.type == TOK_STRING) fprintf(stderr," \"%s\"\n",tok.string.c_str());
+            if (tok.type == TOK_UINT) fprintf(stderr," 0x%llx/%llu\n",(unsigned long long)tok.intval.u,(unsigned long long)tok.intval.u);
+        }
+
+        if (tok.type == TOK_ERROR)
+            fprintf(stderr,"Parse error\n");
     }
 
     fclose(srcfp);
