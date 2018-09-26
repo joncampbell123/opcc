@@ -36,6 +36,77 @@ enum tokentype_t {
     TOK_REG,
     TOK_RM,
     TOK_COMMA,
+    TOK_AL,
+    TOK_AH,                     // 25
+    TOK_AX,
+    TOK_EAX,
+    TOK_AV,
+    TOK_BL,
+    TOK_BH,                     // 30
+    TOK_BX,
+    TOK_EBX,
+    TOK_BV,
+    TOK_CL,
+    TOK_CH,                     // 35
+    TOK_CX,
+    TOK_ECX,
+    TOK_CV,
+    TOK_DL,
+    TOK_DH,                     // 40
+    TOK_DX,
+    TOK_EDX,
+    TOK_DV,
+    TOK_SI,
+    TOK_ESI,                    // 45
+    TOK_SIV,
+    TOK_DI,
+    TOK_EDI,
+    TOK_DIV,
+    TOK_BP,                     // 50
+    TOK_EBP,
+    TOK_BPV,
+    TOK_SP,
+    TOK_ESP,
+    TOK_SPV,                    // 55
+    TOK_IP,
+    TOK_EIP,
+    TOK_IPV,
+    TOK_FLAGS,
+    TOK_EFLAGS,                 // 60
+    TOK_FLAGSV,
+    TOK_CS,
+    TOK_DS,
+    TOK_ES,
+    TOK_FS,                     // 65
+    TOK_GS,
+    TOK_SS,
+    TOK_A,
+    TOK_B,
+    TOK_C,                      // 70
+    TOK_D,
+    TOK_E,
+    TOK_F,
+    TOK_G,
+    TOK_H,                      // 75
+    TOK_I,
+    TOK_J,
+    TOK_K,
+    TOK_L,
+    TOK_M,                      // 80
+    TOK_N,
+    TOK_O,
+    TOK_P,
+    TOK_Q,
+    TOK_R,                      // 85
+    TOK_S,
+    TOK_T,
+    TOK_U,
+    TOK_V,
+    TOK_W,                      // 90
+    TOK_X,
+    TOK_Y,
+    TOK_Z,
+    TOK_ALL,
 
     TOK_MAX
 };
@@ -64,7 +135,78 @@ const char *tokentype_str[TOK_MAX] = {
     "mod",                      // 20
     "reg",
     "rm",
-    "comma"
+    "comma",
+    "AL",
+    "AH",                       // 25
+    "AX",
+    "EAX",
+    "AV",
+    "BL",
+    "BH",                       // 30
+    "BX",
+    "EBX",
+    "BV",
+    "CL",
+    "CH",                       // 35
+    "CX",
+    "ECX",
+    "CV",
+    "DL",
+    "DH",                       // 40
+    "DX",
+    "EDX",
+    "DV",
+    "SI",
+    "ESI",                      // 45
+    "SIV",
+    "DI",
+    "EDI",
+    "DIV",
+    "BP",                       // 50
+    "EBP",
+    "BPV",
+    "SP",
+    "ESP",
+    "SPV",                      // 55
+    "IP",
+    "EIP",
+    "IPV",
+    "FLAGS",
+    "EFLAGS",                   // 60
+    "FLAGSV",
+    "CS",
+    "DS",
+    "ES",
+    "FS",                       // 65
+    "GS",
+    "SS",
+    "A",
+    "B",
+    "C",                        // 70
+    "D",
+    "E",
+    "F",
+    "G",
+    "H",                        // 75
+    "I",
+    "J",
+    "K",
+    "L",
+    "M",                        // 80
+    "N",
+    "O",
+    "P",
+    "Q",
+    "R",                        // 85
+    "S",
+    "T",
+    "U",
+    "V",
+    "W",                        // 90
+    "X",
+    "Y",
+    "Z",
+    "ALL"
 };
 
 struct tokenstate_t {
@@ -281,6 +423,290 @@ bool toke(tokenstate_t &tok) {
         }
         if (tok.string == "RM") {
             tok.type = TOK_RM;
+            return true;
+        }
+        if (tok.string == "AL") {
+            tok.type = TOK_AL;
+            return true;
+        }
+        if (tok.string == "AH") {
+            tok.type = TOK_AH;
+            return true;
+        }
+        if (tok.string == "AX") {
+            tok.type = TOK_AX;
+            return true;
+        }
+        if (tok.string == "EAX") {
+            tok.type = TOK_EAX;
+            return true;
+        }
+        if (tok.string == "AV") {
+            tok.type = TOK_AV;
+            return true;
+        }
+        if (tok.string == "BL") {
+            tok.type = TOK_BL;
+            return true;
+        }
+        if (tok.string == "BH") {
+            tok.type = TOK_BH;
+            return true;
+        }
+        if (tok.string == "BX") {
+            tok.type = TOK_BX;
+            return true;
+        }
+        if (tok.string == "EBX") {
+            tok.type = TOK_EBX;
+            return true;
+        }
+        if (tok.string == "BV") {
+            tok.type = TOK_BV;
+            return true;
+        }
+        if (tok.string == "CL") {
+            tok.type = TOK_CL;
+            return true;
+        }
+        if (tok.string == "CH") {
+            tok.type = TOK_CH;
+            return true;
+        }
+        if (tok.string == "CX") {
+            tok.type = TOK_CX;
+            return true;
+        }
+        if (tok.string == "ECX") {
+            tok.type = TOK_ECX;
+            return true;
+        }
+        if (tok.string == "CV") {
+            tok.type = TOK_CV;
+            return true;
+        }
+        if (tok.string == "DL") {
+            tok.type = TOK_DL;
+            return true;
+        }
+        if (tok.string == "DH") {
+            tok.type = TOK_DH;
+            return true;
+        }
+        if (tok.string == "DX") {
+            tok.type = TOK_DX;
+            return true;
+        }
+        if (tok.string == "EDX") {
+            tok.type = TOK_EDX;
+            return true;
+        }
+        if (tok.string == "DV") {
+            tok.type = TOK_DV;
+            return true;
+        }
+        if (tok.string == "SI") {
+            tok.type = TOK_SI;
+            return true;
+        }
+        if (tok.string == "ESI") {
+            tok.type = TOK_ESI;
+            return true;
+        }
+        if (tok.string == "SIV") {
+            tok.type = TOK_SIV;
+            return true;
+        }
+        if (tok.string == "DI") {
+            tok.type = TOK_DI;
+            return true;
+        }
+        if (tok.string == "EDI") {
+            tok.type = TOK_EDI;
+            return true;
+        }
+        if (tok.string == "DIV") {
+            tok.type = TOK_DIV;
+            return true;
+        }
+        if (tok.string == "BP") {
+            tok.type = TOK_BP;
+            return true;
+        }
+        if (tok.string == "EBP") {
+            tok.type = TOK_EBP;
+            return true;
+        }
+        if (tok.string == "BPV") {
+            tok.type = TOK_BPV;
+            return true;
+        }
+        if (tok.string == "SP") {
+            tok.type = TOK_SP;
+            return true;
+        }
+        if (tok.string == "ESP") {
+            tok.type = TOK_ESP;
+            return true;
+        }
+        if (tok.string == "SPV") {
+            tok.type = TOK_SPV;
+            return true;
+        }
+        if (tok.string == "IP") {
+            tok.type = TOK_IP;
+            return true;
+        }
+        if (tok.string == "EIP") {
+            tok.type = TOK_EIP;
+            return true;
+        }
+        if (tok.string == "IPV") {
+            tok.type = TOK_IPV;
+            return true;
+        }
+        if (tok.string == "FLAGS") {
+            tok.type = TOK_FLAGS;
+            return true;
+        }
+        if (tok.string == "EFLAGS") {
+            tok.type = TOK_EFLAGS;
+            return true;
+        }
+        if (tok.string == "FLAGSV") {
+            tok.type = TOK_FLAGSV;
+            return true;
+        }
+        if (tok.string == "CS") {
+            tok.type = TOK_CS;
+            return true;
+        }
+        if (tok.string == "DS") {
+            tok.type = TOK_DS;
+            return true;
+        }
+        if (tok.string == "ES") {
+            tok.type = TOK_ES;
+            return true;
+        }
+        if (tok.string == "FS") {
+            tok.type = TOK_FS;
+            return true;
+        }
+        if (tok.string == "GS") {
+            tok.type = TOK_GS;
+            return true;
+        }
+        if (tok.string == "SS") {
+            tok.type = TOK_SS;
+            return true;
+        }
+        if (tok.string == "A") {
+            tok.type = TOK_A;
+            return true;
+        }
+        if (tok.string == "B") {
+            tok.type = TOK_B;
+            return true;
+        }
+        if (tok.string == "C") {
+            tok.type = TOK_C;
+            return true;
+        }
+        if (tok.string == "D") {
+            tok.type = TOK_D;
+            return true;
+        }
+        if (tok.string == "E") {
+            tok.type = TOK_E;
+            return true;
+        }
+        if (tok.string == "F") {
+            tok.type = TOK_F;
+            return true;
+        }
+        if (tok.string == "G") {
+            tok.type = TOK_G;
+            return true;
+        }
+        if (tok.string == "H") {
+            tok.type = TOK_H;
+            return true;
+        }
+        if (tok.string == "I") {
+            tok.type = TOK_I;
+            return true;
+        }
+        if (tok.string == "J") {
+            tok.type = TOK_J;
+            return true;
+        }
+        if (tok.string == "K") {
+            tok.type = TOK_K;
+            return true;
+        }
+        if (tok.string == "L") {
+            tok.type = TOK_L;
+            return true;
+        }
+        if (tok.string == "M") {
+            tok.type = TOK_M;
+            return true;
+        }
+        if (tok.string == "N") {
+            tok.type = TOK_N;
+            return true;
+        }
+        if (tok.string == "O") {
+            tok.type = TOK_O;
+            return true;
+        }
+        if (tok.string == "P") {
+            tok.type = TOK_P;
+            return true;
+        }
+        if (tok.string == "Q") {
+            tok.type = TOK_Q;
+            return true;
+        }
+        if (tok.string == "R") {
+            tok.type = TOK_R;
+            return true;
+        }
+        if (tok.string == "S") {
+            tok.type = TOK_S;
+            return true;
+        }
+        if (tok.string == "T") {
+            tok.type = TOK_T;
+            return true;
+        }
+        if (tok.string == "U") {
+            tok.type = TOK_U;
+            return true;
+        }
+        if (tok.string == "V") {
+            tok.type = TOK_V;
+            return true;
+        }
+        if (tok.string == "W") {
+            tok.type = TOK_W;
+            return true;
+        }
+        if (tok.string == "X") {
+            tok.type = TOK_X;
+            return true;
+        }
+        if (tok.string == "Y") {
+            tok.type = TOK_Y;
+            return true;
+        }
+        if (tok.string == "Z") {
+            tok.type = TOK_Z;
+            return true;
+        }
+        if (tok.string == "ALL") {
+            tok.type = TOK_ALL;
             return true;
         }
     }
