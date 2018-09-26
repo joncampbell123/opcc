@@ -10,7 +10,7 @@
 // stuff from flex that bison needs to know about:
 int yylex();
 int yyparse();
-FILE *yyin;
+extern FILE *yyin;
 
 void yyerror(const char *s);
 %}

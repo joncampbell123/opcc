@@ -26,7 +26,7 @@ WS  [ \t\v\n\f]
 %{
 #include <stdio.h>
 #include "cnode.h"
-#include "cparsb.c.h"
+#include "cparsb.cpp.h"
 
 extern void yyerror(const char *);  /* prints grammar violation message */
 
@@ -163,10 +163,10 @@ static void comment(void)
 {
     int c;
 
-    while ((c = input()) != 0)
+    while ((c = yyinput()) != 0)
         if (c == '*')
         {
-            while ((c = input()) == '*')
+            while ((c = yyinput()) == '*')
                 ;
 
             if (c == '/')
