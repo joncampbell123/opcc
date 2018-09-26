@@ -112,6 +112,12 @@ enum tokentype_t {
     TOK_TW,
     TOK_QW,
     TOK_HV,
+    TOK_SB,                     // 100
+    TOK_SW,
+    TOK_SDW,
+    TOK_SV,
+    TOK_SHV,
+    TOK_SQW,                    // 105
 
     TOK_MAX
 };
@@ -216,7 +222,13 @@ const char *tokentype_str[TOK_MAX] = {
     "DW",
     "TW",
     "QW",
-    "HV"
+    "HV",
+    "SB",                       // 100
+    "SW",
+    "SDW",
+    "SV",
+    "SHV",
+    "SQW"                       // 105
 };
 
 struct tokenstate_t {
@@ -734,6 +746,30 @@ bool toke(tokenstate_t &tok) {
         }
         if (tok.string == "HV") {
             tok.type = TOK_HV;
+            return true;
+        }
+        if (tok.string == "SB") {
+            tok.type = TOK_SB;
+            return true;
+        }
+        if (tok.string == "SW") {
+            tok.type = TOK_SW;
+            return true;
+        }
+        if (tok.string == "SDW") {
+            tok.type = TOK_SDW;
+            return true;
+        }
+        if (tok.string == "SV") {
+            tok.type = TOK_SV;
+            return true;
+        }
+        if (tok.string == "SHV") {
+            tok.type = TOK_SHV;
+            return true;
+        }
+        if (tok.string == "SQW") {
+            tok.type = TOK_SQW;
             return true;
         }
     }
