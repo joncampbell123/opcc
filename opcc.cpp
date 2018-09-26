@@ -12,27 +12,37 @@
 #include <string>
 
 enum tokentype_t {
-    TOK_NONE=0,
+    TOK_NONE=0,                 // 0
     TOK_UINT,
     TOK_INT,
     TOK_FLOAT,
     TOK_STRING,
-    TOK_ERROR,
+    TOK_ERROR,                  // 5
     TOK_MINUS,
     TOK_SEMICOLON,
+    TOK_PREFIX,
+    TOK_OPCODE,
+    TOK_UNKNOWN,                // 10
+    TOK_OPEN_PARENS,
+    TOK_CLOSE_PARENS,
 
     TOK_MAX
 };
 
 const char *tokentype_str[TOK_MAX] = {
-    "none",
+    "none",                     // 0
     "uint",
     "int",
     "float",
     "string",
-    "error",
+    "error",                    // 5
     "minus",
-    "semicolon"
+    "semicolon",
+    "prefix",
+    "opcode",
+    "unknown",                  // 10
+    "open_parens",
+    "close_parens"
 };
 
 struct tokenstate_t {
@@ -83,6 +93,8 @@ bool toke(tokenstate_t &tok) {
     switch ((unsigned char)chr) {
         case '-': tok.type = TOK_MINUS;         return true;
         case ';': tok.type = TOK_SEMICOLON;     return true;
+        case '(': tok.type = TOK_OPEN_PARENS;   return true;
+        case ')': tok.type = TOK_CLOSE_PARENS;  return true;
         default:
             break;
     };
@@ -181,6 +193,33 @@ bool toke(tokenstate_t &tok) {
             abort();
 
         return true;
+    }
+    else if (isalpha((char)chr)) {
+        tok.type = TOK_ERROR;
+        tok.string = (char)toupper((char)chr);
+
+        do {
+            chr = tokechar();
+            if (!isalpha(chr)) {
+                untokechar(chr);
+                break;
+            }
+
+            tok.string += (char)toupper((char)chr);
+        } while (true);
+
+        if (tok.string == "PREFIX") {
+            tok.type = TOK_PREFIX;
+            return true;
+        }
+        if (tok.string == "OPCODE") {
+            tok.type = TOK_OPCODE;
+            return true;
+        }
+        if (tok.string == "UNKNOWN") {
+            tok.type = TOK_UNKNOWN;
+            return true;
+        }
     }
 
     tok.type = TOK_ERROR;
