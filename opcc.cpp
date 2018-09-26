@@ -19,6 +19,7 @@ enum tokentype_t {
     TOK_STRING,
     TOK_ERROR,
     TOK_MINUS,
+    TOK_SEMICOLON,
 
     TOK_MAX
 };
@@ -30,7 +31,8 @@ const char *tokentype_str[TOK_MAX] = {
     "float",
     "string",
     "error",
-    "minus"
+    "minus",
+    "semicolon"
 };
 
 struct tokenstate_t {
@@ -79,9 +81,8 @@ bool toke(tokenstate_t &tok) {
     if (chr < 0) return false;
 
     switch ((unsigned char)chr) {
-        case '-':
-            tok.type = TOK_MINUS;
-            return true;
+        case '-': tok.type = TOK_MINUS;         return true;
+        case ';': tok.type = TOK_SEMICOLON;     return true;
         default:
             break;
     };
