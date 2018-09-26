@@ -35,6 +35,7 @@ enum tokentype_t {
     TOK_MOD,                    // 20
     TOK_REG,
     TOK_RM,
+    TOK_COMMA,
 
     TOK_MAX
 };
@@ -62,7 +63,8 @@ const char *tokentype_str[TOK_MAX] = {
     "mrm",
     "mod",                      // 20
     "reg",
-    "rm"
+    "rm",
+    "comma"
 };
 
 struct tokenstate_t {
@@ -115,6 +117,7 @@ bool toke(tokenstate_t &tok) {
         case ';': tok.type = TOK_SEMICOLON;     return true;
         case '(': tok.type = TOK_OPEN_PARENS;   return true;
         case ')': tok.type = TOK_CLOSE_PARENS;  return true;
+        case ',': tok.type = TOK_COMMA;         return true;
         default:
             break;
     };
