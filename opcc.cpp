@@ -31,6 +31,7 @@ enum tokentype_t {
     TOK_CODE,
     TOK_DEST,
     TOK_PARAM,
+    TOK_MRM,
 
     TOK_MAX
 };
@@ -54,7 +55,8 @@ const char *tokentype_str[TOK_MAX] = {
     "ud",                       // 15
     "code",
     "dest",
-    "param"
+    "param",
+    "mrm"
 };
 
 struct tokenstate_t {
@@ -254,6 +256,10 @@ bool toke(tokenstate_t &tok) {
         }
         if (tok.string == "PARAM") {
             tok.type = TOK_PARAM;
+            return true;
+        }
+        if (tok.string == "MRM") {
+            tok.type = TOK_MRM;
             return true;
         }
    }
