@@ -107,6 +107,7 @@ enum tokentype_t {
     TOK_Y,
     TOK_Z,
     TOK_ALL,
+    TOK_EQUAL,                  // 95
 
     TOK_MAX
 };
@@ -206,7 +207,8 @@ const char *tokentype_str[TOK_MAX] = {
     "X",
     "Y",
     "Z",
-    "ALL"
+    "ALL",
+    "EQUAL"                     // 95
 };
 
 struct tokenstate_t {
@@ -260,6 +262,7 @@ bool toke(tokenstate_t &tok) {
         case '(': tok.type = TOK_OPEN_PARENS;   return true;
         case ')': tok.type = TOK_CLOSE_PARENS;  return true;
         case ',': tok.type = TOK_COMMA;         return true;
+        case '=': tok.type = TOK_EQUAL;         return true;
         default:
             break;
     };
