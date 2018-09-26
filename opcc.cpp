@@ -29,6 +29,8 @@ enum tokentype_t {
     TOK_EXCEPTION,
     TOK_UD,                     // 15
     TOK_CODE,
+    TOK_DEST,
+    TOK_PARAM,
 
     TOK_MAX
 };
@@ -50,7 +52,9 @@ const char *tokentype_str[TOK_MAX] = {
     "silent",
     "exception",
     "ud",                       // 15
-    "code"
+    "code",
+    "dest",
+    "param"
 };
 
 struct tokenstate_t {
@@ -208,7 +212,7 @@ bool toke(tokenstate_t &tok) {
 
         do {
             chr = tokechar();
-            if (!isalpha(chr)) {
+            if (!isalpha(chr) && !isdigit(chr)) {
                 untokechar(chr);
                 break;
             }
@@ -244,7 +248,15 @@ bool toke(tokenstate_t &tok) {
             tok.type = TOK_CODE;
             return true;
         }
-    }
+        if (tok.string == "DEST") {
+            tok.type = TOK_DEST;
+            return true;
+        }
+        if (tok.string == "PARAM") {
+            tok.type = TOK_PARAM;
+            return true;
+        }
+   }
 
     tok.type = TOK_ERROR;
     return false;
