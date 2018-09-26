@@ -237,6 +237,7 @@ int main(int argc,char **argv) {
             fprintf(stderr,"%s(%d)\n",tok.type_str(),tok.type);
             if (tok.type == TOK_STRING) fprintf(stderr," \"%s\"\n",tok.string.c_str());
             if (tok.type == TOK_UINT) fprintf(stderr," 0x%llx/%llu\n",(unsigned long long)tok.intval.u,(unsigned long long)tok.intval.u);
+            if (tok.type == TOK_INT) fprintf(stderr," 0x%llx/%lld\n",(signed long long)tok.intval.i,(signed long long)tok.intval.i);
             if (tok.type == TOK_FLOAT) fprintf(stderr," %.30Lf\n",(long double)tok.floatval);
         }
 
