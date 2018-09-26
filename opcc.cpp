@@ -137,12 +137,17 @@ bool toke(tokenstate_t &tok) {
                 tok.intval.u = strtoull(tok.string.c_str(),NULL,0);
                 return true;
             }
+            else if (isdigit(chr)) {
+                /* octal */
+                tok.string += (char)chr;
+            }
             else {
                 untokechar(chr);
                 return true;
             }
         }
 
+        /* decimal */
         do {
             chr = tokechar();
             if (!isdigit(chr)) {
