@@ -6,8 +6,8 @@
 
 #include "cnode.h"
 
-#include "cparsb.cpp.h"
-#include "cparsl.cpp.h"
+#include "cparsb.c.h"
+#include "cparsl.c.h"
 
 unsigned char               enable_addsub_combo_optimization = 1;
 unsigned char               enable_commutative_optimizations = 1;
@@ -21,7 +21,7 @@ const char *token2string(int tok);
 struct c_node *c_node_alloc(void) {
     struct c_node *n;
 
-    n = (struct c_node*)malloc(sizeof(*n));
+    n = malloc(sizeof(*n));
     if (n == NULL) return NULL;
     memset(n,0,sizeof(*n));
     return n;
@@ -649,7 +649,7 @@ struct identifier_t *idents_name_lookup(const char *name,c_identref_t min_stop_a
             struct identifier_t *id = idents_get(scan);
             if (id != NULL) {
                 if (!id->deleted && id->ident != NULL) {
-                    c_node::c_node_val::c_node_IDENTIFIER *ident = &(id->ident->value.value_IDENTIFIER);
+                    struct c_node_IDENTIFIER *ident = &(id->ident->value.value_IDENTIFIER);
 
                     if (ident->name != NULL) {
                         if (!strcmp(name,ident->name))
@@ -900,7 +900,7 @@ c_stringref_t sconst_parse(char *str) {
 
     tmp_alloc = 128;
     tmp_len = 0;
-    tmp = (unsigned char*)malloc(tmp_alloc);
+    tmp = malloc(tmp_alloc);
     if (tmp == NULL) {
         fprintf(stderr,"Unable to alloc str\n");
         return c_stringref_t_NONE;
@@ -1187,7 +1187,7 @@ int enum_const_eval(struct c_node *idn) {
 int expression_eval_reduce(struct c_node *idn);
 
 int expression_eval_float_to_bool(struct c_node *idn) {
-    c_node::c_node_val::c_node_F_CONSTANT sint;
+    struct c_node_F_CONSTANT sint;
 
     if (idn->token != F_CONSTANT)
         return 0;
@@ -1201,7 +1201,7 @@ int expression_eval_float_to_bool(struct c_node *idn) {
 }
 
 int expression_eval_int_to_float(struct c_node *idn) {
-    c_node::c_node_val::c_node_I_CONSTANT sint;
+    struct c_node_I_CONSTANT sint;
 
     if (idn->token != I_CONSTANT)
         return 0;
@@ -3363,7 +3363,7 @@ int c_node_identifier_is_equ(struct c_node *a,struct c_node *b) {
 }
 
 void c_node_identifier_swap(struct c_node *a,struct c_node *b) {
-    c_node::c_node_val::c_node_IDENTIFIER t;
+    struct c_node_IDENTIFIER t;
 
     assert(a->token == IDENTIFIER);
     assert(b->token == IDENTIFIER);
