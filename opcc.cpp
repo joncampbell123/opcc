@@ -32,6 +32,9 @@ enum tokentype_t {
     TOK_DEST,
     TOK_PARAM,
     TOK_MRM,
+    TOK_MOD,                    // 20
+    TOK_REG,
+    TOK_RM,
 
     TOK_MAX
 };
@@ -56,7 +59,10 @@ const char *tokentype_str[TOK_MAX] = {
     "code",
     "dest",
     "param",
-    "mrm"
+    "mrm",
+    "mod",                      // 20
+    "reg",
+    "rm"
 };
 
 struct tokenstate_t {
@@ -262,7 +268,19 @@ bool toke(tokenstate_t &tok) {
             tok.type = TOK_MRM;
             return true;
         }
-   }
+        if (tok.string == "MOD") {
+            tok.type = TOK_MOD;
+            return true;
+        }
+        if (tok.string == "REG") {
+            tok.type = TOK_REG;
+            return true;
+        }
+        if (tok.string == "RM") {
+            tok.type = TOK_RM;
+            return true;
+        }
+    }
 
     tok.type = TOK_ERROR;
     return false;
