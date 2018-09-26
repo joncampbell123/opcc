@@ -18,6 +18,7 @@ enum tokentype_t {
     TOK_FLOAT,
     TOK_STRING,
     TOK_ERROR,
+    TOK_MINUS,
 
     TOK_MAX
 };
@@ -28,7 +29,8 @@ const char *tokentype_str[TOK_MAX] = {
     "int",
     "float",
     "string",
-    "error"
+    "error",
+    "minus"
 };
 
 struct tokenstate_t {
@@ -75,6 +77,14 @@ bool toke(tokenstate_t &tok) {
     chr = tokechar();
     while (chr == '\t' || chr == '\n' || chr == '\r' || chr == ' ') chr = tokechar();
     if (chr < 0) return false;
+
+    switch ((unsigned char)chr) {
+        case '-':
+            tok.type = TOK_MINUS;
+            return true;
+        default:
+            break;
+    };
 
     if (chr == '\"') { /* it's a string */
         tok.type = TOK_STRING;
@@ -150,7 +160,11 @@ bool toke(tokenstate_t &tok) {
         /* decimal */
         do {
             chr = tokechar();
-            if (!isdigit(chr)) {
+            if (chr == '.' && tok.type == TOK_UINT) {
+                tok.type = TOK_FLOAT;
+                tok.floatval = 0;
+            }
+            else if (!isdigit(chr)) {
                 untokechar(chr);
                 break;
             }
@@ -158,7 +172,13 @@ bool toke(tokenstate_t &tok) {
             tok.string += (char)chr;
         } while (true);
 
-        tok.intval.u = strtoull(tok.string.c_str(),NULL,0);
+        if (tok.type == TOK_UINT)
+            tok.intval.u = strtoull(tok.string.c_str(),NULL,0);
+        else if (tok.type == TOK_FLOAT)
+            tok.floatval = strtof(tok.string.c_str(),NULL);
+        else
+            abort();
+
         return true;
     }
 
@@ -216,6 +236,7 @@ int main(int argc,char **argv) {
             fprintf(stderr,"%s(%d)\n",tok.type_str(),tok.type);
             if (tok.type == TOK_STRING) fprintf(stderr," \"%s\"\n",tok.string.c_str());
             if (tok.type == TOK_UINT) fprintf(stderr," 0x%llx/%llu\n",(unsigned long long)tok.intval.u,(unsigned long long)tok.intval.u);
+            if (tok.type == TOK_FLOAT) fprintf(stderr," %.30Lf\n",(long double)tok.floatval);
         }
 
         if (tok.type == TOK_ERROR)
