@@ -10,6 +10,7 @@
 #include <errno.h>
 
 #include <string>
+#include <vector>
 
 enum tokentype_t {
     TOK_NONE=0,                 // 0
@@ -883,6 +884,19 @@ int parse_argv(int argc,char **argv) {
 
     return 0;
 }
+
+typedef std::vector<uint8_t> ByteSpec;
+
+class OpcodeSpec {
+public:
+    std::vector<ByteSpec>       bytes;                  // opcode byte sequence
+    unsigned int                immed_byte_1 = 0;       // if set, immediate byte follows mod/reg/rm (token)
+    unsigned int                immed_byte_2 = 0;       // if set, immediate byte follows mod/reg/rm (token)
+    unsigned int                type = 0;               // token type (PREFIX, OPCODE, etc)
+    std::string                 description;
+    bool                        modregrm = false;       // if mod/reg/rm byte follows opcode
+    unsigned int                prefix_seg_assign = 0;  // token segment override assignment (PREFIX)
+};
 
 int main(int argc,char **argv) {
     if (parse_argv(argc,argv))
