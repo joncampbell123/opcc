@@ -13,6 +13,16 @@ prefix "ES:"
   (code 0x26)
   (seg=es);
 
+prefix "FS:"
+  (desc "FS segment override")
+  (code 0x64)
+  (seg=fs);
+
+prefix "GS:"
+  (desc "GS segment override")
+  (code 0x65)
+  (seg=gs);
+
 prefix "SS:"
   (desc "SS segment override")
   (code 0x36)
