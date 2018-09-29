@@ -894,9 +894,73 @@ public:
     unsigned int                immed_byte_2 = 0;       // if set, immediate byte follows mod/reg/rm (token)
     unsigned int                type = 0;               // token type (PREFIX, OPCODE, etc)
     std::string                 description;
+    std::string                 name;
     bool                        modregrm = false;       // if mod/reg/rm byte follows opcode
     unsigned int                prefix_seg_assign = 0;  // token segment override assignment (PREFIX)
 };
+
+std::vector<OpcodeSpec>         opcodes;
+
+bool read_opcode_spec(OpcodeSpec &spec) {
+    tokenstate_t tok;
+
+    if (!toke(/*&*/tok))
+        return false;
+    if (tok.type == TOK_SEMICOLON)
+        return false;
+
+    if (tok.type == TOK_PREFIX || tok.type == TOK_OPCODE) {
+        spec.type = tok.type;
+
+        /* next token should be the name */
+        if (!toke(tok)) goto unexpected_end;
+        if (tok.type != TOK_STRING) goto unexpected_token;
+        spec.name = tok.string;
+        for (auto &c : spec.name) c = toupper(c);
+
+        /* read the rest until semicolon */
+        std::vector<tokenstate_t> tokens;
+
+        do {
+            if (!toke(tok)) goto unexpected_end;
+            if (tok.type == TOK_SEMICOLON) break;
+            tokens.push_back(tok);
+        } while (1);
+
+        {
+            auto beg = tokens.begin();
+            auto end = beg;
+
+            while (beg != tokens.end()) {
+                if ((*beg).type == TOK_OPEN_PARENS) {
+                    beg++;
+                    end = beg;
+                    do {
+                        if (end == tokens.end()) goto unexpected_end;
+                        if ((*end).type == TOK_CLOSE_PARENS) break;
+                        end++;
+                    } while (1);
+                }
+                else {
+                    fprintf(stderr,"Unexpected token '%s'\n",(*beg).type_str());
+                    goto unexpected_token;
+                }
+            }
+        }
+
+        return true;
+    }
+    else {
+        goto unexpected_token;
+    }
+
+unexpected_end:
+    fprintf(stderr,"Unexpected end of opcode\n");
+    return false;
+unexpected_token:
+    fprintf(stderr,"Unexpected token\n");
+    return false;
+}
 
 int main(int argc,char **argv) {
     if (parse_argv(argc,argv))
@@ -907,6 +971,18 @@ int main(int argc,char **argv) {
         return 1;
     }
 
+    {
+        do {
+            OpcodeSpec spec;
+
+            if (!read_opcode_spec(/*&*/spec))
+                break;
+
+            opcodes.push_back(std::move(spec));
+        } while (1);
+    }
+
+#if 0
     {
         tokenstate_t tok;
 
@@ -921,6 +997,7 @@ int main(int argc,char **argv) {
         if (tok.type == TOK_ERROR)
             fprintf(stderr,"Parse error\n");
     }
+#endif
 
     fclose(srcfp);
     return 0;
