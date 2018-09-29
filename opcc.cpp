@@ -928,15 +928,63 @@ public:
     size_t              read = 0;
 };
 
+bool valid_immediate_size_token(unsigned int tok) {
+    switch (tok) {
+        case TOK_B:
+        case TOK_SB:
+        case TOK_W:
+        case TOK_SW:
+        case TOK_DW:
+        case TOK_SDW:
+        case TOK_V:
+        case TOK_SV:
+        case TOK_HV:
+        case TOK_SHV:
+        case TOK_FPV:
+        case TOK_FPW:
+        case TOK_FPDW:
+            return true;
+        default:
+            break;
+    };
+
+    return false;
+}
+
+/* immediate(token).
+ * immediate token already parsed by caller, we're at ( now */
+unsigned int parse_code_immediate_spec(tokenlist &tokens) {
+    unsigned int r = TOK_NONE;
+
+    if (tokens.peek().type != TOK_OPEN_PARENS) return TOK_NONE;
+    tokens.discard();
+
+    auto &p1 = tokens.next();
+    if (!valid_immediate_size_token(p1.type)) return TOK_NONE;
+    r = p1.type;
+
+    /* should be ) now */
+    if (tokens.peek().type != TOK_CLOSE_PARENS) return TOK_NONE;
+    tokens.discard();
+
+    return r;
+}
+
 bool read_opcode_spec_opcode_parens(tokenlist &parent_tokens,OpcodeSpec &spec) {
     /* caller already read '(' */
     tokenlist tokens;
+    int parens = 1;
 
     do {
         auto &next = parent_tokens.next();
 
-        if (next.type == TOK_CLOSE_PARENS)
-            break;
+        if (next.type == TOK_CLOSE_PARENS) {
+            if (--parens <= 0)
+                break;
+        }
+        else if (next.type == TOK_OPEN_PARENS) {
+            parens++;
+        }
         else if (next.type == TOK_NONE) {
             fprintf(stderr,"Opcode parens unexpected end\n");
             return false;
@@ -1001,6 +1049,28 @@ bool read_opcode_spec_opcode_parens(tokenlist &parent_tokens,OpcodeSpec &spec) {
             }
             else {
                 break;
+            }
+        }
+
+        /* whether or not the instruction has a mod/reg/rm byte */
+        if (tokens.peek().type == TOK_MRM) {
+            tokens.discard();
+            spec.modregrm = true;
+        }
+
+        /* whether the instruction has immediate operands "immediate(v)" */
+        if (tokens.peek().type == TOK_IMMEDIATE) {
+            tokens.discard();
+            if ((spec.immed_byte_1=parse_code_immediate_spec(/*&*/tokens)) == TOK_NONE) {
+                fprintf(stderr,"Invalid immediate spec\n");
+                return false;
+            }
+        }
+        if (tokens.peek().type == TOK_IMMEDIATE) {
+            tokens.discard();
+            if ((spec.immed_byte_2=parse_code_immediate_spec(/*&*/tokens)) == TOK_NONE) {
+                fprintf(stderr,"Invalid immediate spec\n");
+                return false;
             }
         }
 
