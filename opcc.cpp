@@ -899,61 +899,172 @@ public:
     unsigned int                prefix_seg_assign = 0;  // token segment override assignment (PREFIX)
 };
 
+static tokenstate_t tokenstate_t_none;
+
 std::vector<OpcodeSpec>         opcodes;
 
-bool read_opcode_spec(OpcodeSpec &spec) {
-    tokenstate_t tok;
+class tokenlist : public std::vector<tokenstate_t> {
+public:
+    tokenlist() : std::vector<tokenstate_t>() { }
+    ~tokenlist() { }
+public:
+    tokenstate_t &get(const size_t i) {
+        if (i >= size()) return tokenstate_t_none;
+        return (std::vector<tokenstate_t>::operator[])(i);
+    }
+    tokenstate_t &peek(const size_t i=0) {
+        return get(read+i);
+    }
+    tokenstate_t &next(void) {
+        return get(read++);
+    }
+    void discard(const size_t i=1) {
+        read += i;
+    }
+    bool eof(void) const {
+        return read >= size();
+    }
+public:
+    size_t              read = 0;
+};
 
-    if (!toke(/*&*/tok))
-        return false;
-    if (tok.type == TOK_SEMICOLON)
-        return false;
+bool read_opcode_spec_opcode_parens(tokenlist &parent_tokens,OpcodeSpec &spec) {
+    /* caller already read '(' */
+    tokenlist tokens;
 
-    if (tok.type == TOK_PREFIX || tok.type == TOK_OPCODE) {
-        spec.type = tok.type;
+    do {
+        auto &next = parent_tokens.next();
 
-        /* next token should be the name */
-        if (!toke(tok)) goto unexpected_end;
-        if (tok.type != TOK_STRING) goto unexpected_token;
-        spec.name = tok.string;
-        for (auto &c : spec.name) c = toupper(c);
+        if (next.type == TOK_CLOSE_PARENS)
+            break;
+        else if (next.type == TOK_NONE) {
+            fprintf(stderr,"Opcode parens unexpected end\n");
+            return false;
+        }
 
-        /* read the rest until semicolon */
-        std::vector<tokenstate_t> tokens;
+        tokens.push_back(next);
+    } while (1);
 
-        do {
-            if (!toke(tok)) goto unexpected_end;
-            if (tok.type == TOK_SEMICOLON) break;
-            tokens.push_back(tok);
-        } while (1);
+    if (tokens.empty())
+        return true;
 
-        {
-            auto beg = tokens.begin();
-            auto end = beg;
+    /* desc "string" */
+    if (tokens.peek(0).type == TOK_DESC && tokens.peek(1).type == TOK_STRING) {
+        spec.description = tokens.peek(1).string;
+        tokens.discard(2);
 
-            while (beg != tokens.end()) {
-                if ((*beg).type == TOK_OPEN_PARENS) {
-                    beg++;
-                    end = beg;
-                    do {
-                        if (end == tokens.end()) goto unexpected_end;
-                        if ((*end).type == TOK_CLOSE_PARENS) break;
-                        end++;
-                    } while (1);
-                }
-                else {
-                    fprintf(stderr,"Unexpected token '%s'\n",(*beg).type_str());
-                    goto unexpected_token;
-                }
-            }
+        if (!tokens.eof()) {
+            fprintf(stderr,"Desc unexpected tokens\n");
+            return false;
         }
 
         return true;
     }
-    else {
-        goto unexpected_token;
+
+    /* code (byte or byte ranges) [mod/reg/rm] [immediate(...)] */
+    if (tokens.peek(0).type == TOK_CODE) {
+        tokens.discard(1);
+
+        while (!tokens.eof() && tokens.peek().type == TOK_UINT) {
+            auto &next = tokens.next();
+            ByteSpec bs;
+
+            /* byte range (0xA0-0xA3) */
+            if (tokens.peek().type == TOK_MINUS) {
+                unsigned int start = next.intval.u;
+                tokens.discard(); // TOK_MINUS
+                auto &next2 = tokens.next();
+                if (next2.type != TOK_UINT) break;
+                unsigned int end = next2.intval.u;
+
+                if (start > end || start > 255 || end > 255) {
+                    fprintf(stderr,"Invalid range\n");
+                    return false;
+                }
+
+                for (unsigned int c=start;c <= end;c++)
+                    bs.push_back((uint8_t)c);
+            }
+            /* single byte */
+            else {
+                bs.push_back((uint8_t)next.intval.u);
+            }
+
+            /* store it */
+            spec.bytes.push_back(bs);
+
+            /* if the next token is a comma, then discard it and loop again.
+             * else exit the loop */
+            if (tokens.peek().type == TOK_COMMA) {
+                tokens.discard();
+                continue;
+            }
+            else {
+                break;
+            }
+        }
+
+        if (!tokens.eof()) {
+            fprintf(stderr,"Code unexpected tokens\n");
+            return false;
+        }
+
+        return true;
     }
 
+    fprintf(stderr,"Opcode parens unexpected token %s\n",tokens.peek().type_str());
+    return false;
+}
+
+bool read_opcode_spec(OpcodeSpec &spec) {
+    tokenlist tokens;
+
+    do {
+        tokenstate_t tok;
+
+        if (!toke(/*&*/tok)) {
+            if (tokens.empty())
+                return false;
+
+            goto unexpected_end;
+        }
+
+        if (tok.type == TOK_SEMICOLON)
+            break;
+
+        tokens.push_back(std::move(tok));
+    } while(1);
+
+    if (tokens.empty())
+        return true; /* not an error */
+
+    /* prefix "name" (...) (...) (...) */
+    /* opcode "name" (...) (...) (...) */
+    if ((tokens.peek(0).type == TOK_PREFIX || tokens.peek(1).type == TOK_OPCODE) && tokens.peek(1).type == TOK_STRING) {
+        spec.name = tokens.peek(1).string;
+        for (auto &c : spec.name) c = toupper(c);
+        tokens.discard(2);
+
+        if (spec.name.empty()) {
+            fprintf(stderr,"Prefix requires name\n");
+            return false;
+        }
+
+        while (!tokens.eof() && tokens.peek().type == TOK_OPEN_PARENS) {
+            tokens.discard();
+            if (!read_opcode_spec_opcode_parens(/*&*/tokens,/*&*/spec))
+                return false;
+        }
+
+        if (!tokens.eof())
+            goto parse_error;
+
+        return true;
+    }
+
+parse_error:
+    fprintf(stderr,"Parse error\n");
+    return false;
 unexpected_end:
     fprintf(stderr,"Unexpected end of opcode\n");
     return false;
