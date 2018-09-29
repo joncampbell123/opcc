@@ -1,16 +1,20 @@
 prefix "CS:"
+  (desc "CS segment override")
   (code 0x2E)
   (seg=cs);
 
 prefix "DS:"
+  (desc "DS segment override")
   (code 0x3E)
   (seg=ds);
 
 prefix "ES:"
+  (desc "ES segment override")
   (code 0x26)
   (seg=es);
 
 prefix "SS:"
+  (desc "SS segment override")
   (code 0x36)
   (seg=ss);
 

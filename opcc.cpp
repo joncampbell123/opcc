@@ -129,6 +129,7 @@ enum tokentype_t {
     TOK_F87ENV,
     TOK_F87STATE,               // 115
     TOK_IMMEDIATE,
+    TOK_DESC,
 
     TOK_MAX
 };
@@ -250,7 +251,8 @@ const char *tokentype_str[TOK_MAX] = {
     "F80",
     "F87ENV",
     "F87STATE",                 // 115
-    "IMMEDIATE"
+    "IMMEDIATE",
+    "DESC"
 };
 
 struct tokenstate_t {
@@ -836,6 +838,10 @@ bool toke(tokenstate_t &tok) {
         }
         if (tok.string == "IMMEDIATE") {
             tok.type = TOK_IMMEDIATE;
+            return true;
+        }
+        if (tok.string == "DESC") {
+            tok.type = TOK_DESC;
             return true;
         }
     }
