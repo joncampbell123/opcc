@@ -1009,6 +1009,32 @@ bool read_opcode_spec_opcode_parens(tokenlist &parent_tokens,OpcodeSpec &spec) {
         return true;
     }
 
+    /* seg=(register) */
+    if (tokens.peek(0).type == TOK_SEG && tokens.peek(1).type == TOK_EQUAL) {
+        tokens.discard(2);
+
+        if (spec.type != TOK_PREFIX) {
+            fprintf(stderr,"Segment override specifications only allowed for prefixes\n");
+            return false;
+        }
+
+        auto &n = tokens.next();
+        if (n.type == TOK_CS || n.type == TOK_DS || n.type == TOK_ES || n.type == TOK_FS || n.type == TOK_GS || n.type == TOK_SS) {
+            spec.prefix_seg_assign = n.type;
+        }
+        else {
+            fprintf(stderr,"Unexpected token past equals\n");
+            return false;
+        }
+
+        if (!tokens.eof()) {
+            fprintf(stderr,"Seg unexpected tokens\n");
+            return false;
+        }
+
+        return true;
+    }
+
     /* code (byte or byte ranges) [mod/reg/rm] [immediate(...)] */
     if (tokens.peek(0).type == TOK_CODE) {
         tokens.discard(1);
@@ -1111,6 +1137,7 @@ bool read_opcode_spec(OpcodeSpec &spec) {
     /* prefix "name" (...) (...) (...) */
     /* opcode "name" (...) (...) (...) */
     if ((tokens.peek(0).type == TOK_PREFIX || tokens.peek(1).type == TOK_OPCODE) && tokens.peek(1).type == TOK_STRING) {
+        spec.type = tokens.peek(0).type;
         spec.name = tokens.peek(1).string;
         for (auto &c : spec.name) c = toupper(c);
         tokens.discard(2);
