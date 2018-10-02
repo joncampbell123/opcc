@@ -131,6 +131,7 @@ enum tokentype_t {
     TOK_F87STATE,               // 115
     TOK_IMMEDIATE,
     TOK_DESC,
+    TOK_COMMENT,
 
     TOK_MAX
 };
@@ -253,7 +254,8 @@ const char *tokentype_str[TOK_MAX] = {
     "F87ENV",
     "F87STATE",                 // 115
     "IMMEDIATE",
-    "DESC"
+    "DESC",
+    "COMMENT"
 };
 
 struct tokenstate_t {
@@ -845,6 +847,10 @@ bool toke(tokenstate_t &tok) {
             tok.type = TOK_DESC;
             return true;
         }
+        if (tok.string == "COMMENT") {
+            tok.type = TOK_COMMENT;
+            return true;
+        }
     }
 
     tok.type = TOK_ERROR;
@@ -894,6 +900,7 @@ public:
     unsigned int                immed_byte_2 = 0;       // if set, immediate byte follows mod/reg/rm (token)
     unsigned int                type = 0;               // token type (PREFIX, OPCODE, etc)
     std::string                 description;
+    std::string                 comment;
     std::string                 name;
     bool                        modregrm = false;       // if mod/reg/rm byte follows opcode
     unsigned int                prefix_seg_assign = 0;  // token segment override assignment (PREFIX)
@@ -1005,6 +1012,20 @@ bool read_opcode_spec_opcode_parens(tokenlist &parent_tokens,OpcodeSpec &spec) {
 
         if (!tokens.eof()) {
             fprintf(stderr,"Desc unexpected tokens\n");
+            return false;
+        }
+
+        return true;
+    }
+
+    /* comment "string" */
+    if (tokens.peek(0).type == TOK_COMMENT && tokens.peek(1).type == TOK_STRING) {
+        if (!spec.comment.empty()) spec.comment += "\n";
+        spec.comment += tokens.peek(1).string;
+        tokens.discard(2);
+
+        if (!tokens.eof()) {
+            fprintf(stderr,"Comment unexpected tokens\n");
             return false;
         }
 
