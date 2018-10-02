@@ -28,3 +28,6 @@ prefix "SS:"
   (code 0x36)
   (seg=ss);
 
+unknown opcode silent;
+unknown opcode ud;
+

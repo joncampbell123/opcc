@@ -903,6 +903,8 @@ static tokenstate_t tokenstate_t_none;
 
 std::vector<OpcodeSpec>         opcodes;
 
+int                             unknown_opcode = TOK_UD;
+
 class tokenlist : public std::vector<tokenstate_t> {
 public:
     tokenlist() : std::vector<tokenstate_t>() { }
@@ -1151,6 +1153,25 @@ bool read_opcode_spec(OpcodeSpec &spec) {
             tokens.discard();
             if (!read_opcode_spec_opcode_parens(/*&*/tokens,/*&*/spec))
                 return false;
+        }
+
+        if (!tokens.eof())
+            goto parse_error;
+
+        return true;
+    }
+    /* unknown opcode (silent|ud); */
+    else if (tokens.peek(0).type == TOK_UNKNOWN && tokens.peek(1).type == TOK_OPCODE) {
+        tokens.discard(2);
+
+        if (!tokens.eof()) {
+            if (tokens.peek().type == TOK_UD || tokens.peek().type == TOK_SILENT) {
+                unknown_opcode = tokens.peek().type;
+                tokens.discard();
+            }
+            else {
+                goto parse_error;
+            }
         }
 
         if (!tokens.eof())
