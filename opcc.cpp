@@ -1148,25 +1148,7 @@ bool read_opcode_spec_opcode_parens(tokenlist &parent_tokens,OpcodeSpec &spec) {
     return false;
 }
 
-bool read_opcode_spec(OpcodeSpec &spec) {
-    tokenlist tokens;
-
-    do {
-        tokenstate_t tok;
-
-        if (!toke(/*&*/tok)) {
-            if (tokens.empty())
-                return false;
-
-            goto unexpected_end;
-        }
-
-        if (tok.type == TOK_SEMICOLON)
-            break;
-
-        tokens.push_back(std::move(tok));
-    } while(1);
-
+bool read_opcode_spec(OpcodeSpec &spec,tokenlist &tokens) {
     if (tokens.empty())
         return true; /* not an error */
 
@@ -1247,6 +1229,50 @@ bool read_opcode_spec(OpcodeSpec &spec) {
         return true;
     }
 
+parse_error:
+    fprintf(stderr,"Parse error\n");
+    return false;
+unexpected_end:
+    fprintf(stderr,"Unexpected end of opcode\n");
+    return false;
+unexpected_token:
+    fprintf(stderr,"Unexpected token\n");
+    return false;
+}
+
+bool do_opcode_spec(tokenlist &tokens) {
+    OpcodeSpec spec;
+
+    if (!read_opcode_spec(/*&*/spec,/*&*/tokens))
+        return false;
+
+    opcodes.push_back(std::move(spec));
+    return true;
+}
+
+bool read_opcode_block(void) {
+    do {
+        tokenlist tokens;
+
+        do {
+            tokenstate_t tok;
+
+            if (!toke(/*&*/tok)) {
+                if (tokens.empty())
+                    return false;
+
+                goto unexpected_end;
+            }
+
+            if (tok.type == TOK_SEMICOLON)
+                break;
+
+            tokens.push_back(std::move(tok));
+        } while(1);
+
+        if (!do_opcode_spec(/*&*/tokens))
+            break;
+    } while (1);
 
 parse_error:
     fprintf(stderr,"Parse error\n");
@@ -1268,16 +1294,7 @@ int main(int argc,char **argv) {
         return 1;
     }
 
-    {
-        do {
-            OpcodeSpec spec;
-
-            if (!read_opcode_spec(/*&*/spec))
-                break;
-
-            opcodes.push_back(std::move(spec));
-        } while (1);
-    }
+    while (read_opcode_block());
 
     if (opcode_limit < 0) {
         opcode_limit = 0; // none
