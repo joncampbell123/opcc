@@ -1279,6 +1279,15 @@ int main(int argc,char **argv) {
         } while (1);
     }
 
+    if (opcode_limit < 0) {
+        opcode_limit = 0; // none
+        fprintf(stderr,"WARNING: Opcode limit not specified 'opcode limit ...'\n");
+    }
+    if (unknown_opcode < 0) {
+        unknown_opcode = TOK_SILENT;
+        fprintf(stderr,"WARNING: Unknown opcode behavior not specified 'unknown opcode ...'\n");
+    }
+
 #if 0
     {
         tokenstate_t tok;
