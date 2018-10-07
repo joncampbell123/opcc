@@ -138,6 +138,7 @@ enum tokentype_t {
     TOK_LESSTHAN,
     TOK_GREATERTHAN,
     TOK_VALUE,
+    TOK_LOG,                    // 125
 
     TOK_MAX
 };
@@ -267,7 +268,8 @@ const char *tokentype_str[TOK_MAX] = {
     "IF",
     "LESSTHAN",
     "GREATERTHAN",
-    "VALUE"
+    "VALUE",
+    "LOG"                       // 125
 };
 
 struct tokenstate_t {
@@ -313,7 +315,10 @@ bool toke(tokenstate_t &tok) {
 
     chr = tokechar();
     while (chr == '\t' || chr == '\n' || chr == '\r' || chr == ' ') chr = tokechar();
-    if (chr < 0) return false;
+    if (chr < 0) {
+        tok.type = TOK_NONE;
+        return false;
+    }
 
     switch ((unsigned char)chr) {
         case '-': tok.type = TOK_MINUS;         return true;
@@ -881,6 +886,10 @@ bool toke(tokenstate_t &tok) {
             tok.type = TOK_VALUE;
             return true;
         }
+        if (tok.string == "LOG") {
+            tok.type = TOK_LOG;
+            return true;
+        }
     }
 
     tok.type = TOK_ERROR;
@@ -1276,6 +1285,8 @@ bool read_opcode_block(void) {
             tokenstate_t tok;
 
             if (!toke(/*&*/tok)) {
+                if (tok.type == TOK_ERROR)
+                    goto token_error;
                 if (tokens.empty())
                     return false;
 
@@ -1294,6 +1305,9 @@ bool read_opcode_block(void) {
 
 parse_error:
     fprintf(stderr,"Parse error\n");
+    return false;
+token_error:
+    fprintf(stderr,"Token error\n");
     return false;
 unexpected_end:
     fprintf(stderr,"Unexpected end of opcode\n");
