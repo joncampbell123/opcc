@@ -55,6 +55,9 @@ set "hello" format("hello " 123 " world");
 log "The following is a value() expression";
 log value("hello");
 
+log "and with format()";
+log format("hello world value() expression = \"" value("hello") "\"");
+
 log "The following is a value() expression that does not exist";
 log value("hello world");
 

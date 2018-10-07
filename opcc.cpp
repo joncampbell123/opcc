@@ -1377,6 +1377,16 @@ bool eval_format(std::string &msg,tokenlist &tokens) {
 
             msg += submsg;
         }
+        else if (tokens.peek(0).type == TOK_VALUE) {
+            tokens.discard();
+
+            tokenstate_t subtoken;
+
+            if (!eval_value(subtoken,tokens))
+                return false;
+
+            msg += subtoken.to_string();
+        }
         else if (tokens.peek(0).type == TOK_MINUS && tokens.peek(1).type == TOK_UINT) {
             char tmp[128];
 
