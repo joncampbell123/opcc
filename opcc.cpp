@@ -132,6 +132,8 @@ enum tokentype_t {
     TOK_IMMEDIATE,
     TOK_DESC,
     TOK_COMMENT,
+    TOK_LIMIT,
+    TOK_WORD_NONE,              // 120 "none"
 
     TOK_MAX
 };
@@ -255,7 +257,9 @@ const char *tokentype_str[TOK_MAX] = {
     "F87STATE",                 // 115
     "IMMEDIATE",
     "DESC",
-    "COMMENT"
+    "COMMENT",
+    "LIMIT",
+    "NONE"                      // 120
 };
 
 struct tokenstate_t {
@@ -851,6 +855,14 @@ bool toke(tokenstate_t &tok) {
             tok.type = TOK_COMMENT;
             return true;
         }
+        if (tok.string == "LIMIT") {
+            tok.type = TOK_LIMIT;
+            return true;
+        }
+        if (tok.string == "NONE") {
+            tok.type = TOK_WORD_NONE;
+            return true;
+        }
     }
 
     tok.type = TOK_ERROR;
@@ -911,6 +923,7 @@ static tokenstate_t tokenstate_t_none;
 std::vector<OpcodeSpec>         opcodes;
 
 int                             unknown_opcode = -1;
+int                             opcode_limit = -1;
 
 class tokenlist : public std::vector<tokenstate_t> {
 public:
@@ -1203,6 +1216,37 @@ bool read_opcode_spec(OpcodeSpec &spec) {
 
         return true;
     }
+    /* opcode limit (none|number); */
+    else if (tokens.peek(0).type == TOK_OPCODE && tokens.peek(1).type == TOK_LIMIT) {
+        tokens.discard(2);
+
+        if (!tokens.eof()) {
+            if (tokens.peek().type == TOK_WORD_NONE) {
+                if (opcode_limit > 0) fprintf(stderr,"Opcode limit specified multiple conflicting times\n");
+                opcode_limit = 0;
+                tokens.discard();
+            }
+            else if (tokens.peek().type == TOK_UINT) {
+                if (tokens.peek().intval.u < 1 || tokens.peek().intval.u > 65536)
+                    goto parse_error;
+
+                if (opcode_limit >= 0 && opcode_limit != (int)tokens.peek().intval.u)
+                    fprintf(stderr,"Opcode limit specified multiple conflicting times\n");
+
+                opcode_limit = tokens.peek().intval.u;
+                tokens.discard();
+            }
+            else {
+                goto parse_error;
+            }
+        }
+
+        if (!tokens.eof())
+            goto parse_error;
+
+        return true;
+    }
+
 
 parse_error:
     fprintf(stderr,"Parse error\n");
