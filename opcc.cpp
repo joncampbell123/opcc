@@ -1306,6 +1306,17 @@ bool process_block(tokenlist &tokens) {
         fprintf(stderr,"Formatted log output not yet supported\n");
         return false;
     }
+    /* comment "string" */
+    if (tokens.peek(0).type == TOK_COMMENT && tokens.peek(1).type == TOK_STRING) {
+        tokens.discard(2);
+
+        if (!tokens.eof()) {
+            fprintf(stderr,"Unexpected tokens\n");
+            return false;
+        }
+
+        return true;
+    }
 
     if (!do_opcode_spec(/*&*/tokens))
         return false;

@@ -35,6 +35,7 @@ prefix "SS:"
   (code 0x36)
   (seg=ss);
 
+comment "log allows human readable commentary inline to this spec";
 log "testing 1 2 3";
 
 unknown opcode silent;
