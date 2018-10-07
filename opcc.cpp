@@ -1352,6 +1352,10 @@ bool eval_value(tokenstate_t &token,tokenlist &tokens) {
     return false;
 }
 
+void LOG_OUTPUT(const std::string &msg) {
+    fprintf(stderr,"log output: %s\n",msg.c_str());
+}
+
 bool eval_format(std::string &msg,tokenlist &tokens) {
     msg.clear();
 
@@ -1441,7 +1445,7 @@ bool process_block(tokenlist &tokens) {
         std::string msg = tokens.peek(1).string;
         tokens.discard(2);
 
-        fprintf(stderr,"log output: '%s'\n",msg.c_str());
+        LOG_OUTPUT(msg);
 
         if (!tokens.eof()) {
             fprintf(stderr,"Unexpected tokens\n");
@@ -1460,7 +1464,7 @@ bool process_block(tokenlist &tokens) {
             return false;
         }
 
-        fprintf(stderr,"log output: '%s'\n",msg.c_str());
+        LOG_OUTPUT(msg);
 
         if (!tokens.eof()) {
             fprintf(stderr,"Unexpected tokens\n");
@@ -1481,7 +1485,7 @@ bool process_block(tokenlist &tokens) {
 
         msg = token.to_string();
 
-        fprintf(stderr,"log output: '%s'\n",msg.c_str());
+        LOG_OUTPUT(msg);
 
         if (!tokens.eof()) {
             fprintf(stderr,"Unexpected tokens\n");
