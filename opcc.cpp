@@ -1309,7 +1309,9 @@ bool eval_format(std::string &msg,tokenlist &tokens) {
             msg += tokens.peek(0).string;
             tokens.discard();
         }
-        else if (tokens.peek(0).type == TOK_OPEN_PARENS) {
+        else if (tokens.peek(0).type == TOK_FORMAT) {
+            tokens.discard();
+
             // subexpression
             std::string submsg;
 
