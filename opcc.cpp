@@ -1300,6 +1300,15 @@ bool eval_format(std::string &msg,tokenlist &tokens) {
             msg += tokens.peek(0).string;
             tokens.discard();
         }
+        else if (tokens.peek(0).type == TOK_OPEN_PARENS) {
+            // subexpression
+            std::string submsg;
+
+            if (!eval_format(submsg,tokens))
+                return false;
+
+            msg += submsg;
+        }
         else if (tokens.peek(0).type == TOK_MINUS && tokens.peek(1).type == TOK_UINT) {
             char tmp[128];
 

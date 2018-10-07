@@ -43,6 +43,8 @@ log format("hello " 1.234 " world");
 log format("hello " -123456 " world");
 log format("hello " -123456 " " -1.234 " world");
 log format("hello" " " "world");
+log format("hello " (123456 " world"));
+log format("hello " (123 " " (456 " ") "world"));
 
 unknown opcode silent;
 unknown opcode ud;
