@@ -144,6 +144,7 @@ enum tokentype_t {
     TOK_FORMAT,
     TOK_SET,
     TOK_UNSET,
+    TOK_ISSET,                  // 130
 
     TOK_MAX
 };
@@ -278,7 +279,8 @@ const char *tokentype_str[TOK_MAX] = {
     "PLUS",
     "FORMAT",
     "SET",
-    "UNSET"
+    "UNSET",
+    "ISSET"                     // 130
 };
 
 struct tokenstate_t {
@@ -959,6 +961,10 @@ bool toke(tokenstate_t &tok) {
             tok.type = TOK_UNSET;
             return true;
         }
+        if (tok.string == "ISSET") {
+            tok.type = TOK_ISSET;
+            return true;
+        }
     }
 
     tok.type = TOK_ERROR;
@@ -1374,6 +1380,35 @@ bool eval_value(tokenstate_t &token,tokenlist &tokens) {
     return false;
 }
 
+/* ISSET ( STRING ) */
+bool eval_isset(tokenstate_t &token,tokenlist &tokens) {
+    token.type = TOK_NONE;
+
+    // caller has already consumed TOK_ISSET
+    // next token should be parenthesis
+    // end of the message should be closed paranethesis
+    if (tokens.peek(0).type != TOK_OPEN_PARENS) return false;
+    tokens.discard();
+
+    if (tokens.peek(0).type == TOK_STRING) {
+        std::string name = tokens.peek(0).string;
+        tokens.discard();
+
+        if (name.empty()) return false;
+
+        if (tokens.peek(0).type != TOK_CLOSE_PARENS) return false;
+        tokens.discard();
+
+        auto i = defines.find(name);
+        token.type = TOK_UINT;
+        token.intval.u = (i != defines.end()) ? 1u : 0u;
+
+        return true;
+    }
+
+    return false;
+}
+
 void LOG_OUTPUT(const std::string &msg) {
     fprintf(stderr,"log output: %s\n",msg.c_str());
 }
@@ -1409,6 +1444,16 @@ bool eval_format(std::string &msg,tokenlist &tokens) {
             tokenstate_t subtoken;
 
             if (!eval_value(subtoken,tokens))
+                return false;
+
+            msg += subtoken.to_string();
+        }
+        else if (tokens.peek(0).type == TOK_ISSET) {
+            tokens.discard();
+
+            tokenstate_t subtoken;
+
+            if (!eval_isset(subtoken,tokens))
                 return false;
 
             msg += subtoken.to_string();
@@ -1496,6 +1541,27 @@ bool process_block(tokenlist &tokens) {
         std::string msg;
 
         if (!eval_value(/*&*/token,/*&*/tokens))
+            return false;
+
+        msg = token.to_string();
+
+        LOG_OUTPUT(msg);
+
+        if (!tokens.eof()) {
+            fprintf(stderr,"Unexpected tokens\n");
+            return false;
+        }
+
+        return true;
+    }
+    /* log isset(namestring) */
+    if (tokens.peek(0).type == TOK_LOG && tokens.peek(1).type == TOK_ISSET) {
+        tokens.discard(2);
+
+        tokenstate_t token;
+        std::string msg;
+
+        if (!eval_isset(/*&*/token,/*&*/tokens))
             return false;
 
         msg = token.to_string();
