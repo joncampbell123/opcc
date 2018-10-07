@@ -1301,6 +1301,34 @@ bool do_opcode_spec(tokenlist &tokens) {
     return true;
 }
 
+/* VALUE ( STRING ) */
+bool eval_value(tokenstate_t &token,tokenlist &tokens) {
+    token.type = TOK_NONE;
+
+    // caller has already consumed TOK_VALUE
+    // next token should be parenthesis
+    // end of the message should be closed paranethesis
+    if (tokens.peek(0).type != TOK_OPEN_PARENS) return false;
+    tokens.discard();
+
+    if (tokens.peek(0).type == TOK_STRING) {
+        std::string name = tokens.peek(0).string;
+        tokens.discard();
+
+        if (name.empty()) return false;
+
+        if (tokens.peek(0).type != TOK_CLOSE_PARENS) return false;
+        tokens.discard();
+
+        auto i = defines.find(name);
+        if (i != defines.end()) token = i->second;
+
+        return true;
+    }
+
+    return false;
+}
+
 bool eval_format(std::string &msg,tokenlist &tokens) {
     msg.clear();
 
@@ -1397,6 +1425,44 @@ bool process_block(tokenlist &tokens) {
         if (!eval_format(/*&*/msg,/*&*/tokens)) {
             fprintf(stderr,"Problem with format() spec\n");
             return false;
+        }
+
+        fprintf(stderr,"log output: '%s'\n",msg.c_str());
+
+        if (!tokens.eof()) {
+            fprintf(stderr,"Unexpected tokens\n");
+            return false;
+        }
+
+        return true;
+    }
+    /* log value(namestring) */
+    if (tokens.peek(0).type == TOK_LOG && tokens.peek(1).type == TOK_VALUE) {
+        tokens.discard(2);
+
+        tokenstate_t token;
+        std::string msg;
+
+        if (!eval_value(/*&*/token,/*&*/tokens))
+            return false;
+
+        if (token.type == TOK_UINT) {
+            char tmp[64];
+            sprintf(tmp,"%llu",(unsigned long long)token.intval.u);
+            msg = tmp;
+        }
+        else if (token.type == TOK_INT) {
+            char tmp[64];
+            sprintf(tmp,"%lld",(signed long long)token.intval.i);
+            msg = tmp;
+        }
+        else if (token.type == TOK_FLOAT) {
+            char tmp[64];
+            sprintf(tmp,"%Lf",token.floatval);
+            msg = tmp;
+        }
+        else if (token.type == TOK_STRING) {
+            msg = token.string;
         }
 
         fprintf(stderr,"log output: '%s'\n",msg.c_str());

@@ -52,7 +52,16 @@ set "hello" 3.14;
 set "hello" -3.14;
 set "hello" format("hello " 123 " world");
 
+log "The following is a value() expression";
+log value("hello");
+
+log "The following is a value() expression that does not exist";
+log value("hello world");
+
 unset "hello";
+
+log "The following is a value() expression after unset";
+log value("hello");
 
 unknown opcode silent;
 unknown opcode ud;
