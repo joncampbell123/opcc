@@ -1307,6 +1307,13 @@ bool eval_format(std::string &msg,tokenlist &tokens) {
             tokens.discard();
             msg += tmp;
         }
+         else if (tokens.peek(0).type == TOK_FLOAT) {
+            char tmp[128];
+
+            sprintf(tmp,"%Lf",tokens.peek(0).floatval);
+            tokens.discard();
+            msg += tmp;
+        }
         else if (tokens.peek(0).type == TOK_CLOSE_PARENS) {
             tokens.discard();
             break;
