@@ -1300,6 +1300,27 @@ bool eval_format(std::string &msg,tokenlist &tokens) {
             msg += tokens.peek(0).string;
             tokens.discard();
         }
+        else if (tokens.peek(0).type == TOK_MINUS && tokens.peek(1).type == TOK_UINT) {
+            char tmp[128];
+
+            sprintf(tmp,"-%llu",(unsigned long long)tokens.peek(1).intval.u);
+            tokens.discard(2);
+            msg += tmp;
+        }
+        else if (tokens.peek(0).type == TOK_MINUS && tokens.peek(1).type == TOK_FLOAT) {
+            char tmp[128];
+
+            sprintf(tmp,"-%Lf",tokens.peek(1).floatval);
+            tokens.discard(2);
+            msg += tmp;
+        }
+        else if (tokens.peek(0).type == TOK_FLOAT) {
+            char tmp[128];
+
+            sprintf(tmp,"%Lf",tokens.peek(0).floatval);
+            tokens.discard();
+            msg += tmp;
+        }
         else if (tokens.peek(0).type == TOK_UINT) {
             char tmp[128];
 
@@ -1307,7 +1328,7 @@ bool eval_format(std::string &msg,tokenlist &tokens) {
             tokens.discard();
             msg += tmp;
         }
-         else if (tokens.peek(0).type == TOK_FLOAT) {
+        else if (tokens.peek(0).type == TOK_FLOAT) {
             char tmp[128];
 
             sprintf(tmp,"%Lf",tokens.peek(0).floatval);
