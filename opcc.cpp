@@ -910,7 +910,7 @@ static tokenstate_t tokenstate_t_none;
 
 std::vector<OpcodeSpec>         opcodes;
 
-int                             unknown_opcode = TOK_UD;
+int                             unknown_opcode = -1;
 
 class tokenlist : public std::vector<tokenstate_t> {
 public:
@@ -1187,6 +1187,9 @@ bool read_opcode_spec(OpcodeSpec &spec) {
 
         if (!tokens.eof()) {
             if (tokens.peek().type == TOK_UD || tokens.peek().type == TOK_SILENT) {
+                if (unknown_opcode >= 0 && unknown_opcode != tokens.peek().type)
+                    fprintf(stderr,"WARNING: Unknown opcode behavior, conflicting specification\n");
+
                 unknown_opcode = tokens.peek().type;
                 tokens.discard();
             }
