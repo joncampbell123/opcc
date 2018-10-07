@@ -47,10 +47,19 @@ log format("hello " format(123456 " world"));
 log format("hello " format(123 " " format(456 " ") "world"));
 
 set "hello" 3;
+log value("hello");
+
 set "hello" -3;
+log value("hello");
+
 set "hello" 3.14;
+log value("hello");
+
 set "hello" -3.14;
+log value("hello");
+
 set "hello" format("hello " 123 " world");
+log value("hello");
 
 log "The following is a value() expression";
 log value("hello");

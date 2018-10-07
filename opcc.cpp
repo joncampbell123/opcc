@@ -356,7 +356,6 @@ bool toke(tokenstate_t &tok) {
 
     switch ((unsigned char)chr) {
         case '+': tok.type = TOK_PLUS;          return true;
-        case '-': tok.type = TOK_MINUS;         return true;
         case ';': tok.type = TOK_SEMICOLON;     return true;
         case '(': tok.type = TOK_OPEN_PARENS;   return true;
         case ')': tok.type = TOK_CLOSE_PARENS;  return true;
@@ -364,6 +363,29 @@ bool toke(tokenstate_t &tok) {
         case '=': tok.type = TOK_EQUAL;         return true;
         case '<': tok.type = TOK_LESSTHAN;      return true;
         case '>': tok.type = TOK_GREATERTHAN;   return true;
+        case '-':
+            tok.type = TOK_MINUS;
+
+            /* minus immediately followed by numeric digits means a negative number */
+            chr = tokechar();
+            untokechar(chr); /* we're peeking, actually */
+
+            if (isdigit(chr)) {
+                if (!toke(tok)) return false; // recursion!
+                if (tok.type == TOK_UINT) {
+                    tok.type = TOK_INT;
+                    tok.intval.i = -tok.intval.i;
+                }
+                else if (tok.type == TOK_FLOAT) {
+                    tok.floatval = -tok.floatval;
+                }
+                else {
+                    /* wait, what? */
+                    fprintf(stderr,"Unexpected token error, negative number '-' case\n");
+                    return false;
+                }
+            }
+            return true;
         default:
             break;
     };
@@ -1391,20 +1413,6 @@ bool eval_format(std::string &msg,tokenlist &tokens) {
 
             msg += subtoken.to_string();
         }
-        else if (tokens.peek(0).type == TOK_MINUS && tokens.peek(1).type == TOK_UINT) {
-            char tmp[128];
-
-            sprintf(tmp,"-%llu",(unsigned long long)tokens.peek(1).intval.u);
-            tokens.discard(2);
-            msg += tmp;
-        }
-        else if (tokens.peek(0).type == TOK_MINUS && tokens.peek(1).type == TOK_FLOAT) {
-            char tmp[128];
-
-            sprintf(tmp,"-%Lf",tokens.peek(1).floatval);
-            tokens.discard(2);
-            msg += tmp;
-        }
         else if (tokens.peek(0).type == TOK_FLOAT) {
             char tmp[128];
 
@@ -1416,6 +1424,13 @@ bool eval_format(std::string &msg,tokenlist &tokens) {
             char tmp[128];
 
             sprintf(tmp,"%llu",(unsigned long long)tokens.peek(0).intval.u);
+            tokens.discard();
+            msg += tmp;
+        }
+        else if (tokens.peek(0).type == TOK_INT) {
+            char tmp[128];
+
+            sprintf(tmp,"%lld",(signed long long)tokens.peek(0).intval.u);
             tokens.discard();
             msg += tmp;
         }
@@ -1532,20 +1547,8 @@ bool process_block(tokenlist &tokens) {
             defines[name] = tokens.peek();
             tokens.discard();
         }
-        else if (tokens.peek(0).type == TOK_UINT || tokens.peek(0).type == TOK_FLOAT) {
+        else if (tokens.peek(0).type == TOK_UINT || tokens.peek(0).type == TOK_INT || tokens.peek(0).type == TOK_FLOAT) {
             defines[name] = tokens.peek();
-            tokens.discard();
-        }
-        else if (tokens.peek(0).type == TOK_MINUS && (tokens.peek(1).type == TOK_UINT || tokens.peek(1).type == TOK_FLOAT)) {
-            tokens.discard();
-            defines[name] = tokens.peek();
-            if (defines[name].type == TOK_UINT) {
-                defines[name].intval.i = -defines[name].intval.i;
-                defines[name].type = TOK_INT;
-            }
-            else if (defines[name].type == TOK_FLOAT) {
-                defines[name].floatval = -defines[name].floatval;
-            }
             tokens.discard();
         }
         else if (tokens.peek(0).type == TOK_FORMAT) {
