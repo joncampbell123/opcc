@@ -52,6 +52,8 @@ set "hello" 3.14;
 set "hello" -3.14;
 set "hello" format("hello " 123 " world");
 
+unset "hello";
+
 unknown opcode silent;
 unknown opcode ud;
 opcode limit none;

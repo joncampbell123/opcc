@@ -143,6 +143,7 @@ enum tokentype_t {
     TOK_PLUS,
     TOK_FORMAT,
     TOK_SET,
+    TOK_UNSET,
 
     TOK_MAX
 };
@@ -276,7 +277,8 @@ const char *tokentype_str[TOK_MAX] = {
     "LOG",                      // 125
     "PLUS",
     "FORMAT",
-    "SET"
+    "SET",
+    "UNSET"
 };
 
 struct tokenstate_t {
@@ -908,6 +910,10 @@ bool toke(tokenstate_t &tok) {
             tok.type = TOK_SET;
             return true;
         }
+        if (tok.string == "UNSET") {
+            tok.type = TOK_UNSET;
+            return true;
+        }
     }
 
     tok.type = TOK_ERROR;
@@ -1398,6 +1404,29 @@ bool process_block(tokenlist &tokens) {
         if (!tokens.eof()) {
             fprintf(stderr,"Unexpected tokens\n");
             return false;
+        }
+
+        return true;
+    }
+    /* unset "name" */
+    if (tokens.peek(0).type == TOK_UNSET && tokens.peek(1).type == TOK_STRING) {
+        std::string name = tokens.peek(1).string;
+        tokens.discard(2);
+
+        if (name.empty()) {
+            fprintf(stderr,"name is empty\n");
+            return false;
+        }
+
+        if (!tokens.eof()) {
+            fprintf(stderr,"Unexpected tokens\n");
+            return false;
+        }
+
+        {
+            auto i = defines.find(name);
+            if (i != defines.end())
+                defines.erase(i);
         }
 
         return true;
