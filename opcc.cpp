@@ -491,7 +491,7 @@ bool toke(tokenstate_t &tok) {
 
         do {
             chr = tokechar();
-            if (!isalpha(chr) && !isdigit(chr)) {
+            if (!isalpha(chr) && !isdigit(chr) && chr != '_') {
                 untokechar(chr);
                 break;
             }
