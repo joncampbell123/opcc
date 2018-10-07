@@ -1,3 +1,4 @@
+
 prefix "CS:"
   (comment "Segment override prefix")
   (desc "CS segment override")
@@ -33,6 +34,8 @@ prefix "SS:"
   (desc "SS segment override")
   (code 0x36)
   (seg=ss);
+
+log "testing 1 2 3";
 
 unknown opcode silent;
 unknown opcode ud;

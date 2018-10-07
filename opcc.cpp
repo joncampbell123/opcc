@@ -1299,6 +1299,19 @@ bool read_opcode_block(void) {
             tokens.push_back(std::move(tok));
         } while(1);
 
+        /* log "string" */
+        if (tokens.peek(0).type == TOK_LOG && tokens.peek(1).type == TOK_STRING) {
+            std::string msg = tokens.peek(1).string;
+            tokens.discard(2);
+
+            fprintf(stderr,"log output: '%s'\n",msg.c_str());
+
+            if (!tokens.eof())
+                goto unexpected_token;
+
+            continue;
+        }
+
         if (!do_opcode_spec(/*&*/tokens))
             break;
     } while (1);
