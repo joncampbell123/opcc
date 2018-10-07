@@ -46,6 +46,12 @@ log format("hello" " " "world");
 log format("hello " (123456 " world"));
 log format("hello " (123 " " (456 " ") "world"));
 
+set "hello" 3;
+set "hello" -3;
+set "hello" 3.14;
+set "hello" -3.14;
+set "hello" format("hello " 123 " world");
+
 unknown opcode silent;
 unknown opcode ud;
 opcode limit none;

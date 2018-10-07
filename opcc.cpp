@@ -11,6 +11,7 @@
 
 #include <string>
 #include <vector>
+#include <map>
 
 enum tokentype_t {
     TOK_NONE=0,                 // 0
@@ -141,6 +142,7 @@ enum tokentype_t {
     TOK_LOG,                    // 125
     TOK_PLUS,
     TOK_FORMAT,
+    TOK_SET,
 
     TOK_MAX
 };
@@ -273,7 +275,8 @@ const char *tokentype_str[TOK_MAX] = {
     "VALUE",
     "LOG",                      // 125
     "PLUS",
-    "FORMAT"
+    "FORMAT",
+    "SET"
 };
 
 struct tokenstate_t {
@@ -293,6 +296,8 @@ struct tokenstate_t {
 FILE*           srcfp = NULL;
 std::string     srcfile;
 int             untoke = -1;
+
+std::map<std::string,tokenstate_t>  defines;
 
 void untokechar(int c) {
     assert(untoke < 0);
@@ -899,6 +904,10 @@ bool toke(tokenstate_t &tok) {
             tok.type = TOK_FORMAT;
             return true;
         }
+        if (tok.string == "SET") {
+            tok.type = TOK_SET;
+            return true;
+        }
     }
 
     tok.type = TOK_ERROR;
@@ -1383,6 +1392,55 @@ bool process_block(tokenlist &tokens) {
         }
 
         fprintf(stderr,"log output: '%s'\n",msg.c_str());
+
+        if (!tokens.eof()) {
+            fprintf(stderr,"Unexpected tokens\n");
+            return false;
+        }
+
+        return true;
+    }
+    /* set "name" ... */
+    if (tokens.peek(0).type == TOK_SET && tokens.peek(1).type == TOK_STRING) {
+        std::string name = tokens.peek(1).string;
+        tokens.discard(2);
+
+        if (name.empty()) {
+            fprintf(stderr,"name is empty\n");
+            return false;
+        }
+
+        /* "value" or value or format(...) */
+        if (tokens.peek(0).type == TOK_STRING) {
+            defines[name] = tokens.peek();
+            tokens.discard();
+        }
+        else if (tokens.peek(0).type == TOK_UINT || tokens.peek(0).type == TOK_FLOAT) {
+            defines[name] = tokens.peek();
+            tokens.discard();
+        }
+        else if (tokens.peek(0).type == TOK_MINUS && (tokens.peek(1).type == TOK_UINT || tokens.peek(1).type == TOK_FLOAT)) {
+            tokens.discard();
+            defines[name] = tokens.peek();
+            if (defines[name].type == TOK_UINT) {
+                defines[name].intval.i = -defines[name].intval.i;
+                defines[name].type = TOK_INT;
+            }
+            else if (defines[name].type == TOK_FLOAT) {
+                defines[name].floatval = -defines[name].floatval;
+            }
+            tokens.discard();
+        }
+        else if (tokens.peek(0).type == TOK_FORMAT) {
+            std::string msg;
+
+            tokens.discard();
+            if (!eval_format(msg,tokens))
+                return false;
+
+            defines[name].type = TOK_STRING;
+            defines[name].string = msg;
+        }
 
         if (!tokens.eof()) {
             fprintf(stderr,"Unexpected tokens\n");
