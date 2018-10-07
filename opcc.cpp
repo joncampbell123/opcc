@@ -134,6 +134,10 @@ enum tokentype_t {
     TOK_COMMENT,
     TOK_LIMIT,
     TOK_WORD_NONE,              // 120 "none"
+    TOK_IF,
+    TOK_LESSTHAN,
+    TOK_GREATERTHAN,
+    TOK_VALUE,
 
     TOK_MAX
 };
@@ -259,7 +263,11 @@ const char *tokentype_str[TOK_MAX] = {
     "DESC",
     "COMMENT",
     "LIMIT",
-    "NONE"                      // 120
+    "NONE",                     // 120
+    "IF",
+    "LESSTHAN",
+    "GREATERTHAN",
+    "VALUE"
 };
 
 struct tokenstate_t {
@@ -314,6 +322,8 @@ bool toke(tokenstate_t &tok) {
         case ')': tok.type = TOK_CLOSE_PARENS;  return true;
         case ',': tok.type = TOK_COMMA;         return true;
         case '=': tok.type = TOK_EQUAL;         return true;
+        case '<': tok.type = TOK_LESSTHAN;      return true;
+        case '>': tok.type = TOK_GREATERTHAN;   return true;
         default:
             break;
     };
@@ -861,6 +871,14 @@ bool toke(tokenstate_t &tok) {
         }
         if (tok.string == "NONE") {
             tok.type = TOK_WORD_NONE;
+            return true;
+        }
+        if (tok.string == "IF") {
+            tok.type = TOK_IF;
+            return true;
+        }
+        if (tok.string == "VALUE") {
+            tok.type = TOK_VALUE;
             return true;
         }
     }
