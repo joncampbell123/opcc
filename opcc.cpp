@@ -293,6 +293,29 @@ struct tokenstate_t {
     inline const char *type_str(void) const {
         return tokentype_str[type];
     }
+
+    std::string to_string(void) const {
+        if (type == TOK_UINT) {
+            char tmp[64];
+            sprintf(tmp,"%llu",(unsigned long long)intval.u);
+            return std::string(tmp);
+        }
+        else if (type == TOK_INT) {
+            char tmp[64];
+            sprintf(tmp,"%lld",(signed long long)intval.i);
+            return std::string(tmp);
+        }
+        else if (type == TOK_FLOAT) {
+            char tmp[64];
+            sprintf(tmp,"%Lf",floatval);
+            return std::string(tmp);
+        }
+        else if (type == TOK_STRING) {
+            return string;
+        }
+
+        return std::string();
+    }
 } tokenstate;
 
 FILE*           srcfp = NULL;
@@ -1446,24 +1469,7 @@ bool process_block(tokenlist &tokens) {
         if (!eval_value(/*&*/token,/*&*/tokens))
             return false;
 
-        if (token.type == TOK_UINT) {
-            char tmp[64];
-            sprintf(tmp,"%llu",(unsigned long long)token.intval.u);
-            msg = tmp;
-        }
-        else if (token.type == TOK_INT) {
-            char tmp[64];
-            sprintf(tmp,"%lld",(signed long long)token.intval.i);
-            msg = tmp;
-        }
-        else if (token.type == TOK_FLOAT) {
-            char tmp[64];
-            sprintf(tmp,"%Lf",token.floatval);
-            msg = tmp;
-        }
-        else if (token.type == TOK_STRING) {
-            msg = token.string;
-        }
+        msg = token.to_string();
 
         fprintf(stderr,"log output: '%s'\n",msg.c_str());
 
