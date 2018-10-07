@@ -140,6 +140,7 @@ enum tokentype_t {
     TOK_VALUE,
     TOK_LOG,                    // 125
     TOK_PLUS,
+    TOK_FORMAT,
 
     TOK_MAX
 };
@@ -271,7 +272,8 @@ const char *tokentype_str[TOK_MAX] = {
     "GREATERTHAN",
     "VALUE",
     "LOG",                      // 125
-    "PLUS"
+    "PLUS",
+    "FORMAT"
 };
 
 struct tokenstate_t {
@@ -893,6 +895,10 @@ bool toke(tokenstate_t &tok) {
             tok.type = TOK_LOG;
             return true;
         }
+        if (tok.string == "FORMAT") {
+            tok.type = TOK_FORMAT;
+            return true;
+        }
     }
 
     tok.type = TOK_ERROR;
@@ -1294,6 +1300,11 @@ bool process_block(tokenlist &tokens) {
         }
 
         return true;
+    }
+    /* log format("string"....) */
+    if (tokens.peek(0).type == TOK_LOG && tokens.peek(1).type == TOK_FORMAT) {
+        fprintf(stderr,"Formatted log output not yet supported\n");
+        return false;
     }
 
     if (!do_opcode_spec(/*&*/tokens))
