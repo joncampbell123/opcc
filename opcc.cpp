@@ -139,6 +139,7 @@ enum tokentype_t {
     TOK_GREATERTHAN,
     TOK_VALUE,
     TOK_LOG,                    // 125
+    TOK_PLUS,
 
     TOK_MAX
 };
@@ -269,7 +270,8 @@ const char *tokentype_str[TOK_MAX] = {
     "LESSTHAN",
     "GREATERTHAN",
     "VALUE",
-    "LOG"                       // 125
+    "LOG",                      // 125
+    "PLUS"
 };
 
 struct tokenstate_t {
@@ -321,6 +323,7 @@ bool toke(tokenstate_t &tok) {
     }
 
     switch ((unsigned char)chr) {
+        case '+': tok.type = TOK_PLUS;          return true;
         case '-': tok.type = TOK_MINUS;         return true;
         case ';': tok.type = TOK_SEMICOLON;     return true;
         case '(': tok.type = TOK_OPEN_PARENS;   return true;
