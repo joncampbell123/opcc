@@ -38,6 +38,7 @@ prefix "SS:"
 comment "log allows human readable commentary inline to this spec";
 log "testing 1 2 3";
 log format("hello");
+log format("hello " 123456 " world");
 log format("hello" " " "world");
 
 unknown opcode silent;

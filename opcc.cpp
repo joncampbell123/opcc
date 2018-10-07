@@ -1300,6 +1300,13 @@ bool eval_format(std::string &msg,tokenlist &tokens) {
             msg += tokens.peek(0).string;
             tokens.discard();
         }
+        else if (tokens.peek(0).type == TOK_UINT) {
+            char tmp[128];
+
+            sprintf(tmp,"%llu",(unsigned long long)tokens.peek(0).intval.u);
+            tokens.discard();
+            msg += tmp;
+        }
         else if (tokens.peek(0).type == TOK_CLOSE_PARENS) {
             tokens.discard();
             break;
