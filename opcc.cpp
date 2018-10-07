@@ -280,13 +280,13 @@ const char *tokentype_str[TOK_MAX] = {
 };
 
 struct tokenstate_t {
-    enum tokentype_t    type;
+    enum tokentype_t    type = TOK_NONE;
     std::string         string;
     union {
-        uint64_t        u;
+        uint64_t        u = 0;
         int64_t         i;
     } intval;
-    long double         floatval;
+    long double         floatval = 0;
 
     inline const char *type_str(void) const {
         return tokentype_str[type];
