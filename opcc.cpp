@@ -1286,6 +1286,33 @@ bool do_opcode_spec(tokenlist &tokens) {
     return true;
 }
 
+bool eval_format(std::string &msg,tokenlist &tokens) {
+    msg.clear();
+
+    // caller has already consumed TOK_FORMAT
+    // next token should be parenthesis
+    // end of the message should be closed paranethesis
+    if (tokens.peek(0).type != TOK_OPEN_PARENS) return false;
+    tokens.discard();
+
+    do {
+        if (tokens.peek(0).type == TOK_STRING) {
+            msg += tokens.peek(0).string;
+            tokens.discard();
+        }
+        else if (tokens.peek(0).type == TOK_CLOSE_PARENS) {
+            tokens.discard();
+            break;
+        }
+        else {
+            fprintf(stderr,"Problem with format string, token %s\n",tokens.peek(0).type_str());
+            return false;
+        }
+    } while (1);
+
+    return true;
+}
+
 bool process_block(tokenlist &tokens) {
     /* log "string" */
     if (tokens.peek(0).type == TOK_LOG && tokens.peek(1).type == TOK_STRING) {
@@ -1301,10 +1328,24 @@ bool process_block(tokenlist &tokens) {
 
         return true;
     }
-    /* log format("string"....) */
+    /* log format(...) */
     if (tokens.peek(0).type == TOK_LOG && tokens.peek(1).type == TOK_FORMAT) {
-        fprintf(stderr,"Formatted log output not yet supported\n");
-        return false;
+        tokens.discard(2);
+        std::string msg;
+
+        if (!eval_format(/*&*/msg,/*&*/tokens)) {
+            fprintf(stderr,"Problem with format() spec\n");
+            return false;
+        }
+
+        fprintf(stderr,"log output: '%s'\n",msg.c_str());
+
+        if (!tokens.eof()) {
+            fprintf(stderr,"Unexpected tokens\n");
+            return false;
+        }
+
+        return true;
     }
     /* comment "string" */
     if (tokens.peek(0).type == TOK_COMMENT && tokens.peek(1).type == TOK_STRING) {
