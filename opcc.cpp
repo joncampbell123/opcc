@@ -1635,41 +1635,14 @@ bool process_block(tokenlist &tokens) {
 
         std::string msg;
 
-        if (tokens.peek().type == TOK_STRING || tokens.peek().is_number()) {
-            msg = tokens.next().to_string();
-        }
-        else if (tokens.peek().type == TOK_FORMAT) {
-            tokens.discard();
+        tokenstate_t result;
 
-            if (!eval_format(/*&*/msg,/*&*/tokens)) {
-                fprintf(stderr,"Problem with format() spec\n");
-                return false;
-            }
-        }
-        else if (tokens.peek().type == TOK_VALUE) {
-            tokens.discard();
-
-            tokenstate_t token;
-
-            if (!eval_value(/*&*/token,/*&*/tokens))
-                return false;
-
-            msg = token.to_string();
-        }
-        else if (tokens.peek().type == TOK_ISSET) {
-            tokens.discard();
-
-            tokenstate_t token;
-
-            if (!eval_isset(/*&*/token,/*&*/tokens))
-                return false;
-
-            msg = token.to_string();
-        }
-        else {
-            fprintf(stderr,"log/error unexpected token\n");
+        if (!eval_if_condition(/*&*/result,/*&*/tokens)) {
+            fprintf(stderr,"'If' condition error\n");
             return false;
         }
+
+        msg = result.to_string();
 
         if (tok == TOK_LOG)
             LOG_OUTPUT(msg);
