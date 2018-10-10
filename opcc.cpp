@@ -150,6 +150,7 @@ enum tokentype_t {
     TOK_WARNING,
     TOK_NOT,
     TOK_NEGATE,                 // 135
+    TOK_HEX,
 
     TOK_MAX
 };
@@ -290,7 +291,8 @@ const char *tokentype_str[TOK_MAX] = {
     "BOOLEAN",
     "WARNING",
     "NOT",
-    "NEGATE"                    // 135
+    "NEGATE",                   // 135
+    "HEX"
 };
 
 struct tokenstate_t {
@@ -326,6 +328,17 @@ struct tokenstate_t {
             return intval.u != 0ull;
 
         return false;
+    }
+
+    std::string int_to_hex_string(void) const {
+        if (type == TOK_UINT || type == TOK_INT || type == TOK_BOOLEAN) {
+            char tmp[64];
+            sprintf(tmp,"0x%llx",(unsigned long long)intval.u);
+            return std::string(tmp);
+        }
+
+        fprintf(stderr,"WARNING: hex() used to convert type '%s', ignoring\n",type_str());
+        return to_string();
     }
 
     std::string to_string(void) const {
@@ -1032,6 +1045,10 @@ bool toke(tokenstate_t &tok) {
             tok.type = TOK_NEGATE;
             return true;
         }
+        if (tok.string == "HEX") {
+            tok.type = TOK_HEX;
+            return true;
+        }
     }
 
     tok.type = TOK_ERROR;
@@ -1256,6 +1273,24 @@ bool eval_if_condition(tokenstate_t &result,tokenlist &tokens) {
             fprintf(stderr,"Cannot negate a non-number\n");
             return false;
         }
+    }
+    /* hex(expr) */
+    else if (t.type == TOK_HEX) {
+        if (tokens.next().type != TOK_OPEN_PARENS)
+            return false;
+
+        tokenstate_t tmp;
+
+        if (!eval_if_condition(tmp,tokens))
+            return false;
+
+        result.type = TOK_STRING;
+        result.string = tmp.int_to_hex_string();
+
+        if (tokens.next().type != TOK_CLOSE_PARENS)
+            return false;
+
+        return true;
     }
 
     return false;
