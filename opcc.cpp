@@ -302,6 +302,11 @@ struct tokenstate_t {
         return tokentype_str[type];
     }
 
+    bool is_bool(void) const {
+        return  (type == TOK_TRUE) ||
+                (type == TOK_FALSE);
+    }
+
     bool is_number(void) const {
         return  (type == TOK_UINT) ||
                 (type == TOK_INT) ||
@@ -317,6 +322,10 @@ struct tokenstate_t {
             return floatval > 0;
         else if (type == TOK_STRING)
             return !string.empty();
+        else if (type == TOK_TRUE)
+            return true;
+        else if (type == TOK_FALSE)
+            return false;
 
         return false;
     }
@@ -340,6 +349,10 @@ struct tokenstate_t {
         else if (type == TOK_STRING) {
             return string;
         }
+        else if (type == TOK_TRUE)
+            return "true";
+        else if (type == TOK_FALSE)
+            return "false";
 
         return std::string();
     }
@@ -1141,7 +1154,7 @@ bool eval_if_condition(tokenstate_t &result,tokenlist &tokens) {
 
     tokenstate_t t = tokens.next();
 
-    if (t.type == TOK_UINT || t.type == TOK_INT || t.type == TOK_FLOAT || t.type == TOK_STRING) {
+    if (t.type == TOK_UINT || t.type == TOK_INT || t.type == TOK_FLOAT || t.type == TOK_STRING || t.type == TOK_TRUE || t.type == TOK_FALSE) {
         result = t;
         return true;
     }
@@ -1586,7 +1599,7 @@ bool process_block(tokenlist &tokens) {
 
         std::string msg;
 
-        if (tokens.peek().type == TOK_STRING || tokens.peek().is_number()) {
+        if (tokens.peek().type == TOK_STRING || tokens.peek().is_number() || tokens.peek().is_bool()) {
             msg = tokens.next().to_string();
         }
         else if (tokens.peek().type == TOK_FORMAT) {
