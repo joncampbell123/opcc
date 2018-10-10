@@ -1566,177 +1566,56 @@ bool process_block(tokenlist &tokens) {
         /* fall through to parse tokens after IF statement */
     }
 
-    /* log "string" */
-    if (tokens.peek(0).type == TOK_LOG && tokens.peek(1).type == TOK_STRING) {
-        std::string msg = tokens.peek(1).string;
-        tokens.discard(2);
+    /* log ... */
+    /* error ... */
+    if (tokens.peek().type == TOK_LOG || tokens.peek().type == TOK_WORD_ERROR) {
+        unsigned int tok = tokens.peek().type;
+        tokens.discard();
 
-        LOG_OUTPUT(msg);
-
-        if (!tokens.eof()) {
-            fprintf(stderr,"Unexpected tokens\n");
-            return false;
-        }
-
-        return true;
-    }
-    /* log (number) */
-    if (tokens.peek(0).type == TOK_LOG && tokens.peek(1).is_number()) {
-        std::string msg = tokens.peek(1).to_string();
-        tokens.discard(2);
-
-        LOG_OUTPUT(msg);
-
-        if (!tokens.eof()) {
-            fprintf(stderr,"Unexpected tokens\n");
-            return false;
-        }
-
-        return true;
-    }
-    /* log format(...) */
-    if (tokens.peek(0).type == TOK_LOG && tokens.peek(1).type == TOK_FORMAT) {
-        tokens.discard(2);
         std::string msg;
 
-        if (!eval_format(/*&*/msg,/*&*/tokens)) {
-            fprintf(stderr,"Problem with format() spec\n");
+        if (tokens.peek().type == TOK_STRING || tokens.peek().is_number()) {
+            msg = tokens.next().to_string();
+        }
+        else if (tokens.peek().type == TOK_FORMAT) {
+            tokens.discard();
+
+            if (!eval_format(/*&*/msg,/*&*/tokens)) {
+                fprintf(stderr,"Problem with format() spec\n");
+                return false;
+            }
+        }
+        else if (tokens.peek().type == TOK_VALUE) {
+            tokens.discard();
+
+            tokenstate_t token;
+
+            if (!eval_value(/*&*/token,/*&*/tokens))
+                return false;
+
+            msg = token.to_string();
+        }
+        else if (tokens.peek().type == TOK_ISSET) {
+            tokens.discard();
+
+            tokenstate_t token;
+
+            if (!eval_isset(/*&*/token,/*&*/tokens))
+                return false;
+
+            msg = token.to_string();
+        }
+        else {
+            fprintf(stderr,"log/error unexpected token\n");
             return false;
         }
 
-        LOG_OUTPUT(msg);
-
-        if (!tokens.eof()) {
-            fprintf(stderr,"Unexpected tokens\n");
-            return false;
-        }
-
-        return true;
-    }
-    /* log value(namestring) */
-    if (tokens.peek(0).type == TOK_LOG && tokens.peek(1).type == TOK_VALUE) {
-        tokens.discard(2);
-
-        tokenstate_t token;
-        std::string msg;
-
-        if (!eval_value(/*&*/token,/*&*/tokens))
-            return false;
-
-        msg = token.to_string();
-
-        LOG_OUTPUT(msg);
-
-        if (!tokens.eof()) {
-            fprintf(stderr,"Unexpected tokens\n");
-            return false;
-        }
-
-        return true;
-    }
-    /* log isset(namestring) */
-    if (tokens.peek(0).type == TOK_LOG && tokens.peek(1).type == TOK_ISSET) {
-        tokens.discard(2);
-
-        tokenstate_t token;
-        std::string msg;
-
-        if (!eval_isset(/*&*/token,/*&*/tokens))
-            return false;
-
-        msg = token.to_string();
-
-        LOG_OUTPUT(msg);
-
-        if (!tokens.eof()) {
-            fprintf(stderr,"Unexpected tokens\n");
-            return false;
-        }
-
-        return true;
-    }
-
-    /* error "string" */
-    if (tokens.peek(0).type == TOK_WORD_ERROR && tokens.peek(1).type == TOK_STRING) {
-        std::string msg = tokens.peek(1).string;
-        tokens.discard(2);
-
-        ERR_OUTPUT(msg);
-
-        if (!tokens.eof()) {
-            fprintf(stderr,"Unexpected tokens\n");
-            return false;
-        }
-
-        return true;
-    }
-    /* error (number) */
-    if (tokens.peek(0).type == TOK_WORD_ERROR && tokens.peek(1).is_number()) {
-        std::string msg = tokens.peek(1).to_string();
-        tokens.discard(2);
-
-        ERR_OUTPUT(msg);
-
-        if (!tokens.eof()) {
-            fprintf(stderr,"Unexpected tokens\n");
-            return false;
-        }
-
-        return true;
-    }
-    /* error format(...) */
-    if (tokens.peek(0).type == TOK_WORD_ERROR && tokens.peek(1).type == TOK_FORMAT) {
-        tokens.discard(2);
-        std::string msg;
-
-        if (!eval_format(/*&*/msg,/*&*/tokens)) {
-            fprintf(stderr,"Problem with format() spec\n");
-            return false;
-        }
-
-        ERR_OUTPUT(msg);
-
-        if (!tokens.eof()) {
-            fprintf(stderr,"Unexpected tokens\n");
-            return false;
-        }
-
-        return true;
-    }
-    /* error value(namestring) */
-    if (tokens.peek(0).type == TOK_WORD_ERROR && tokens.peek(1).type == TOK_VALUE) {
-        tokens.discard(2);
-
-        tokenstate_t token;
-        std::string msg;
-
-        if (!eval_value(/*&*/token,/*&*/tokens))
-            return false;
-
-        msg = token.to_string();
-
-        ERR_OUTPUT(msg);
-
-        if (!tokens.eof()) {
-            fprintf(stderr,"Unexpected tokens\n");
-            return false;
-        }
-
-        return true;
-    }
-    /* error isset(namestring) */
-    if (tokens.peek(0).type == TOK_WORD_ERROR && tokens.peek(1).type == TOK_ISSET) {
-        tokens.discard(2);
-
-        tokenstate_t token;
-        std::string msg;
-
-        if (!eval_isset(/*&*/token,/*&*/tokens))
-            return false;
-
-        msg = token.to_string();
-
-        ERR_OUTPUT(msg);
+        if (tok == TOK_LOG)
+            LOG_OUTPUT(msg);
+        else if (tok == TOK_WORD_ERROR)
+            ERR_OUTPUT(msg);
+        else
+            abort();//BUG
 
         if (!tokens.eof()) {
             fprintf(stderr,"Unexpected tokens\n");
