@@ -1576,11 +1576,9 @@ bool eval_format(std::string &msg,tokenlist &tokens) {
     tokens.discard();
 
     do {
-        if (tokens.peek(0).type == TOK_STRING) {
-            msg += tokens.peek(0).string;
-            tokens.discard();
-        }
-        else if (tokens.peek(0).type == TOK_FORMAT) {
+        tokenstate_t result;
+
+        if (tokens.peek(0).type == TOK_FORMAT) {
             tokens.discard();
 
             // subexpression
@@ -1591,61 +1589,17 @@ bool eval_format(std::string &msg,tokenlist &tokens) {
 
             msg += submsg;
         }
-        else if (tokens.peek(0).type == TOK_VALUE) {
-            tokens.discard();
-
-            tokenstate_t subtoken;
-
-            if (!eval_value(subtoken,tokens))
-                return false;
-
-            msg += subtoken.to_string();
-        }
-        else if (tokens.peek(0).type == TOK_ISSET) {
-            tokens.discard();
-
-            tokenstate_t subtoken;
-
-            if (!eval_isset(subtoken,tokens))
-                return false;
-
-            msg += subtoken.to_string();
-        }
-        else if (tokens.peek(0).type == TOK_FLOAT) {
-            char tmp[128];
-
-            sprintf(tmp,"%Lf",tokens.peek(0).floatval);
-            tokens.discard();
-            msg += tmp;
-        }
-        else if (tokens.peek(0).type == TOK_UINT) {
-            char tmp[128];
-
-            sprintf(tmp,"%llu",(unsigned long long)tokens.peek(0).intval.u);
-            tokens.discard();
-            msg += tmp;
-        }
-        else if (tokens.peek(0).type == TOK_INT) {
-            char tmp[128];
-
-            sprintf(tmp,"%lld",(signed long long)tokens.peek(0).intval.u);
-            tokens.discard();
-            msg += tmp;
-        }
-        else if (tokens.peek(0).type == TOK_FLOAT) {
-            char tmp[128];
-
-            sprintf(tmp,"%Lf",tokens.peek(0).floatval);
-            tokens.discard();
-            msg += tmp;
-        }
         else if (tokens.peek(0).type == TOK_CLOSE_PARENS) {
             tokens.discard();
             break;
         }
         else {
-            fprintf(stderr,"Problem with format string, token %s\n",tokens.peek(0).type_str());
-            return false;
+            if (!eval_if_condition(/*&*/result,/*&*/tokens)) {
+                fprintf(stderr,"'If' in format condition error\n");
+                return false;
+            }
+
+            msg += result.to_string();
         }
     } while (1);
 
