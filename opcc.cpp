@@ -155,6 +155,7 @@ enum tokentype_t {
     TOK_SIGNED,
     TOK_OCTSTRING,
     TOK_BINSTRING,              // 140
+    TOK_WORD_STRING,
 
     TOK_MAX
 };
@@ -300,7 +301,8 @@ const char *tokentype_str[TOK_MAX] = {
     "UNSIGNED",
     "SIGNED",
     "OCTSTRING",
-    "BINSTRING"
+    "BINSTRING",
+    "STRING"
 };
 
 struct tokenstate_t {
@@ -1106,6 +1108,10 @@ bool toke(tokenstate_t &tok) {
             tok.type = TOK_BINSTRING;
             return true;
         }
+        if (tok.string == "STRING") {
+            tok.type = TOK_WORD_STRING;
+            return true;
+        }
     }
 
     tok.type = TOK_ERROR;
@@ -1380,6 +1386,24 @@ bool eval_if_condition(tokenstate_t &result,tokenlist &tokens) {
 
         result.type = TOK_STRING;
         result.string = tmp.int_to_bin_string();
+
+        if (tokens.next().type != TOK_CLOSE_PARENS)
+            return false;
+
+        return true;
+    }
+    /* string(expr) */
+    else if (t.type == TOK_WORD_STRING) {
+        if (tokens.next().type != TOK_OPEN_PARENS)
+            return false;
+
+        tokenstate_t tmp;
+
+        if (!eval_if_condition(tmp,tokens))
+            return false;
+
+        result.type = TOK_STRING;
+        result.string = tmp.to_string();
 
         if (tokens.next().type != TOK_CLOSE_PARENS)
             return false;

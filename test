@@ -139,6 +139,9 @@ log format("number octstring=~=" octstring(~value("number")));
 log format("number binstring=" binstring(value("number")));
 log format("number binstring=~=" binstring(~value("number")));
 
+log format("number string=" string(321));
+log format("number string=" string(value("number")));
+
 set "number" 3.4;
 log format("number=-=" -value("number"));
 
