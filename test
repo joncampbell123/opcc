@@ -79,6 +79,10 @@ log format("is set: " isset("hello"));
 log "The following is a value() expression after unset";
 log value("hello");
 
+set "hello" "123";
+set "hello" format(value("hello") " 456");
+log value("hello");
+
 unknown opcode silent;
 unknown opcode ud;
 opcode limit none;
