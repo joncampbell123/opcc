@@ -104,6 +104,9 @@ if isset("bye") error   "log if isset bye, should not happen";
 if value("hello") log   "log if value hello, true";
 if value("bye") error   "log if value bye, should not happen";
 
+if not 1        error   "log if not 1, should not happen";
+if not 0        log     "log if not 0, true";
+
 log format();
 if format()     error   "log if format(), should not happen";
 if format("hello") log  "log if format hello, true";

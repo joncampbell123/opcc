@@ -148,6 +148,7 @@ enum tokentype_t {
     TOK_WORD_ERROR,
     TOK_BOOLEAN,
     TOK_WARNING,
+    TOK_NOT,
 
     TOK_MAX
 };
@@ -286,7 +287,8 @@ const char *tokentype_str[TOK_MAX] = {
     "ISSET",                    // 130
     "ERROR",
     "BOOLEAN",
-    "WARNING"
+    "WARNING",
+    "NOT"
 };
 
 struct tokenstate_t {
@@ -1018,6 +1020,10 @@ bool toke(tokenstate_t &tok) {
             tok.type = TOK_WARNING;
             return true;
         }
+        if (tok.string == "NOT") {
+            tok.type = TOK_NOT;
+            return true;
+        }
     }
 
     tok.type = TOK_ERROR;
@@ -1156,6 +1162,18 @@ bool eval_if_condition(tokenstate_t &result,tokenlist &tokens) {
     // we parse the tokens following "IF"
 
     tokenstate_t t = tokens.next();
+
+    if (t.type == TOK_NOT) {
+        /* not ... */
+        tokenstate_t tmp;
+
+        if (!eval_if_condition(tmp,tokens))
+            return false;
+
+        result.type = TOK_BOOLEAN;
+        result.intval.u = !tmp.to_bool();
+        return true;
+    }
 
     if (t.type == TOK_UINT || t.type == TOK_INT || t.type == TOK_FLOAT || t.type == TOK_STRING || t.type == TOK_BOOLEAN) {
         result = t;
