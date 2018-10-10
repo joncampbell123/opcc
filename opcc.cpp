@@ -150,7 +150,7 @@ enum tokentype_t {
     TOK_WARNING,
     TOK_NOT,
     TOK_NEGATE,                 // 135
-    TOK_HEX,
+    TOK_HEXSTRING,
     TOK_UNSIGNED,
     TOK_SIGNED,
 
@@ -294,7 +294,7 @@ const char *tokentype_str[TOK_MAX] = {
     "WARNING",
     "NOT",
     "NEGATE",                   // 135
-    "HEX",
+    "HEXSTRING",
     "UNSIGNED",
     "SIGNED"
 };
@@ -1049,8 +1049,8 @@ bool toke(tokenstate_t &tok) {
             tok.type = TOK_NEGATE;
             return true;
         }
-        if (tok.string == "HEX") {
-            tok.type = TOK_HEX;
+        if (tok.string == "HEXSTRING") {
+            tok.type = TOK_HEXSTRING;
             return true;
         }
         if (tok.string == "UNSIGNED") {
@@ -1288,7 +1288,7 @@ bool eval_if_condition(tokenstate_t &result,tokenlist &tokens) {
         }
     }
     /* hex(expr) */
-    else if (t.type == TOK_HEX) {
+    else if (t.type == TOK_HEXSTRING) {
         if (tokens.next().type != TOK_OPEN_PARENS)
             return false;
 

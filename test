@@ -130,8 +130,8 @@ log format("number=-=" unsigned(-value("number")));
 log format("number=-=" signed(unsigned(-value("number"))));
 log format("number=~=" signed(~value("number")));
 
-log format("number hex=" hex(value("number")));
-log format("number hex=~=" hex(~value("number")));
+log format("number hexstring=" hexstring(value("number")));
+log format("number hexstring=~=" hexstring(~value("number")));
 
 set "number" 3.4;
 log format("number=-=" -value("number"));
