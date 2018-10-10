@@ -157,6 +157,7 @@ enum tokentype_t {
     TOK_BINSTRING,              // 140
     TOK_WORD_STRING,
     TOK_VALUETYPE,
+    TOK_DOUBLEEQUALS,
 
     TOK_MAX
 };
@@ -304,7 +305,8 @@ const char *tokentype_str[TOK_MAX] = {
     "OCTSTRING",
     "BINSTRING",
     "STRING",
-    "VALUETYPE"
+    "VALUETYPE",
+    "DOUBLEEQUALS"
 };
 
 struct tokenstate_t {
@@ -455,7 +457,18 @@ bool toke(tokenstate_t &tok) {
         case '(': tok.type = TOK_OPEN_PARENS;   return true;
         case ')': tok.type = TOK_CLOSE_PARENS;  return true;
         case ',': tok.type = TOK_COMMA;         return true;
-        case '=': tok.type = TOK_EQUAL;         return true;
+        case '=':
+            tok.type = TOK_EQUAL;
+
+            chr = tokechar();
+            if (chr == '=') {
+                tok.type = TOK_DOUBLEEQUALS;
+            }
+            else {
+                untokechar(chr);
+            }
+
+            return true;
         case '<': tok.type = TOK_LESSTHAN;      return true;
         case '>': tok.type = TOK_GREATERTHAN;   return true;
         case '!': tok.type = TOK_NOT;           return true;
