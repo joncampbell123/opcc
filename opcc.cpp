@@ -154,6 +154,7 @@ enum tokentype_t {
     TOK_UNSIGNED,
     TOK_SIGNED,
     TOK_OCTSTRING,
+    TOK_BINSTRING,              // 140
 
     TOK_MAX
 };
@@ -298,7 +299,8 @@ const char *tokentype_str[TOK_MAX] = {
     "HEXSTRING",
     "UNSIGNED",
     "SIGNED",
-    "OCTSTRING"
+    "OCTSTRING",
+    "BINSTRING"
 };
 
 struct tokenstate_t {
@@ -355,6 +357,28 @@ struct tokenstate_t {
         }
 
         fprintf(stderr,"WARNING: oct() used to convert type '%s', ignoring\n",type_str());
+        return to_string();
+    }
+
+    std::string int_to_bin_string(void) const {
+        if (type == TOK_UINT || type == TOK_INT || type == TOK_BOOLEAN) {
+            char tmp[sizeof(unsigned long long)*8 + 8];
+            int i=sizeof(tmp);
+
+            unsigned long long tmpv = intval.u;
+
+            tmp[--i] = 0;
+            tmp[--i] = 'b';
+            do {
+                tmp[--i] = (char)((tmpv & 1ull) + '0');
+                tmpv >>= 1ull;
+            } while (tmpv != 0ull);
+            assert(i >= 0);
+
+            return std::string(tmp+i);
+        }
+
+        fprintf(stderr,"WARNING: bin() used to convert type '%s', ignoring\n",type_str());
         return to_string();
     }
 
@@ -1078,6 +1102,10 @@ bool toke(tokenstate_t &tok) {
             tok.type = TOK_OCTSTRING;
             return true;
         }
+        if (tok.string == "BINSTRING") {
+            tok.type = TOK_BINSTRING;
+            return true;
+        }
     }
 
     tok.type = TOK_ERROR;
@@ -1334,6 +1362,24 @@ bool eval_if_condition(tokenstate_t &result,tokenlist &tokens) {
 
         result.type = TOK_STRING;
         result.string = tmp.int_to_oct_string();
+
+        if (tokens.next().type != TOK_CLOSE_PARENS)
+            return false;
+
+        return true;
+    }
+    /* bin(expr) */
+    else if (t.type == TOK_BINSTRING) {
+        if (tokens.next().type != TOK_OPEN_PARENS)
+            return false;
+
+        tokenstate_t tmp;
+
+        if (!eval_if_condition(tmp,tokens))
+            return false;
+
+        result.type = TOK_STRING;
+        result.string = tmp.int_to_bin_string();
 
         if (tokens.next().type != TOK_CLOSE_PARENS)
             return false;
