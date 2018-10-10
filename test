@@ -83,6 +83,12 @@ set "hello" "123";
 set "hello" format(value("hello") " 456");
 log value("hello");
 
+if 1 log "log if 1, true";
+if 0 log "log if 0, should not happen";
+if -1 log "log if -1, should not happen";
+if "string" log "log if string, true";
+if "" log "log if empty string, should not happen";
+
 unknown opcode silent;
 unknown opcode ud;
 opcode limit none;

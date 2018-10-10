@@ -296,6 +296,19 @@ struct tokenstate_t {
         return tokentype_str[type];
     }
 
+    bool to_bool(void) const {
+        if (type == TOK_UINT)
+            return intval.u != 0ull;
+        else if (type == TOK_INT)
+            return intval.i > 0ll;
+        else if (type == TOK_FLOAT)
+            return floatval > 0;
+        else if (type == TOK_STRING)
+            return !string.empty();
+
+        return false;
+    }
+
     std::string to_string(void) const {
         if (type == TOK_UINT) {
             char tmp[64];
@@ -1094,6 +1107,20 @@ unsigned int parse_code_immediate_spec(tokenlist &tokens) {
     return r;
 }
 
+bool eval_if_condition(tokenstate_t &result,tokenlist &tokens) {
+    // caller has already parsed TOK_IF
+    // we parse the tokens following "IF"
+
+    tokenstate_t t = tokens.next();
+
+    if (t.type == TOK_UINT || t.type == TOK_INT || t.type == TOK_FLOAT || t.type == TOK_STRING) {
+        result = t;
+        return true;
+    }
+
+    return false;
+}
+
 bool read_opcode_spec_opcode_parens(tokenlist &parent_tokens,OpcodeSpec &spec) {
     /* caller already read '(' */
     tokenlist tokens;
@@ -1500,6 +1527,25 @@ bool eval_format(std::string &msg,tokenlist &tokens) {
 }
 
 bool process_block(tokenlist &tokens) {
+    /* IF ... */
+    /* if condition is true, then continue parsing below the remaining tokens.
+     * if condition is false, ignore the tokens and move on. */
+    if (tokens.peek(0).type == TOK_IF && tokens.peek(1).type != TOK_NONE) {
+        tokens.discard(); // discard IF
+
+        tokenstate_t result;
+
+        if (!eval_if_condition(/*&*/result,/*&*/tokens)) {
+            fprintf(stderr,"'If' condition error\n");
+            return false;
+        }
+
+        if (!result.to_bool())
+            return true;
+
+        /* fall through to parse tokens after IF statement */
+    }
+
     /* log "string" */
     if (tokens.peek(0).type == TOK_LOG && tokens.peek(1).type == TOK_STRING) {
         std::string msg = tokens.peek(1).string;
