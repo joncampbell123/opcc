@@ -296,6 +296,12 @@ struct tokenstate_t {
         return tokentype_str[type];
     }
 
+    bool is_number(void) const {
+        return  (type == TOK_UINT) ||
+                (type == TOK_INT) ||
+                (type == TOK_FLOAT);
+    }
+
     bool to_bool(void) const {
         if (type == TOK_UINT)
             return intval.u != 0ull;
@@ -1565,7 +1571,7 @@ bool process_block(tokenlist &tokens) {
         return true;
     }
     /* log (number) */
-    if (tokens.peek(0).type == TOK_LOG && (tokens.peek(1).type == TOK_UINT || tokens.peek(1).type == TOK_INT || tokens.peek(1).type == TOK_FLOAT)) {
+    if (tokens.peek(0).type == TOK_LOG && tokens.peek(1).is_number()) {
         std::string msg = tokens.peek(1).to_string();
         tokens.discard(2);
 
