@@ -318,6 +318,48 @@ struct tokenstate_t {
     } intval;
     long double         floatval = 0;
 
+    static void promote_for_comparison(tokenstate_t &p1,tokenstate_t &p2) {
+        if (p1.type == TOK_STRING || p2.type == TOK_STRING) {
+            p1.string = p1.to_string();
+            p2.string = p2.to_string();
+            p1.type = p2.type = TOK_STRING;
+        }
+        else if (p1.type == TOK_FLOAT || p2.type == TOK_FLOAT) {
+            p1.floatval = p1.to_float();
+            p2.floatval = p2.to_float();
+            p1.type = p2.type = TOK_FLOAT;
+        }
+         else if (p1.is_number() || p2.is_number()) { // but not float
+            p1.intval.u = p1.to_intval_u();
+            p2.intval.u = p2.to_intval_u();
+            p1.type = p2.type = p2.is_number() ? p2.type : p1.type;
+        }
+        else {
+            p1.type = p2.type = TOK_NONE;
+        }
+    }
+
+    bool operator==(const tokenstate_t &ext) const {
+        if (type == ext.type) {
+            if (type == TOK_UINT || type == TOK_INT)
+                return intval.u == ext.intval.u;
+            else if (type == TOK_BOOLEAN)
+                return to_bool() == ext.to_bool();
+            else if (type == TOK_FLOAT)
+                return floatval == ext.floatval;
+            else if (type == TOK_STRING)
+                return string == ext.string;
+
+            return true;
+        }
+
+        tokenstate_t in_copy = *this,ext_copy = ext;
+
+        promote_for_comparison(in_copy,ext_copy);
+        assert(in_copy.type == ext_copy.type);
+        return in_copy == ext_copy;
+    }
+
     inline const char *type_str(void) const {
         return tokentype_str[type];
     }
@@ -327,6 +369,36 @@ struct tokenstate_t {
                 (type == TOK_INT) ||
                 (type == TOK_FLOAT) ||
                 (type == TOK_BOOLEAN);
+    }
+
+    unsigned long long to_intval_u(void) const {
+        if (type == TOK_UINT)
+            return intval.u;
+        else if (type == TOK_INT)
+            return (unsigned long long)intval.i;
+        else if (type == TOK_FLOAT)
+            return (unsigned long long)floatval;
+        else if (type == TOK_STRING)
+            return strtoull(string.c_str(),NULL,0);
+        else if (type == TOK_BOOLEAN)
+            return intval.u != 0ull ? 1ull : 0ull;
+
+        return false;
+    }
+
+    long double to_float(void) const {
+        if (type == TOK_UINT)
+            return intval.u;
+        else if (type == TOK_INT)
+            return intval.i;
+        else if (type == TOK_FLOAT)
+            return floatval;
+        else if (type == TOK_STRING)
+            return atof(string.c_str());
+        else if (type == TOK_BOOLEAN)
+            return intval.u != 0ull ? 1 : 0;
+
+        return false;
     }
 
     bool to_bool(void) const {
@@ -1484,6 +1556,21 @@ bool eval_if_condition_block(tokenstate_t &result,tokenlist &tokens) {
 bool eval_if_condition(tokenstate_t &result,tokenlist &tokens) {
     if (!eval_if_condition_block(result,tokens))
         return false;
+
+    /* if the next token is == then this is a comparison */
+    if (tokens.peek().type == TOK_DOUBLEEQUALS) {
+        tokens.discard();
+
+        tokenstate_t res2;
+
+        if (!eval_if_condition_block(res2,tokens))
+            return false;
+
+        bool expr_result = (result == res2);
+
+        result.type = TOK_BOOLEAN;
+        result.intval.u = expr_result ? 1ull : 0ull;
+    }
 
     return true;
 }

@@ -113,6 +113,19 @@ if !0           log     "log if !0, true";
 if !!1          log     "log if !!1, true";
 if !!0          error   "log if !!0, should not happen";
 
+if 0 == 0       log     "log if 0 == 0, true";
+if not 0 == 0   error   "log if not 0 == 0, should not happen";
+
+if 1 == 1       log     "log if 1 == 1, true";
+
+if "test" == "test" log "log if 'test' == 'test', true";
+if not "test" == "test" error "log if 'test' == 'test', should not happen";
+if "test" == "not" error "log if 'test' == 'not', should not happen";
+
+log format("Reminder: value 'hello' is " value("hello"));
+if value("hello") == "123 456" log "log if value('hello') == '123 456', true";
+if not value("hello") == "123 456" log "log if not value('hello') == '123 456', should not happen";
+
 log ~0;
 log ~1;
 log ~~0;
