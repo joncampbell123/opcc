@@ -1721,25 +1721,13 @@ bool process_block(tokenlist &tokens) {
             return false;
         }
 
-        /* "value" or value or format(...) */
-        if (tokens.peek(0).type == TOK_STRING) {
-            defines[name] = tokens.peek();
-            tokens.discard();
-        }
-        else if (tokens.peek(0).type == TOK_UINT || tokens.peek(0).type == TOK_INT || tokens.peek(0).type == TOK_FLOAT) {
-            defines[name] = tokens.peek();
-            tokens.discard();
-        }
-        else if (tokens.peek(0).type == TOK_FORMAT) {
-            std::string msg;
+        tokenstate_t result;
 
-            tokens.discard();
-            if (!eval_format(msg,tokens))
-                return false;
-
-            defines[name].type = TOK_STRING;
-            defines[name].string = msg;
+        if (!eval_if_condition(/*&*/result,/*&*/tokens)) {
+            fprintf(stderr,"'If' condition error\n");
+            return false;
         }
+        defines[name] = result;
 
         if (!tokens.eof()) {
             fprintf(stderr,"Unexpected tokens\n");
