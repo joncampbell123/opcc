@@ -88,6 +88,10 @@ if 0 log "log if 0, should not happen";
 if -1 log "log if -1, should not happen";
 if "string" log "log if string, true";
 if "" log "log if empty string, should not happen";
+if 1.0 log "log if 1.0, true";
+if 1.1 log "log if 1.1, true";
+if -1.0 log "log if -1.0, should not happen";
+if -1.1 log "log if -1.1, should not happen";
 
 unknown opcode silent;
 unknown opcode ud;
