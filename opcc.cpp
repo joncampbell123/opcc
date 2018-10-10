@@ -398,6 +398,7 @@ bool toke(tokenstate_t &tok) {
         case '=': tok.type = TOK_EQUAL;         return true;
         case '<': tok.type = TOK_LESSTHAN;      return true;
         case '>': tok.type = TOK_GREATERTHAN;   return true;
+        case '!': tok.type = TOK_NOT;           return true;
         case '-':
             tok.type = TOK_MINUS;
 
