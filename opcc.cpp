@@ -153,6 +153,7 @@ enum tokentype_t {
     TOK_HEXSTRING,
     TOK_UNSIGNED,
     TOK_SIGNED,
+    TOK_OCTSTRING,
 
     TOK_MAX
 };
@@ -296,7 +297,8 @@ const char *tokentype_str[TOK_MAX] = {
     "NEGATE",                   // 135
     "HEXSTRING",
     "UNSIGNED",
-    "SIGNED"
+    "SIGNED",
+    "OCTSTRING"
 };
 
 struct tokenstate_t {
@@ -342,6 +344,17 @@ struct tokenstate_t {
         }
 
         fprintf(stderr,"WARNING: hex() used to convert type '%s', ignoring\n",type_str());
+        return to_string();
+    }
+
+    std::string int_to_oct_string(void) const {
+        if (type == TOK_UINT || type == TOK_INT || type == TOK_BOOLEAN) {
+            char tmp[64];
+            sprintf(tmp,"0%llo",(unsigned long long)intval.u);
+            return std::string(tmp);
+        }
+
+        fprintf(stderr,"WARNING: oct() used to convert type '%s', ignoring\n",type_str());
         return to_string();
     }
 
@@ -1061,6 +1074,10 @@ bool toke(tokenstate_t &tok) {
             tok.type = TOK_SIGNED;
             return true;
         }
+        if (tok.string == "OCTSTRING") {
+            tok.type = TOK_OCTSTRING;
+            return true;
+        }
     }
 
     tok.type = TOK_ERROR;
@@ -1299,6 +1316,24 @@ bool eval_if_condition(tokenstate_t &result,tokenlist &tokens) {
 
         result.type = TOK_STRING;
         result.string = tmp.int_to_hex_string();
+
+        if (tokens.next().type != TOK_CLOSE_PARENS)
+            return false;
+
+        return true;
+    }
+    /* oct(expr) */
+    else if (t.type == TOK_OCTSTRING) {
+        if (tokens.next().type != TOK_OPEN_PARENS)
+            return false;
+
+        tokenstate_t tmp;
+
+        if (!eval_if_condition(tmp,tokens))
+            return false;
+
+        result.type = TOK_STRING;
+        result.string = tmp.int_to_oct_string();
 
         if (tokens.next().type != TOK_CLOSE_PARENS)
             return false;

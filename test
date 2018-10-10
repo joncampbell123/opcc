@@ -133,6 +133,9 @@ log format("number=~=" signed(~value("number")));
 log format("number hexstring=" hexstring(value("number")));
 log format("number hexstring=~=" hexstring(~value("number")));
 
+log format("number octstring=" octstring(value("number")));
+log format("number octstring=~=" octstring(~value("number")));
+
 set "number" 3.4;
 log format("number=-=" -value("number"));
 
