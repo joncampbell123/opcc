@@ -123,6 +123,12 @@ log -1.0;
 log true;
 log false;
 
+warning "hello";
+warning 5;
+warning 1.234;
+warning isset("hello");
+warning format("hello " value("hello"));
+
 unknown opcode silent;
 unknown opcode ud;
 opcode limit none;

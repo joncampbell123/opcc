@@ -147,6 +147,7 @@ enum tokentype_t {
     TOK_ISSET,                  // 130
     TOK_WORD_ERROR,
     TOK_BOOLEAN,
+    TOK_WARNING,
 
     TOK_MAX
 };
@@ -284,7 +285,8 @@ const char *tokentype_str[TOK_MAX] = {
     "UNSET",
     "ISSET",                    // 130
     "ERROR",
-    "BOOLEAN"
+    "BOOLEAN",
+    "WARNING"
 };
 
 struct tokenstate_t {
@@ -1012,6 +1014,10 @@ bool toke(tokenstate_t &tok) {
             tok.intval.u = 0;
             return true;
         }
+        if (tok.string == "WARNING") {
+            tok.type = TOK_WARNING;
+            return true;
+        }
     }
 
     tok.type = TOK_ERROR;
@@ -1506,6 +1512,10 @@ void LOG_OUTPUT(const std::string &msg) {
     fprintf(stderr,"log output: %s\n",msg.c_str());
 }
 
+void WARN_OUTPUT(const std::string &msg) {
+    fprintf(stderr,"warning output: %s\n",msg.c_str());
+}
+
 void ERR_OUTPUT(const std::string &msg) {
     fprintf(stderr,"error output: %s\n",msg.c_str());
 }
@@ -1618,7 +1628,8 @@ bool process_block(tokenlist &tokens) {
 
     /* log ... */
     /* error ... */
-    if (tokens.peek().type == TOK_LOG || tokens.peek().type == TOK_WORD_ERROR) {
+    /* warning ... */
+    if (tokens.peek().type == TOK_LOG || tokens.peek().type == TOK_WORD_ERROR || tokens.peek().type == TOK_WARNING) {
         unsigned int tok = tokens.peek().type;
         tokens.discard();
 
@@ -1662,6 +1673,8 @@ bool process_block(tokenlist &tokens) {
 
         if (tok == TOK_LOG)
             LOG_OUTPUT(msg);
+        else if (tok == TOK_WARNING)
+            WARN_OUTPUT(msg);
         else if (tok == TOK_WORD_ERROR)
             ERR_OUTPUT(msg);
         else
