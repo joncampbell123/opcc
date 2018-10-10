@@ -92,6 +92,10 @@ if 1.0 log "log if 1.0, true";
 if 1.1 log "log if 1.1, true";
 if -1.0 log "log if -1.0, should not happen";
 if -1.1 log "log if -1.1, should not happen";
+if 0.0 log "log if 0.0, should not happen";
+if -0.0 log "log if -0.0, should not happen";
+if 0.5 log "log if 0.5, true";
+if -0.5 log "log if -0.5, should not happen";
 
 unknown opcode silent;
 unknown opcode ud;

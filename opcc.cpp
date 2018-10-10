@@ -470,6 +470,10 @@ bool toke(tokenstate_t &tok) {
                 /* octal */
                 tok.string += (char)chr;
             }
+            else if (chr == '.') {
+                tok.type = TOK_FLOAT;
+                tok.string += (char)chr;
+            }
             else {
                 untokechar(chr);
                 return true;
