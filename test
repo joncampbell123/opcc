@@ -126,6 +126,9 @@ log format("Reminder: value 'hello' is " value("hello"));
 if value("hello") == "123 456" log "log if value('hello') == '123 456', true";
 if not value("hello") == "123 456" log "log if not value('hello') == '123 456', should not happen";
 
+if 4.3 == 4.3    log    "log if 4.3 == 4.3, true";
+if not 4.3 == 4.3 error "log if not 4.3 == 4.3, should not happen";
+
 log ~0;
 log ~1;
 log ~~0;
