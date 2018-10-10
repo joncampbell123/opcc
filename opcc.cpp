@@ -151,6 +151,8 @@ enum tokentype_t {
     TOK_NOT,
     TOK_NEGATE,                 // 135
     TOK_HEX,
+    TOK_UNSIGNED,
+    TOK_SIGNED,
 
     TOK_MAX
 };
@@ -292,7 +294,9 @@ const char *tokentype_str[TOK_MAX] = {
     "WARNING",
     "NOT",
     "NEGATE",                   // 135
-    "HEX"
+    "HEX",
+    "UNSIGNED",
+    "SIGNED"
 };
 
 struct tokenstate_t {
@@ -1049,6 +1053,14 @@ bool toke(tokenstate_t &tok) {
             tok.type = TOK_HEX;
             return true;
         }
+        if (tok.string == "UNSIGNED") {
+            tok.type = TOK_UNSIGNED;
+            return true;
+        }
+        if (tok.string == "SIGNED") {
+            tok.type = TOK_SIGNED;
+            return true;
+        }
     }
 
     tok.type = TOK_ERROR;
@@ -1287,6 +1299,42 @@ bool eval_if_condition(tokenstate_t &result,tokenlist &tokens) {
 
         result.type = TOK_STRING;
         result.string = tmp.int_to_hex_string();
+
+        if (tokens.next().type != TOK_CLOSE_PARENS)
+            return false;
+
+        return true;
+    }
+    /* unsigned(expr) */
+    else if (t.type == TOK_UNSIGNED) {
+        if (tokens.next().type != TOK_OPEN_PARENS)
+            return false;
+
+        tokenstate_t tmp;
+
+        if (!eval_if_condition(tmp,tokens))
+            return false;
+
+        result = tmp;
+        if (result.type == TOK_INT) result.type = TOK_UINT;
+
+        if (tokens.next().type != TOK_CLOSE_PARENS)
+            return false;
+
+        return true;
+    }
+    /* signed(expr) */
+    else if (t.type == TOK_SIGNED) {
+        if (tokens.next().type != TOK_OPEN_PARENS)
+            return false;
+
+        tokenstate_t tmp;
+
+        if (!eval_if_condition(tmp,tokens))
+            return false;
+
+        result = tmp;
+        if (result.type == TOK_UINT || result.type == TOK_BOOLEAN) result.type = TOK_INT;
 
         if (tokens.next().type != TOK_CLOSE_PARENS)
             return false;

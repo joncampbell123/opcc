@@ -126,6 +126,9 @@ log format("number=!!=" !!value("number"));
 log format("number=not=" !value("number"));
 log format("number=not not=" not not value("number"));
 log format("number=-=" -value("number"));
+log format("number=-=" unsigned(-value("number")));
+log format("number=-=" signed(unsigned(-value("number"))));
+log format("number=~=" signed(~value("number")));
 
 log format("number hex=" hex(value("number")));
 log format("number hex=~=" hex(~value("number")));
