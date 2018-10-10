@@ -129,6 +129,12 @@ if not value("hello") == "123 456" log "log if not value('hello') == '123 456', 
 if 4.3 == 4.3    log    "log if 4.3 == 4.3, true";
 if not 4.3 == 4.3 error "log if not 4.3 == 4.3, should not happen";
 
+if 99 > 55      log     "log if 99 > 55, true";
+if 55 > 99      error   "log if 55 > 99, should not happen";
+
+if 55 < 99      log     "log if 55 < 99, true";
+if 99 < 55      error   "log if 99 < 55, should not happen";
+
 log ~0;
 log ~1;
 log ~~0;

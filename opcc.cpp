@@ -360,6 +360,48 @@ struct tokenstate_t {
         return in_copy == ext_copy;
     }
 
+    bool operator>(const tokenstate_t &ext) const {
+        if (type == ext.type) {
+            if (type == TOK_UINT)
+                return intval.u > ext.intval.u;
+            else if (type == TOK_INT)
+                return intval.i > ext.intval.i;
+            else if (type == TOK_BOOLEAN)
+                return to_bool() > ext.to_bool();
+            else if (type == TOK_FLOAT)
+                return floatval > ext.floatval;
+
+            return true;
+        }
+
+        tokenstate_t in_copy = *this,ext_copy = ext;
+
+        promote_for_comparison(in_copy,ext_copy);
+        assert(in_copy.type == ext_copy.type);
+        return in_copy > ext_copy;
+    }
+
+    bool operator<(const tokenstate_t &ext) const {
+        if (type == ext.type) {
+            if (type == TOK_UINT)
+                return intval.u < ext.intval.u;
+            else if (type == TOK_INT)
+                return intval.i < ext.intval.i;
+            else if (type == TOK_BOOLEAN)
+                return to_bool() < ext.to_bool();
+            else if (type == TOK_FLOAT)
+                return floatval < ext.floatval;
+
+            return true;
+        }
+
+        tokenstate_t in_copy = *this,ext_copy = ext;
+
+        promote_for_comparison(in_copy,ext_copy);
+        assert(in_copy.type == ext_copy.type);
+        return in_copy < ext_copy;
+    }
+
     inline const char *type_str(void) const {
         return tokentype_str[type];
     }
@@ -1567,6 +1609,32 @@ bool eval_if_condition(tokenstate_t &result,tokenlist &tokens) {
             return false;
 
         bool expr_result = (result == res2);
+
+        result.type = TOK_BOOLEAN;
+        result.intval.u = expr_result ? 1ull : 0ull;
+    }
+    else if (tokens.peek().type == TOK_GREATERTHAN) {
+        tokens.discard();
+
+        tokenstate_t res2;
+
+        if (!eval_if_condition_block(res2,tokens))
+            return false;
+
+        bool expr_result = (result > res2);
+
+        result.type = TOK_BOOLEAN;
+        result.intval.u = expr_result ? 1ull : 0ull;
+    }
+    else if (tokens.peek().type == TOK_LESSTHAN) {
+        tokens.discard();
+
+        tokenstate_t res2;
+
+        if (!eval_if_condition_block(res2,tokens))
+            return false;
+
+        bool expr_result = (result < res2);
 
         result.type = TOK_BOOLEAN;
         result.intval.u = expr_result ? 1ull : 0ull;
