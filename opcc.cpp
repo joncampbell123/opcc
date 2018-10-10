@@ -149,6 +149,7 @@ enum tokentype_t {
     TOK_BOOLEAN,
     TOK_WARNING,
     TOK_NOT,
+    TOK_NEGATE,                 // 135
 
     TOK_MAX
 };
@@ -288,7 +289,8 @@ const char *tokentype_str[TOK_MAX] = {
     "ERROR",
     "BOOLEAN",
     "WARNING",
-    "NOT"
+    "NOT",
+    "NEGATE"                    // 135
 };
 
 struct tokenstate_t {
@@ -399,6 +401,7 @@ bool toke(tokenstate_t &tok) {
         case '<': tok.type = TOK_LESSTHAN;      return true;
         case '>': tok.type = TOK_GREATERTHAN;   return true;
         case '!': tok.type = TOK_NOT;           return true;
+        case '~': tok.type = TOK_NEGATE;        return true;
         case '-':
             tok.type = TOK_MINUS;
 
@@ -1025,6 +1028,10 @@ bool toke(tokenstate_t &tok) {
             tok.type = TOK_NOT;
             return true;
         }
+        if (tok.string == "NEGATE") {
+            tok.type = TOK_NEGATE;
+            return true;
+        }
     }
 
     tok.type = TOK_ERROR;
@@ -1174,6 +1181,27 @@ bool eval_if_condition(tokenstate_t &result,tokenlist &tokens) {
         result.type = TOK_BOOLEAN;
         result.intval.u = !tmp.to_bool();
         return true;
+    }
+    if (t.type == TOK_NEGATE) {
+        /* not ... */
+        tokenstate_t tmp;
+
+        if (!eval_if_condition(tmp,tokens))
+            return false;
+
+        if (tmp.type == TOK_UINT || tmp.type == TOK_INT || tmp.type == TOK_BOOLEAN) {
+            result = tmp;
+            result.intval.u = ~result.intval.u;
+            return true;
+        }
+        else if (tmp.type == TOK_FLOAT) {
+            fprintf(stderr,"Cannot negate a float\n");
+            return false;
+        }
+        else {
+            fprintf(stderr,"Cannot negate a non-number\n");
+            return false;
+        }
     }
 
     if (t.type == TOK_UINT || t.type == TOK_INT || t.type == TOK_FLOAT || t.type == TOK_STRING || t.type == TOK_BOOLEAN) {

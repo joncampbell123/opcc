@@ -110,6 +110,14 @@ if not 0        log     "log if not 0, true";
 if !1           error   "log if !1, should not happen";
 if !0           log     "log if !0, true";
 
+if !!1          log     "log if !!1, true";
+if !!0          error   "log if !!0, should not happen";
+
+log ~0;
+log ~1;
+log ~~0;
+log ~~1;
+
 log format();
 if format()     error   "log if format(), should not happen";
 if format("hello") log  "log if format hello, true";
