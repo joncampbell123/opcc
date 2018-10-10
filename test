@@ -118,6 +118,9 @@ log ~1;
 log ~~0;
 log ~~1;
 
+set "number" 3;
+log format("number=" value("number"));
+
 log format();
 if format()     error   "log if format(), should not happen";
 if format("hello") log  "log if format hello, true";
