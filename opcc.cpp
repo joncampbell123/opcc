@@ -1461,7 +1461,7 @@ bool eval_isset(tokenstate_t &token,tokenlist &tokens) {
         tokens.discard();
 
         auto i = defines.find(name);
-        token.type = TOK_UINT;
+        token.type = TOK_BOOLEAN;
         token.intval.u = (i != defines.end()) ? 1u : 0u;
 
         return true;
