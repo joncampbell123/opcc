@@ -146,6 +146,8 @@ enum tokentype_t {
     TOK_UNSET,
     TOK_ISSET,                  // 130
     TOK_WORD_ERROR,
+    TOK_TRUE,
+    TOK_FALSE,
 
     TOK_MAX
 };
@@ -282,7 +284,9 @@ const char *tokentype_str[TOK_MAX] = {
     "SET",
     "UNSET",
     "ISSET",                    // 130
-    "ERROR"
+    "ERROR",
+    "TRUE",
+    "FALSE"
 };
 
 struct tokenstate_t {
@@ -992,6 +996,14 @@ bool toke(tokenstate_t &tok) {
         }
         if (tok.string == "ERROR") {
             tok.type = TOK_WORD_ERROR;
+            return true;
+        }
+        if (tok.string == "TRUE") {
+            tok.type = TOK_TRUE;
+            return true;
+        }
+        if (tok.string == "FALSE") {
+            tok.type = TOK_FALSE;
             return true;
         }
     }
