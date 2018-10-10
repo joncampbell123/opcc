@@ -1252,7 +1252,9 @@ bool eval_value(tokenstate_t &token,tokenlist &tokens);
 bool eval_format(std::string &msg,tokenlist &tokens);
 bool eval_valuetype(tokenstate_t &token,tokenlist &tokens);
 
-bool eval_if_condition(tokenstate_t &result,tokenlist &tokens) {
+bool eval_if_condition(tokenstate_t &result,tokenlist &tokens);
+
+bool eval_if_condition_block(tokenstate_t &result,tokenlist &tokens) {
     // caller has already parsed TOK_IF
     // we parse the tokens following "IF"
 
@@ -1464,6 +1466,13 @@ bool eval_if_condition(tokenstate_t &result,tokenlist &tokens) {
     }
 
     return false;
+}
+
+bool eval_if_condition(tokenstate_t &result,tokenlist &tokens) {
+    if (!eval_if_condition_block(result,tokens))
+        return false;
+
+    return true;
 }
 
 bool read_opcode_spec_opcode_parens(tokenlist &parent_tokens,OpcodeSpec &spec) {
