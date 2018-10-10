@@ -1235,6 +1235,28 @@ bool eval_if_condition(tokenstate_t &result,tokenlist &tokens) {
             return false;
         }
     }
+    else if (t.type == TOK_MINUS) {
+        /* not ... */
+        tokenstate_t tmp;
+
+        if (!eval_if_condition(tmp,tokens))
+            return false;
+
+        if (tmp.type == TOK_UINT || tmp.type == TOK_INT || tmp.type == TOK_BOOLEAN) {
+            result = tmp;
+            result.intval.i = -result.intval.i;
+            return true;
+        }
+        else if (tmp.type == TOK_FLOAT) {
+            result = tmp;
+            result.floatval = -result.floatval;
+            return true;
+        }
+        else {
+            fprintf(stderr,"Cannot negate a non-number\n");
+            return false;
+        }
+    }
 
     return false;
 }

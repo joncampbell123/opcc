@@ -125,6 +125,9 @@ log format("number=!=" !value("number"));
 log format("number=!!=" !!value("number"));
 log format("number=not=" !value("number"));
 log format("number=not not=" not not value("number"));
+log format("number=-=" -value("number"));
+set "number" 3.4;
+log format("number=-=" -value("number"));
 
 log format();
 if format()     error   "log if format(), should not happen";
