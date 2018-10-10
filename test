@@ -99,6 +99,9 @@ if -0.5         error   "log if -0.5, should not happen";
 if true         log     "log if true, true";
 if false        error   "log if false, should not happen";
 
+if isset("hello") log   "log if isset hello, true";
+if isset("bye") error   "log if isset bye, should not happen";
+
 log 1;
 log -1;
 log 2;

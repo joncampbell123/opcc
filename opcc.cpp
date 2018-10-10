@@ -1141,6 +1141,8 @@ unsigned int parse_code_immediate_spec(tokenlist &tokens) {
     return r;
 }
 
+bool eval_isset(tokenstate_t &token,tokenlist &tokens);
+
 bool eval_if_condition(tokenstate_t &result,tokenlist &tokens) {
     // caller has already parsed TOK_IF
     // we parse the tokens following "IF"
@@ -1149,6 +1151,15 @@ bool eval_if_condition(tokenstate_t &result,tokenlist &tokens) {
 
     if (t.type == TOK_UINT || t.type == TOK_INT || t.type == TOK_FLOAT || t.type == TOK_STRING || t.type == TOK_BOOLEAN) {
         result = t;
+        return true;
+    }
+    else if (t.type == TOK_ISSET) {
+        tokenstate_t subtoken;
+
+        if (!eval_isset(subtoken,tokens))
+            return false;
+
+        result = subtoken;
         return true;
     }
 
