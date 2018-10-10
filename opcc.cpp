@@ -1143,6 +1143,7 @@ unsigned int parse_code_immediate_spec(tokenlist &tokens) {
 
 bool eval_isset(tokenstate_t &token,tokenlist &tokens);
 bool eval_value(tokenstate_t &token,tokenlist &tokens);
+bool eval_format(std::string &msg,tokenlist &tokens);
 
 bool eval_if_condition(tokenstate_t &result,tokenlist &tokens) {
     // caller has already parsed TOK_IF
@@ -1172,7 +1173,17 @@ bool eval_if_condition(tokenstate_t &result,tokenlist &tokens) {
         result = subtoken;
         return true;
     }
+    else if (t.type == TOK_FORMAT) {
+        std::string submsg;
 
+        if (!eval_format(submsg,tokens))
+            return false;
+
+        result.type = TOK_STRING;
+        result.string = submsg;
+        return true;
+    }
+ 
     return false;
 }
 
