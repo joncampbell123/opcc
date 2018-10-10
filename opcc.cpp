@@ -1262,6 +1262,7 @@ bool eval_if_condition(tokenstate_t &result,tokenlist &tokens) {
         if (tmp.type == TOK_UINT || tmp.type == TOK_INT || tmp.type == TOK_BOOLEAN) {
             result = tmp;
             result.intval.i = -result.intval.i;
+            result.type = TOK_INT; // becomes signed
             return true;
         }
         else if (tmp.type == TOK_FLOAT) {
