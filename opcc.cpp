@@ -156,6 +156,7 @@ enum tokentype_t {
     TOK_OCTSTRING,
     TOK_BINSTRING,              // 140
     TOK_WORD_STRING,
+    TOK_VALUETYPE,
 
     TOK_MAX
 };
@@ -302,7 +303,8 @@ const char *tokentype_str[TOK_MAX] = {
     "SIGNED",
     "OCTSTRING",
     "BINSTRING",
-    "STRING"
+    "STRING",
+    "VALUETYPE"
 };
 
 struct tokenstate_t {
@@ -1112,6 +1114,10 @@ bool toke(tokenstate_t &tok) {
             tok.type = TOK_WORD_STRING;
             return true;
         }
+        if (tok.string == "VALUETYPE") {
+            tok.type = TOK_VALUETYPE;
+            return true;
+        }
     }
 
     tok.type = TOK_ERROR;
@@ -1244,6 +1250,7 @@ unsigned int parse_code_immediate_spec(tokenlist &tokens) {
 bool eval_isset(tokenstate_t &token,tokenlist &tokens);
 bool eval_value(tokenstate_t &token,tokenlist &tokens);
 bool eval_format(std::string &msg,tokenlist &tokens);
+bool eval_valuetype(tokenstate_t &token,tokenlist &tokens);
 
 bool eval_if_condition(tokenstate_t &result,tokenlist &tokens) {
     // caller has already parsed TOK_IF
@@ -1268,6 +1275,15 @@ bool eval_if_condition(tokenstate_t &result,tokenlist &tokens) {
         tokenstate_t subtoken;
 
         if (!eval_value(subtoken,tokens))
+            return false;
+
+        result = subtoken;
+        return true;
+    }
+    else if (t.type == TOK_VALUETYPE) {
+        tokenstate_t subtoken;
+
+        if (!eval_valuetype(subtoken,tokens))
             return false;
 
         result = subtoken;
@@ -1706,6 +1722,37 @@ bool do_opcode_spec(tokenlist &tokens) {
 
     opcodes.push_back(std::move(spec));
     return true;
+}
+
+/* VALUETYPE ( STRING ) */
+bool eval_valuetype(tokenstate_t &token,tokenlist &tokens) {
+    token.type = TOK_NONE;
+
+    // caller has already consumed TOK_VALUE
+    // next token should be parenthesis
+    // end of the message should be closed paranethesis
+    if (tokens.peek(0).type != TOK_OPEN_PARENS) return false;
+    tokens.discard();
+
+    if (tokens.peek(0).type == TOK_STRING) {
+        std::string name = tokens.peek(0).string;
+        tokens.discard();
+
+        if (name.empty()) return false;
+
+        if (tokens.peek(0).type != TOK_CLOSE_PARENS) return false;
+        tokens.discard();
+
+        auto i = defines.find(name);
+        if (i != defines.end()) {
+            token.type = TOK_STRING;
+            token.string = i->second.type_str();
+        }
+
+        return true;
+    }
+
+    return false;
 }
 
 /* VALUE ( STRING ) */

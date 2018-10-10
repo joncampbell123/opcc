@@ -141,6 +141,9 @@ log format("number binstring=~=" binstring(~value("number")));
 
 log format("number string=" string(321));
 log format("number string=" string(value("number")));
+log format("valuetype number=" valuetype("number"));
+log format("valuetype hello=" valuetype("hello"));
+log format("valuetype bye=" valuetype("bye"));
 
 set "number" 3.4;
 log format("number=-=" -value("number"));
