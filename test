@@ -97,6 +97,16 @@ if -0.0 log "log if -0.0, should not happen";
 if 0.5 log "log if 0.5, true";
 if -0.5 log "log if -0.5, should not happen";
 
+log 1;
+log -1;
+log 2;
+log -2;
+log 0.0;
+log 0.5;
+log 1.0;
+log -0.5;
+log -1.0;
+
 unknown opcode silent;
 unknown opcode ud;
 opcode limit none;

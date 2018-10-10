@@ -1564,6 +1564,20 @@ bool process_block(tokenlist &tokens) {
 
         return true;
     }
+    /* log (number) */
+    if (tokens.peek(0).type == TOK_LOG && (tokens.peek(1).type == TOK_UINT || tokens.peek(1).type == TOK_INT || tokens.peek(1).type == TOK_FLOAT)) {
+        std::string msg = tokens.peek(1).to_string();
+        tokens.discard(2);
+
+        LOG_OUTPUT(msg);
+
+        if (!tokens.eof()) {
+            fprintf(stderr,"Unexpected tokens\n");
+            return false;
+        }
+
+        return true;
+    }
     /* log format(...) */
     if (tokens.peek(0).type == TOK_LOG && tokens.peek(1).type == TOK_FORMAT) {
         tokens.discard(2);
