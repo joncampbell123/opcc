@@ -158,6 +158,9 @@ if 0 or 1       log     "log if 0 or 1, true";
 if 1 or 0       log     "log if 1 or 0, true";
 if 1 or 1       log     "log if 1 or 1, true";
 
+if 0 or 0 or 0 or 0 or 0 or 0 error "log if 0 0 0 0 0 0 0 should not happen";
+if 0 or 0 or 0 or 0 or 1 or 0 log "log if 0 0 0 0 0 1 0 true";
+
 if 0 xor 0      error   "log if 0 xor 0, should not happen";
 if 0 xor 1      log     "log if 0 xor 1, true";
 if 1 xor 0      log     "log if 1 xor 0, true";
