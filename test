@@ -308,6 +308,30 @@ if 1 {;
   } if;
 } if;
 
+if 4 > 2 {;
+  log "if 4 > 2 block";
+} if;
+
+if 4 < 2 {;
+  error "if 4 < 2 block";
+} if;
+
+if (2*2*2) > (3*3) {;
+  error "if 2*2*2 > 3*3 block";
+} if;
+
+if (2*2*2*2) > (3*3) {;
+  log "if 2*2*2*2 > 3*3 block";
+} if;
+
+if isset("test") {;
+  log "isset test";
+} if;
+
+if isset("bye") {;
+  error "isset bye";
+} if;
+
 log "This should appear";
 
 warning "hello";
