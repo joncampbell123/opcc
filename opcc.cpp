@@ -167,6 +167,7 @@ enum tokentype_t {
     TOK_PIPE,                   // 150
     TOK_CARET,
     TOK_ASTERISK,
+    TOK_SLASH,
 
     TOK_MAX
 };
@@ -324,7 +325,8 @@ const char *tokentype_str[TOK_MAX] = {
     "AMPERSAND",
     "PIPE",                     // 150
     "CARET",
-    "ASTERISK"
+    "ASTERISK",
+    "SLASH"
 };
 
 struct tokenstate_t {
@@ -686,6 +688,37 @@ static tokenstate_t operator*(const tokenstate_t &in,const tokenstate_t &ext) {
     return in_copy * ext_copy;
 }
 
+static tokenstate_t operator/(const tokenstate_t &in,const tokenstate_t &ext) {
+    tokenstate_t ret;
+
+    if (in.type == ext.type) {
+        if (in.type == TOK_UINT) {
+            ret.type = in.type;
+            ret.intval.u = in.intval.u / ext.intval.u;
+        }
+        else if (in.type == TOK_INT) {
+            ret.type = in.type;
+            ret.intval.i = in.intval.i / ext.intval.i;
+        }
+        else if (in.type == TOK_BOOLEAN) {
+            ret.type = in.type;
+            ret.intval.u = in.intval.u / ext.intval.u;
+        }
+        else if (in.type == TOK_FLOAT) {
+            ret.type = in.type;
+            ret.floatval = in.floatval / ext.floatval;
+        }
+
+        return ret;
+    }
+
+    tokenstate_t in_copy = in,ext_copy = ext;
+
+    tokenstate_t::promote_for_comparison(in_copy,ext_copy);
+    assert(in_copy.type == ext_copy.type);
+    return in_copy / ext_copy;
+}
+
 FILE*           srcfp = NULL;
 std::string     srcfile;
 int             untoke = -1;
@@ -729,6 +762,7 @@ bool toke(tokenstate_t &tok) {
         case ')': tok.type = TOK_CLOSE_PARENS;  return true;
         case ',': tok.type = TOK_COMMA;         return true;
         case '*': tok.type = TOK_ASTERISK;      return true;
+        case '/': tok.type = TOK_SLASH;         return true;
         case '=':
             tok.type = TOK_EQUAL;
 
@@ -1980,7 +2014,7 @@ again:
 
         goto again;
     }
-     else if (tokens.peek().type == TOK_ASTERISK) {
+    else if (tokens.peek().type == TOK_ASTERISK) {
         tokens.discard();
 
         tokenstate_t res2;
@@ -1989,6 +2023,18 @@ again:
             return false;
 
         result = result * res2;
+
+        goto again;
+    }
+    else if (tokens.peek().type == TOK_SLASH) {
+        tokens.discard();
+
+        tokenstate_t res2;
+
+        if (!eval_if_condition_block(res2,tokens))
+            return false;
+
+        result = result / res2;
 
         goto again;
     }
