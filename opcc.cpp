@@ -1674,7 +1674,7 @@ bool eval_if_condition_block(tokenstate_t &result,tokenlist &tokens) {
         /* not ... */
         tokenstate_t tmp;
 
-        if (!eval_if_condition(tmp,tokens))
+        if (!eval_if_condition_block(tmp,tokens))
             return false;
 
         result.type = TOK_BOOLEAN;
@@ -1685,7 +1685,7 @@ bool eval_if_condition_block(tokenstate_t &result,tokenlist &tokens) {
         /* not ... */
         tokenstate_t tmp;
 
-        if (!eval_if_condition(tmp,tokens))
+        if (!eval_if_condition_block(tmp,tokens))
             return false;
 
         if (tmp.type == TOK_UINT || tmp.type == TOK_INT || tmp.type == TOK_BOOLEAN) {
@@ -1706,7 +1706,7 @@ bool eval_if_condition_block(tokenstate_t &result,tokenlist &tokens) {
         /* not ... */
         tokenstate_t tmp;
 
-        if (!eval_if_condition(tmp,tokens))
+        if (!eval_if_condition_block(tmp,tokens))
             return false;
 
         if (tmp.type == TOK_UINT || tmp.type == TOK_INT || tmp.type == TOK_BOOLEAN) {
@@ -1841,7 +1841,6 @@ bool eval_if_condition(tokenstate_t &result,tokenlist &tokens) {
     if (!eval_if_condition_block(result,tokens))
         return false;
 
-again:
     /* if the next token is == then this is a comparison */
     if (tokens.peek().type == TOK_DOUBLEEQUALS) {
         tokens.discard();
@@ -1855,8 +1854,6 @@ again:
 
         result.type = TOK_BOOLEAN;
         result.intval.u = expr_result ? 1ull : 0ull;
-
-        goto again;
     }
     else if (tokens.peek().type == TOK_GREATERTHAN) {
         tokens.discard();
@@ -1870,8 +1867,6 @@ again:
 
         result.type = TOK_BOOLEAN;
         result.intval.u = expr_result ? 1ull : 0ull;
-
-        goto again;
     }
     else if (tokens.peek().type == TOK_LESSTHAN) {
         tokens.discard();
@@ -1885,8 +1880,6 @@ again:
 
         result.type = TOK_BOOLEAN;
         result.intval.u = expr_result ? 1ull : 0ull;
-
-        goto again;
     }
     else if (tokens.peek().type == TOK_GREATERTHANOREQUALS) {
         tokens.discard();
@@ -1900,8 +1893,6 @@ again:
 
         result.type = TOK_BOOLEAN;
         result.intval.u = expr_result ? 1ull : 0ull;
-
-        goto again;
     }
     else if (tokens.peek().type == TOK_LESSTHANOREQUALS) {
         tokens.discard();
@@ -1915,175 +1906,173 @@ again:
 
         result.type = TOK_BOOLEAN;
         result.intval.u = expr_result ? 1ull : 0ull;
-
-        goto again;
     }
     else if (tokens.peek().type == TOK_AND) {
-        tokens.discard();
+        do {
+            tokens.discard();
 
-        tokenstate_t res2;
+            tokenstate_t res2;
 
-        if (!eval_if_condition_block(res2,tokens))
-            return false;
+            if (!eval_if_condition_block(res2,tokens))
+                return false;
 
-        bool expr_result = (result.to_bool() && res2.to_bool());
+            bool expr_result = (result.to_bool() && res2.to_bool());
 
-        result.type = TOK_BOOLEAN;
-        result.intval.u = expr_result ? 1ull : 0ull;
-
-        goto again;
+            result.type = TOK_BOOLEAN;
+            result.intval.u = expr_result ? 1ull : 0ull;
+        } while (tokens.peek().type == TOK_AND);
     }
     else if (tokens.peek().type == TOK_OR) {
-        tokens.discard();
+        do {
+            tokens.discard();
 
-        tokenstate_t res2;
+            tokenstate_t res2;
 
-        if (!eval_if_condition_block(res2,tokens))
-            return false;
+            if (!eval_if_condition_block(res2,tokens))
+                return false;
 
-        bool expr_result = (result.to_bool() || res2.to_bool());
+            bool expr_result = (result.to_bool() || res2.to_bool());
 
-        result.type = TOK_BOOLEAN;
-        result.intval.u = expr_result ? 1ull : 0ull;
-
-        goto again;
+            result.type = TOK_BOOLEAN;
+            result.intval.u = expr_result ? 1ull : 0ull;
+        } while (tokens.peek().type == TOK_OR);
     }
     else if (tokens.peek().type == TOK_XOR) {
-        tokens.discard();
+        do {
+            tokens.discard();
 
-        tokenstate_t res2;
+            tokenstate_t res2;
 
-        if (!eval_if_condition_block(res2,tokens))
-            return false;
+            if (!eval_if_condition_block(res2,tokens))
+                return false;
 
-        bool expr_result = ((result.to_bool()?1:0) ^ (res2.to_bool()?1:0));
+            bool expr_result = ((result.to_bool()?1:0) ^ (res2.to_bool()?1:0));
 
-        result.type = TOK_BOOLEAN;
-        result.intval.u = expr_result ? 1ull : 0ull;
-
-        goto again;
+            result.type = TOK_BOOLEAN;
+            result.intval.u = expr_result ? 1ull : 0ull;
+        } while (tokens.peek().type == TOK_XOR);
     }
     else if (tokens.peek().type == TOK_AMPERSAND) {
-        tokens.discard();
+        do {
+            tokens.discard();
 
-        tokenstate_t res2;
+            tokenstate_t res2;
 
-        if (!eval_if_condition_block(res2,tokens))
-            return false;
+            if (!eval_if_condition_block(res2,tokens))
+                return false;
 
-        unsigned long long res = result.to_intval_u() & res2.to_intval_u();
+            unsigned long long res = result.to_intval_u() & res2.to_intval_u();
 
-        result.intval.u = res;
-        if (result.type == TOK_INT || res2.type == TOK_INT)
-            result.type = TOK_INT;
-        else if (result.type == TOK_FLOAT || res2.type == TOK_FLOAT)
-            result.type = TOK_INT;
-        else
-            result.type = TOK_UINT;
-
-        goto again;
+            result.intval.u = res;
+            if (result.type == TOK_INT || res2.type == TOK_INT)
+                result.type = TOK_INT;
+            else if (result.type == TOK_FLOAT || res2.type == TOK_FLOAT)
+                result.type = TOK_INT;
+            else
+                result.type = TOK_UINT;
+        } while (tokens.peek().type == TOK_AMPERSAND);
     }
     else if (tokens.peek().type == TOK_PIPE) {
-        tokens.discard();
+        do {
+            tokens.discard();
 
-        tokenstate_t res2;
+            tokenstate_t res2;
 
-        if (!eval_if_condition_block(res2,tokens))
-            return false;
+            if (!eval_if_condition_block(res2,tokens))
+                return false;
 
-        unsigned long long res = result.to_intval_u() | res2.to_intval_u();
+            unsigned long long res = result.to_intval_u() | res2.to_intval_u();
 
-        result.intval.u = res;
-        if (result.type == TOK_INT || res2.type == TOK_INT)
-            result.type = TOK_INT;
-        else if (result.type == TOK_FLOAT || res2.type == TOK_FLOAT)
-            result.type = TOK_INT;
-        else
-            result.type = TOK_UINT;
-
-        goto again;
+            result.intval.u = res;
+            if (result.type == TOK_INT || res2.type == TOK_INT)
+                result.type = TOK_INT;
+            else if (result.type == TOK_FLOAT || res2.type == TOK_FLOAT)
+                result.type = TOK_INT;
+            else
+                result.type = TOK_UINT;
+        } while (tokens.peek().type == TOK_PIPE);
     }
     else if (tokens.peek().type == TOK_CARET) {
-        tokens.discard();
+        do {
+            tokens.discard();
 
-        tokenstate_t res2;
+            tokenstate_t res2;
 
-        if (!eval_if_condition_block(res2,tokens))
-            return false;
+            if (!eval_if_condition_block(res2,tokens))
+                return false;
 
-        unsigned long long res = result.to_intval_u() ^ res2.to_intval_u();
+            unsigned long long res = result.to_intval_u() ^ res2.to_intval_u();
 
-        result.intval.u = res;
-        if (result.type == TOK_INT || res2.type == TOK_INT)
-            result.type = TOK_INT;
-        else if (result.type == TOK_FLOAT || res2.type == TOK_FLOAT)
-            result.type = TOK_INT;
-        else
-            result.type = TOK_UINT;
-
-        goto again;
+            result.intval.u = res;
+            if (result.type == TOK_INT || res2.type == TOK_INT)
+                result.type = TOK_INT;
+            else if (result.type == TOK_FLOAT || res2.type == TOK_FLOAT)
+                result.type = TOK_INT;
+            else
+                result.type = TOK_UINT;
+        } while (tokens.peek().type == TOK_CARET);
     }
     else if (tokens.peek().type == TOK_PLUS) {
-        tokens.discard();
+        do {
+            tokens.discard();
 
-        tokenstate_t res2;
+            tokenstate_t res2;
 
-        if (!eval_if_condition_block(res2,tokens))
-            return false;
+            if (!eval_if_condition_block(res2,tokens))
+                return false;
 
-        result = result + res2;
-
-        goto again;
+            result = result + res2;
+        } while (tokens.peek().type == TOK_PLUS);
     }
     else if (tokens.peek().type == TOK_MINUS) {
-        tokens.discard();
+        do {
+            tokens.discard();
 
-        tokenstate_t res2;
+            tokenstate_t res2;
 
-        /* eval pair by pair forwards, so that expressions like 8-4-2-1 evaluate in order and produce (((8-4)-2)-1) = 1
-         * instead of recursion that would produce (8-(4-(2-1))) = 5 */
-        if (!eval_if_condition_block(res2,tokens))
-            return false;
+            /* eval pair by pair forwards, so that expressions like 8-4-2-1 evaluate in order and produce (((8-4)-2)-1) = 1
+             * instead of recursion that would produce (8-(4-(2-1))) = 5 */
+            if (!eval_if_condition_block(res2,tokens))
+                return false;
 
-        result = result - res2;
-
-        goto again;
+            result = result - res2;
+        } while (tokens.peek().type == TOK_MINUS);
     }
     else if (tokens.peek().type == TOK_ASTERISK) {
-        tokens.discard();
+        do {
+            tokens.discard();
 
-        tokenstate_t res2;
+            tokenstate_t res2;
 
-        if (!eval_if_condition_block(res2,tokens))
-            return false;
+            if (!eval_if_condition_block(res2,tokens))
+                return false;
 
-        result = result * res2;
-
-        goto again;
+            result = result * res2;
+        } while (tokens.peek().type == TOK_ASTERISK);
     }
     else if (tokens.peek().type == TOK_SLASH) {
-        tokens.discard();
+        do {
+            tokens.discard();
 
-        tokenstate_t res2;
+            tokenstate_t res2;
 
-        if (!eval_if_condition_block(res2,tokens))
-            return false;
+            if (!eval_if_condition_block(res2,tokens))
+                return false;
 
-        result = result / res2;
-
-        goto again;
+            result = result / res2;
+        } while (tokens.peek().type == TOK_SLASH);
     }
     else if (tokens.peek().type == TOK_PERCENT) {
-        tokens.discard();
+        do {
+            tokens.discard();
 
-        tokenstate_t res2;
+            tokenstate_t res2;
 
-        if (!eval_if_condition_block(res2,tokens))
-            return false;
+            if (!eval_if_condition_block(res2,tokens))
+                return false;
 
-        result = result % res2;
-
-        goto again;
+            result = result % res2;
+        } while (tokens.peek().type == TOK_PERCENT);
     }
  
     return true;
