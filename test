@@ -276,6 +276,9 @@ log ((2+2)-2) == ((2-2)+2);
 
 if ((2+2)*4) == 16 log "((2+2)*4) == 16, true";
 
+log format("Hello world ", ((5*15)+5)*5);
+log format("Hello world ", ((1.5*3)+0.5)*5);
+
 warning "hello";
 warning 5;
 warning 1.234;
