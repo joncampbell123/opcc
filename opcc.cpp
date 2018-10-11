@@ -1785,7 +1785,7 @@ bool eval_if_condition(tokenstate_t &result,tokenlist &tokens) {
         if (!eval_if_condition(res2,tokens))
             return false;
 
-        bool expr_result = (result.to_bool() ^ res2.to_bool());
+        bool expr_result = ((result.to_bool()?1:0) ^ (res2.to_bool()?1:0));
 
         result.type = TOK_BOOLEAN;
         result.intval.u = expr_result ? 1ull : 0ull;
