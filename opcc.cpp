@@ -1633,6 +1633,34 @@ bool eval_if_condition_block(tokenstate_t &result,tokenlist &tokens) {
         result = t;
         return true;
     }
+    else if (t.type == TOK_OPEN_PARENS) {
+        tokenstate_t subtoken;
+        tokenlist subtokens;
+        int parens = 1;
+
+        if (tokens.empty())
+            return true;
+
+        do {
+            t = tokens.next();
+            if (t.type == TOK_ERROR || t.type == TOK_NONE)
+                return false;
+            else if (t.type == TOK_OPEN_PARENS)
+                parens++;
+            else if (t.type == TOK_CLOSE_PARENS) {
+                if (parens-- <= 1)
+                    break;
+            }
+
+            subtokens.push_back(t);
+        } while (1);
+
+        if (!eval_if_condition(subtoken,subtokens))
+            return false;
+
+        result = subtoken;
+        return true;
+    }
     else if (t.type == TOK_ISSET) {
         tokenstate_t subtoken;
 
