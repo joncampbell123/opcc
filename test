@@ -184,6 +184,12 @@ log format("2^4 = " 2^4);
 log format("7^3 = " 7^3);
 log format("1^2^4^8 = " 1^2^4^8);
 
+log format("1+2 = " 1+2);
+log format("2+4 = " 2+4);
+log format("1+2+4 = " 1+2+4);
+log format("1+2+4+8 = " 1+2+4+8);
+log format("1+1+1+1+1 = " 1+1+1+1+1);
+
 log ~0;
 log ~1;
 log ~~0;

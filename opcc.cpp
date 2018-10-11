@@ -587,6 +587,41 @@ struct tokenstate_t {
     }
 } tokenstate;
 
+static tokenstate_t operator+(const tokenstate_t &in,const tokenstate_t &ext) {
+    tokenstate_t ret;
+
+    if (in.type == ext.type) {
+        if (in.type == TOK_UINT) {
+            ret.type = in.type;
+            ret.intval.u = in.intval.u + ext.intval.u;
+        }
+        else if (in.type == TOK_INT) {
+            ret.type = in.type;
+            ret.intval.i = in.intval.i + ext.intval.i;
+        }
+        else if (in.type == TOK_BOOLEAN) {
+            ret.type = in.type;
+            ret.intval.u = in.intval.u | ext.intval.u;
+        }
+        else if (in.type == TOK_FLOAT) {
+            ret.type = in.type;
+            ret.floatval = in.floatval + ext.floatval;
+        }
+        else if (in.type == TOK_STRING) {
+            ret.type = in.type;
+            ret.string = in.string + ext.string;
+        }
+
+        return ret;
+    }
+
+    tokenstate_t in_copy = in,ext_copy = ext;
+
+    tokenstate_t::promote_for_comparison(in_copy,ext_copy);
+    assert(in_copy.type == ext_copy.type);
+    return in_copy + ext_copy;
+}
+
 FILE*           srcfp = NULL;
 std::string     srcfile;
 int             untoke = -1;
@@ -1852,6 +1887,16 @@ bool eval_if_condition(tokenstate_t &result,tokenlist &tokens) {
             result.type = TOK_INT;
         else
             result.type = TOK_UINT;
+    }
+    else if (tokens.peek().type == TOK_PLUS) {
+        tokens.discard();
+
+        tokenstate_t res2;
+
+        if (!eval_if_condition(res2,tokens))
+            return false;
+
+        result = result + res2;
     }
  
     return true;
