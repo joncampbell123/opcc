@@ -12,6 +12,7 @@
 
 #include <string>
 #include <vector>
+#include <stack>
 #include <map>
 
 enum tokentype_t {
@@ -335,6 +336,9 @@ const char *tokentype_str[TOK_MAX] = {
     "OPEN_CURLYBRACKET",        // 155
     "CLOSE_CURLYBRACKET"
 };
+
+std::stack<bool>    push_if_block;
+bool                if_block_enable = true;
 
 struct tokenstate_t {
     enum tokentype_t    type = TOK_NONE;
@@ -1644,9 +1648,6 @@ bool eval_if_condition_block(tokenstate_t &result,tokenlist &tokens) {
         tokenlist subtokens;
         int parens = 1;
 
-        if (tokens.empty())
-            return true;
-
         do {
             t = tokens.next();
             if (t.type == TOK_ERROR || t.type == TOK_NONE)
@@ -2135,7 +2136,7 @@ bool read_opcode_spec_opcode_parens(tokenlist &parent_tokens,OpcodeSpec &spec) {
         tokens.push_back(next);
     } while (1);
 
-    if (tokens.empty())
+    if (tokens.eof())
         return true;
 
     /* desc "string" */
@@ -2269,7 +2270,7 @@ bool read_opcode_spec_opcode_parens(tokenlist &parent_tokens,OpcodeSpec &spec) {
 }
 
 bool read_opcode_spec(OpcodeSpec &spec,tokenlist &tokens) {
-    if (tokens.empty())
+    if (tokens.eof())
         return true; /* not an error */
 
     /* prefix "name" (...) (...) (...) */
@@ -2531,11 +2532,53 @@ bool process_block(tokenlist &tokens) {
             return false;
         }
 
-        if (!result.to_bool())
-            return true;
+        if (tokens.peek().type == TOK_OPEN_CURLYBRACKET) {
+            tokens.discard();
 
-        /* fall through to parse tokens after IF statement */
+            if (!tokens.eof()) {
+                fprintf(stderr,"if { unexpected token '%s'\n",tokens.peek().type_str());
+                return false;
+            }
+
+            push_if_block.push(if_block_enable);
+            if_block_enable = if_block_enable && result.to_bool();
+        }
+        else {
+            if (!result.to_bool())
+                return true;
+
+            /* fall through to parse tokens after IF statement */
+        }
     }
+
+    if (tokens.peek(0).type == TOK_CLOSE_CURLYBRACKET && tokens.peek(1).type == TOK_IF) {
+        tokens.discard(2);
+
+        if (push_if_block.empty()) {
+            fprintf(stderr,"} if unexpected, not within any if { blocks\n");
+            return false;
+        }
+
+        if_block_enable = push_if_block.top();
+        push_if_block.pop();
+
+        /* comment() is allowed to follow */
+        if (tokens.peek().type == TOK_COMMENT) {
+            if (!process_block(tokens))
+                return false;
+        }
+
+        if (!tokens.eof()) {
+            fprintf(stderr,"} if unexpected token '%s'\n",tokens.peek().type_str());
+            return false;
+        }
+
+        return true;
+    }
+
+    /* parse nothing beyond this point if within an if block that eval'd to false */
+    if (!if_block_enable)
+        return true;
 
     /* log ... */
     /* error ... */
@@ -2648,7 +2691,7 @@ bool read_opcode_block(void) {
             if (!toke(/*&*/tok)) {
                 if (tok.type == TOK_ERROR)
                     goto token_error;
-                if (tokens.empty())
+                if (tokens.eof())
                     return false;
 
                 goto unexpected_end;
