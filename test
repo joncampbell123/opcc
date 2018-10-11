@@ -281,6 +281,9 @@ log format("Hello world ", ((1.5*3)+0.5)*5);
 log ("hello" + " " + "world");
 log ("hello" + " " + "world" + " " + 12345);
 
+set "test" ("hello" + " " + ((100*7)+68) + " " + "aaaa");
+log value("test");
+
 warning "hello";
 warning 5;
 warning 1.234;
