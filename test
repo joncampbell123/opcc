@@ -38,13 +38,13 @@ prefix "SS:"
 comment "log allows human readable commentary inline to this spec";
 log "testing 1 2 3";
 log format("hello");
-log format("hello " 123456 " world");
-log format("hello " 1.234 " world");
-log format("hello " -123456 " world");
-log format("hello " -123456 " " -1.234 " world");
-log format("hello" " " "world");
-log format("hello " format(123456 " world"));
-log format("hello " format(123 " " format(456 " ") "world"));
+log format("hello ", 123456, " world");
+log format("hello ", 1.234,  " world");
+log format("hello ", -123456, " world");
+log format("hello ", -123456, " ", -1.234, " world");
+log format("hello", " ", "world");
+log format("hello ", format(123456, " world"));
+log format("hello ", format(123, " ", format(456, " "), "world"));
 
 set "hello" 3;
 log value("hello");
@@ -58,29 +58,29 @@ log value("hello");
 set "hello" -3.14;
 log value("hello");
 
-set "hello" format("hello " 123 " world");
+set "hello" format("hello ", 123, " world");
 log value("hello");
 
 log "The following is a value() expression";
 log value("hello");
 log isset("hello");
-log format("is set: " isset("hello"));
+log format("is set: ", isset("hello"));
 
 log "and with format()";
-log format("hello world value() expression = \"" value("hello") "\"");
+log format("hello world value() expression = \"", value("hello"), "\"");
 
 log "The following is a value() expression that does not exist";
 log value("hello world");
 
 unset "hello";
 log isset("hello");
-log format("is set: " isset("hello"));
+log format("is set: ", isset("hello"));
 
 log "The following is a value() expression after unset";
 log value("hello");
 
 set "hello" "123";
-set "hello" format(value("hello") " 456");
+set "hello" format(value("hello"), " 456");
 log value("hello");
 
 if  1           log     "log if  1, true";
@@ -122,7 +122,7 @@ if "test" == "test" log "log if 'test' == 'test', true";
 if not "test" == "test" error "log if 'test' == 'test', should not happen";
 if "test" == "not" error "log if 'test' == 'not', should not happen";
 
-log format("Reminder: value 'hello' is " value("hello"));
+log format("Reminder: value 'hello' is ", value("hello"));
 if value("hello") == "123 456" log "log if value('hello') == '123 456', true";
 if not value("hello") == "123 456" log "log if not value('hello') == '123 456', should not happen";
 
@@ -166,32 +166,32 @@ if 0 xor 1      log     "log if 0 xor 1, true";
 if 1 xor 0      log     "log if 1 xor 0, true";
 if 1 xor 1      error   "log if 1 xor 1, should not happen";
 
-log format("3&2 = " 3&2);
-log format("4&8 = " 4&8);
-log format("1&1 = " 1&1);
-log format("3&1 = " 3&1);
-log format("7&3&1 = " 7&3&1);
+log format("3&2 = ", 3&2);
+log format("4&8 = ", 4&8);
+log format("1&1 = ", 1&1);
+log format("3&1 = ", 3&1);
+log format("7&3&1 = ", 7&3&1);
 
-log format("2|1 = " 2|1);
-log format("2|4 = " 2|6);
-log format("1|2|4 = " 1|2|4);
+log format("2|1 = ", 2|1);
+log format("2|4 = ", 2|6);
+log format("1|2|4 = ", 1|2|4);
 
-log format("1^2 = " 1^2);
-log format("2^4 = " 2^4);
-log format("7^3 = " 7^3);
-log format("1^2^4^8 = " 1^2^4^8);
+log format("1^2 = ", 1^2);
+log format("2^4 = ", 2^4);
+log format("7^3 = ", 7^3);
+log format("1^2^4^8 = ", 1^2^4^8);
 
-log format("1+2 = " 1+2);
-log format("2+4 = " 2+4);
-log format("1+2+4 = " 1+2+4);
-log format("1+2+4+8 = " 1+2+4+8);
-log format("1+1+1+1+1 = " 1+1+1+1+1);
+log format("1+2 = ", 1+2);
+log format("2+4 = ", 2+4);
+log format("1+2+4 = ", 1+2+4);
+log format("1+2+4+8 = ", 1+2+4+8);
+log format("1+1+1+1+1 = ", 1+1+1+1+1);
 
-log format("2-1 = " 2-1);
-log format("8-4 = " 8-4);
-log format("8-4-2 = " 8-4-2);
-log format("4-2 = " 4-2);
-log format("4-1-1-1-1 = " 4-1-1-1-1);
+log format("2-1 = ", 2-1);
+log format("8-4 = ", 8-4);
+log format("8-4-2 = ", 8-4-2);
+log format("4-2 = ", 4-2);
+log format("4-1-1-1-1 = ", 4-1-1-1-1);
 
 log 2*2;
 log 2*2*2;
@@ -212,7 +212,7 @@ log 6%3;
 log 1.5%3;
 log 4.5%3;
 
-log format("2 == 2    " 2 == 2);
+log format("2 == 2    ", 2 == 2);
 
 log ~0;
 log ~1;
@@ -220,34 +220,34 @@ log ~~0;
 log ~~1;
 
 set "number" 3;
-log format("number=" value("number"));
-log format("number=~=" ~value("number"));
-log format("number=!=" !value("number"));
-log format("number=!!=" !!value("number"));
-log format("number=not=" !value("number"));
-log format("number=not not=" not not value("number"));
-log format("number=-=" -value("number"));
-log format("number=-=" unsigned(-value("number")));
-log format("number=-=" signed(unsigned(-value("number"))));
-log format("number=~=" signed(~value("number")));
+log format("number=", value("number"));
+log format("number=~=", ~value("number"));
+log format("number=!=", !value("number"));
+log format("number=!!=", !!value("number"));
+log format("number=not=", !value("number"));
+log format("number=not not=", not not value("number"));
+log format("number=-=", -value("number"));
+log format("number=-=", unsigned(-value("number")));
+log format("number=-=", signed(unsigned(-value("number"))));
+log format("number=~=", signed(~value("number")));
 
-log format("number hexstring=" hexstring(value("number")));
-log format("number hexstring=~=" hexstring(~value("number")));
+log format("number hexstring=", hexstring(value("number")));
+log format("number hexstring=~=", hexstring(~value("number")));
 
-log format("number octstring=" octstring(value("number")));
-log format("number octstring=~=" octstring(~value("number")));
+log format("number octstring=", octstring(value("number")));
+log format("number octstring=~=", octstring(~value("number")));
 
-log format("number binstring=" binstring(value("number")));
-log format("number binstring=~=" binstring(~value("number")));
+log format("number binstring=", binstring(value("number")));
+log format("number binstring=~=", binstring(~value("number")));
 
-log format("number string=" string(321));
-log format("number string=" string(value("number")));
-log format("valuetype number=" valuetype("number"));
-log format("valuetype hello=" valuetype("hello"));
-log format("valuetype bye=" valuetype("bye"));
+log format("number string=", string(321));
+log format("number string=", string(value("number")));
+log format("valuetype number=", valuetype("number"));
+log format("valuetype hello=", valuetype("hello"));
+log format("valuetype bye=", valuetype("bye"));
 
 set "number" 3.4;
-log format("number=-=" -value("number"));
+log format("number=-=", -value("number"));
 
 log format();
 if format()     error   "log if format(), should not happen";
@@ -272,7 +272,7 @@ warning "hello";
 warning 5;
 warning 1.234;
 warning isset("hello");
-warning format("hello " value("hello"));
+warning format("hello ", value("hello"));
 
 unknown opcode silent;
 unknown opcode ud;

@@ -2448,20 +2448,13 @@ bool eval_format(std::string &msg,tokenlist &tokens) {
     do {
         tokenstate_t result;
 
-        if (tokens.peek(0).type == TOK_FORMAT) {
-            tokens.discard();
-
-            // subexpression
-            std::string submsg;
-
-            if (!eval_format(submsg,tokens))
-                return false;
-
-            msg += submsg;
-        }
-        else if (tokens.peek(0).type == TOK_CLOSE_PARENS) {
+        if (tokens.peek(0).type == TOK_CLOSE_PARENS) {
             tokens.discard();
             break;
+        }
+        else if (tokens.peek(0).type == TOK_COMMA) {
+            tokens.discard();
+            // ignore
         }
         else {
             if (!eval_if_condition(/*&*/result,/*&*/tokens)) {
@@ -2470,6 +2463,20 @@ bool eval_format(std::string &msg,tokenlist &tokens) {
             }
 
             msg += result.to_string();
+
+            // followed by a comma, or else
+            if (tokens.peek(0).type == TOK_COMMA) {
+                tokens.discard();
+                // good!
+            }
+            else if (tokens.peek(0).type == TOK_CLOSE_PARENS) {
+                tokens.discard();
+                break;
+            }
+            else {
+                fprintf(stderr,"Format parsing, unexpected token\n");
+                return false;
+            }
         }
     } while (1);
 
