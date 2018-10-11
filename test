@@ -213,6 +213,17 @@ log 8/2/2;
 log format("2 == 2    " 2 == 2);
 log format("8/4 == 2  " 8/4 " " 8/4 == 2);
 
+log 4%2;
+log 5%2;
+log 6%2;
+log 3%3;
+log 4%3;
+log 5%3;
+log 6%3;
+
+log format("2 == 2    " 2 == 2);
+log format("8%3 == 2  " 8%3 " " 8%3 == 2);
+
 log ~0;
 log ~1;
 log ~~0;
