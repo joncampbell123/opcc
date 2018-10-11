@@ -285,27 +285,27 @@ set "test" ("hello" + " " + ((100*7)+68) + " " + "aaaa");
 log value("test");
 
 if 1 {;
-log "if 1 block (1)";
+  log "if 1 block (1)";
 } if;
 
 if 1 {;
-log "if 1 block (2)";
+  log "if 1 block (2)";
 } if comment "end if 1";
 
 if 0 {;
-error "if 0 block (1)";
+  error "if 0 block (1)";
 } if;
 
 if 0 {;
-if 1 {;
-error "if 0 if 1 block (1)";
-} if;
+  if 1 {;
+    error "if 0 if 1 block (1)";
+  } if;
 } if;
 
 if 1 {;
-if 1 {;
-log "if 1 if 1 block (1)";
-} if;
+  if 1 {;
+    log "if 1 if 1 block (1)";
+  } if;
 } if;
 
 log "This should appear";
