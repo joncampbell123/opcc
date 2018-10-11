@@ -141,6 +141,13 @@ if 99 >= 55     log     "log if 99 >= 55, true";
 if 55 <= 55     log     "log if 55 <= 55, true";
 if 55 <= 99     log     "log if 55 <= 99, true";
 
+if 1 and 1      log     "log if 1 and 1, true";
+if 0 and 1      error   "log if 0 and 1, should not happen";
+if 1 and 0      error   "log if 1 and 0, should not happen";
+if 0 and 0      error   "log if 0 and 0, should not happen";
+if 1 and 2      log     "log if 1 and 2, true";
+if 4 and 256    log     "log if 4 and 256, true";
+
 log ~0;
 log ~1;
 log ~~0;
