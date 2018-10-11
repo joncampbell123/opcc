@@ -1744,7 +1744,7 @@ bool eval_if_condition(tokenstate_t &result,tokenlist &tokens) {
 
         tokenstate_t res2;
 
-        if (!eval_if_condition_block(res2,tokens))
+        if (!eval_if_condition(res2,tokens))
             return false;
 
         bool expr_result = (result.to_bool() && res2.to_bool());

@@ -148,6 +148,11 @@ if 0 and 0      error   "log if 0 and 0, should not happen";
 if 1 and 2      log     "log if 1 and 2, true";
 if 4 and 256    log     "log if 4 and 256, true";
 
+if 1 and 2 and 3 log    "log if 1 and 2 and 3, true";
+if 1 and 2 and 3 and 4 log "log if 1 and 2 and 3 and 4, true";
+if 0 and 1 and 2 and 3 and 4 error "log if 0 and 1 and 2 and 3 and 4";
+if 4 and 0 and 2 and 1 and 3 error "log if 4 and 0 and 2 and 1 and 3";
+
 log ~0;
 log ~1;
 log ~~0;
