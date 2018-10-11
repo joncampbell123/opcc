@@ -164,6 +164,7 @@ enum tokentype_t {
     TOK_OR,
     TOK_XOR,
     TOK_AMPERSAND,
+    TOK_PIPE,                   // 150
 
     TOK_MAX
 };
@@ -318,7 +319,8 @@ const char *tokentype_str[TOK_MAX] = {
     "AND",
     "OR",
     "XOR",
-    "AMPERSAND"
+    "AMPERSAND",
+    "PIPE"                      // 150
 };
 
 struct tokenstate_t {
@@ -661,6 +663,7 @@ bool toke(tokenstate_t &tok) {
             }
 
             return true;
+        case '|': tok.type = TOK_PIPE;          return true;
         case '&': tok.type = TOK_AMPERSAND;     return true;
         case '!': tok.type = TOK_NOT;           return true;
         case '~': tok.type = TOK_NEGATE;        return true;
@@ -1802,6 +1805,24 @@ bool eval_if_condition(tokenstate_t &result,tokenlist &tokens) {
             return false;
 
         unsigned long long res = result.to_intval_u() & res2.to_intval_u();
+
+        result.intval.u = res;
+        if (result.type == TOK_INT || res2.type == TOK_INT)
+            result.type = TOK_INT;
+        else if (result.type == TOK_FLOAT || res2.type == TOK_FLOAT)
+            result.type = TOK_INT;
+        else
+            result.type = TOK_UINT;
+    }
+    else if (tokens.peek().type == TOK_PIPE) {
+        tokens.discard();
+
+        tokenstate_t res2;
+
+        if (!eval_if_condition(res2,tokens))
+            return false;
+
+        unsigned long long res = result.to_intval_u() | res2.to_intval_u();
 
         result.intval.u = res;
         if (result.type == TOK_INT || res2.type == TOK_INT)
