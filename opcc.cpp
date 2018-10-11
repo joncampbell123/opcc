@@ -705,29 +705,7 @@ bool toke(tokenstate_t &tok) {
         case '&': tok.type = TOK_AMPERSAND;     return true;
         case '!': tok.type = TOK_NOT;           return true;
         case '~': tok.type = TOK_NEGATE;        return true;
-        case '-':
-            tok.type = TOK_MINUS;
-
-            /* minus immediately followed by numeric digits means a negative number */
-            chr = tokechar();
-            untokechar(chr); /* we're peeking, actually */
-
-            if (isdigit(chr)) {
-                if (!toke(tok)) return false; // recursion!
-                if (tok.type == TOK_UINT) {
-                    tok.type = TOK_INT;
-                    tok.intval.i = -tok.intval.i;
-                }
-                else if (tok.type == TOK_FLOAT) {
-                    tok.floatval = -tok.floatval;
-                }
-                else {
-                    /* wait, what? */
-                    fprintf(stderr,"Unexpected token error, negative number '-' case\n");
-                    return false;
-                }
-            }
-            return true;
+        case '-': tok.type = TOK_MINUS;         return true;
         default:
             break;
     };
