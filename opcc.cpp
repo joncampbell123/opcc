@@ -162,6 +162,7 @@ enum tokentype_t {
     TOK_GREATERTHANOREQUALS,    // 145
     TOK_AND,
     TOK_OR,
+    TOK_XOR,
 
     TOK_MAX
 };
@@ -314,7 +315,8 @@ const char *tokentype_str[TOK_MAX] = {
     "LESSTHANOREQUALS",
     "GREATERTHANOREQUALS",      // 145
     "AND",
-    "OR"
+    "OR",
+    "XOR"
 };
 
 struct tokenstate_t {
@@ -1285,6 +1287,10 @@ bool toke(tokenstate_t &tok) {
             tok.type = TOK_NOT;
             return true;
         }
+        if (tok.string == "XOR") {
+            tok.type = TOK_XOR;
+            return true;
+        }
         if (tok.string == "AND") {
             tok.type = TOK_AND;
             return true;
@@ -1767,6 +1773,19 @@ bool eval_if_condition(tokenstate_t &result,tokenlist &tokens) {
             return false;
 
         bool expr_result = (result.to_bool() || res2.to_bool());
+
+        result.type = TOK_BOOLEAN;
+        result.intval.u = expr_result ? 1ull : 0ull;
+    }
+    else if (tokens.peek().type == TOK_XOR) {
+        tokens.discard();
+
+        tokenstate_t res2;
+
+        if (!eval_if_condition(res2,tokens))
+            return false;
+
+        bool expr_result = (result.to_bool() ^ res2.to_bool());
 
         result.type = TOK_BOOLEAN;
         result.intval.u = expr_result ? 1ull : 0ull;
