@@ -622,6 +622,37 @@ static tokenstate_t operator+(const tokenstate_t &in,const tokenstate_t &ext) {
     return in_copy + ext_copy;
 }
 
+static tokenstate_t operator-(const tokenstate_t &in,const tokenstate_t &ext) {
+    tokenstate_t ret;
+
+    if (in.type == ext.type) {
+        if (in.type == TOK_UINT) {
+            ret.type = in.type;
+            ret.intval.u = in.intval.u - ext.intval.u;
+        }
+        else if (in.type == TOK_INT) {
+            ret.type = in.type;
+            ret.intval.i = in.intval.i - ext.intval.i;
+        }
+        else if (in.type == TOK_BOOLEAN) {
+            ret.type = in.type;
+            ret.intval.u = in.intval.u - ext.intval.u;
+        }
+        else if (in.type == TOK_FLOAT) {
+            ret.type = in.type;
+            ret.floatval = in.floatval - ext.floatval;
+        }
+
+        return ret;
+    }
+
+    tokenstate_t in_copy = in,ext_copy = ext;
+
+    tokenstate_t::promote_for_comparison(in_copy,ext_copy);
+    assert(in_copy.type == ext_copy.type);
+    return in_copy - ext_copy;
+}
+
 FILE*           srcfp = NULL;
 std::string     srcfile;
 int             untoke = -1;
@@ -1707,6 +1738,7 @@ bool eval_if_condition(tokenstate_t &result,tokenlist &tokens) {
     if (!eval_if_condition_block(result,tokens))
         return false;
 
+again:
     /* if the next token is == then this is a comparison */
     if (tokens.peek().type == TOK_DOUBLEEQUALS) {
         tokens.discard();
@@ -1875,6 +1907,20 @@ bool eval_if_condition(tokenstate_t &result,tokenlist &tokens) {
             return false;
 
         result = result + res2;
+    }
+    else if (tokens.peek().type == TOK_MINUS) {
+        tokens.discard();
+
+        tokenstate_t res2;
+
+        /* eval pair by pair forwards, so that expressions like 8-4-2-1 evaluate in order and produce (((8-4)-2)-1) = 1
+         * instead of recursion that would produce (8-(4-(2-1))) = 5 */
+        if (!eval_if_condition_block(res2,tokens))
+            return false;
+
+        result = result - res2;
+
+        goto again;
     }
  
     return true;

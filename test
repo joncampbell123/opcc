@@ -190,6 +190,15 @@ log format("1+2+4 = " 1+2+4);
 log format("1+2+4+8 = " 1+2+4+8);
 log format("1+1+1+1+1 = " 1+1+1+1+1);
 
+log format("2-1 = " 2-1);
+log format("8-4 = " 8-4);
+log format("8-4-2 = " 8-4-2);
+log format("4-2 = " 4-2);
+log format("4-1-1-1-1 = " 4-1-1-1-1);
+
+if 10 - 5 == 5 log "10 - 5 == 5";
+if 9 - 5 == 5 error "9 - 5 == 5";
+
 log ~0;
 log ~1;
 log ~~0;
