@@ -170,6 +170,8 @@ enum tokentype_t {
     TOK_ASTERISK,
     TOK_SLASH,
     TOK_PERCENT,
+    TOK_OPEN_CURLYBRACKET,      // 155
+    TOK_CLOSE_CURLYBRACKET,
 
     TOK_MAX
 };
@@ -329,7 +331,9 @@ const char *tokentype_str[TOK_MAX] = {
     "CARET",
     "ASTERISK",
     "SLASH",
-    "PERCENT"
+    "PERCENT",
+    "OPEN_CURLYBRACKET",        // 155
+    "CLOSE_CURLYBRACKET"
 };
 
 struct tokenstate_t {
@@ -840,6 +844,8 @@ bool toke(tokenstate_t &tok) {
         case '!': tok.type = TOK_NOT;           return true;
         case '~': tok.type = TOK_NEGATE;        return true;
         case '-': tok.type = TOK_MINUS;         return true;
+        case '{': tok.type = TOK_OPEN_CURLYBRACKET; return true;
+        case '}': tok.type = TOK_CLOSE_CURLYBRACKET; return true;
         default:
             break;
     };
