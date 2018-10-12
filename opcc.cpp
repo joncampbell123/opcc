@@ -1528,6 +1528,9 @@ bool toke(tokenstate_t &tok) {
     return false;
 }
 
+std::string march = "";
+std::string fpuarch = "";
+
 int parse_argv(int argc,char **argv) {
     char *a;
     int i;
@@ -1542,6 +1545,16 @@ int parse_argv(int argc,char **argv) {
                 a = argv[i++];
                 if (a == NULL) return 1;
                 srcfile = a;
+            }
+            else if (!strcmp(a,"march")) {
+                a = argv[i++];
+                if (a == NULL) return 1;
+                march = a;
+            }
+            else if (!strcmp(a,"fpuarch")) {
+                a = argv[i++];
+                if (a == NULL) return 1;
+                fpuarch = a;
             }
             else {
                 fprintf(stderr,"Unknown sw %s\n",a);
@@ -2765,13 +2778,64 @@ unexpected_token:
 }
 
 int main(int argc,char **argv) {
+    /* setup predefined values */
+    defines["dialect"] = "intel-x86";
+
     if (parse_argv(argc,argv))
         return 1;
 
-    /* setup predefined values */
-    defines["dialect"] = "intel-x86";
-    defines["cpulevel"] = 86;
-    defines["fpulevel"] = 87;
+    if (march.empty())
+        march = "8086";
+
+    if (march == "8086") {
+        if (fpuarch.empty())
+            fpuarch = "8087";
+
+        defines["cpulevel"] = 86;
+    }
+    else if (march == "80186") {
+        if (fpuarch.empty())
+            fpuarch = "8087";
+
+        defines["cpulevel"] = 186;
+    }
+    else if (march == "80286" || march == "286") {
+        if (fpuarch.empty())
+            fpuarch = "80287";
+
+        defines["cpulevel"] = 286;
+    }
+    else if (march == "80386" || march == "386") {
+        if (fpuarch.empty())
+            fpuarch = "80387";
+
+        defines["cpulevel"] = 386;
+    }
+    else if (march == "80486" || march == "486") {
+        if (fpuarch.empty())
+            fpuarch = "80387";
+
+        defines["cpulevel"] = 486;
+    }
+    else {
+        fprintf(stderr,"Unknown march '%s'\n",march.c_str());
+        return 1;
+    }
+
+    if (fpuarch == "8087" || fpuarch == "80187") {
+        defines["fpulevel"] = 87;
+    }
+    else if (fpuarch == "80287" || fpuarch == "287") {
+        defines["fpulevel"] = 287;
+    }
+    else if (fpuarch == "80387" || fpuarch == "387" ||
+             fpuarch == "80487" || fpuarch == "487") {
+        defines["fpulevel"] = 387;
+    }
+    else {
+        fprintf(stderr,"Unknown fpuarch '%s'\n",fpuarch.c_str());
+        return 1;
+    }
 
     if ((srcfp=fopen(srcfile.c_str(),"r")) == NULL) {
         fprintf(stderr,"Unable to open file '%s', %s\n",srcfile.c_str(),strerror(errno));
