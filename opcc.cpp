@@ -173,6 +173,7 @@ enum tokentype_t {
     TOK_PERCENT,
     TOK_OPEN_CURLYBRACKET,      // 155
     TOK_CLOSE_CURLYBRACKET,
+    TOK_DIALECT,
 
     TOK_MAX
 };
@@ -334,11 +335,19 @@ const char *tokentype_str[TOK_MAX] = {
     "SLASH",
     "PERCENT",
     "OPEN_CURLYBRACKET",        // 155
-    "CLOSE_CURLYBRACKET"
+    "CLOSE_CURLYBRACKET",
+    "DIALECT"
 };
 
 std::stack<bool>    push_if_block;
 bool                if_block_enable = true;
+
+bool supported_dialect(const std::string &d) {
+    if (d == "intel-x86")
+        return true;
+
+    return false;
+}
 
 struct tokenstate_t {
     enum tokentype_t    type = TOK_NONE;
@@ -1497,6 +1506,10 @@ bool toke(tokenstate_t &tok) {
             tok.type = TOK_VALUETYPE;
             return true;
         }
+        if (tok.string == "DIALECT") {
+            tok.type = TOK_DIALECT;
+            return true;
+        }
     }
 
     tok.type = TOK_ERROR;
@@ -2549,6 +2562,24 @@ bool process_block(tokenlist &tokens) {
 
             /* fall through to parse tokens after IF statement */
         }
+    }
+
+    /* dialect "string" */
+    if (tokens.peek(0).type == TOK_DIALECT && tokens.peek(1).type == TOK_STRING) {
+        std::string dialect = tokens.peek(1).string;
+        tokens.discard(2);
+
+        if (!tokens.eof()) {
+            fprintf(stderr,"Desc unexpected tokens\n");
+            return false;
+        }
+
+        if (!supported_dialect(dialect)) {
+            fprintf(stderr,"This compiler does not support dialect '%s'\n",dialect.c_str());
+            return false;
+        }
+
+        return true;
     }
 
     if (tokens.peek(0).type == TOK_CLOSE_CURLYBRACKET && tokens.peek(1).type == TOK_IF) {

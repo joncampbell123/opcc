@@ -1,3 +1,4 @@
+dialect "intel-x86";
 
 prefix "CS:"
   (comment "Segment override prefix")
