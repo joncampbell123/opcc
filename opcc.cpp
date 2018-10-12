@@ -358,6 +358,12 @@ struct tokenstate_t {
     } intval;
     long double         floatval = 0;
 
+    tokenstate_t &operator=(const std::string &x) {
+        type = TOK_STRING;
+        string = x;
+        return *this;
+    }
+
     static void promote_for_comparison(tokenstate_t &p1,tokenstate_t &p2) {
         if (p1.type == TOK_STRING || p2.type == TOK_STRING) {
             p1.string = p1.to_string();
@@ -2755,6 +2761,9 @@ unexpected_token:
 int main(int argc,char **argv) {
     if (parse_argv(argc,argv))
         return 1;
+
+    /* setup predefined values */
+    defines["dialect"] = "intel-x86";
 
     if ((srcfp=fopen(srcfile.c_str(),"r")) == NULL) {
         fprintf(stderr,"Unable to open file '%s', %s\n",srcfile.c_str(),strerror(errno));
