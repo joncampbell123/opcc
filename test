@@ -1,5 +1,8 @@
 dialect "intel-x86";
 
+log ("cpulevel: " + value("cpulevel"));
+log ("fpulevel: " + value("fpulevel"));
+
 prefix "CS:"
   (comment "Segment override prefix")
   (desc "CS segment override")
