@@ -175,6 +175,8 @@ enum tokentype_t {
     TOK_CLOSE_CURLYBRACKET,
     TOK_DIALECT,
     TOK_ELSE,
+    TOK_LEFT_SHIFT,
+    TOK_RIGHT_SHIFT,            // 160
 
     TOK_MAX
 };
@@ -338,7 +340,9 @@ const char *tokentype_str[TOK_MAX] = {
     "OPEN_CURLYBRACKET",        // 155
     "CLOSE_CURLYBRACKET",
     "DIALECT",
-    "ELSE"
+    "ELSE",
+    "LEFT_SHIFT",
+    "RIGHT_SHIFT"               // 160
 };
 
 bool supported_dialect(const std::string &d) {
@@ -845,6 +849,9 @@ bool toke(tokenstate_t &tok) {
             if (chr == '=') {
                 tok.type = TOK_LESSTHANOREQUALS;
             }
+            else if (chr == '<') {
+                tok.type = TOK_LEFT_SHIFT;
+            }
             else {
                 untokechar(chr);
             }
@@ -856,6 +863,9 @@ bool toke(tokenstate_t &tok) {
             chr = tokechar();
             if (chr == '=') {
                 tok.type = TOK_GREATERTHANOREQUALS;
+            }
+            else if (chr == '>') {
+                tok.type = TOK_RIGHT_SHIFT;
             }
             else {
                 untokechar(chr);
