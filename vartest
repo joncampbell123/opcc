@@ -1,0 +1,353 @@
+dialect "intel-x86";
+
+log ("cpulevel: " + value("cpulevel"));
+log ("fpulevel: " + value("fpulevel"));
+
+prefix "CS:"
+  (comment "Segment override prefix")
+  (desc "CS segment override")
+  (code 0x2E)
+  (seg=cs);
+
+prefix "DS:"
+  (comment "Segment override prefix")
+  (desc "DS segment override")
+  (code 0x3E)
+  (seg=ds);
+
+prefix "ES:"
+  (comment "Segment override prefix")
+  (desc "ES segment override")
+  (code 0x26)
+  (seg=es);
+
+if value("cpulevel") >= 386
+prefix "FS:"
+  (comment "386 Segment override prefix")
+  (desc "FS segment override")
+  (code 0x64)
+  (seg=fs);
+
+if value("cpulevel") >= 386
+prefix "GS:"
+  (comment "386 Segment override prefix")
+  (desc "GS segment override")
+  (code 0x65)
+  (seg=gs);
+
+prefix "SS:"
+  (comment "Segment override prefix")
+  (desc "SS segment override")
+  (code 0x36)
+  (seg=ss);
+
+comment "log allows human readable commentary inline to this spec";
+log "testing 1 2 3";
+log format("hello");
+log format("hello ", 123456, " world");
+log format("hello ", 1.234,  " world");
+log format("hello ", -123456, " world");
+log format("hello ", -123456, " ", -1.234, " world");
+log format("hello", " ", "world");
+log format("hello ", format(123456, " world"));
+log format("hello ", format(123, " ", format(456, " "), "world"));
+
+set "hello" 3;
+log value("hello");
+
+set "hello" -3;
+log value("hello");
+
+set "hello" 3.14;
+log value("hello");
+
+set "hello" -3.14;
+log value("hello");
+
+set "hello" format("hello ", 123, " world");
+log value("hello");
+
+log "The following is a value() expression";
+log value("hello");
+log isset("hello");
+log format("is set: ", isset("hello"));
+
+log "and with format()";
+log format("hello world value() expression = \"", value("hello"), "\"");
+
+log "The following is a value() expression that does not exist";
+log value("hello world");
+
+unset "hello";
+log isset("hello");
+log format("is set: ", isset("hello"));
+
+log "The following is a value() expression after unset";
+log value("hello");
+
+set "hello" "123";
+set "hello" format(value("hello"), " 456");
+log value("hello");
+
+if  1           log     "log if  1, true";
+if  0           error   "log if  0, should not happen";
+if -1           error   "log if -1, should not happen";
+if  "string"    log     "log if  string, true";
+if  ""          error   "log if  empty string, should not happen";
+if  1.0         log     "log if  1.0, true";
+if  1.1         log     "log if  1.1, true";
+if -1.0         error   "log if -1.0, should not happen";
+if -1.1         error   "log if -1.1, should not happen";
+if  0.0         error   "log if  0.0, should not happen";
+if -0.0         error   "log if -0.0, should not happen";
+if  0.5         log     "log if  0.5, true";
+if -0.5         error   "log if -0.5, should not happen";
+if true         log     "log if true, true";
+if false        error   "log if false, should not happen";
+
+if isset("hello") log   "log if isset hello, true";
+if isset("bye") error   "log if isset bye, should not happen";
+if value("hello") log   "log if value hello, true";
+if value("bye") error   "log if value bye, should not happen";
+
+if not 1        error   "log if not 1, should not happen";
+if not 0        log     "log if not 0, true";
+
+if !1           error   "log if !1, should not happen";
+if !0           log     "log if !0, true";
+
+if !!1          log     "log if !!1, true";
+if !!0          error   "log if !!0, should not happen";
+
+if 0 == 0       log     "log if 0 == 0, true";
+if not 0 == 0   error   "log if not 0 == 0, should not happen";
+
+if 1 == 1       log     "log if 1 == 1, true";
+
+if "test" == "test" log "log if 'test' == 'test', true";
+if not "test" == "test" error "log if 'test' == 'test', should not happen";
+if "test" == "not" error "log if 'test' == 'not', should not happen";
+
+log format("Reminder: value 'hello' is ", value("hello"));
+if value("hello") == "123 456" log "log if value('hello') == '123 456', true";
+if not value("hello") == "123 456" log "log if not value('hello') == '123 456', should not happen";
+
+if 4.3 == 4.3    log    "log if 4.3 == 4.3, true";
+if not 4.3 == 4.3 error "log if not 4.3 == 4.3, should not happen";
+
+if 99 > 55      log     "log if 99 > 55, true";
+if 55 > 99      error   "log if 55 > 99, should not happen";
+
+if 55 < 99      log     "log if 55 < 99, true";
+if 99 < 55      error   "log if 99 < 55, should not happen";
+
+if 55 >= 55     log     "log if 55 >= 55, true";
+if 99 >= 55     log     "log if 99 >= 55, true";
+
+if 55 <= 55     log     "log if 55 <= 55, true";
+if 55 <= 99     log     "log if 55 <= 99, true";
+
+if 1 and 1      log     "log if 1 and 1, true";
+if 0 and 1      error   "log if 0 and 1, should not happen";
+if 1 and 0      error   "log if 1 and 0, should not happen";
+if 0 and 0      error   "log if 0 and 0, should not happen";
+if 1 and 2      log     "log if 1 and 2, true";
+if 4 and 256    log     "log if 4 and 256, true";
+
+if 1 and 2 and 3 log    "log if 1 and 2 and 3, true";
+if 1 and 2 and 3 and 4 log "log if 1 and 2 and 3 and 4, true";
+if 0 and 1 and 2 and 3 and 4 error "log if 0 and 1 and 2 and 3 and 4";
+if 4 and 0 and 2 and 1 and 3 error "log if 4 and 0 and 2 and 1 and 3";
+
+if 0 or 0       error   "log if 0 or 0, should not happen";
+if 0 or 1       log     "log if 0 or 1, true";
+if 1 or 0       log     "log if 1 or 0, true";
+if 1 or 1       log     "log if 1 or 1, true";
+
+if 0 or 0 or 0 or 0 or 0 or 0 error "log if 0 0 0 0 0 0 0 should not happen";
+if 0 or 0 or 0 or 0 or 1 or 0 log "log if 0 0 0 0 0 1 0 true";
+
+if 0 xor 0      error   "log if 0 xor 0, should not happen";
+if 0 xor 1      log     "log if 0 xor 1, true";
+if 1 xor 0      log     "log if 1 xor 0, true";
+if 1 xor 1      error   "log if 1 xor 1, should not happen";
+
+log format("3&2 = ", 3&2);
+log format("4&8 = ", 4&8);
+log format("1&1 = ", 1&1);
+log format("3&1 = ", 3&1);
+log format("7&3&1 = ", 7&3&1);
+
+log format("2|1 = ", 2|1);
+log format("2|4 = ", 2|6);
+log format("1|2|4 = ", 1|2|4);
+
+log format("1^2 = ", 1^2);
+log format("2^4 = ", 2^4);
+log format("7^3 = ", 7^3);
+log format("1^2^4^8 = ", 1^2^4^8);
+
+log format("1+2 = ", 1+2);
+log format("2+4 = ", 2+4);
+log format("1+2+4 = ", 1+2+4);
+log format("1+2+4+8 = ", 1+2+4+8);
+log format("1+1+1+1+1 = ", 1+1+1+1+1);
+
+log format("2-1 = ", 2-1);
+log format("8-4 = ", 8-4);
+log format("8-4-2 = ", 8-4-2);
+log format("4-2 = ", 4-2);
+log format("4-1-1-1-1 = ", 4-1-1-1-1);
+
+log 2*2;
+log 2*2*2;
+log 2*3*4;
+log 1.5*2;
+
+log 4/2;
+log 8/2/2;
+
+log 4%2;
+log 5%2;
+log 6%2;
+log 3%3;
+log 4%3;
+log 5%3;
+log 6%3;
+
+log 1.5%3;
+log 4.5%3;
+
+log format("2 == 2    ", 2 == 2);
+
+log ~0;
+log ~1;
+log ~~0;
+log ~~1;
+
+set "number" 3;
+log format("number=", value("number"));
+log format("number=~=", ~value("number"));
+log format("number=!=", !value("number"));
+log format("number=!!=", !!value("number"));
+log format("number=not=", !value("number"));
+log format("number=not not=", not not value("number"));
+log format("number=-=", -value("number"));
+log format("number=-=", unsigned(-value("number")));
+log format("number=-=", signed(unsigned(-value("number"))));
+log format("number=~=", signed(~value("number")));
+
+log format("number hexstring=", hexstring(value("number")));
+log format("number hexstring=~=", hexstring(~value("number")));
+
+log format("number octstring=", octstring(value("number")));
+log format("number octstring=~=", octstring(~value("number")));
+
+log format("number binstring=", binstring(value("number")));
+log format("number binstring=~=", binstring(~value("number")));
+
+log format("number string=", string(321));
+log format("number string=", string(value("number")));
+log format("valuetype number=", valuetype("number"));
+log format("valuetype hello=", valuetype("hello"));
+log format("valuetype bye=", valuetype("bye"));
+
+set "number" 3.4;
+log format("number=-=", -value("number"));
+
+log format();
+if format()     error   "log if format(), should not happen";
+if format("hello") log  "log if format hello, true";
+if format(value("hello")) log "log if format value hello, true";
+if format(value("bye")) error "log if format value bye, should not happen";
+if format("bye") log    "log if format bye, true";
+
+log 1;
+log -1;
+log 2;
+log -2;
+log 0.0;
+log 0.5;
+log 1.0;
+log -0.5;
+log -1.0;
+log true;
+log false;
+
+log (2+2);
+log (2+2)+2;
+log (2+2)+(2+2);
+log (2+2) == (2+2);
+log ((2+2)-2) == ((2-2)+2);
+
+if ((2+2)*4) == 16 log "((2+2)*4) == 16, true";
+
+log format("Hello world ", ((5*15)+5)*5);
+log format("Hello world ", ((1.5*3)+0.5)*5);
+log ("hello" + " " + "world");
+log ("hello" + " " + "world" + " " + 12345);
+
+set "test" ("hello" + " " + ((100*7)+68) + " " + "aaaa");
+log value("test");
+
+if 1 {;
+  log "if 1 block (1)";
+} if;
+
+if 1 {;
+  log "if 1 block (2)";
+} if comment "end if 1";
+
+if 0 {;
+  error "if 0 block (1)";
+} if;
+
+if 0 {;
+  if 1 {;
+    error "if 0 if 1 block (1)";
+  } if;
+} if;
+
+if 1 {;
+  if 1 {;
+    log "if 1 if 1 block (1)";
+  } if;
+} if;
+
+if 4 > 2 {;
+  log "if 4 > 2 block";
+} if;
+
+if 4 < 2 {;
+  error "if 4 < 2 block";
+} if;
+
+if (2*2*2) > (3*3) {;
+  error "if 2*2*2 > 3*3 block";
+} if;
+
+if (2*2*2*2) > (3*3) {;
+  log "if 2*2*2*2 > 3*3 block";
+} if;
+
+if isset("test") {;
+  log "isset test";
+} if;
+
+if isset("bye") {;
+  error "isset bye";
+} if;
+
+log "This should appear";
+
+warning "hello";
+warning 5;
+warning 1.234;
+warning isset("hello");
+warning format("hello ", value("hello"));
+
+unknown opcode silent;
+unknown opcode ud;
+opcode limit none;
+opcode limit 15;
+
