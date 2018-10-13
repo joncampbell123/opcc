@@ -2584,6 +2584,11 @@ bool process_if_block(const bool result_bool,tokenlist &tokens) {
             if (!process_block(tokens))
                 return false;
         }
+        else if (tokens.peek().type == TOK_IF) { /* if condition if condition (nested) */
+            tokens.discard();
+            if (!process_if_statement(tokens,/*suppress=*/true))
+                return false;
+        }
     }
 
     return true;
@@ -2613,13 +2618,15 @@ bool process_if_statement(tokenlist &tokens,bool suppress) {
             return false;
     }
     else {
+        if (tokens.peek().type == TOK_IF) {
+            /* supporting IF condition IF condition .... ELSE condition would be way too complicated to support.
+             * if you need nested IFs use the IF condition { ..... } IF form; */
+            fprintf(stderr,"nested IFs in a single block not allowed\n");
+            return false;
+        }
+
         if (result_bool && !suppress) {
             if (!process_block(tokens))
-                return false;
-        }
-        else if (tokens.peek().type == TOK_IF) { /* if condition if condition (nested) */
-            tokens.discard();
-            if (!process_if_statement(tokens,/*suppress=*/true))
                 return false;
         }
     }
@@ -2641,7 +2648,7 @@ bool process_if_statement(tokenlist &tokens,bool suppress) {
                 return false;
             }
 
-            if (!process_if_block(!result_bool,tokens))
+            if (!process_if_block(!result_bool && !suppress,tokens))
                 return false;
         }
         else {
@@ -2657,8 +2664,15 @@ bool process_if_statement(tokenlist &tokens,bool suppress) {
         }
     }
     else {
-        if (!process_block(tokens))
-            return false;
+        if (!suppress) {
+            if (!process_block(tokens))
+                return false;
+        }
+        else if (tokens.peek().type == TOK_IF) { /* if condition if condition (nested) */
+            tokens.discard();
+            if (!process_if_statement(tokens,suppress))
+                return false;
+        }
     }
 
     return true;
