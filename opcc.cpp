@@ -2619,7 +2619,9 @@ bool process_if_statement(tokenlist &tokens,bool suppress) {
     }
     else {
         if (tokens.peek().type == TOK_IF) {
-            /* supporting IF condition IF condition .... ELSE condition would be way too complicated to support.
+            /* supporting IF condition IF condition .... ELSE condition ELSE condition would be way too complicated to support
+             * especially if the ELSE is optional at any level.
+             *
              * if you need nested IFs use the IF condition { ..... } IF form; */
             fprintf(stderr,"nested IFs in a single block not allowed\n");
             return false;
