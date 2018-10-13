@@ -2398,12 +2398,6 @@ bool read_opcode_spec(OpcodeSpec &spec,tokenlist &tokens) {
 parse_error:
     fprintf(stderr,"Parse error\n");
     return false;
-unexpected_end:
-    fprintf(stderr,"Unexpected end of opcode\n");
-    return false;
-unexpected_token:
-    fprintf(stderr,"Unexpected token\n");
-    return false;
 }
 
 bool do_opcode_spec(tokenlist &tokens) {
@@ -2809,17 +2803,11 @@ bool read_opcode_token_block(tokenlist &tokens) {
         tokens.push_back(std::move(tok));
     } while(1);
 
-parse_error:
-    fprintf(stderr,"Parse error\n");
-    return false;
 token_error:
     fprintf(stderr,"Token error\n");
     return false;
 unexpected_end:
     fprintf(stderr,"Unexpected end of opcode\n");
-    return false;
-unexpected_token:
-    fprintf(stderr,"Unexpected token\n");
     return false;
 }
 
@@ -2831,21 +2819,10 @@ bool read_opcode_block(void) {
             return false;
 
         if (!process_block(/*&*/tokens))
-            break;
+            return false;
     } while (1);
 
-parse_error:
-    fprintf(stderr,"Parse error\n");
-    return false;
-token_error:
-    fprintf(stderr,"Token error\n");
-    return false;
-unexpected_end:
-    fprintf(stderr,"Unexpected end of opcode\n");
-    return false;
-unexpected_token:
-    fprintf(stderr,"Unexpected token\n");
-    return false;
+    return true;
 }
 
 int main(int argc,char **argv) {
