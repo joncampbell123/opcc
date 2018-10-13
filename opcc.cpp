@@ -2628,24 +2628,6 @@ bool process_block(tokenlist &tokens) {
         }
     }
 
-    /* dialect "string" */
-    if (tokens.peek(0).type == TOK_DIALECT && tokens.peek(1).type == TOK_STRING) {
-        std::string dialect = tokens.peek(1).string;
-        tokens.discard(2);
-
-        if (!tokens.eof()) {
-            fprintf(stderr,"Desc unexpected tokens\n");
-            return false;
-        }
-
-        if (!supported_dialect(dialect)) {
-            fprintf(stderr,"This compiler does not support dialect '%s'\n",dialect.c_str());
-            return false;
-        }
-
-        return true;
-    }
-
     if (tokens.peek(0).type == TOK_CLOSE_CURLYBRACKET && tokens.peek(1).type == TOK_IF) {
         tokens.discard(2);
 
@@ -2676,6 +2658,24 @@ bool process_block(tokenlist &tokens) {
     /* parse nothing beyond this point if within an if block that eval'd to false */
     if (!if_block_enable)
         return true;
+
+    /* dialect "string" */
+    if (tokens.peek(0).type == TOK_DIALECT && tokens.peek(1).type == TOK_STRING) {
+        std::string dialect = tokens.peek(1).string;
+        tokens.discard(2);
+
+        if (!tokens.eof()) {
+            fprintf(stderr,"Desc unexpected tokens\n");
+            return false;
+        }
+
+        if (!supported_dialect(dialect)) {
+            fprintf(stderr,"This compiler does not support dialect '%s'\n",dialect.c_str());
+            return false;
+        }
+
+        return true;
+    }
 
     /* log ... */
     /* error ... */
