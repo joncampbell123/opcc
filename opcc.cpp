@@ -2790,27 +2790,45 @@ bool process_block(tokenlist &tokens) {
     return true;
 }
 
+bool read_opcode_token_block(tokenlist &tokens) {
+    do {
+        tokenstate_t tok;
+
+        if (!toke(/*&*/tok)) {
+            if (tok.type == TOK_ERROR)
+                goto token_error;
+            if (tokens.eof())
+                return false;
+
+            goto unexpected_end;
+        }
+
+        if (tok.type == TOK_SEMICOLON)
+            return true;
+
+        tokens.push_back(std::move(tok));
+    } while(1);
+
+parse_error:
+    fprintf(stderr,"Parse error\n");
+    return false;
+token_error:
+    fprintf(stderr,"Token error\n");
+    return false;
+unexpected_end:
+    fprintf(stderr,"Unexpected end of opcode\n");
+    return false;
+unexpected_token:
+    fprintf(stderr,"Unexpected token\n");
+    return false;
+}
+
 bool read_opcode_block(void) {
     do {
         tokenlist tokens;
 
-        do {
-            tokenstate_t tok;
-
-            if (!toke(/*&*/tok)) {
-                if (tok.type == TOK_ERROR)
-                    goto token_error;
-                if (tokens.eof())
-                    return false;
-
-                goto unexpected_end;
-            }
-
-            if (tok.type == TOK_SEMICOLON)
-                break;
-
-            tokens.push_back(std::move(tok));
-        } while(1);
+        if (!read_opcode_token_block(/*&*/tokens))
+            return false;
 
         if (!process_block(/*&*/tokens))
             break;
