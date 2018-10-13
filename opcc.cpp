@@ -341,10 +341,6 @@ const char *tokentype_str[TOK_MAX] = {
     "ELSE"
 };
 
-std::stack<bool>    push_if_block;
-int                 last_if_block_condition = -1;
-bool                if_block_enable = true;
-
 bool supported_dialect(const std::string &d) {
     if (d == "intel-x86")
         return true;
@@ -1625,6 +1621,13 @@ public:
     bool eof(void) const {
         return read >= size();
     }
+    void clear(void) {
+        std::vector<tokenstate_t>::clear();
+        rewind();
+    }
+    void rewind(void) {
+        read = 0;
+    }
 public:
     size_t              read = 0;
 };
@@ -2557,19 +2560,78 @@ bool eval_format(std::string &msg,tokenlist &tokens) {
     return true;
 }
 
-bool process_block(tokenlist &tokens) {
-    /* IF ... */
-    /* if condition is true, then process the remaining tokens.
-     * if condition is false, ignore the tokens and move on. */
-    if (tokens.peek(0).type == TOK_IF && tokens.peek(1).type != TOK_NONE) {
-        tokens.discard(); // discard IF
+bool process_if_statement(tokenlist &tokens,bool suppress=false);
 
-        tokenstate_t result;
+bool process_block(tokenlist &tokens);
+bool read_opcode_token_block(tokenlist &tokens);
 
-        if (!eval_if_condition(/*&*/result,/*&*/tokens)) {
-            fprintf(stderr,"'If' condition error\n");
+bool process_if_block(const bool result_bool,tokenlist &tokens) {
+    while (true) {
+        if (!read_opcode_token_block(tokens)) // will clear and refill tokens
+            return false;
+
+        if (tokens.peek(0).type == TOK_CLOSE_CURLYBRACKET && tokens.peek(1).type == TOK_IF) {
+            tokens.discard(2);
+            if (!tokens.eof()) {
+                fprintf(stderr,"IF end unexpected tokens\n");
+                return false;
+            }
+
+            break;
+        }
+
+        if (result_bool) {
+            if (!process_block(tokens))
+                return false;
+        }
+    }
+
+    return true;
+}
+
+bool process_if_statement(tokenlist &tokens,bool suppress) {
+    tokenstate_t result;
+
+    /* TOK_IF has been consumed by caller */
+
+    if (!eval_if_condition(/*&*/result,/*&*/tokens)) {
+        fprintf(stderr,"'If' condition error\n");
+        return false;
+    }
+
+    bool result_bool = result.to_bool() && !suppress;
+
+    if (tokens.peek().type == TOK_OPEN_CURLYBRACKET) {
+        tokens.discard();
+
+        if (!tokens.eof()) {
+            fprintf(stderr,"if { unexpected token '%s'\n",tokens.peek().type_str());
             return false;
         }
+
+        if (!process_if_block(result_bool,tokens))
+            return false;
+    }
+    else {
+        if (result_bool && !suppress) {
+            if (!process_block(tokens))
+                return false;
+        }
+        else if (tokens.peek().type == TOK_IF) { /* if condition if condition (nested) */
+            tokens.discard();
+            if (!process_if_statement(tokens,/*suppress=*/true))
+                return false;
+        }
+    }
+
+    /* read the next block.
+     * if it's ELSE, then evaluate if the condition is NOT true.
+     * if it's not ELSE, then it's the next statement and process as normal. */
+    if (!read_opcode_token_block(tokens))
+        return false;
+
+    if (tokens.peek().type == TOK_ELSE) {
+        tokens.discard();
 
         if (tokens.peek().type == TOK_OPEN_CURLYBRACKET) {
             tokens.discard();
@@ -2579,91 +2641,38 @@ bool process_block(tokenlist &tokens) {
                 return false;
             }
 
-            push_if_block.push(if_block_enable);
-            if_block_enable = if_block_enable && result.to_bool();
-            last_if_block_condition = -1; // you can't start an IF block then within scope do ELSE without IF
+            if (!process_if_block(!result_bool,tokens))
+                return false;
         }
         else {
-            bool saved_block_condition = if_block_enable && result.to_bool();
-
-            if (saved_block_condition) {
+            if (!result_bool && !suppress) {
                 if (!process_block(tokens))
                     return false;
             }
-
-            last_if_block_condition = saved_block_condition ? 1 : 0;
+            else if (tokens.peek().type == TOK_IF) { /* if condition if condition (nested) */
+                tokens.discard();
+                if (!process_if_statement(tokens,/*suppress=*/true))
+                    return false;
+            }
         }
-
-        return true;
+    }
+    else {
+        if (!process_block(tokens))
+            return false;
     }
 
-    if (tokens.peek(0).type == TOK_ELSE && tokens.peek(1).type != TOK_NONE) {
+    return true;
+}
+
+bool process_block(tokenlist &tokens) {
+    if (tokens.peek(0).type == TOK_IF) {
         tokens.discard(); // discard IF
 
-        if (last_if_block_condition < 0) {
-            fprintf(stderr,"'Else' condition must follow IF in the same scope\n");
+        if (!process_if_statement(tokens))
             return false;
-        }
-
-        bool result = (last_if_block_condition == 0); // IF condition TRUE, therefore ELSE condition FALSE
-        last_if_block_condition = -1; // ELSE not valid until } IF;
-
-        if (tokens.peek().type == TOK_OPEN_CURLYBRACKET) {
-            tokens.discard();
-
-            if (!tokens.eof()) {
-                fprintf(stderr,"else { unexpected token '%s'\n",tokens.peek().type_str());
-                return false;
-            }
-
-            push_if_block.push(if_block_enable);
-            if_block_enable = if_block_enable && result;
-        }
-        else {
-            bool saved_block_condition = if_block_enable && result;
-
-            if (saved_block_condition) {
-                if (!process_block(tokens))
-                    return false;
-            }
-        }
 
         return true;
     }
-
-    if (tokens.peek(0).type == TOK_CLOSE_CURLYBRACKET && tokens.peek(1).type == TOK_IF) {
-        tokens.discard(2);
-
-        if (push_if_block.empty()) {
-            fprintf(stderr,"} if unexpected, not within any if { blocks\n");
-            return false;
-        }
-
-        last_if_block_condition = if_block_enable ? 1 : 0; // remember condition for possible ELSE clause
-
-        if_block_enable = push_if_block.top();
-        push_if_block.pop();
-
-        /* comment() is allowed to follow */
-        if (tokens.peek().type == TOK_COMMENT) {
-            if (!process_block(tokens))
-                return false;
-        }
-
-        if (!tokens.eof()) {
-            fprintf(stderr,"} if unexpected token '%s'\n",tokens.peek().type_str());
-            return false;
-        }
-
-        return true;
-    }
-
-    /* parse nothing beyond this point if within an if block that eval'd to false */
-    if (!if_block_enable)
-        return true;
-
-    /* beyond this point, clear ELSE condition info */
-    last_if_block_condition = -1; // you can't start an IF block then within scope do ELSE without IF
 
     /* dialect "string" */
     if (tokens.peek(0).type == TOK_DIALECT && tokens.peek(1).type == TOK_STRING) {
@@ -2785,6 +2794,8 @@ bool process_block(tokenlist &tokens) {
 }
 
 bool read_opcode_token_block(tokenlist &tokens) {
+    tokens.clear();
+
     do {
         tokenstate_t tok;
 
