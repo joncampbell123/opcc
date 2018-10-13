@@ -21,12 +21,14 @@ prefix "ES:"
   (code 0x26)
   (seg=es);
 
+if value("cpulevel") >= 386
 prefix "FS:"
   (comment "386 Segment override prefix")
   (desc "FS segment override")
   (code 0x64)
   (seg=fs);
 
+if value("cpulevel") >= 386
 prefix "GS:"
   (comment "386 Segment override prefix")
   (desc "GS segment override")
