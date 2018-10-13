@@ -2817,6 +2817,44 @@ int main(int argc,char **argv) {
 
         defines["cpulevel"] = 486;
     }
+    else if (march == "80586" || march == "586") {
+        if (fpuarch.empty())
+            fpuarch = "80587";
+
+        defines["cpulevel"] = 586;
+    }
+    else if (march == "pentium") {
+        if (fpuarch.empty())
+            fpuarch = "80587";
+
+        defines["cpulevel"] = 586;
+    }
+    else if (march == "pentium-mmx") {
+        if (fpuarch.empty())
+            fpuarch = "80587";
+
+        defines["cpulevel"] = 586;
+        defines["mmx"] = 1;
+    }
+    else if (march == "80686" || march == "686") {
+        if (fpuarch.empty())
+            fpuarch = "80687";
+
+        defines["cpulevel"] = 686;
+    }
+    else if (march == "pentium-pro") {
+        if (fpuarch.empty())
+            fpuarch = "80687";
+
+        defines["cpulevel"] = 686;
+    }
+    else if (march == "pentium-pro-mmx") {
+        if (fpuarch.empty())
+            fpuarch = "80687";
+
+        defines["cpulevel"] = 686;
+        defines["mmx"] = 1;
+    }
     else {
         fprintf(stderr,"Unknown march '%s'\n",march.c_str());
         return 1;
