@@ -27,6 +27,8 @@ prefix "FS:"
   (desc "FS segment override")
   (code 0x64)
   (seg=fs);
+else
+  log "No FS override";
 
 if value("cpulevel") >= 386
 prefix "GS:"
@@ -34,6 +36,8 @@ prefix "GS:"
   (desc "GS segment override")
   (code 0x65)
   (seg=gs);
+else
+  log "No GS override";
 
 prefix "SS:"
   (comment "Segment override prefix")
@@ -46,7 +50,7 @@ if value("cpulevel") >= 186 {;
   unknown opcode ud;
   opcode limit 15;
 } if;
-if value("cpulevel") < 186 {;
+else {;
   log "8086 no-#UD and no-limit";
   unknown opcode silent;
   opcode limit none;

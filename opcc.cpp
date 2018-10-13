@@ -174,6 +174,7 @@ enum tokentype_t {
     TOK_OPEN_CURLYBRACKET,      // 155
     TOK_CLOSE_CURLYBRACKET,
     TOK_DIALECT,
+    TOK_ELSE,
 
     TOK_MAX
 };
@@ -336,10 +337,12 @@ const char *tokentype_str[TOK_MAX] = {
     "PERCENT",
     "OPEN_CURLYBRACKET",        // 155
     "CLOSE_CURLYBRACKET",
-    "DIALECT"
+    "DIALECT",
+    "ELSE"
 };
 
 std::stack<bool>    push_if_block;
+int                 last_if_block_condition = -1;
 bool                if_block_enable = true;
 
 bool supported_dialect(const std::string &d) {
@@ -1522,6 +1525,10 @@ bool toke(tokenstate_t &tok) {
             tok.type = TOK_DIALECT;
             return true;
         }
+        if (tok.string == "ELSE") {
+            tok.type = TOK_ELSE;
+            return true;
+        }
     }
 
     tok.type = TOK_ERROR;
@@ -2580,9 +2587,41 @@ bool process_block(tokenlist &tokens) {
 
             push_if_block.push(if_block_enable);
             if_block_enable = if_block_enable && result.to_bool();
+            last_if_block_condition = if_block_enable ? 1 : 0; // remember condition for possible ELSE clause
         }
         else {
-            if (!result.to_bool())
+            last_if_block_condition = result.to_bool() ? 1 : 0; // remember condition for possible ELSE clause
+            if (!if_block_enable || !result.to_bool())
+                return true;
+
+            /* fall through to parse tokens after IF statement */
+        }
+    }
+
+    if (tokens.peek(0).type == TOK_ELSE && tokens.peek(1).type != TOK_NONE) {
+        tokens.discard(); // discard IF
+
+        if (last_if_block_condition < 0) {
+            fprintf(stderr,"'Else' condition must follow IF in the same scope\n");
+            return false;
+        }
+
+        bool result = (last_if_block_condition == 0); // IF condition TRUE, therefore ELSE condition FALSE
+        last_if_block_condition = -1; // ELSE not valid until } IF;
+
+        if (tokens.peek().type == TOK_OPEN_CURLYBRACKET) {
+            tokens.discard();
+
+            if (!tokens.eof()) {
+                fprintf(stderr,"else { unexpected token '%s'\n",tokens.peek().type_str());
+                return false;
+            }
+
+            push_if_block.push(if_block_enable);
+            if_block_enable = if_block_enable && result;
+        }
+        else {
+            if (!result)
                 return true;
 
             /* fall through to parse tokens after IF statement */
@@ -2614,6 +2653,8 @@ bool process_block(tokenlist &tokens) {
             fprintf(stderr,"} if unexpected, not within any if { blocks\n");
             return false;
         }
+
+        last_if_block_condition = if_block_enable ? 1 : 0; // remember condition for possible ELSE clause
 
         if_block_enable = push_if_block.top();
         push_if_block.pop();
