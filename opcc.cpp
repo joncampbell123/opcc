@@ -2847,12 +2847,14 @@ int main(int argc,char **argv) {
             fpuarch = "80687";
 
         defines["cpulevel"] = 686;
+        defines["cmov"] = 1;
     }
     else if (march == "pentium-pro-mmx") {
         if (fpuarch.empty())
             fpuarch = "80687";
 
         defines["cpulevel"] = 686;
+        defines["cmov"] = 1;
         defines["mmx"] = 1;
     }
     else {
@@ -2867,8 +2869,12 @@ int main(int argc,char **argv) {
         defines["fpulevel"] = 287;
     }
     else if (fpuarch == "80387" || fpuarch == "387" ||
-             fpuarch == "80487" || fpuarch == "487") {
+             fpuarch == "80487" || fpuarch == "487" ||
+             fpuarch == "80587") {
         defines["fpulevel"] = 387;
+    }
+    else if (fpuarch == "80687" ) {
+        defines["fpulevel"] = 687;
     }
     else {
         fprintf(stderr,"Unknown fpuarch '%s'\n",fpuarch.c_str());
