@@ -2565,7 +2565,7 @@ bool eval_format(std::string &msg,tokenlist &tokens) {
 
 bool process_block(tokenlist &tokens) {
     /* IF ... */
-    /* if condition is true, then continue parsing below the remaining tokens.
+    /* if condition is true, then process the remaining tokens.
      * if condition is false, ignore the tokens and move on. */
     if (tokens.peek(0).type == TOK_IF && tokens.peek(1).type != TOK_NONE) {
         tokens.discard(); // discard IF
@@ -2587,15 +2587,20 @@ bool process_block(tokenlist &tokens) {
 
             push_if_block.push(if_block_enable);
             if_block_enable = if_block_enable && result.to_bool();
-            last_if_block_condition = if_block_enable ? 1 : 0; // remember condition for possible ELSE clause
+            last_if_block_condition = -1; // you can't start an IF block then within scope do ELSE without IF
         }
         else {
-            last_if_block_condition = result.to_bool() ? 1 : 0; // remember condition for possible ELSE clause
-            if (!if_block_enable || !result.to_bool())
-                return true;
+            bool saved_block_condition = if_block_enable && result.to_bool();
 
-            /* fall through to parse tokens after IF statement */
+            if (saved_block_condition) {
+                if (!process_block(tokens))
+                    return false;
+            }
+
+            last_if_block_condition = saved_block_condition ? 1 : 0;
         }
+
+        return true;
     }
 
     if (tokens.peek(0).type == TOK_ELSE && tokens.peek(1).type != TOK_NONE) {
@@ -2621,11 +2626,15 @@ bool process_block(tokenlist &tokens) {
             if_block_enable = if_block_enable && result;
         }
         else {
-            if (!result)
-                return true;
+            bool saved_block_condition = if_block_enable && result;
 
-            /* fall through to parse tokens after IF statement */
+            if (saved_block_condition) {
+                if (!process_block(tokens))
+                    return false;
+            }
         }
+
+        return true;
     }
 
     if (tokens.peek(0).type == TOK_CLOSE_CURLYBRACKET && tokens.peek(1).type == TOK_IF) {
@@ -2658,6 +2667,9 @@ bool process_block(tokenlist &tokens) {
     /* parse nothing beyond this point if within an if block that eval'd to false */
     if (!if_block_enable)
         return true;
+
+    /* beyond this point, clear ELSE condition info */
+    last_if_block_condition = -1; // you can't start an IF block then within scope do ELSE without IF
 
     /* dialect "string" */
     if (tokens.peek(0).type == TOK_DIALECT && tokens.peek(1).type == TOK_STRING) {
