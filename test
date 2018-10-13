@@ -41,8 +41,14 @@ prefix "SS:"
   (code 0x36)
   (seg=ss);
 
-unknown opcode silent;
-unknown opcode ud;
-opcode limit none;
-opcode limit 15;
+if value("cpulevel") >= 186 {;
+  log "186 #UD and limit";
+  unknown opcode ud;
+  opcode limit 15;
+} if;
+if value("cpulevel") < 186 {;
+  log "8086 no-#UD and no-limit";
+  unknown opcode silent;
+  opcode limit none;
+} if;
 
