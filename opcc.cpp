@@ -2290,6 +2290,11 @@ bool read_opcode_spec_opcode_parens(tokenlist &parent_tokens,OpcodeSpec &spec) {
     if (tokens.peek(0).type == TOK_CODE) {
         tokens.discard(1);
 
+        if (spec.bytes.size() != 0) {
+            fprintf(stderr,"The same opcode cannot have multiple code specs\n");
+            return false;
+        }
+
         while (!tokens.eof() && tokens.peek().type == TOK_UINT) {
             auto &next = tokens.next();
             ByteSpec bs;
@@ -2369,7 +2374,7 @@ bool read_opcode_spec(OpcodeSpec &spec,tokenlist &tokens) {
 
     /* prefix "name" (...) (...) (...) */
     /* opcode "name" (...) (...) (...) */
-    if ((tokens.peek(0).type == TOK_PREFIX || tokens.peek(1).type == TOK_OPCODE) && tokens.peek(1).type == TOK_STRING) {
+    if ((tokens.peek(0).type == TOK_PREFIX || tokens.peek(0).type == TOK_OPCODE) && tokens.peek(1).type == TOK_STRING) {
         spec.type = tokens.peek(0).type;
         spec.name = tokens.peek(1).string;
         for (auto &c : spec.name) c = toupper(c);
