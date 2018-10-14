@@ -1757,6 +1757,16 @@ std::string SingleByteSpec::to_string(void) {
         }
         res += "]";
     }
+    if (!var_expr.empty()) {
+        if (!res.empty()) res += ",";
+        res += "var_expr=[";
+        for (auto i=var_expr.begin();i!=var_expr.end();) {
+            res += std::string((*i).type_str()) + "->" + (*i).to_string();
+            i++;
+            if (i != var_expr.end()) res += ",";
+        }
+        res += "]";
+    }
 
     return res;
 }
