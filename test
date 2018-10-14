@@ -3,6 +3,8 @@ dialect "intel-x86";
 log ("cpulevel: " + value("cpulevel"));
 log ("fpulevel: " + value("fpulevel"));
 
+comment "---------------begin prefixes----------------";
+
 prefix "CS:"
   (comment "Segment override prefix")
   (desc "CS segment override")
@@ -55,4 +57,6 @@ else {;
   unknown opcode silent;
   opcode limit none;
 } if;
+
+comment "-----------------begin opcodes----------------";
 
