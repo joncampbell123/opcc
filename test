@@ -187,6 +187,32 @@ opcode "XCHG"
   (dest=reg(v))
   (param=av);
 
+opcode "RET"
+  (modifies spv,ipv)
+  (stack pop ipv)
+  (writes ipv)
+  (param=c)
+  (code 0xC2 c=immediate(w));
+
+opcode "RET"
+  (modifies spv,ipv)
+  (stack pop ipv)
+  (writes ipv)
+  (code 0xC3);
+
+opcode "RETF"
+  (modifies spv,ipv)
+  (stack pop ipv)
+  (writes ipv)
+  (param=c)
+  (code 0xCA c=immediate(w));
+
+opcode "RETF"
+  (modifies spv,ipv)
+  (stack pop ipv)
+  (writes ipv)
+  (code 0xCB);
+
 opcode "AAM"
   (comment "AAD ascii adjust AX before multiply")
   (comment "TODO: Not valid in x64 long mode")
