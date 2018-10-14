@@ -1594,7 +1594,9 @@ class OpcodeSpec {
 public:
     std::vector<ByteSpec>       bytes;                  // opcode byte sequence
     unsigned int                immed_byte_1 = 0;       // if set, immediate byte follows mod/reg/rm (token)
+    unsigned int                immed_var_1 = 0;
     unsigned int                immed_byte_2 = 0;       // if set, immediate byte follows mod/reg/rm (token)
+    unsigned int                immed_var_2 = 0;
     unsigned int                type = 0;               // token type (PREFIX, OPCODE, etc)
     std::string                 description;
     std::string                 comment;
@@ -2207,6 +2209,40 @@ bool eval_if_condition(tokenstate_t &result,tokenlist &tokens) {
     return true;
 }
 
+bool is_valid_immediate_assign_var(const unsigned int c) {
+    switch (c) {
+        case TOK_A: return true;
+        case TOK_B: return true;
+        case TOK_C: return true;
+        case TOK_D: return true;
+        case TOK_E: return true;
+        case TOK_F: return true;
+        case TOK_G: return true;
+        case TOK_H: return true;
+        case TOK_I: return true;
+        case TOK_J: return true;
+        case TOK_K: return true;
+        case TOK_L: return true;
+        case TOK_M: return true;
+        case TOK_N: return true;
+        case TOK_O: return true;
+        case TOK_P: return true;
+        case TOK_Q: return true;
+        case TOK_R: return true;
+        case TOK_S: return true;
+        case TOK_T: return true;
+        case TOK_U: return true;
+        case TOK_V: return true;
+        case TOK_W: return true;
+        case TOK_X: return true;
+        case TOK_Y: return true;
+        case TOK_Z: return true;
+        default: break;
+    };
+
+    return false;
+}
+
 bool read_opcode_spec_opcode_parens(tokenlist &parent_tokens,OpcodeSpec &spec) {
     /* caller already read '(' */
     tokenlist tokens;
@@ -2341,12 +2377,31 @@ bool read_opcode_spec_opcode_parens(tokenlist &parent_tokens,OpcodeSpec &spec) {
         }
 
         /* whether the instruction has immediate operands "immediate(v)" */
+        if (tokens.peek(0).type != TOK_IMMEDIATE && tokens.peek(1).type == TOK_EQUAL && tokens.peek(2).type == TOK_IMMEDIATE) {
+            if (!is_valid_immediate_assign_var(tokens.peek().type)) {
+                fprintf(stderr,"Invalid immediate assign\n");
+                return false;
+            }
+
+            spec.immed_var_1 = tokens.peek().type;
+            tokens.discard(2);
+        }
         if (tokens.peek().type == TOK_IMMEDIATE) {
             tokens.discard();
             if ((spec.immed_byte_1=parse_code_immediate_spec(/*&*/tokens)) == TOK_NONE) {
                 fprintf(stderr,"Invalid immediate spec\n");
                 return false;
             }
+        }
+
+        if (tokens.peek(0).type != TOK_IMMEDIATE && tokens.peek(1).type == TOK_EQUAL && tokens.peek(2).type == TOK_IMMEDIATE) {
+            if (!is_valid_immediate_assign_var(tokens.peek().type)) {
+                fprintf(stderr,"Invalid immediate assign\n");
+                return false;
+            }
+
+            spec.immed_var_2 = tokens.peek().type;
+            tokens.discard(2);
         }
         if (tokens.peek().type == TOK_IMMEDIATE) {
             tokens.discard();

@@ -107,5 +107,5 @@ opcode "AAA"
 
 opcode "AAD"
   (comment "AAD ascii adjust AX before division")
-  (code 0x3F immediate(b));
+  (code 0x3F d=immediate(b));
 
