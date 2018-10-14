@@ -1623,6 +1623,7 @@ public:
     std::string                 name;
     SingleByteSpec              destination;            // destination (if writes) token
     std::vector<SingleByteSpec> param;                  // parameter (read only) tokens. variables are possible (TOK_D)
+    std::vector<SingleByteSpec> reads;
     unsigned int                prefix_seg_assign = 0;  // token segment override assignment (PREFIX)
 public:
     std::string                 to_string(void);
@@ -1706,6 +1707,17 @@ std::string OpcodeSpec::to_string(void) {
             res += (*i).to_string();
             i++;
             if (i!=param.end()) res += " ";
+        }
+        res += "]";
+    }
+
+    if (reads.size() != 0) {
+        if (!res.empty()) res += ",";
+        res += "reads=[";
+        for (auto i=reads.begin();i!=reads.end();) {
+            res += (*i).to_string();
+            i++;
+            if (i!=reads.end()) res += " ";
         }
         res += "]";
     }
@@ -2430,6 +2442,24 @@ bool read_opcode_spec_opcode_parens(tokenlist &parent_tokens,OpcodeSpec &spec) {
         return true;
     }
 
+    /* reads ... */
+    if (tokens.peek().type == TOK_READS) {
+        tokens.discard();
+
+        SingleByteSpec bs;
+
+        auto &n = tokens.next();
+        bs.meaning = n.type;
+
+        if (bs.meaning == TOK_IMMEDIATE) {
+            fprintf(stderr,"Immediate not supported for reads\n");
+            return false;
+        }
+
+        spec.reads.push_back(bs);
+        return true;
+    }
+
     /* dest=register/mem/etc */
     if (tokens.peek(0).type == TOK_DEST && tokens.peek(1).type == TOK_EQUAL) {
         tokens.discard(2);
@@ -2698,6 +2728,10 @@ bool do_opcode_spec(tokenlist &tokens) {
 
     if (!read_opcode_spec(/*&*/spec,/*&*/tokens))
         return false;
+
+#if 0
+    fprintf(stderr,"%s\n",spec.to_string().c_str());
+#endif
 
     opcodes.push_back(std::move(spec));
     return true;
