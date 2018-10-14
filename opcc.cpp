@@ -1600,11 +1600,16 @@ int parse_argv(int argc,char **argv) {
     return 0;
 }
 
-class ByteSpec : public std::vector<uint8_t> {
+class SingleByteSpec {
 public:
     unsigned int                var_assign = 0;
     unsigned int                meaning = 0;            // if TOK_IMMEDIATE then size() == 0 and it's an immediate byte
     unsigned int                immediate_type = 0;
+public:
+    std::string                 to_string(void);
+};
+
+class ByteSpec : public SingleByteSpec, public std::vector<uint8_t> {
 public:
     std::string                 to_string(void);
 };
@@ -1623,20 +1628,9 @@ public:
     std::string                 to_string(void);
 };
 
-std::string ByteSpec::to_string(void) {
+std::string SingleByteSpec::to_string(void) {
     std::string res;
-    char tmp[64];
 
-    if (size() != 0) {
-        res += "[";
-        for (auto i=begin();i!=end();) {
-            sprintf(tmp,"0x%02x",*i);
-            res += tmp;
-            i++;
-            if (i != end()) res += " ";
-        }
-        res += "]";
-    }
     if (var_assign != TOK_NONE) {
         if (!res.empty()) res += ",";
         res += "varassign=";
@@ -1651,6 +1645,33 @@ std::string ByteSpec::to_string(void) {
         if (!res.empty()) res += ",";
         res += "immediate=";
         res += tokentype_str[immediate_type];
+    }
+
+    return res;
+}
+
+std::string ByteSpec::to_string(void) {
+    std::string res;
+    char tmp[64];
+
+    if (size() != 0) {
+        res += "[";
+        for (auto i=begin();i!=end();) {
+            sprintf(tmp,"0x%02x",*i);
+            res += tmp;
+            i++;
+            if (i != end()) res += " ";
+        }
+        res += "]";
+    }
+
+    {
+        std::string subres = SingleByteSpec::to_string();
+
+        if (!subres.empty()) {
+            if (!res.empty()) res += ",";
+            res += subres;
+        }
     }
 
     return res;
