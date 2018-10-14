@@ -62,18 +62,21 @@ comment "-----------------begin opcodes----------------";
 
 opcode "PUSH"
   (comment "PUSH ES")
+  (modifies spv)
   (reads es)
   (param=es)
   (code 0x06);
 
 opcode "POP"
   (comment "POP ES")
+  (modifies spv)
   (writes es)
   (dest=es)
   (code 0x07);
 
 opcode "PUSH"
   (comment "PUSH CS")
+  (modifies spv)
   (reads cs)
   (param=cs)
   (code 0x0E);
@@ -81,30 +84,35 @@ opcode "PUSH"
 if value("cpulevel") <= 86
 opcode "POP"
   (comment "POP CS")
+  (modifies spv)
   (writes cs)
   (dest=cs)
   (code 0x0F);
 
 opcode "PUSH"
   (comment "PUSH SS")
+  (modifies spv)
   (reads ss)
   (param=ss)
   (code 0x16);
 
 opcode "POP"
   (comment "POP SS")
+  (modifies spv)
   (writes ss)
   (dest=ss)
   (code 0x17);
 
 opcode "PUSH"
   (comment "PUSH DS")
+  (modifies spv)
   (reads ds)
   (param=ds)
   (code 0x1E);
 
 opcode "POP"
   (comment "POP DS")
+  (modifies spv)
   (writes ds)
   (dest=ds)
   (code 0x1F);

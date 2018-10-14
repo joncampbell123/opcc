@@ -179,6 +179,7 @@ enum tokentype_t {
     TOK_RIGHT_SHIFT,            // 160
     TOK_READS,
     TOK_WRITES,
+    TOK_MODIFIES,
 
     TOK_MAX
 };
@@ -346,7 +347,8 @@ const char *tokentype_str[TOK_MAX] = {
     "LEFT_SHIFT",
     "RIGHT_SHIFT",              // 160
     "READS",
-    "WRITES"
+    "WRITES",
+    "MODIFIES"
 };
 
 bool supported_dialect(const std::string &d) {
@@ -1547,6 +1549,10 @@ bool toke(tokenstate_t &tok) {
             tok.type = TOK_WRITES;
             return true;
         }
+        if (tok.string == "MODIFIES") {
+            tok.type = TOK_MODIFIES;
+            return true;
+        }
     }
 
     tok.type = TOK_ERROR;
@@ -1625,6 +1631,7 @@ public:
     std::vector<SingleByteSpec> param;                  // parameter (read only) tokens. variables are possible (TOK_D)
     std::vector<SingleByteSpec> reads;
     std::vector<SingleByteSpec> writes;
+    std::vector<SingleByteSpec> modifies;
     unsigned int                prefix_seg_assign = 0;  // token segment override assignment (PREFIX)
 public:
     std::string                 to_string(void);
@@ -1730,6 +1737,17 @@ std::string OpcodeSpec::to_string(void) {
             res += (*i).to_string();
             i++;
             if (i!=writes.end()) res += " ";
+        }
+        res += "]";
+    }
+
+    if (modifies.size() != 0) {
+        if (!res.empty()) res += ",";
+        res += "modifies=[";
+        for (auto i=modifies.begin();i!=modifies.end();) {
+            res += (*i).to_string();
+            i++;
+            if (i!=modifies.end()) res += " ";
         }
         res += "]";
     }
@@ -2487,6 +2505,24 @@ bool read_opcode_spec_opcode_parens(tokenlist &parent_tokens,OpcodeSpec &spec) {
         }
 
         spec.writes.push_back(bs);
+        return true;
+    }
+
+    /* modifies ... */
+    if (tokens.peek().type == TOK_MODIFIES) {
+        tokens.discard();
+
+        SingleByteSpec bs;
+
+        auto &n = tokens.next();
+        bs.meaning = n.type;
+
+        if (bs.meaning == TOK_IMMEDIATE) {
+            fprintf(stderr,"Immediate not supported for modifies\n");
+            return false;
+        }
+
+        spec.modifies.push_back(bs);
         return true;
     }
 
