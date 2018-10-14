@@ -180,6 +180,9 @@ enum tokentype_t {
     TOK_READS,
     TOK_WRITES,
     TOK_MODIFIES,
+    TOK_STACK,
+    TOK_PUSH,                   // 165
+    TOK_POP,
 
     TOK_MAX
 };
@@ -348,7 +351,10 @@ const char *tokentype_str[TOK_MAX] = {
     "RIGHT_SHIFT",              // 160
     "READS",
     "WRITES",
-    "MODIFIES"
+    "MODIFIES",
+    "STACK",
+    "PUSH",                     // 165
+    "POP"
 };
 
 bool supported_dialect(const std::string &d) {
@@ -1553,6 +1559,18 @@ bool toke(tokenstate_t &tok) {
             tok.type = TOK_MODIFIES;
             return true;
         }
+        if (tok.string == "STACK") {
+            tok.type = TOK_STACK;
+            return true;
+        }
+        if (tok.string == "PUSH") {
+            tok.type = TOK_PUSH;
+            return true;
+        }
+        if (tok.string == "POP") {
+            tok.type = TOK_POP;
+            return true;
+        }
     }
 
     tok.type = TOK_ERROR;
@@ -1632,6 +1650,8 @@ public:
     std::vector<SingleByteSpec> reads;
     std::vector<SingleByteSpec> writes;
     std::vector<SingleByteSpec> modifies;
+    std::vector<SingleByteSpec> stack_ops;              // push or pop
+    unsigned int                stack_op_dir = 0;       // TOK_PUSH or TOK_POP
     unsigned int                prefix_seg_assign = 0;  // token segment override assignment (PREFIX)
 public:
     std::string                 to_string(void);
@@ -1748,6 +1768,22 @@ std::string OpcodeSpec::to_string(void) {
             res += (*i).to_string();
             i++;
             if (i!=modifies.end()) res += " ";
+        }
+        res += "]";
+    }
+
+    if (stack_ops.size() != 0) {
+        if (!res.empty()) res += ",";
+        res += "stack_ops(";
+        if (stack_op_dir == TOK_PUSH)
+            res += "push";
+        else if (stack_op_dir == TOK_POP)
+            res += "pop";
+        res += ")=[";
+        for (auto i=stack_ops.begin();i!=stack_ops.end();) {
+            res += (*i).to_string();
+            i++;
+            if (i!=stack_ops.end()) res += " ";
         }
         res += "]";
     }
@@ -2523,6 +2559,56 @@ bool read_opcode_spec_opcode_parens(tokenlist &parent_tokens,OpcodeSpec &spec) {
         }
 
         spec.modifies.push_back(bs);
+        return true;
+    }
+
+    /* stack push ... */
+    /* stack pop ... */
+    if (tokens.peek().type == TOK_STACK) {
+        tokens.discard();
+
+        if (tokens.peek().type == TOK_PUSH) {
+            tokens.discard();
+
+            if (spec.stack_op_dir != TOK_NONE && spec.stack_op_dir != TOK_PUSH) {
+                fprintf(stderr,"Stack ops can be push or pop, not both\n");
+                return false;
+            }
+
+            spec.stack_op_dir = TOK_PUSH;
+        }
+        else if (tokens.peek().type == TOK_POP) {
+            tokens.discard();
+
+            if (spec.stack_op_dir != TOK_NONE && spec.stack_op_dir != TOK_POP) {
+                fprintf(stderr,"Stack ops can be push or pop, not both\n");
+                return false;
+            }
+
+            spec.stack_op_dir = TOK_POP;
+        }
+        else {
+            return false;
+        }
+
+        SingleByteSpec bs;
+
+        auto &n = tokens.next();
+        bs.meaning = n.type;
+
+        if (bs.meaning == TOK_IMMEDIATE) {
+            if (spec.stack_op_dir == TOK_POP) {
+                fprintf(stderr,"Immediate not supported for stack pop\n");
+                return false;
+            }
+
+            if ((bs.immediate_type=parse_code_immediate_spec(/*&*/tokens)) == TOK_NONE) {
+                fprintf(stderr,"Invalid immediate spec\n");
+                return false;
+            }
+        }
+
+        spec.stack_ops.push_back(bs);
         return true;
     }
 
