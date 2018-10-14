@@ -2445,10 +2445,9 @@ bool read_opcode_spec_opcode_parens(tokenlist &parent_tokens,OpcodeSpec &spec) {
         bs.meaning = n.type;
 
         if (bs.meaning == TOK_IMMEDIATE) {
-            if ((bs.immediate_type=parse_code_immediate_spec(/*&*/tokens)) == TOK_NONE) {
-                fprintf(stderr,"Invalid immediate spec\n");
-                return false;
-            }
+            /* come on now.... in what way is it valid to assign to an immediate? */
+            fprintf(stderr,"Immediate in dest not supported\n");
+            return false;
         }
 
         spec.destination = std::move(bs);
@@ -2474,10 +2473,8 @@ bool read_opcode_spec_opcode_parens(tokenlist &parent_tokens,OpcodeSpec &spec) {
         bs.meaning = n.type;
 
         if (bs.meaning == TOK_IMMEDIATE) {
-            if ((bs.immediate_type=parse_code_immediate_spec(/*&*/tokens)) == TOK_NONE) {
-                fprintf(stderr,"Invalid immediate spec\n");
-                return false;
-            }
+            fprintf(stderr,"Immediate in param not supported, use var assignment in code or mod/reg/rm\n");
+            return false;
         }
 
         spec.param[i] = std::move(bs);
@@ -2509,10 +2506,8 @@ bool read_opcode_spec_opcode_parens(tokenlist &parent_tokens,OpcodeSpec &spec) {
         bs.meaning = n.type;
 
         if (bs.meaning == TOK_IMMEDIATE) {
-            if ((bs.immediate_type=parse_code_immediate_spec(/*&*/tokens)) == TOK_NONE) {
-                fprintf(stderr,"Invalid immediate spec\n");
-                return false;
-            }
+            fprintf(stderr,"Immediate in param not supported, use var assignment in code or mod/reg/rm\n");
+            return false;
         }
 
         spec.param[i] = std::move(bs);
