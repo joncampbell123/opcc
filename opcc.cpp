@@ -2766,6 +2766,11 @@ bool read_opcode_spec_opcode_parens(tokenlist &parent_tokens,OpcodeSpec &spec) {
             return false;
         }
 
+        if (!tokens.eof()) {
+            fprintf(stderr,"Unexpected tokens\n");
+            return false;
+        }
+
         spec.destination = std::move(bs);
         return true;
     }
@@ -2790,6 +2795,11 @@ bool read_opcode_spec_opcode_parens(tokenlist &parent_tokens,OpcodeSpec &spec) {
 
         if (bs.meaning == TOK_IMMEDIATE) {
             fprintf(stderr,"Immediate in param not supported, use var assignment in code or mod/reg/rm\n");
+            return false;
+        }
+
+        if (!tokens.eof()) {
+            fprintf(stderr,"Unexpected tokens\n");
             return false;
         }
 
@@ -2823,6 +2833,11 @@ bool read_opcode_spec_opcode_parens(tokenlist &parent_tokens,OpcodeSpec &spec) {
 
         if (bs.meaning == TOK_IMMEDIATE) {
             fprintf(stderr,"Immediate in param not supported, use var assignment in code or mod/reg/rm\n");
+            return false;
+        }
+
+        if (!tokens.eof()) {
+            fprintf(stderr,"Unexpected tokens\n");
             return false;
         }
 
