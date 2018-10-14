@@ -211,6 +211,20 @@ opcode "XLAT"
   (writes al)
   (code 0xD7);
 
+opcode "IN"
+  (modifies al)
+  (writes al)
+  (dest=al)
+  (param=p)
+  (code 0xE4 p=immediate(b));
+
+opcode "IN"
+  (modifies av)
+  (writes av)
+  (dest=av)
+  (param=p)
+  (code 0xE5 p=immediate(b));
+
 opcode "OUT"
   (reads al)
   (param(0)=p)
@@ -222,6 +236,20 @@ opcode "OUT"
   (param(0)=p)
   (param(1)=av)
   (code 0xE7 p=immediate(b));
+
+opcode "IN"
+  (modifies al)
+  (writes al)
+  (dest=al)
+  (param=dx)
+  (code 0xEC);
+
+opcode "IN"
+  (modifies av)
+  (writes av)
+  (dest=av)
+  (param=dx)
+  (code 0xED);
 
 opcode "OUT"
   (reads al)
