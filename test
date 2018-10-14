@@ -227,6 +227,16 @@ opcode "POPF"
   (modifies spv)
   (stack pop flags(all));
 
+opcode "SAHF"
+  (code 0x9E)
+  (reads ah)
+  (writes flags(sf,zf,af,pf,cf));
+
+opcode "LAHF"
+  (code 0x9F)
+  (reads flags(sf,zf,af,pf,cf))
+  (writes ah);
+
 opcode "RET"
   (modifies spv,ipv)
   (stack pop ipv)
