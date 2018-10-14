@@ -202,16 +202,26 @@ opcode "RET"
 
 opcode "RETF"
   (modifies spv,ipv)
-  (stack pop ipv)
+  (stack pop ipv,cs)
   (writes ipv)
   (param=c)
   (code 0xCA c=immediate(w));
 
 opcode "RETF"
   (modifies spv,ipv)
-  (stack pop ipv)
+  (stack pop ipv,cs)
   (writes ipv)
   (code 0xCB);
+
+opcode "INT"
+  (modifies all)
+  (param=3)
+  (code 0xCC);
+
+opcode "INT"
+  (modifies all)
+  (param=i)
+  (code 0xCD i=immediate(b));
 
 opcode "AAM"
   (comment "AAD ascii adjust AX before multiply")
