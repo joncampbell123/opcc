@@ -1694,6 +1694,7 @@ public:
     unsigned int                meaning = 0;            // if TOK_IMMEDIATE then size() == 0 and it's an immediate byte
     unsigned int                immediate_type = 0;
     std::vector<unsigned int>   flags;                  // if TOK_FLAGS
+    std::vector<tokenstate_t>   var_expr;
 public:
     std::string                 to_string(void);
 };
@@ -2498,6 +2499,7 @@ bool is_valid_immediate_assign_var(const unsigned int c) {
         case TOK_X: return true;
         case TOK_Y: return true;
         case TOK_Z: return true;
+        case TOK_REG: return true;
         default: break;
     };
 
@@ -2843,6 +2845,29 @@ bool read_opcode_spec_opcode_parens(tokenlist &parent_tokens,OpcodeSpec &spec) {
             if (is_valid_immediate_assign_var(tokens.peek(0).type) && tokens.peek(1).type == TOK_EQUAL) {
                 bs.var_assign = tokens.peek().type;
                 tokens.discard(2);
+
+                /* allow var=(...) expressions */
+                if (tokens.peek().type == TOK_OPEN_PARENS) {
+                    tokens.discard();
+                    int parens = 1;
+                    do {
+                        auto &n = tokens.next();
+
+                        if (n.type == TOK_NONE || n.type == TOK_ERROR)
+                            return false;
+                        else if (n.type == TOK_CLOSE_PARENS) {
+                            if (parens-- <= 1)
+                                break;
+                        }
+                        else if (n.type == TOK_OPEN_PARENS)
+                            parens++;
+
+                        bs.var_expr.push_back(n);
+                    } while (1);
+
+                    spec.bytes.push_back(bs);
+                    continue;
+                }
             }
 
             if (tokens.peek().type == TOK_UINT) {
