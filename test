@@ -129,16 +129,16 @@ opcode "DAA"
   (comment "DAA adjust AL after addition")
   (comment "TODO: Not valid in x64 long mode")
   (reads al, flags(cf))
-  (modifies al, flags(cf,af))
-  (writes al, flags(cf,af))
+  (modifies al, flags(cf,af,sf,zf,pf))
+  (writes al, flags(cf,af,sf,zf,pf,of))
   (code 0x27);
 
 opcode "DAS"
   (comment "DAS adjust AL after subtraction")
   (comment "TODO: Not valid in x64 long mode")
   (reads al, flags(cf))
-  (modifies al, flags(cf,af))
-  (writes al, flags(cf,af))
+  (modifies al, flags(cf,af,sf,zf,pf))
+  (writes al, flags(cf,af,sf,zf,pf,of))
   (code 0x2F);
 
 opcode "AAA"
@@ -146,15 +146,15 @@ opcode "AAA"
   (comment "TODO: Not valid in x64 long mode")
   (reads al, flags(af))
   (modifies ax, flags(cf,af))
-  (writes ax, flags(cf,af))
+  (writes ax, flags(cf,af,of,sf,zf,pf))
   (code 0x37);
 
 opcode "AAD"
   (comment "AAD ascii adjust AX before division")
   (comment "TODO: Not valid in x64 long mode")
   (reads ax, d)
-  (modifies ax)
-  (writes ax)
+  (modifies ax, flags(sf,zf,pf))
+  (writes ax, flags(sf,zf,pf,of,af,cf))
   (param=d)
   (code 0x3F d=immediate(b));
 
