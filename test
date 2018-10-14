@@ -215,6 +215,18 @@ opcode "CWD"
   (writes dv)
   (modifies dv);
 
+opcode "PUSHF"
+  (code 0x9C)
+  (reads flags(all))
+  (modifies spv)
+  (stack push flags(all));
+
+opcode "POPF"
+  (code 0x9D)
+  (writes flags(all))
+  (modifies spv)
+  (stack pop flags(all));
+
 opcode "RET"
   (modifies spv,ipv)
   (stack pop ipv)
