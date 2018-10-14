@@ -60,3 +60,36 @@ else {;
 
 comment "-----------------begin opcodes----------------";
 
+opcode "PUSH"
+  (comment "PUSH ES")
+  (code 0x06);
+
+opcode "POP"
+  (comment "POP ES")
+  (code 0x07);
+
+opcode "PUSH"
+  (comment "PUSH CS")
+  (code 0x0E);
+
+if value("cpulevel") <= 86
+opcode "POP"
+  (comment "POP CS")
+  (code 0x0F);
+
+opcode "PUSH"
+  (comment "PUSH SS")
+  (code 0x16);
+
+opcode "POP"
+  (comment "POP SS")
+  (code 0x17);
+
+opcode "PUSH"
+  (comment "PUSH DS")
+  (code 0x1E);
+
+opcode "POP"
+  (comment "POP DS")
+  (code 0x1F);
+
