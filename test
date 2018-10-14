@@ -93,3 +93,19 @@ opcode "POP"
   (comment "POP DS")
   (code 0x1F);
 
+opcode "DAA"
+  (comment "DAA adjust AL after addition")
+  (code 0x27);
+
+opcode "DAS"
+  (comment "DAS adjust AL after subtraction")
+  (code 0x2F);
+
+opcode "AAA"
+  (comment "AAA ascii adjust AL after addition")
+  (code 0x37);
+
+opcode "AAD"
+  (comment "AAD ascii adjust AX before division")
+  (code 0x3F immediate(b));
+
