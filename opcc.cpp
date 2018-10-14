@@ -1604,6 +1604,8 @@ public:
     std::string                 description;
     std::string                 comment;
     std::string                 name;
+    unsigned int                destination = 0;        // destination (if writes) token
+    std::vector<unsigned int>   param;                  // parameter (read only) tokens. variables are possible (TOK_D)
     unsigned int                prefix_seg_assign = 0;  // token segment override assignment (PREFIX)
 public:
     std::string                 to_string(void);
@@ -1652,6 +1654,23 @@ std::string OpcodeSpec::to_string(void) {
         if (i != bytes.end()) res += " ";
     }
     res += ")";
+
+    if (destination != TOK_NONE) {
+        if (!res.empty()) res += ",";
+        res += "dest=";
+        res += tokentype_str[destination];
+    }
+
+    if (param.size() != 0) {
+        if (!res.empty()) res += ",";
+        res += "param=[";
+        for (auto i=param.begin();i!=param.end();) {
+            res += tokentype_str[*i];
+            i++;
+            if (i!=param.end()) res += " ";
+        }
+        res += "]";
+    }
 
     return res;
 }
@@ -2369,6 +2388,31 @@ bool read_opcode_spec_opcode_parens(tokenlist &parent_tokens,OpcodeSpec &spec) {
             fprintf(stderr,"Seg unexpected tokens\n");
             return false;
         }
+
+        return true;
+    }
+
+    /* dest=register/mem/etc */
+    if (tokens.peek(0).type == TOK_DEST && tokens.peek(1).type == TOK_EQUAL) {
+        tokens.discard(2);
+
+        if (spec.destination != TOK_NONE) {
+            fprintf(stderr,"Destination already specified\n");
+            return false;
+        }
+
+        auto &n = tokens.next();
+        spec.destination = n.type;
+
+        return true;
+    }
+
+    /* param=register/mem/etc */
+    if (tokens.peek(0).type == TOK_PARAM && tokens.peek(1).type == TOK_EQUAL) {
+        tokens.discard(2);
+
+        auto &n = tokens.next();
+        spec.param.push_back(n.type);
 
         return true;
     }
