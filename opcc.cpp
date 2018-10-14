@@ -2429,6 +2429,33 @@ bool is_valid_immediate_assign_var(const unsigned int c) {
     return false;
 }
 
+bool parse_sbl_list(std::vector<SingleByteSpec> &sbl,tokenlist &tokens) {
+    while (!tokens.eof()) {
+        SingleByteSpec bs;
+
+        auto &n = tokens.next();
+        bs.meaning = n.type;
+
+        if (bs.meaning == TOK_IMMEDIATE) {
+            if ((bs.immediate_type=parse_code_immediate_spec(/*&*/tokens)) == TOK_NONE) {
+                fprintf(stderr,"Invalid immediate spec\n");
+                return false;
+            }
+        }
+
+        sbl.push_back(bs);
+
+        if (tokens.peek().type == TOK_COMMA) {
+            tokens.discard();
+        }
+        else {
+            break;
+        }
+    }
+
+    return true;
+}
+
 bool read_opcode_spec_opcode_parens(tokenlist &parent_tokens,OpcodeSpec &spec) {
     /* caller already read '(' */
     tokenlist tokens;
@@ -2512,17 +2539,14 @@ bool read_opcode_spec_opcode_parens(tokenlist &parent_tokens,OpcodeSpec &spec) {
     if (tokens.peek().type == TOK_READS) {
         tokens.discard();
 
-        SingleByteSpec bs;
+        if (!parse_sbl_list(spec.reads,tokens))
+            return false;
 
-        auto &n = tokens.next();
-        bs.meaning = n.type;
-
-        if (bs.meaning == TOK_IMMEDIATE) {
-            fprintf(stderr,"Immediate not supported for reads\n");
+        if (!tokens.eof()) {
+            fprintf(stderr,"Unexpected tokens\n");
             return false;
         }
 
-        spec.reads.push_back(bs);
         return true;
     }
 
@@ -2530,17 +2554,14 @@ bool read_opcode_spec_opcode_parens(tokenlist &parent_tokens,OpcodeSpec &spec) {
     if (tokens.peek().type == TOK_WRITES) {
         tokens.discard();
 
-        SingleByteSpec bs;
+        if (!parse_sbl_list(spec.writes,tokens))
+            return false;
 
-        auto &n = tokens.next();
-        bs.meaning = n.type;
-
-        if (bs.meaning == TOK_IMMEDIATE) {
-            fprintf(stderr,"Immediate not supported for writes\n");
+        if (!tokens.eof()) {
+            fprintf(stderr,"Unexpected tokens\n");
             return false;
         }
 
-        spec.writes.push_back(bs);
         return true;
     }
 
@@ -2548,17 +2569,14 @@ bool read_opcode_spec_opcode_parens(tokenlist &parent_tokens,OpcodeSpec &spec) {
     if (tokens.peek().type == TOK_MODIFIES) {
         tokens.discard();
 
-        SingleByteSpec bs;
+        if (!parse_sbl_list(spec.modifies,tokens))
+            return false;
 
-        auto &n = tokens.next();
-        bs.meaning = n.type;
-
-        if (bs.meaning == TOK_IMMEDIATE) {
-            fprintf(stderr,"Immediate not supported for modifies\n");
+        if (!tokens.eof()) {
+            fprintf(stderr,"Unexpected tokens\n");
             return false;
         }
 
-        spec.modifies.push_back(bs);
         return true;
     }
 
@@ -2591,24 +2609,14 @@ bool read_opcode_spec_opcode_parens(tokenlist &parent_tokens,OpcodeSpec &spec) {
             return false;
         }
 
-        SingleByteSpec bs;
+        if (!parse_sbl_list(spec.stack_ops,tokens))
+            return false;
 
-        auto &n = tokens.next();
-        bs.meaning = n.type;
-
-        if (bs.meaning == TOK_IMMEDIATE) {
-            if (spec.stack_op_dir == TOK_POP) {
-                fprintf(stderr,"Immediate not supported for stack pop\n");
-                return false;
-            }
-
-            if ((bs.immediate_type=parse_code_immediate_spec(/*&*/tokens)) == TOK_NONE) {
-                fprintf(stderr,"Invalid immediate spec\n");
-                return false;
-            }
+        if (!tokens.eof()) {
+            fprintf(stderr,"Unexpected tokens\n");
+            return false;
         }
 
-        spec.stack_ops.push_back(bs);
         return true;
     }
 
