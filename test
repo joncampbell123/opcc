@@ -263,3 +263,42 @@ opcode "OUT"
   (param(1)=av)
   (code 0xEF);
 
+opcode "HLT"
+  (code 0xF4);
+
+opcode "CMC"
+  (reads flags(cf))
+  (modifies flags(cf))
+  (writes flags(cf))
+  (code 0xF5);
+
+opcode "CLC"
+  (modifies flags(cf))
+  (writes flags(cf))
+  (code 0xF8);
+
+opcode "STC"
+  (modifies flags(cf))
+  (writes flags(cf))
+  (code 0xF9);
+
+opcode "CLI"
+  (modifies flags(if))
+  (writes flags(if))
+  (code 0xFA);
+
+opcode "STI"
+  (modifies flags(if))
+  (writes flags(if))
+  (code 0xFB);
+
+opcode "CLD"
+  (modifies flags(df))
+  (writes flags(df))
+  (code 0xFC);
+
+opcode "STD"
+  (modifies flags(df))
+  (writes flags(df))
+  (code 0xFD);
+
