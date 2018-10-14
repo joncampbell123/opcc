@@ -201,16 +201,16 @@ opcode "RET"
   (code 0xC3);
 
 opcode "RETF"
-  (modifies spv,ipv)
+  (modifies spv,ipv,cs)
   (stack pop ipv,cs)
-  (writes ipv)
+  (writes ipv,cs)
   (param=c)
   (code 0xCA c=immediate(w));
 
 opcode "RETF"
-  (modifies spv,ipv)
+  (modifies spv,ipv,cs)
   (stack pop ipv,cs)
-  (writes ipv)
+  (writes ipv,cs)
   (code 0xCB);
 
 opcode "INT"
@@ -222,6 +222,17 @@ opcode "INT"
   (modifies all)
   (param=i)
   (code 0xCD i=immediate(b));
+
+opcode "INTO"
+  (modifies all)
+  (reads flags(of))
+  (code 0xCE);
+
+opcode "IRET"
+  (modifies spv,ipv,cs,flags(all))
+  (stack pop ipv,cs,flags(all))
+  (writes ipv,cs,flags(all))
+  (code 0xCF);
 
 opcode "AAM"
   (comment "AAD ascii adjust AX before multiply")
