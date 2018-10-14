@@ -1588,22 +1588,73 @@ int parse_argv(int argc,char **argv) {
     return 0;
 }
 
-typedef std::vector<uint8_t> ByteSpec;
+class ByteSpec : public std::vector<uint8_t> {
+public:
+    unsigned int                var_assign = 0;
+    unsigned int                meaning = 0;            // if TOK_IMMEDIATE then size() == 0 and it's an immediate byte
+    unsigned int                immediate_type = 0;
+public:
+    std::string                 to_string(void);
+};
 
 class OpcodeSpec {
 public:
     std::vector<ByteSpec>       bytes;                  // opcode byte sequence
-    unsigned int                immed_byte_1 = 0;       // if set, immediate byte follows mod/reg/rm (token)
-    unsigned int                immed_var_1 = 0;
-    unsigned int                immed_byte_2 = 0;       // if set, immediate byte follows mod/reg/rm (token)
-    unsigned int                immed_var_2 = 0;
     unsigned int                type = 0;               // token type (PREFIX, OPCODE, etc)
     std::string                 description;
     std::string                 comment;
     std::string                 name;
-    bool                        modregrm = false;       // if mod/reg/rm byte follows opcode
     unsigned int                prefix_seg_assign = 0;  // token segment override assignment (PREFIX)
+public:
+    std::string                 to_string(void);
 };
+
+std::string ByteSpec::to_string(void) {
+    std::string res;
+    char tmp[64];
+
+    if (size() != 0) {
+        res += "[";
+        for (auto i=begin();i!=end();) {
+            sprintf(tmp,"0x%02x",*i);
+            res += tmp;
+            i++;
+            if (i != end()) res += " ";
+        }
+        res += "]";
+    }
+    if (var_assign != TOK_NONE) {
+        if (!res.empty()) res += ",";
+        res += "varassign=";
+        res += tokentype_str[var_assign];
+    }
+    if (meaning != TOK_NONE) {
+        if (!res.empty()) res += ",";
+        res += "meaning=";
+        res += tokentype_str[meaning];
+    }
+    if (immediate_type != TOK_NONE) {
+        if (!res.empty()) res += ",";
+        res += "immediate=";
+        res += tokentype_str[immediate_type];
+    }
+
+    return res;
+}
+
+std::string OpcodeSpec::to_string(void) {
+    std::string res;
+
+    res += "bytes=(";
+    for (auto i=bytes.begin();i!=bytes.end();) {
+        res += (*i).to_string();
+        i++;
+        if (i != bytes.end()) res += " ";
+    }
+    res += ")";
+
+    return res;
+}
 
 static tokenstate_t tokenstate_t_none;
 
@@ -2331,83 +2382,75 @@ bool read_opcode_spec_opcode_parens(tokenlist &parent_tokens,OpcodeSpec &spec) {
             return false;
         }
 
-        while (!tokens.eof() && tokens.peek().type == TOK_UINT) {
-            auto &next = tokens.next();
+        while (!tokens.eof()) {
             ByteSpec bs;
 
-            /* byte range (0xA0-0xA3) */
-            if (tokens.peek().type == TOK_MINUS) {
-                unsigned int start = next.intval.u;
-                tokens.discard(); // TOK_MINUS
-                auto &next2 = tokens.next();
-                if (next2.type != TOK_UINT) break;
-                unsigned int end = next2.intval.u;
+            if (is_valid_immediate_assign_var(tokens.peek(0).type) && tokens.peek(1).type == TOK_EQUAL) {
+                bs.var_assign = tokens.peek().type;
+                tokens.discard(2);
+            }
 
-                if (start > end || start > 255 || end > 255) {
-                    fprintf(stderr,"Invalid range\n");
+            if (tokens.peek().type == TOK_UINT) {
+                do {
+                    auto &next = tokens.next();
+
+                    /* byte range (0xA0-0xA3) */
+                    if (tokens.peek().type == TOK_MINUS) {
+                        unsigned int start = next.intval.u;
+                        tokens.discard(); // TOK_MINUS
+                        auto &next2 = tokens.next();
+                        if (next2.type != TOK_UINT) {
+                            fprintf(stderr,"Unexpected minus sign\n");
+                            return false;
+                        }
+                        unsigned int end = next2.intval.u;
+
+                        if (start > end || start > 255 || end > 255) {
+                            fprintf(stderr,"Invalid range\n");
+                            return false;
+                        }
+
+                        for (unsigned int c=start;c <= end;c++)
+                            bs.push_back((uint8_t)c);
+                    }
+                    /* single byte */
+                    else {
+                        bs.push_back((uint8_t)next.intval.u);
+                    }
+
+                    /* store it */
+                    spec.bytes.push_back(bs);
+
+                    /* if the next token is a comma, then discard it and loop again.
+                     * else exit the loop */
+                    if (tokens.peek().type == TOK_COMMA) {
+                        tokens.discard();
+                        continue;
+                    }
+                    else {
+                        break;
+                    }
+                } while (1);
+            }
+            else if (tokens.peek().type == TOK_MRM) {
+                tokens.discard();
+
+                bs.meaning = TOK_MRM;
+                spec.bytes.push_back(bs);
+            }
+            else if (tokens.peek().type == TOK_IMMEDIATE) {
+                tokens.discard();
+
+                bs.meaning = TOK_IMMEDIATE;
+                if ((bs.immediate_type=parse_code_immediate_spec(/*&*/tokens)) == TOK_NONE) {
+                    fprintf(stderr,"Invalid immediate spec\n");
                     return false;
                 }
 
-                for (unsigned int c=start;c <= end;c++)
-                    bs.push_back((uint8_t)c);
-            }
-            /* single byte */
-            else {
-                bs.push_back((uint8_t)next.intval.u);
-            }
-
-            /* store it */
-            spec.bytes.push_back(bs);
-
-            /* if the next token is a comma, then discard it and loop again.
-             * else exit the loop */
-            if (tokens.peek().type == TOK_COMMA) {
-                tokens.discard();
-                continue;
+                spec.bytes.push_back(bs);
             }
             else {
                 break;
-            }
-        }
-
-        /* whether or not the instruction has a mod/reg/rm byte */
-        if (tokens.peek().type == TOK_MRM) {
-            tokens.discard();
-            spec.modregrm = true;
-        }
-
-        /* whether the instruction has immediate operands "immediate(v)" */
-        if (tokens.peek(0).type != TOK_IMMEDIATE && tokens.peek(1).type == TOK_EQUAL && tokens.peek(2).type == TOK_IMMEDIATE) {
-            if (!is_valid_immediate_assign_var(tokens.peek().type)) {
-                fprintf(stderr,"Invalid immediate assign\n");
-                return false;
-            }
-
-            spec.immed_var_1 = tokens.peek().type;
-            tokens.discard(2);
-        }
-        if (tokens.peek().type == TOK_IMMEDIATE) {
-            tokens.discard();
-            if ((spec.immed_byte_1=parse_code_immediate_spec(/*&*/tokens)) == TOK_NONE) {
-                fprintf(stderr,"Invalid immediate spec\n");
-                return false;
-            }
-        }
-
-        if (tokens.peek(0).type != TOK_IMMEDIATE && tokens.peek(1).type == TOK_EQUAL && tokens.peek(2).type == TOK_IMMEDIATE) {
-            if (!is_valid_immediate_assign_var(tokens.peek().type)) {
-                fprintf(stderr,"Invalid immediate assign\n");
-                return false;
-            }
-
-            spec.immed_var_2 = tokens.peek().type;
-            tokens.discard(2);
-        }
-        if (tokens.peek().type == TOK_IMMEDIATE) {
-            tokens.discard();
-            if ((spec.immed_byte_2=parse_code_immediate_spec(/*&*/tokens)) == TOK_NONE) {
-                fprintf(stderr,"Invalid immediate spec\n");
-                return false;
             }
         }
 
