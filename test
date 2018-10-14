@@ -161,12 +161,18 @@ opcode "INC"
   (comment "INC register, word size. reg16 if 16-bit, reg32 if 32-bit")
   (comment "TODO: Not valid in x64 long mode")
   (code a=0x40-0x47 reg=(a&7))
+  (reads reg(v))
+  (modifies reg(v))
+  (writes reg(v))
   (param=reg(v));
 
 opcode "DEC"
   (comment "DEC register, word size. reg16 if 16-bit, reg32 if 32-bit")
   (comment "TODO: Not valid in x64 long mode")
   (code a=0x48-0x4F reg=(a&7))
+  (reads reg(v))
+  (modifies reg(v))
+  (writes reg(v))
   (param=reg(v));
 
 opcode "AAM"

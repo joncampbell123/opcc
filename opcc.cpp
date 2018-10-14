@@ -2584,6 +2584,12 @@ bool parse_sbl_list(std::vector<SingleByteSpec> &sbl,tokenlist &tokens) {
                 return false;
             }
         }
+        else if (bs.meaning == TOK_REG) {
+            if ((bs.reg_type=parse_code_immediate_spec(/*&*/tokens)) == TOK_NONE) {
+                fprintf(stderr,"Invalid reg spec\n");
+                return false;
+            }
+        }
 
         sbl.push_back(bs);
 
