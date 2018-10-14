@@ -2409,11 +2409,43 @@ bool read_opcode_spec_opcode_parens(tokenlist &parent_tokens,OpcodeSpec &spec) {
 
     /* param=register/mem/etc */
     if (tokens.peek(0).type == TOK_PARAM && tokens.peek(1).type == TOK_EQUAL) {
+        size_t i = (size_t)0;
         tokens.discard(2);
 
-        auto &n = tokens.next();
-        spec.param.push_back(n.type);
+        while (spec.param.size() <= i)
+            spec.param.push_back(TOK_NONE);
 
+        auto &n = tokens.next();
+        if (spec.param[i] != TOK_NONE) {
+            fprintf(stderr,"param(%zu) already specified\n",i);
+            return false;
+        }
+
+        spec.param[i] = n.type;
+        return true;
+    }
+
+    /* param(i)=register/mem/etc */
+    if (tokens.peek(0).type == TOK_PARAM && tokens.peek(1).type == TOK_OPEN_PARENS &&
+        tokens.peek(2).type == TOK_UINT && tokens.peek(3).type == TOK_CLOSE_PARENS &&
+        tokens.peek(4).type == TOK_EQUAL) {
+        if (tokens.peek(3).intval.u > 8) {
+            fprintf(stderr,"Out of range parens\n");
+            return false;
+        }
+        size_t i = (size_t)tokens.peek(3).intval.u;
+        tokens.discard(5);
+
+        while (spec.param.size() <= i)
+            spec.param.push_back(TOK_NONE);
+
+        auto &n = tokens.next();
+        if (spec.param[i] != TOK_NONE) {
+            fprintf(stderr,"param(%zu) already specified\n",i);
+            return false;
+        }
+
+        spec.param[i] = n.type;
         return true;
     }
 
