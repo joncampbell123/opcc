@@ -3092,6 +3092,8 @@ bool do_opcode_spec(tokenlist &tokens) {
 
     if (!read_opcode_spec(/*&*/spec,/*&*/tokens))
         return false;
+    if (spec.type == TOK_NONE)
+        return true;
 
 #if 0
     fprintf(stderr,"%s: %s\n",spec.name.c_str(),spec.to_string().c_str());
