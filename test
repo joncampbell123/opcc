@@ -175,6 +175,18 @@ opcode "DEC"
   (writes reg(v))
   (param=reg(v));
 
+opcode "NOP"
+  (comment "Technically, XCHG AX,AX, but that does nothing and nothing else is modified")
+  (code 0x90);
+
+opcode "XCHG"
+  (code a=0x91-0x97 reg=(a&7))
+  (reads av, reg(v))
+  (modifies av, reg(v))
+  (writes av, reg(v))
+  (dest=reg(v))
+  (param=av);
+
 opcode "AAM"
   (comment "AAD ascii adjust AX before multiply")
   (comment "TODO: Not valid in x64 long mode")
