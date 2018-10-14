@@ -1621,8 +1621,8 @@ public:
     std::string                 description;
     std::string                 comment;
     std::string                 name;
-    unsigned int                destination = 0;        // destination (if writes) token
-    std::vector<unsigned int>   param;                  // parameter (read only) tokens. variables are possible (TOK_D)
+    SingleByteSpec              destination;            // destination (if writes) token
+    std::vector<SingleByteSpec> param;                  // parameter (read only) tokens. variables are possible (TOK_D)
     unsigned int                prefix_seg_assign = 0;  // token segment override assignment (PREFIX)
 public:
     std::string                 to_string(void);
@@ -1688,17 +1688,22 @@ std::string OpcodeSpec::to_string(void) {
     }
     res += ")";
 
-    if (destination != TOK_NONE) {
-        if (!res.empty()) res += ",";
-        res += "dest=";
-        res += tokentype_str[destination];
+    {
+        std::string subres = destination.to_string();
+
+        if (!subres.empty()) {
+            if (!res.empty()) res += ",";
+            res += "dest=[";
+            res += subres;
+            res += "]";
+        }
     }
 
     if (param.size() != 0) {
         if (!res.empty()) res += ",";
         res += "param=[";
         for (auto i=param.begin();i!=param.end();) {
-            res += tokentype_str[*i];
+            res += (*i).to_string();
             i++;
             if (i!=param.end()) res += " ";
         }
@@ -2429,14 +2434,24 @@ bool read_opcode_spec_opcode_parens(tokenlist &parent_tokens,OpcodeSpec &spec) {
     if (tokens.peek(0).type == TOK_DEST && tokens.peek(1).type == TOK_EQUAL) {
         tokens.discard(2);
 
-        if (spec.destination != TOK_NONE) {
+        if (spec.destination.meaning != TOK_NONE) {
             fprintf(stderr,"Destination already specified\n");
             return false;
         }
 
-        auto &n = tokens.next();
-        spec.destination = n.type;
+        SingleByteSpec bs;
 
+        auto &n = tokens.next();
+        bs.meaning = n.type;
+
+        if (bs.meaning == TOK_IMMEDIATE) {
+            if ((bs.immediate_type=parse_code_immediate_spec(/*&*/tokens)) == TOK_NONE) {
+                fprintf(stderr,"Invalid immediate spec\n");
+                return false;
+            }
+        }
+
+        spec.destination = std::move(bs);
         return true;
     }
 
@@ -2445,16 +2460,27 @@ bool read_opcode_spec_opcode_parens(tokenlist &parent_tokens,OpcodeSpec &spec) {
         size_t i = (size_t)0;
         tokens.discard(2);
 
-        while (spec.param.size() <= i)
-            spec.param.push_back(TOK_NONE);
+        SingleByteSpec bs;
 
-        auto &n = tokens.next();
-        if (spec.param[i] != TOK_NONE) {
+        while (spec.param.size() <= i)
+            spec.param.push_back(bs);
+
+        if (spec.param[i].meaning != TOK_NONE) {
             fprintf(stderr,"param(%zu) already specified\n",i);
             return false;
         }
 
-        spec.param[i] = n.type;
+        auto &n = tokens.next();
+        bs.meaning = n.type;
+
+        if (bs.meaning == TOK_IMMEDIATE) {
+            if ((bs.immediate_type=parse_code_immediate_spec(/*&*/tokens)) == TOK_NONE) {
+                fprintf(stderr,"Invalid immediate spec\n");
+                return false;
+            }
+        }
+
+        spec.param[i] = std::move(bs);
         return true;
     }
 
@@ -2469,16 +2495,27 @@ bool read_opcode_spec_opcode_parens(tokenlist &parent_tokens,OpcodeSpec &spec) {
         size_t i = (size_t)tokens.peek(3).intval.u;
         tokens.discard(5);
 
-        while (spec.param.size() <= i)
-            spec.param.push_back(TOK_NONE);
+        SingleByteSpec bs;
 
-        auto &n = tokens.next();
-        if (spec.param[i] != TOK_NONE) {
+        while (spec.param.size() <= i)
+            spec.param.push_back(bs);
+
+        if (spec.param[i].meaning != TOK_NONE) {
             fprintf(stderr,"param(%zu) already specified\n",i);
             return false;
         }
 
-        spec.param[i] = n.type;
+        auto &n = tokens.next();
+        bs.meaning = n.type;
+
+        if (bs.meaning == TOK_IMMEDIATE) {
+            if ((bs.immediate_type=parse_code_immediate_spec(/*&*/tokens)) == TOK_NONE) {
+                fprintf(stderr,"Invalid immediate spec\n");
+                return false;
+            }
+        }
+
+        spec.param[i] = std::move(bs);
         return true;
     }
 
