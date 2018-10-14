@@ -177,6 +177,8 @@ enum tokentype_t {
     TOK_ELSE,
     TOK_LEFT_SHIFT,
     TOK_RIGHT_SHIFT,            // 160
+    TOK_READS,
+    TOK_WRITES,
 
     TOK_MAX
 };
@@ -342,7 +344,9 @@ const char *tokentype_str[TOK_MAX] = {
     "DIALECT",
     "ELSE",
     "LEFT_SHIFT",
-    "RIGHT_SHIFT"               // 160
+    "RIGHT_SHIFT",              // 160
+    "READS",
+    "WRITES"
 };
 
 bool supported_dialect(const std::string &d) {
@@ -1533,6 +1537,14 @@ bool toke(tokenstate_t &tok) {
         }
         if (tok.string == "ELSE") {
             tok.type = TOK_ELSE;
+            return true;
+        }
+        if (tok.string == "READS") {
+            tok.type = TOK_READS;
+            return true;
+        }
+        if (tok.string == "WRITES") {
+            tok.type = TOK_WRITES;
             return true;
         }
     }
