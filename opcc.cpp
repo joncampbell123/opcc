@@ -183,6 +183,16 @@ enum tokentype_t {
     TOK_STACK,
     TOK_PUSH,                   // 165
     TOK_POP,
+    TOK_CF,
+    TOK_PF,
+    TOK_AF,
+    TOK_ZF,                     // 170
+    TOK_SF,
+    TOK_TF,
+    TOK_DF,
+    TOK_OF,
+    TOK_IOPL,                   // 175
+    TOK_NT,
 
     TOK_MAX
 };
@@ -354,7 +364,17 @@ const char *tokentype_str[TOK_MAX] = {
     "MODIFIES",
     "STACK",
     "PUSH",                     // 165
-    "POP"
+    "POP",
+    "CF",
+    "PF",
+    "AF",
+    "ZF",                       // 170
+    "SF",
+    "TF",
+    "DF",
+    "OF",
+    "IOPL",                     // 175
+    "NT"
 };
 
 bool supported_dialect(const std::string &d) {
@@ -1571,6 +1591,50 @@ bool toke(tokenstate_t &tok) {
             tok.type = TOK_POP;
             return true;
         }
+        if (tok.string == "CF") {
+            tok.type = TOK_CF;
+            return true;
+        }
+        if (tok.string == "PF") {
+            tok.type = TOK_PF;
+            return true;
+        }
+        if (tok.string == "AF") {
+            tok.type = TOK_AF;
+            return true;
+        }
+        if (tok.string == "ZF") {
+            tok.type = TOK_ZF;
+            return true;
+        }
+        if (tok.string == "SF") {
+            tok.type = TOK_SF;
+            return true;
+        }
+        if (tok.string == "TF") {
+            tok.type = TOK_TF;
+            return true;
+        }
+        if (tok.string == "IF") {
+            tok.type = TOK_IF;
+            return true;
+        }
+        if (tok.string == "DF") {
+            tok.type = TOK_DF;
+            return true;
+        }
+        if (tok.string == "OF") {
+            tok.type = TOK_OF;
+            return true;
+        }
+        if (tok.string == "IOPL") {
+            tok.type = TOK_IOPL;
+            return true;
+        }
+        if (tok.string == "NT") {
+            tok.type = TOK_NT;
+            return true;
+        }
     }
 
     tok.type = TOK_ERROR;
@@ -1629,6 +1693,7 @@ public:
     unsigned int                var_assign = 0;
     unsigned int                meaning = 0;            // if TOK_IMMEDIATE then size() == 0 and it's an immediate byte
     unsigned int                immediate_type = 0;
+    std::vector<unsigned int>   flags;                  // if TOK_FLAGS
 public:
     std::string                 to_string(void);
 };
@@ -1674,6 +1739,16 @@ std::string SingleByteSpec::to_string(void) {
         if (!res.empty()) res += ",";
         res += "immediate=";
         res += tokentype_str[immediate_type];
+    }
+    if (!flags.empty()) {
+        if (!res.empty()) res += ",";
+        res += "flags=[";
+        for (auto i=flags.begin();i!=flags.end();) {
+            res += tokentype_str[*i];
+            i++;
+            if (i != flags.end()) res += ",";
+        }
+        res += "]";
     }
 
     return res;
@@ -2429,6 +2504,49 @@ bool is_valid_immediate_assign_var(const unsigned int c) {
     return false;
 }
 
+bool parse_code_flags_spec(std::vector<unsigned int> &flags,tokenlist &tokens) {
+    /* caller ate TOK_FLAGS */
+    if (tokens.next().type != TOK_OPEN_PARENS) return false;
+
+    do {
+        auto &n = tokens.next();
+
+        if (n.type == TOK_CLOSE_PARENS) break;
+
+        switch (n.type) {
+            case TOK_ALL:
+            case TOK_CF:
+            case TOK_PF:
+            case TOK_AF:
+            case TOK_ZF:
+            case TOK_SF:
+            case TOK_TF:
+            case TOK_IF:
+            case TOK_DF:
+            case TOK_OF:
+            case TOK_IOPL:
+            case TOK_NT:
+                flags.push_back(n.type);
+                break;
+            default:
+                return false;
+        };
+
+        if (tokens.peek().type == TOK_COMMA) {
+            tokens.discard();
+        }
+        else if (tokens.peek().type == TOK_CLOSE_PARENS) {
+            tokens.discard();
+            break;
+        }
+        else {
+            break;
+        }
+    } while (1);
+
+    return true;
+}
+
 bool parse_sbl_list(std::vector<SingleByteSpec> &sbl,tokenlist &tokens) {
     while (!tokens.eof()) {
         SingleByteSpec bs;
@@ -2439,6 +2557,12 @@ bool parse_sbl_list(std::vector<SingleByteSpec> &sbl,tokenlist &tokens) {
         if (bs.meaning == TOK_IMMEDIATE) {
             if ((bs.immediate_type=parse_code_immediate_spec(/*&*/tokens)) == TOK_NONE) {
                 fprintf(stderr,"Invalid immediate spec\n");
+                return false;
+            }
+        }
+        else if (bs.meaning == TOK_FLAGS) {
+            if (!parse_code_flags_spec(bs.flags,/*&*/tokens)) {
+                fprintf(stderr,"Invalid flags spec\n");
                 return false;
             }
         }
