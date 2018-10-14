@@ -203,6 +203,18 @@ opcode "XCHG"
   (dest=reg(v))
   (param=av);
 
+opcode "CBW"
+  (code 0x98)
+  (reads al)
+  (modifies av)
+  (writes av);
+
+opcode "CWD"
+  (code 0x99)
+  (reads av)
+  (writes dv)
+  (modifies dv);
+
 opcode "RET"
   (modifies spv,ipv)
   (stack pop ipv)
