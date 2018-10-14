@@ -211,3 +211,27 @@ opcode "XLAT"
   (writes al)
   (code 0xD7);
 
+opcode "OUT"
+  (reads al)
+  (param(0)=p)
+  (param(1)=al)
+  (code 0xE6 p=immediate(b));
+
+opcode "OUT"
+  (reads av)
+  (param(0)=p)
+  (param(1)=av)
+  (code 0xE7 p=immediate(b));
+
+opcode "OUT"
+  (reads al)
+  (param(0)=dx)
+  (param(1)=al)
+  (code 0xEE);
+
+opcode "OUT"
+  (reads av)
+  (param(0)=dx)
+  (param(1)=av)
+  (code 0xEF);
+
