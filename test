@@ -129,7 +129,7 @@ opcode "DAA"
   (comment "DAA adjust AL after addition")
   (comment "TODO: Not valid in x64 long mode")
   (reads al, flags(cf))
-  (modifies al, flags(cf,af,sf,zf,pf))
+  (modifies al)
   (writes al, flags(cf,af,sf,zf,pf,of))
   (code 0x27);
 
@@ -137,7 +137,7 @@ opcode "DAS"
   (comment "DAS adjust AL after subtraction")
   (comment "TODO: Not valid in x64 long mode")
   (reads al, flags(cf))
-  (modifies al, flags(cf,af,sf,zf,pf))
+  (modifies al)
   (writes al, flags(cf,af,sf,zf,pf,of))
   (code 0x2F);
 
@@ -145,7 +145,7 @@ opcode "AAA"
   (comment "AAA ascii adjust AL after addition")
   (comment "TODO: Not valid in x64 long mode")
   (reads al, flags(af))
-  (modifies ax, flags(cf,af))
+  (modifies ax)
   (writes ax, flags(cf,af,of,sf,zf,pf))
   (code 0x37);
 
@@ -153,7 +153,7 @@ opcode "AAS"
   (comment "AAS ascii adjust AL after subtraction")
   (comment "TODO: Not valid in x64 long mode")
   (reads al, flags(af))
-  (modifies ax, flags(cf,af))
+  (modifies ax)
   (writes ax, flags(cf,af,of,sf,zf,pf))
   (code 0x3F);
 
@@ -238,27 +238,27 @@ opcode "LAHF"
   (writes ah);
 
 opcode "RET"
-  (modifies spv,ipv)
+  (modifies spv)
   (stack pop ipv)
   (writes ipv)
   (param=c)
   (code 0xC2 c=immediate(w));
 
 opcode "RET"
-  (modifies spv,ipv)
+  (modifies spv)
   (stack pop ipv)
   (writes ipv)
   (code 0xC3);
 
 opcode "RETF"
-  (modifies spv,ipv,cs)
+  (modifies spv)
   (stack pop ipv,cs)
   (writes ipv,cs)
   (param=c)
   (code 0xCA c=immediate(w));
 
 opcode "RETF"
-  (modifies spv,ipv,cs)
+  (modifies spv)
   (stack pop ipv,cs)
   (writes ipv,cs)
   (code 0xCB);
@@ -279,7 +279,7 @@ opcode "INTO"
   (code 0xCE);
 
 opcode "IRET"
-  (modifies spv,ipv,cs,flags(all))
+  (modifies spv)
   (stack pop ipv,cs,flags(all))
   (writes ipv,cs,flags(all))
   (code 0xCF);
@@ -288,7 +288,7 @@ opcode "AAM"
   (comment "AAD ascii adjust AX before multiply")
   (comment "TODO: Not valid in x64 long mode")
   (reads ax, d)
-  (modifies ax, flags(sf,zf,pf))
+  (modifies ax)
   (writes ax, flags(sf,zf,pf,of,af,cf))
   (param=d)
   (code 0xD4 d=immediate(b));
@@ -297,7 +297,7 @@ opcode "AAD"
   (comment "AAD ascii adjust AX before division")
   (comment "TODO: Not valid in x64 long mode")
   (reads ax, d)
-  (modifies ax, flags(sf,zf,pf))
+  (modifies ax)
   (writes ax, flags(sf,zf,pf,of,af,cf))
   (param=d)
   (code 0xD5 d=immediate(b));
@@ -309,14 +309,12 @@ opcode "XLAT"
   (code 0xD7);
 
 opcode "IN"
-  (modifies al)
   (writes al)
   (dest=al)
   (param=p)
   (code 0xE4 p=immediate(b));
 
 opcode "IN"
-  (modifies av)
   (writes av)
   (dest=av)
   (param=p)
@@ -335,14 +333,12 @@ opcode "OUT"
   (code 0xE7 p=immediate(b));
 
 opcode "IN"
-  (modifies al)
   (writes al)
   (dest=al)
   (param=dx)
   (code 0xEC);
 
 opcode "IN"
-  (modifies av)
   (writes av)
   (dest=av)
   (param=dx)
@@ -365,37 +361,30 @@ opcode "HLT"
 
 opcode "CMC"
   (reads flags(cf))
-  (modifies flags(cf))
   (writes flags(cf))
   (code 0xF5);
 
 opcode "CLC"
-  (modifies flags(cf))
   (writes flags(cf))
   (code 0xF8);
 
 opcode "STC"
-  (modifies flags(cf))
   (writes flags(cf))
   (code 0xF9);
 
 opcode "CLI"
-  (modifies flags(if))
   (writes flags(if))
   (code 0xFA);
 
 opcode "STI"
-  (modifies flags(if))
   (writes flags(if))
   (code 0xFB);
 
 opcode "CLD"
-  (modifies flags(df))
   (writes flags(df))
   (code 0xFC);
 
 opcode "STD"
-  (modifies flags(df))
   (writes flags(df))
   (code 0xFD);
 
