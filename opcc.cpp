@@ -1693,6 +1693,7 @@ public:
     unsigned int                var_assign = 0;
     unsigned int                meaning = 0;            // if TOK_IMMEDIATE then size() == 0 and it's an immediate byte
     unsigned int                immediate_type = 0;
+    unsigned int                reg_type = 0;           // if TOK_REG
     std::vector<unsigned int>   flags;                  // if TOK_FLAGS
     std::vector<tokenstate_t>   var_expr;
 public:
@@ -1740,6 +1741,11 @@ std::string SingleByteSpec::to_string(void) {
         if (!res.empty()) res += ",";
         res += "immediate=";
         res += tokentype_str[immediate_type];
+    }
+    if (reg_type != TOK_NONE) {
+        if (!res.empty()) res += ",";
+        res += "reg=";
+        res += tokentype_str[reg_type];
     }
     if (!flags.empty()) {
         if (!res.empty()) res += ",";
@@ -2797,6 +2803,12 @@ bool read_opcode_spec_opcode_parens(tokenlist &parent_tokens,OpcodeSpec &spec) {
             fprintf(stderr,"Immediate in param not supported, use var assignment in code or mod/reg/rm\n");
             return false;
         }
+        else if (bs.meaning == TOK_REG) {
+            if ((bs.reg_type=parse_code_immediate_spec(/*&*/tokens)) == TOK_NONE) {
+                fprintf(stderr,"Invalid reg spec\n");
+                return false;
+            }
+        }
 
         if (!tokens.eof()) {
             fprintf(stderr,"Unexpected tokens\n");
@@ -2834,6 +2846,12 @@ bool read_opcode_spec_opcode_parens(tokenlist &parent_tokens,OpcodeSpec &spec) {
         if (bs.meaning == TOK_IMMEDIATE) {
             fprintf(stderr,"Immediate in param not supported, use var assignment in code or mod/reg/rm\n");
             return false;
+        }
+        else if (bs.meaning == TOK_REG) {
+            if ((bs.reg_type=parse_code_immediate_spec(/*&*/tokens)) == TOK_NONE) {
+                fprintf(stderr,"Invalid reg spec\n");
+                return false;
+            }
         }
 
         if (!tokens.eof()) {
