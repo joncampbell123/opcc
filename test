@@ -149,6 +149,14 @@ opcode "AAA"
   (writes ax, flags(cf,af,of,sf,zf,pf))
   (code 0x37);
 
+opcode "AAS"
+  (comment "AAS ascii adjust AL after subtraction")
+  (comment "TODO: Not valid in x64 long mode")
+  (reads al, flags(af))
+  (modifies ax, flags(cf,af))
+  (writes ax, flags(cf,af,of,sf,zf,pf))
+  (code 0x3F);
+
 opcode "AAM"
   (comment "AAD ascii adjust AX before multiply")
   (comment "TODO: Not valid in x64 long mode")
