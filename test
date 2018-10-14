@@ -68,6 +68,7 @@ opcode "PUSH"
 
 opcode "POP"
   (comment "POP ES")
+  (writes es)
   (dest=es)
   (code 0x07);
 
@@ -80,6 +81,7 @@ opcode "PUSH"
 if value("cpulevel") <= 86
 opcode "POP"
   (comment "POP CS")
+  (writes cs)
   (dest=cs)
   (code 0x0F);
 
@@ -91,6 +93,7 @@ opcode "PUSH"
 
 opcode "POP"
   (comment "POP SS")
+  (writes ss)
   (dest=ss)
   (code 0x17);
 
@@ -102,6 +105,7 @@ opcode "PUSH"
 
 opcode "POP"
   (comment "POP DS")
+  (writes ds)
   (dest=ds)
   (code 0x1F);
 

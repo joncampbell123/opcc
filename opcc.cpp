@@ -1624,6 +1624,7 @@ public:
     SingleByteSpec              destination;            // destination (if writes) token
     std::vector<SingleByteSpec> param;                  // parameter (read only) tokens. variables are possible (TOK_D)
     std::vector<SingleByteSpec> reads;
+    std::vector<SingleByteSpec> writes;
     unsigned int                prefix_seg_assign = 0;  // token segment override assignment (PREFIX)
 public:
     std::string                 to_string(void);
@@ -1718,6 +1719,17 @@ std::string OpcodeSpec::to_string(void) {
             res += (*i).to_string();
             i++;
             if (i!=reads.end()) res += " ";
+        }
+        res += "]";
+    }
+
+    if (writes.size() != 0) {
+        if (!res.empty()) res += ",";
+        res += "writes=[";
+        for (auto i=writes.begin();i!=writes.end();) {
+            res += (*i).to_string();
+            i++;
+            if (i!=writes.end()) res += " ";
         }
         res += "]";
     }
@@ -2457,6 +2469,24 @@ bool read_opcode_spec_opcode_parens(tokenlist &parent_tokens,OpcodeSpec &spec) {
         }
 
         spec.reads.push_back(bs);
+        return true;
+    }
+
+    /* writes ... */
+    if (tokens.peek().type == TOK_WRITES) {
+        tokens.discard();
+
+        SingleByteSpec bs;
+
+        auto &n = tokens.next();
+        bs.meaning = n.type;
+
+        if (bs.meaning == TOK_IMMEDIATE) {
+            fprintf(stderr,"Immediate not supported for writes\n");
+            return false;
+        }
+
+        spec.writes.push_back(bs);
         return true;
     }
 
