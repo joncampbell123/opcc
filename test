@@ -205,3 +205,9 @@ opcode "AAD"
   (param=d)
   (code 0xD5 d=immediate(b));
 
+opcode "XLAT"
+  (reads al, bv)
+  (modifies al)
+  (writes al)
+  (code 0xD7);
+
