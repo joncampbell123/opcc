@@ -149,6 +149,15 @@ opcode "AAA"
   (writes ax, flags(cf,af,of,sf,zf,pf))
   (code 0x37);
 
+opcode "AAM"
+  (comment "AAD ascii adjust AX before multiply")
+  (comment "TODO: Not valid in x64 long mode")
+  (reads ax, d)
+  (modifies ax, flags(sf,zf,pf))
+  (writes ax, flags(sf,zf,pf,of,af,cf))
+  (param=d)
+  (code 0xD4 d=immediate(b));
+
 opcode "AAD"
   (comment "AAD ascii adjust AX before division")
   (comment "TODO: Not valid in x64 long mode")
@@ -156,5 +165,5 @@ opcode "AAD"
   (modifies ax, flags(sf,zf,pf))
   (writes ax, flags(sf,zf,pf,of,af,cf))
   (param=d)
-  (code 0x3F d=immediate(b));
+  (code 0xD5 d=immediate(b));
 
