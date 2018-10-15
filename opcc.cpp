@@ -194,6 +194,7 @@ enum tokentype_t {
     TOK_IOPL,                   // 175
     TOK_NT,
     TOK_MEMORY,
+    TOK_SREG,
 
     TOK_MAX
 };
@@ -376,7 +377,8 @@ const char *tokentype_str[TOK_MAX] = {
     "OF",
     "IOPL",                     // 175
     "NT",
-    "MEMORY"
+    "MEMORY",
+    "SREG"
 };
 
 bool debug_op = false;
@@ -1641,6 +1643,10 @@ bool toke(tokenstate_t &tok) {
         }
         if (tok.string == "MEMORY") {
             tok.type = TOK_MEMORY;
+            return true;
+        }
+        if (tok.string == "SREG") {
+            tok.type = TOK_SREG;
             return true;
         }
     }
