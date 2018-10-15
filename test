@@ -23,24 +23,6 @@ prefix "ES:"
   (code 0x26)
   (seg=es);
 
-if value("cpulevel") >= 386
-prefix "FS:"
-  (comment "386 Segment override prefix")
-  (desc "FS segment override")
-  (code 0x64)
-  (seg=fs);
-else
-  log "No FS override";
-
-if value("cpulevel") >= 386
-prefix "GS:"
-  (comment "386 Segment override prefix")
-  (desc "GS segment override")
-  (code 0x65)
-  (seg=gs);
-else
-  log "No GS override";
-
 prefix "SS:"
   (comment "Segment override prefix")
   (desc "SS segment override")
@@ -190,6 +172,24 @@ opcode "POP"
   (modifies reg(v))
   (writes reg(v))
   (param=reg(v));
+
+if value("cpulevel") >= 386
+prefix "FS:"
+  (comment "386 Segment override prefix")
+  (desc "FS segment override")
+  (code 0x64)
+  (seg=fs);
+else
+  log "No FS override";
+
+if value("cpulevel") >= 386
+prefix "GS:"
+  (comment "386 Segment override prefix")
+  (desc "GS segment override")
+  (code 0x65)
+  (seg=gs);
+else
+  log "No GS override";
 
 opcode "NOP"
   (comment "Technically, XCHG AX,AX, but that does nothing and nothing else is modified")
