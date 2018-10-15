@@ -395,27 +395,27 @@ opcode "MOV"
   (writes al)
   (reads memory(b,a))
   (dest=al)
-  (param=a)
+  (param=memory(b,a))
   (code 0xA0 a=immediate(v));
 
 opcode "MOV"
   (writes av)
   (reads memory(v,a))
   (dest=av)
-  (param=a)
+  (param=memory(v,a))
   (code 0xA1 a=immediate(v));
 
 opcode "MOV"
   (writes memory(b,a))
   (reads al)
-  (dest=a)
+  (dest=memory(b,a))
   (param=al)
   (code 0xA2 a=immediate(v));
 
 opcode "MOV"
   (writes memory(v,a))
   (reads av)
-  (dest=a)
+  (dest=memory(v,a))
   (param=av)
   (code 0xA3 a=immediate(v));
 

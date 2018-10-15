@@ -2890,7 +2890,13 @@ bool read_opcode_spec_opcode_parens(tokenlist &parent_tokens,OpcodeSpec &spec) {
                 return false;
             }
         }
- 
+        else if (bs.meaning == TOK_MEMORY) {
+            if (!parse_mem_spec(bs,/*&*/tokens)) {
+                fprintf(stderr,"Invalid reg spec\n");
+                return false;
+            }
+        }
+
         if (!tokens.eof()) {
             fprintf(stderr,"Unexpected tokens\n");
             return false;
@@ -2934,7 +2940,13 @@ bool read_opcode_spec_opcode_parens(tokenlist &parent_tokens,OpcodeSpec &spec) {
                 return false;
             }
         }
- 
+        else if (bs.meaning == TOK_MEMORY) {
+            if (!parse_mem_spec(bs,/*&*/tokens)) {
+                fprintf(stderr,"Invalid reg spec\n");
+                return false;
+            }
+        }
+
         if (!tokens.eof()) {
             fprintf(stderr,"Unexpected tokens\n");
             return false;
@@ -2984,7 +2996,13 @@ bool read_opcode_spec_opcode_parens(tokenlist &parent_tokens,OpcodeSpec &spec) {
                 return false;
             }
         }
- 
+        else if (bs.meaning == TOK_MEMORY) {
+            if (!parse_mem_spec(bs,/*&*/tokens)) {
+                fprintf(stderr,"Invalid reg spec\n");
+                return false;
+            }
+        }
+
         if (!tokens.eof()) {
             fprintf(stderr,"Unexpected tokens\n");
             return false;
