@@ -191,6 +191,62 @@ prefix "GS:"
 else
   log "No GS override";
 
+opcode "JO"
+  (reads ipv, flags(of))
+  (modifies ipv)
+  (writes ipv)
+  (param=n)
+  (code 0x70 p=immediate(sb) n=(ipv+p));
+
+opcode "JNO"
+  (reads ipv, flags(of))
+  (modifies ipv)
+  (writes ipv)
+  (param=n)
+  (code 0x71 p=immediate(sb) n=(ipv+p));
+
+opcode "JC"
+  (reads ipv, flags(cf))
+  (modifies ipv)
+  (writes ipv)
+  (param=n)
+  (code 0x72 p=immediate(sb) n=(ipv+p));
+
+opcode "JNC"
+  (reads ipv, flags(cf))
+  (modifies ipv)
+  (writes ipv)
+  (param=n)
+  (code 0x73 p=immediate(sb) n=(ipv+p));
+
+opcode "JZ"
+  (reads ipv, flags(zf))
+  (modifies ipv)
+  (writes ipv)
+  (param=n)
+  (code 0x74 p=immediate(sb) n=(ipv+p));
+
+opcode "JNZ"
+  (reads ipv, flags(zf))
+  (modifies ipv)
+  (writes ipv)
+  (param=n)
+  (code 0x75 p=immediate(sb) n=(ipv+p));
+
+opcode "JNA"
+  (reads ipv, flags(zf,cf))
+  (modifies ipv)
+  (writes ipv)
+  (param=n)
+  (code 0x76 p=immediate(sb) n=(ipv+p));
+
+opcode "JA"
+  (reads ipv, flags(zf,cf))
+  (modifies ipv)
+  (writes ipv)
+  (param=n)
+  (code 0x77 p=immediate(sb) n=(ipv+p));
+
 opcode "MOV"
   (reads reg(b))
   (writes rm(b))
