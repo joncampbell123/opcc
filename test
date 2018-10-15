@@ -247,6 +247,62 @@ opcode "JA"
   (param=n)
   (code 0x77 p=immediate(sb) n=(ipv+p));
 
+opcode "JS"
+  (reads ipv, flags(sf))
+  (modifies ipv)
+  (writes ipv)
+  (param=n)
+  (code 0x78 p=immediate(sb) n=(ipv+p));
+
+opcode "JNS"
+  (reads ipv, flags(sf))
+  (modifies ipv)
+  (writes ipv)
+  (param=n)
+  (code 0x79 p=immediate(sb) n=(ipv+p));
+
+opcode "JP"
+  (reads ipv, flags(pf))
+  (modifies ipv)
+  (writes ipv)
+  (param=n)
+  (code 0x7A p=immediate(sb) n=(ipv+p));
+
+opcode "JNP"
+  (reads ipv, flags(pf))
+  (modifies ipv)
+  (writes ipv)
+  (param=n)
+  (code 0x7B p=immediate(sb) n=(ipv+p));
+
+opcode "JL"
+  (reads ipv, flags(sf,of))
+  (modifies ipv)
+  (writes ipv)
+  (param=n)
+  (code 0x7C p=immediate(sb) n=(ipv+p));
+
+opcode "JNL"
+  (reads ipv, flags(sf,of))
+  (modifies ipv)
+  (writes ipv)
+  (param=n)
+  (code 0x7D p=immediate(sb) n=(ipv+p));
+
+opcode "JNG"
+  (reads ipv, flags(zf,sf))
+  (modifies ipv)
+  (writes ipv)
+  (param=n)
+  (code 0x7E p=immediate(sb) n=(ipv+p));
+
+opcode "JG"
+  (reads ipv, flags(zf,sf))
+  (modifies ipv)
+  (writes ipv)
+  (param=n)
+  (code 0x7F p=immediate(sb) n=(ipv+p));
+
 opcode "MOV"
   (reads reg(b))
   (writes rm(b))
