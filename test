@@ -338,6 +338,14 @@ opcode "MOV"
   (reads sreg(v))
   (code 0x8C mrm);
 
+opcode "LEA"
+  (dest=reg(v))
+  (writes reg(v))
+  (param=rm(v))
+  (comment "does not read r/m memory location. it stores the memory location (after arithmetic) into the register")
+  (comment "TODO: LEA is invalid if mod == 3 (reg to reg). I *think* the 8086 might execute it anyway...")
+  (code 0x8D mrm);
+
 opcode "MOV"
   (dest=sreg(v))
   (writes sreg(v))
