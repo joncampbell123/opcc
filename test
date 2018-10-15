@@ -331,6 +331,20 @@ opcode "MOV"
   (dest=reg(v))
   (code 0x8B mrm);
 
+opcode "MOV"
+  (dest=reg(v))
+  (writes reg(v))
+  (param=sreg(v))
+  (reads sreg(v))
+  (code 0x8C mrm);
+
+opcode "MOV"
+  (dest=sreg(v))
+  (writes sreg(v))
+  (param=reg(v))
+  (reads reg(v))
+  (code 0x8E mrm);
+
 opcode "NOP"
   (comment "Technically, XCHG AX,AX, but that does nothing and nothing else is modified")
   (code 0x90);

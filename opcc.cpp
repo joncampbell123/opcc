@@ -2663,7 +2663,7 @@ bool parse_sbl_list(std::vector<SingleByteSpec> &sbl,tokenlist &tokens) {
                 return false;
             }
         }
-        else if (bs.meaning == TOK_REG) {
+        else if (bs.meaning == TOK_REG || bs.meaning == TOK_SREG) {
             if ((bs.reg_type=parse_code_immediate_spec(/*&*/tokens)) == TOK_NONE) {
                 fprintf(stderr,"Invalid reg spec\n");
                 return false;
@@ -2878,7 +2878,7 @@ bool read_opcode_spec_opcode_parens(tokenlist &parent_tokens,OpcodeSpec &spec) {
             fprintf(stderr,"Immediate in dest not supported\n");
             return false;
         }
-        else if (bs.meaning == TOK_REG) {
+        else if (bs.meaning == TOK_REG || bs.meaning == TOK_SREG) {
             if ((bs.reg_type=parse_code_immediate_spec(/*&*/tokens)) == TOK_NONE) {
                 fprintf(stderr,"Invalid reg spec\n");
                 return false;
@@ -2922,7 +2922,7 @@ bool read_opcode_spec_opcode_parens(tokenlist &parent_tokens,OpcodeSpec &spec) {
             fprintf(stderr,"Immediate in param not supported, use var assignment in code or mod/reg/rm\n");
             return false;
         }
-        else if (bs.meaning == TOK_REG) {
+        else if (bs.meaning == TOK_REG || bs.meaning == TOK_SREG) {
             if ((bs.reg_type=parse_code_immediate_spec(/*&*/tokens)) == TOK_NONE) {
                 fprintf(stderr,"Invalid reg spec\n");
                 return false;
@@ -2972,7 +2972,7 @@ bool read_opcode_spec_opcode_parens(tokenlist &parent_tokens,OpcodeSpec &spec) {
             fprintf(stderr,"Immediate in param not supported, use var assignment in code or mod/reg/rm\n");
             return false;
         }
-        else if (bs.meaning == TOK_REG) {
+        else if (bs.meaning == TOK_REG || bs.meaning == TOK_SREG) {
             if ((bs.reg_type=parse_code_immediate_spec(/*&*/tokens)) == TOK_NONE) {
                 fprintf(stderr,"Invalid reg spec\n");
                 return false;
