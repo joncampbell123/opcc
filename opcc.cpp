@@ -377,6 +377,8 @@ const char *tokentype_str[TOK_MAX] = {
     "NT"
 };
 
+bool debug_op = false;
+
 bool supported_dialect(const std::string &d) {
     if (d == "intel-x86")
         return true;
@@ -1668,6 +1670,9 @@ int parse_argv(int argc,char **argv) {
                 a = argv[i++];
                 if (a == NULL) return 1;
                 fpuarch = a;
+            }
+            else if (!strcmp(a,"dop")) {
+                debug_op = true;
             }
             else {
                 fprintf(stderr,"Unknown sw %s\n",a);
@@ -3095,9 +3100,8 @@ bool do_opcode_spec(tokenlist &tokens) {
     if (spec.type == TOK_NONE)
         return true;
 
-#if 0
-    fprintf(stderr,"%s %s: %s\n",tokentype_str[spec.type],spec.name.c_str(),spec.to_string().c_str());
-#endif
+    if (debug_op)
+        fprintf(stderr,"%s %s: %s\n",tokentype_str[spec.type],spec.name.c_str(),spec.to_string().c_str());
 
     opcodes.push_back(std::move(spec));
     return true;
