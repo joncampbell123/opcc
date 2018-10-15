@@ -350,6 +350,24 @@ opcode "OUT"
   (param(1)=av)
   (code 0xE7 p=immediate(b));
 
+opcode "CALL"
+  (comment "ipv is evaluated after decoding CALL instruction")
+  (comment "relative address is 16-bit signed or 32-bit signed")
+  (reads ipv)
+  (modifies ipv)
+  (writes ipv)
+  (param=n)
+  (code 0xE8 p=immediate(sv) n=(ipv+p));
+
+opcode "JMP"
+  (comment "ipv is evaluated after decoding JMP instruction")
+  (comment "relative address is 16-bit signed or 32-bit signed")
+  (reads ipv)
+  (modifies ipv)
+  (writes ipv)
+  (param=n)
+  (code 0xE9 p=immediate(sv) n=(ipv+p));
+
 opcode "JMP"
   (comment "jmp far address, 16:16 or 16:32")
   (writes ipv,cs)
