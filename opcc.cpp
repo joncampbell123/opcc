@@ -1705,6 +1705,7 @@ public:
     unsigned int                meaning = 0;            // if TOK_IMMEDIATE then size() == 0 and it's an immediate byte
     unsigned int                immediate_type = 0;
     unsigned int                reg_type = 0;           // if TOK_REG
+    unsigned int                rm_type = 0;            // if TOK_RM
     unsigned int                memory_type = 0;        // if TOK_MEMORY, var_expr says what to write
     std::vector<unsigned int>   flags;                  // if TOK_FLAGS
     std::vector<tokenstate_t>   var_expr;
@@ -1758,6 +1759,11 @@ std::string SingleByteSpec::to_string(void) {
         if (!res.empty()) res += ",";
         res += "regtype=";
         res += tokentype_str[reg_type];
+    }
+    if (rm_type != TOK_NONE) {
+        if (!res.empty()) res += ",";
+        res += "rmtype=";
+        res += tokentype_str[rm_type];
     }
     if (memory_type != TOK_NONE) {
         if (!res.empty()) res += ",";
@@ -2657,6 +2663,12 @@ bool parse_sbl_list(std::vector<SingleByteSpec> &sbl,tokenlist &tokens) {
                 return false;
             }
         }
+        else if (bs.meaning == TOK_RM) {
+            if ((bs.rm_type=parse_code_immediate_spec(/*&*/tokens)) == TOK_NONE) {
+                fprintf(stderr,"Invalid reg spec\n");
+                return false;
+            }
+        }
         else if (bs.meaning == TOK_MEMORY) {
             if (!parse_mem_spec(bs,/*&*/tokens)) {
                 fprintf(stderr,"Invalid reg spec\n");
@@ -2866,7 +2878,13 @@ bool read_opcode_spec_opcode_parens(tokenlist &parent_tokens,OpcodeSpec &spec) {
                 return false;
             }
         }
-
+        else if (bs.meaning == TOK_RM) {
+            if ((bs.rm_type=parse_code_immediate_spec(/*&*/tokens)) == TOK_NONE) {
+                fprintf(stderr,"Invalid reg spec\n");
+                return false;
+            }
+        }
+ 
         if (!tokens.eof()) {
             fprintf(stderr,"Unexpected tokens\n");
             return false;
@@ -2904,7 +2922,13 @@ bool read_opcode_spec_opcode_parens(tokenlist &parent_tokens,OpcodeSpec &spec) {
                 return false;
             }
         }
-
+        else if (bs.meaning == TOK_RM) {
+            if ((bs.rm_type=parse_code_immediate_spec(/*&*/tokens)) == TOK_NONE) {
+                fprintf(stderr,"Invalid reg spec\n");
+                return false;
+            }
+        }
+ 
         if (!tokens.eof()) {
             fprintf(stderr,"Unexpected tokens\n");
             return false;
@@ -2948,7 +2972,13 @@ bool read_opcode_spec_opcode_parens(tokenlist &parent_tokens,OpcodeSpec &spec) {
                 return false;
             }
         }
-
+        else if (bs.meaning == TOK_RM) {
+            if ((bs.rm_type=parse_code_immediate_spec(/*&*/tokens)) == TOK_NONE) {
+                fprintf(stderr,"Invalid reg spec\n");
+                return false;
+            }
+        }
+ 
         if (!tokens.eof()) {
             fprintf(stderr,"Unexpected tokens\n");
             return false;
