@@ -239,27 +239,27 @@ opcode "LAHF"
 
 opcode "MOV"
   (writes al)
-  (reads a)
+  (reads memory(b,(a)))
   (dest=al)
   (param=a)
   (code 0xA0 a=immediate(v));
 
 opcode "MOV"
   (writes av)
-  (reads a)
+  (reads memory(v,a))
   (dest=av)
   (param=a)
   (code 0xA1 a=immediate(v));
 
 opcode "MOV"
-  (writes a)
+  (writes memory(b,a))
   (reads al)
   (dest=a)
   (param=al)
   (code 0xA2 a=immediate(v));
 
 opcode "MOV"
-  (writes a)
+  (writes memory(v,a))
   (reads av)
   (dest=a)
   (param=av)

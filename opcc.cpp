@@ -193,6 +193,7 @@ enum tokentype_t {
     TOK_OF,
     TOK_IOPL,                   // 175
     TOK_NT,
+    TOK_MEMORY,
 
     TOK_MAX
 };
@@ -374,7 +375,8 @@ const char *tokentype_str[TOK_MAX] = {
     "DF",
     "OF",
     "IOPL",                     // 175
-    "NT"
+    "NT",
+    "MEMORY"
 };
 
 bool debug_op = false;
@@ -1637,6 +1639,10 @@ bool toke(tokenstate_t &tok) {
             tok.type = TOK_NT;
             return true;
         }
+        if (tok.string == "MEMORY") {
+            tok.type = TOK_MEMORY;
+            return true;
+        }
     }
 
     tok.type = TOK_ERROR;
@@ -1699,6 +1705,7 @@ public:
     unsigned int                meaning = 0;            // if TOK_IMMEDIATE then size() == 0 and it's an immediate byte
     unsigned int                immediate_type = 0;
     unsigned int                reg_type = 0;           // if TOK_REG
+    unsigned int                memory_type = 0;        // if TOK_MEMORY, var_expr says what to write
     std::vector<unsigned int>   flags;                  // if TOK_FLAGS
     std::vector<tokenstate_t>   var_expr;
 public:
@@ -1749,8 +1756,13 @@ std::string SingleByteSpec::to_string(void) {
     }
     if (reg_type != TOK_NONE) {
         if (!res.empty()) res += ",";
-        res += "reg=";
+        res += "regtype=";
         res += tokentype_str[reg_type];
+    }
+    if (memory_type != TOK_NONE) {
+        if (!res.empty()) res += ",";
+        res += "memtype=";
+        res += tokentype_str[memory_type];
     }
     if (!flags.empty()) {
         if (!res.empty()) res += ",";
@@ -2570,6 +2582,56 @@ bool parse_code_flags_spec(std::vector<unsigned int> &flags,tokenlist &tokens) {
     return true;
 }
 
+bool parse_mem_spec(SingleByteSpec &bs,tokenlist &tokens) {
+    // caller already ate TOK_MEMORY
+
+    /* caller ate TOK_FLAGS */
+    if (tokens.next().type != TOK_OPEN_PARENS) return false;
+
+    // first param, is type
+    auto &n = tokens.next();
+    if (!valid_immediate_size_token(n.type)) return false;
+    bs.memory_type = n.type;
+
+    // optionally, a comma, and then var_expr describing the address
+    if (tokens.peek().type == TOK_COMMA) {
+        tokens.discard();
+
+        if (tokens.peek().type == TOK_OPEN_PARENS) {
+            tokens.discard();
+            int parens = 1;
+
+            do {
+                auto &next = tokens.next();
+
+                if (next.type == TOK_CLOSE_PARENS) {
+                    if (--parens <= 0)
+                        break;
+                }
+                else if (next.type == TOK_OPEN_PARENS) {
+                    parens++;
+                }
+                else if (next.type == TOK_NONE) {
+                    fprintf(stderr,"Opcode parens unexpected end\n");
+                    return false;
+                }
+
+                bs.var_expr.push_back(next);
+            } while (1);
+        }
+        else {
+            auto &nn = tokens.next();
+            if (nn.type == TOK_CLOSE_PARENS) return false;
+            bs.var_expr.push_back(nn);
+        }
+    }
+
+    /* caller ate TOK_FLAGS */
+    if (tokens.next().type != TOK_CLOSE_PARENS) return false;
+
+    return true;
+}
+
 bool parse_sbl_list(std::vector<SingleByteSpec> &sbl,tokenlist &tokens) {
     while (!tokens.eof()) {
         SingleByteSpec bs;
@@ -2591,6 +2653,12 @@ bool parse_sbl_list(std::vector<SingleByteSpec> &sbl,tokenlist &tokens) {
         }
         else if (bs.meaning == TOK_REG) {
             if ((bs.reg_type=parse_code_immediate_spec(/*&*/tokens)) == TOK_NONE) {
+                fprintf(stderr,"Invalid reg spec\n");
+                return false;
+            }
+        }
+        else if (bs.meaning == TOK_MEMORY) {
+            if (!parse_mem_spec(bs,/*&*/tokens)) {
                 fprintf(stderr,"Invalid reg spec\n");
                 return false;
             }
