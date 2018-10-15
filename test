@@ -238,6 +238,34 @@ opcode "LAHF"
   (writes ah);
 
 opcode "MOV"
+  (comment "TODO: reads from [a], param=[a]")
+  (writes al)
+  (dest=al)
+  (param=a)
+  (code 0xA0 a=immediate(v));
+
+opcode "MOV"
+  (comment "TODO: reads from [a], param=[a]")
+  (writes av)
+  (dest=av)
+  (param=a)
+  (code 0xA1 a=immediate(v));
+
+opcode "MOV"
+  (comment "TODO: writes to [a], dest=[a]")
+  (reads al)
+  (dest=a)
+  (param=al)
+  (code 0xA2 a=immediate(v));
+
+opcode "MOV"
+  (comment "TODO: writes to [a], dest=[a]")
+  (reads av)
+  (dest=a)
+  (param=av)
+  (code 0xA3 a=immediate(v));
+
+opcode "MOV"
   (writes reg(b))
   (dest=reg(b))
   (param=i)
