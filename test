@@ -47,24 +47,6 @@ prefix "SS:"
   (code 0x36)
   (seg=ss);
 
-prefix "LOCK"
-  (comment "lock prefix")
-  (comment "TODO: syntax to specify lock")
-  (desc "lock prefix")
-  (code 0xF0);
-
-prefix "REPNZ"
-  (comment "TODO: rep=!z syntax")
-  (comment "repeat while not z")
-  (desc "rep while not z")
-  (code 0xF2);
-
-prefix "REPZ"
-  (comment "TODO: rep=z syntax")
-  (comment "repeat while z")
-  (desc "rep while z")
-  (code 0xF3);
-
 if value("cpulevel") >= 186 {;
   log "186 #UD and limit";
   unknown opcode ud;
@@ -406,12 +388,30 @@ opcode "OUT"
   (param(1)=av)
   (code 0xEF);
 
+prefix "LOCK"
+  (comment "lock prefix")
+  (comment "TODO: syntax to specify lock")
+  (desc "lock prefix")
+  (code 0xF0);
+
 opcode "INT"
   (comment "INT 1h or ICEBP")
   (desc "INT 1h, or if conditions are right, ICEBP")
   (modifies all)
   (param=1)
   (code 0xF1);
+
+prefix "REPNZ"
+  (comment "TODO: rep=!z syntax")
+  (comment "repeat while not z")
+  (desc "rep while not z")
+  (code 0xF2);
+
+prefix "REPZ"
+  (comment "TODO: rep=z syntax")
+  (comment "repeat while z")
+  (desc "rep while z")
+  (code 0xF3);
 
 opcode "HLT"
   (code 0xF4);
