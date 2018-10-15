@@ -351,6 +351,12 @@ opcode "OUT"
   (code 0xE7 p=immediate(b));
 
 opcode "JMP"
+  (comment "jmp far address, 16:16 or 16:32")
+  (writes ipv,cs)
+  (param=p)
+  (code 0xEA p=immediate(fpv));
+
+opcode "JMP"
   (comment "ipv is evaluated after decoding JMP instruction")
   (reads ipv)
   (modifies ipv)
