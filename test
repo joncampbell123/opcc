@@ -374,6 +374,13 @@ opcode "OUT"
   (param(1)=av)
   (code 0xEF);
 
+opcode "INT"
+  (comment "INT 1h or ICEBP")
+  (desc "INT 1h, or if conditions are right, ICEBP")
+  (modifies all)
+  (param=1)
+  (code 0xF1);
+
 opcode "HLT"
   (code 0xF4);
 
