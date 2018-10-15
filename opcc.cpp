@@ -3096,7 +3096,7 @@ bool do_opcode_spec(tokenlist &tokens) {
         return true;
 
 #if 0
-    fprintf(stderr,"%s: %s\n",spec.name.c_str(),spec.to_string().c_str());
+    fprintf(stderr,"%s %s: %s\n",tokentype_str[spec.type],spec.name.c_str(),spec.to_string().c_str());
 #endif
 
     opcodes.push_back(std::move(spec));
