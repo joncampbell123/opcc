@@ -393,7 +393,7 @@ opcode "LAHF"
 
 opcode "MOV"
   (writes al)
-  (reads memory(b,(a)))
+  (reads memory(b,a))
   (dest=al)
   (param=a)
   (code 0xA0 a=immediate(v));
