@@ -308,6 +308,42 @@ opcode "XLAT"
   (writes al)
   (code 0xD7);
 
+opcode "LOOPNZ"
+  (comment "ipv is evaluated after decoding instruction")
+  (comment "--(E)CX, if (E)CX != 0 and !ZF, jump")
+  (reads ipv, cv, flags(zf))
+  (modifies ipv, cv)
+  (writes ipv, cv)
+  (param=n)
+  (code 0xE0 p=immediate(sb) n=(ipv+p));
+
+opcode "LOOPZ"
+  (comment "ipv is evaluated after decoding instruction")
+  (comment "--(E)CX, if (E)CX != 0 and ZF, jump")
+  (reads ipv, cv, flags(zf))
+  (modifies ipv, cv)
+  (writes ipv, cv)
+  (param=n)
+  (code 0xE1 p=immediate(sb) n=(ipv+p));
+
+opcode "LOOP"
+  (comment "ipv is evaluated after decoding instruction")
+  (comment "if --(E)CX != 0, jump")
+  (reads ipv, cv)
+  (modifies ipv, cv)
+  (writes ipv, cv)
+  (param=n)
+  (code 0xE2 p=immediate(sb) n=(ipv+p));
+
+opcode "JCXZ"
+  (comment "ipv is evaluated after decoding instruction")
+  (comment "Jump if (E)CX == 0")
+  (reads ipv, cv)
+  (modifies ipv)
+  (writes ipv)
+  (param=n)
+  (code 0xE3 p=immediate(sb) n=(ipv+p));
+
 opcode "IN"
   (writes al)
   (dest=al)
