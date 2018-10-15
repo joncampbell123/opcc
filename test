@@ -350,6 +350,14 @@ opcode "OUT"
   (param(1)=av)
   (code 0xE7 p=immediate(b));
 
+opcode "JMP"
+  (comment "ipv is evaluated after decoding JMP instruction")
+  (reads ipv)
+  (modifies ipv)
+  (writes ipv)
+  (param=n)
+  (code 0xEB p=immediate(sb) n=(ipv+p));
+
 opcode "IN"
   (writes al)
   (dest=al)
