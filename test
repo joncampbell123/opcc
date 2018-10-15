@@ -5,30 +5,6 @@ log ("fpulevel: " + value("fpulevel"));
 
 comment "---------------begin prefixes----------------";
 
-prefix "CS:"
-  (comment "Segment override prefix")
-  (desc "CS segment override")
-  (code 0x2E)
-  (seg=cs);
-
-prefix "DS:"
-  (comment "Segment override prefix")
-  (desc "DS segment override")
-  (code 0x3E)
-  (seg=ds);
-
-prefix "ES:"
-  (comment "Segment override prefix")
-  (desc "ES segment override")
-  (code 0x26)
-  (seg=es);
-
-prefix "SS:"
-  (comment "Segment override prefix")
-  (desc "SS segment override")
-  (code 0x36)
-  (seg=ss);
-
 if value("cpulevel") >= 186 {;
   log "186 #UD and limit";
   unknown opcode ud;
@@ -107,6 +83,12 @@ opcode "POP"
   (dest=ds)
   (code 0x1F);
 
+prefix "ES:"
+  (comment "Segment override prefix")
+  (desc "ES segment override")
+  (code 0x26)
+  (seg=es);
+
 opcode "DAA"
   (comment "DAA adjust AL after addition")
   (comment "TODO: Not valid in x64 long mode")
@@ -114,6 +96,12 @@ opcode "DAA"
   (modifies al)
   (writes al, flags(cf,af,sf,zf,pf,of))
   (code 0x27);
+
+prefix "CS:"
+  (comment "Segment override prefix")
+  (desc "CS segment override")
+  (code 0x2E)
+  (seg=cs);
 
 opcode "DAS"
   (comment "DAS adjust AL after subtraction")
@@ -123,6 +111,12 @@ opcode "DAS"
   (writes al, flags(cf,af,sf,zf,pf,of))
   (code 0x2F);
 
+prefix "SS:"
+  (comment "Segment override prefix")
+  (desc "SS segment override")
+  (code 0x36)
+  (seg=ss);
+
 opcode "AAA"
   (comment "AAA ascii adjust AL after addition")
   (comment "TODO: Not valid in x64 long mode")
@@ -130,6 +124,12 @@ opcode "AAA"
   (modifies ax)
   (writes ax, flags(cf,af,of,sf,zf,pf))
   (code 0x37);
+
+prefix "DS:"
+  (comment "Segment override prefix")
+  (desc "DS segment override")
+  (code 0x3E)
+  (seg=ds);
 
 opcode "AAS"
   (comment "AAS ascii adjust AL after subtraction")
