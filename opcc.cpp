@@ -1739,6 +1739,7 @@ public:
     std::vector<SingleByteSpec> stack_ops;              // push or pop
     unsigned int                stack_op_dir = 0;       // TOK_PUSH or TOK_POP
     unsigned int                prefix_seg_assign = 0;  // token segment override assignment (PREFIX)
+    signed char                 mod3 = 0;               // -3 means mod!=3   3 means mod==3
 public:
     std::string                 to_string(void);
 };
@@ -1837,6 +1838,16 @@ std::string OpcodeSpec::to_string(void) {
         if (i != bytes.end()) res += " ";
     }
     res += ")";
+
+    if (mod3 != 0) {
+        if (!res.empty()) res += ",";
+        if (mod3 == 3)
+            res += "mod==3";
+        else if (mod3 == -3)
+            res += "mod!=3";
+        else
+            abort();
+    }
 
     {
         std::string subres = destination.to_string();
@@ -3099,6 +3110,31 @@ bool read_opcode_spec_opcode_parens(tokenlist &parent_tokens,OpcodeSpec &spec) {
 
                 bs.meaning = TOK_MRM;
                 spec.bytes.push_back(bs);
+            }
+            else if (tokens.peek(0).type == TOK_MOD && tokens.peek(1).type == TOK_OPEN_PARENS) {
+                tokens.discard(2);
+
+                /* !3 (to say the mod field cannot be 3) or 3 (to say the mod field must be 3).
+                 * this is used to indicate an instruction is not valid if the instruction encodes
+                 * a register to register operation (i.e. LEA). */
+                if (tokens.peek(0).type == TOK_UINT && tokens.peek(0).intval.u == 3) {
+                    tokens.discard(1);
+                    spec.mod3 = 3;
+                }
+                else if (tokens.peek(0).type == TOK_NOT && tokens.peek(1).type == TOK_UINT && tokens.peek(1).intval.u == 3) {
+                    tokens.discard(2);
+                    spec.mod3 = -3;
+                }
+                else {
+                    fprintf(stderr,"mod() unexpected tokens\n");
+                    return false;
+                }
+
+                if (tokens.peek().type != TOK_CLOSE_PARENS) {
+                    fprintf(stderr,"mod() no closing parens\n");
+                    return false;
+                }
+                tokens.discard();
             }
             else if (tokens.peek().type == TOK_IMMEDIATE) {
                 tokens.discard();
