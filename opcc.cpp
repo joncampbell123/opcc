@@ -1713,6 +1713,7 @@ int parse_argv(int argc,char **argv) {
 
 class SingleByteSpec {
 public:
+    unsigned long long          intval = 0;
     unsigned int                var_assign = 0;
     unsigned int                meaning = 0;            // if TOK_IMMEDIATE then size() == 0 and it's an immediate byte
     unsigned int                immediate_type = 0;
@@ -1769,6 +1770,11 @@ std::string SingleByteSpec::to_string(void) {
         if (!res.empty()) res += ",";
         res += "meaning=";
         res += tokentype_str[meaning];
+        if (meaning == TOK_UINT) {
+            char tmp[128];
+            sprintf(tmp,"=%llu",(unsigned long long)intval);
+            res += tmp;
+        }
     }
     if (immediate_type != TOK_NONE) {
         if (!res.empty()) res += ",";
@@ -2760,6 +2766,9 @@ bool parse_sbl_list(std::vector<SingleByteSpec> &sbl,tokenlist &tokens) {
                 return false;
             }
         }
+        else if (bs.meaning == TOK_UINT) {
+            bs.intval = n.intval.u;
+        }
         else if (bs.meaning == TOK_FLAGS) {
             if (!parse_code_flags_spec(bs.flags,/*&*/tokens)) {
                 fprintf(stderr,"Invalid flags spec\n");
@@ -2995,6 +3004,9 @@ bool read_opcode_spec_opcode_parens(tokenlist &parent_tokens,OpcodeSpec &spec) {
             fprintf(stderr,"Immediate in dest not supported\n");
             return false;
         }
+        else if (bs.meaning == TOK_UINT) {
+            bs.intval = n.intval.u;
+        }
         else if (bs.meaning == TOK_REG || bs.meaning == TOK_SREG) {
             if ((bs.reg_type=parse_code_immediate_spec(/*&*/tokens)) == TOK_NONE) {
                 fprintf(stderr,"Invalid reg spec\n");
@@ -3058,6 +3070,9 @@ bool read_opcode_spec_opcode_parens(tokenlist &parent_tokens,OpcodeSpec &spec) {
         if (bs.meaning == TOK_IMMEDIATE) {
             fprintf(stderr,"Immediate in param not supported, use var assignment in code or mod/reg/rm\n");
             return false;
+        }
+        else if (bs.meaning == TOK_UINT) {
+            bs.intval = n.intval.u;
         }
         else if (bs.meaning == TOK_REG || bs.meaning == TOK_SREG) {
             if ((bs.reg_type=parse_code_immediate_spec(/*&*/tokens)) == TOK_NONE) {
@@ -3128,6 +3143,9 @@ bool read_opcode_spec_opcode_parens(tokenlist &parent_tokens,OpcodeSpec &spec) {
         if (bs.meaning == TOK_IMMEDIATE) {
             fprintf(stderr,"Immediate in param not supported, use var assignment in code or mod/reg/rm\n");
             return false;
+        }
+        else if (bs.meaning == TOK_UINT) {
+            bs.intval = n.intval.u;
         }
         else if (bs.meaning == TOK_REG || bs.meaning == TOK_SREG) {
             if ((bs.reg_type=parse_code_immediate_spec(/*&*/tokens)) == TOK_NONE) {
