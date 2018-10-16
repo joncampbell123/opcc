@@ -573,6 +573,18 @@ opcode "LDS"
   (writes reg(v),ds)
   (code 0xC5 mrm mod(!3));
 
+opcode "MOV"
+  (param=i)
+  (dest=rm(b))
+  (writes rm(b))
+  (code 0xC6 mrm i=immediate(b));
+
+opcode "MOV"
+  (param=i)
+  (dest=rm(v))
+  (writes rm(v))
+  (code 0xC7 mrm i=immediate(v));
+
 opcode "RETF"
   (modifies spv)
   (stack pop ipv,cs)
