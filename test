@@ -379,7 +379,7 @@ opcode "CWD"
 opcode "CALL"
   (comment "call far address, 16:16 or 16:32")
   (writes ipv,cs,spv)
-  (stack push ipv,cs)
+  (stack push cs,ipv)
   (param=p)
   (code 0x9A p=immediate(fpv));
 
