@@ -507,7 +507,7 @@ opcode "LODS"
   (param=far memory(b,seg,siv))
   (modifies siv)
   (writes al)
-  (dest al)
+  (dest=al)
   (code 0xAC);
 
 opcode "LODS"
@@ -515,7 +515,7 @@ opcode "LODS"
   (param=far memory(v,seg,siv))
   (modifies siv)
   (writes av)
-  (dest av)
+  (dest=av)
   (code 0xAD);
 
 opcode "MOV"
