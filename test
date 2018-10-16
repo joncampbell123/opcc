@@ -376,6 +376,13 @@ opcode "CWD"
   (writes dv)
   (modifies dv);
 
+opcode "CALL"
+  (comment "call far address, 16:16 or 16:32")
+  (writes ipv,cs,spv)
+  (stack push ipv,cs)
+  (param=p)
+  (code 0x9A p=immediate(fpv));
+
 opcode "PUSHF"
   (code 0x9C)
   (reads flags(all))
@@ -572,6 +579,7 @@ opcode "OUT"
 opcode "CALL"
   (comment "ipv is evaluated after decoding CALL instruction")
   (comment "relative address is 16-bit signed or 32-bit signed")
+  (stack push ipv)
   (reads ipv)
   (modifies ipv)
   (writes ipv)
