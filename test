@@ -303,6 +303,20 @@ opcode "JG"
   (param=n)
   (code 0x7F p=immediate(sb) n=(ipv+p));
 
+opcode "XCHG"
+  (reads reg(b),rm(b))
+  (writes reg(b),rm(b))
+  (param=rm(b))
+  (dest=reg(b))
+  (code 0x86 mrm);
+
+opcode "XCHG"
+  (reads reg(v),rm(v))
+  (writes reg(v),rm(v))
+  (param=rm(v))
+  (dest=reg(v))
+  (code 0x87 mrm);
+
 opcode "MOV"
   (reads reg(b))
   (writes rm(b))
