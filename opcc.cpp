@@ -195,6 +195,7 @@ enum tokentype_t {
     TOK_NT,
     TOK_MEMORY,
     TOK_SREG,
+    TOK_FAR,
 
     TOK_MAX
 };
@@ -378,7 +379,8 @@ const char *tokentype_str[TOK_MAX] = {
     "IOPL",                     // 175
     "NT",
     "MEMORY",
-    "SREG"
+    "SREG",
+    "FAR"
 };
 
 bool debug_op = false;
@@ -1649,6 +1651,10 @@ bool toke(tokenstate_t &tok) {
             tok.type = TOK_SREG;
             return true;
         }
+        if (tok.string == "FAR") {
+            tok.type = TOK_FAR;
+            return true;
+        }
     }
 
     tok.type = TOK_ERROR;
@@ -1710,6 +1716,7 @@ public:
     unsigned int                var_assign = 0;
     unsigned int                meaning = 0;            // if TOK_IMMEDIATE then size() == 0 and it's an immediate byte
     unsigned int                immediate_type = 0;
+    unsigned int                memseg_type = 0;
     unsigned int                reg_type = 0;           // if TOK_REG
     unsigned int                rm_type = 0;            // if TOK_RM
     unsigned int                memory_type = 0;        // if TOK_MEMORY, var_expr says what to write
@@ -1772,7 +1779,12 @@ std::string SingleByteSpec::to_string(void) {
         res += "rmtype=";
         res += tokentype_str[rm_type];
     }
-    if (memory_type != TOK_NONE) {
+    if (memseg_type != TOK_NONE) {
+        if (!res.empty()) res += ",";
+        res += "memsegtype=";
+        res += tokentype_str[memseg_type];
+    }
+    if (memseg_type != TOK_NONE) {
         if (!res.empty()) res += ",";
         res += "memtype=";
         res += tokentype_str[memory_type];
@@ -2605,6 +2617,62 @@ bool parse_code_flags_spec(std::vector<unsigned int> &flags,tokenlist &tokens) {
     return true;
 }
 
+bool parse_far_mem_spec(SingleByteSpec &bs,tokenlist &tokens) {
+    // caller already ate TOK_FAR TOK_MEMORY
+
+    /* caller ate TOK_FLAGS */
+    if (tokens.next().type != TOK_OPEN_PARENS) return false;
+
+    // first param, is type
+    auto &n = tokens.next();
+    if (!valid_immediate_size_token(n.type)) return false;
+    bs.memory_type = n.type;
+
+    // second param is segment token
+    if (tokens.peek().type != TOK_COMMA) return false;
+    tokens.discard();
+
+    n = tokens.next();
+    bs.memseg_type = n.type;
+
+    // third param is offset expression/token
+    if (tokens.peek().type != TOK_COMMA) return false;
+    tokens.discard();
+
+    if (tokens.peek().type == TOK_OPEN_PARENS) {
+        tokens.discard();
+        int parens = 1;
+
+        do {
+            auto &next = tokens.next();
+
+            if (next.type == TOK_CLOSE_PARENS) {
+                if (--parens <= 0)
+                    break;
+            }
+            else if (next.type == TOK_OPEN_PARENS) {
+                parens++;
+            }
+            else if (next.type == TOK_NONE) {
+                fprintf(stderr,"Opcode parens unexpected end\n");
+                return false;
+            }
+
+            bs.var_expr.push_back(next);
+        } while (1);
+    }
+    else {
+        auto &nn = tokens.next();
+        if (nn.type == TOK_CLOSE_PARENS) return false;
+        bs.var_expr.push_back(nn);
+    }
+
+    /* caller ate TOK_FLAGS */
+    if (tokens.next().type != TOK_CLOSE_PARENS) return false;
+
+    return true;
+}
+
 bool parse_mem_spec(SingleByteSpec &bs,tokenlist &tokens) {
     // caller already ate TOK_MEMORY
 
@@ -2689,6 +2757,20 @@ bool parse_sbl_list(std::vector<SingleByteSpec> &sbl,tokenlist &tokens) {
         else if (bs.meaning == TOK_MEMORY) {
             if (!parse_mem_spec(bs,/*&*/tokens)) {
                 fprintf(stderr,"Invalid reg spec\n");
+                return false;
+            }
+        }
+        else if (bs.meaning == TOK_FAR) {
+            n = tokens.next();
+            if (n.type == TOK_MEMORY) {
+                bs.meaning = n.type;
+                if (!parse_far_mem_spec(bs,/*&*/tokens)) {
+                    fprintf(stderr,"Invalid reg spec\n");
+                    return false;
+                }
+            }
+            else {
+                fprintf(stderr,"far... unexpected tokens\n");
                 return false;
             }
         }
@@ -2907,6 +2989,20 @@ bool read_opcode_spec_opcode_parens(tokenlist &parent_tokens,OpcodeSpec &spec) {
                 return false;
             }
         }
+        else if (bs.meaning == TOK_FAR) {
+            n = tokens.next();
+            if (n.type == TOK_MEMORY) {
+                bs.meaning = n.type;
+                if (!parse_far_mem_spec(bs,/*&*/tokens)) {
+                    fprintf(stderr,"Invalid reg spec\n");
+                    return false;
+                }
+            }
+            else {
+                fprintf(stderr,"far... unexpected tokens\n");
+                return false;
+            }
+        }
 
         if (!tokens.eof()) {
             fprintf(stderr,"Unexpected tokens\n");
@@ -2954,6 +3050,20 @@ bool read_opcode_spec_opcode_parens(tokenlist &parent_tokens,OpcodeSpec &spec) {
         else if (bs.meaning == TOK_MEMORY) {
             if (!parse_mem_spec(bs,/*&*/tokens)) {
                 fprintf(stderr,"Invalid reg spec\n");
+                return false;
+            }
+        }
+        else if (bs.meaning == TOK_FAR) {
+            n = tokens.next();
+            if (n.type == TOK_MEMORY) {
+                bs.meaning = n.type;
+                if (!parse_far_mem_spec(bs,/*&*/tokens)) {
+                    fprintf(stderr,"Invalid reg spec\n");
+                    return false;
+                }
+            }
+            else {
+                fprintf(stderr,"far... unexpected tokens\n");
                 return false;
             }
         }
@@ -3010,6 +3120,20 @@ bool read_opcode_spec_opcode_parens(tokenlist &parent_tokens,OpcodeSpec &spec) {
         else if (bs.meaning == TOK_MEMORY) {
             if (!parse_mem_spec(bs,/*&*/tokens)) {
                 fprintf(stderr,"Invalid reg spec\n");
+                return false;
+            }
+        }
+        else if (bs.meaning == TOK_FAR) {
+            n = tokens.next();
+            if (n.type == TOK_MEMORY) {
+                bs.meaning = n.type;
+                if (!parse_far_mem_spec(bs,/*&*/tokens)) {
+                    fprintf(stderr,"Invalid reg spec\n");
+                    return false;
+                }
+            }
+            else {
+                fprintf(stderr,"far... unexpected tokens\n");
                 return false;
             }
         }

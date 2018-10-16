@@ -438,6 +438,16 @@ opcode "MOV"
   (param=av)
   (code 0xA3 a=immediate(v));
 
+opcode "MOVS"
+  (reads far memory(b,seg,siv))
+  (writes far memory(b,es,div))
+  (reads siv,div,es)
+  (modifies siv,div)
+  (writes siv,div)
+  (dest=far memory(b,es,div))
+  (param=far memory(b,seg,siv))
+  (code 0xA4);
+
 opcode "MOV"
   (writes reg(b))
   (dest=reg(b))
