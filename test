@@ -487,7 +487,7 @@ opcode "TEST"
   (code 0xA9 i=immediate(v));
 
 opcode "STOS"
-  (reads al)
+  (reads al,es,div)
   (param=al)
   (writes far memory(b,es,div),div)
   (modifies div)
@@ -495,7 +495,7 @@ opcode "STOS"
   (code 0xAA);
 
 opcode "STOS"
-  (reads av)
+  (reads av,es,div)
   (param=av)
   (writes far memory(v,es,div),div)
   (modifies div)
