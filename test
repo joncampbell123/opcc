@@ -454,6 +454,20 @@ opcode "MOVS"
   (param=far memory(v,seg,siv))
   (code 0xA5);
 
+opcode "CMPS"
+  (reads far memory(b,es,div),far memory(b,seg,siv),siv,div,es)
+  (modifies siv,div)
+  (param(0)=far memory(b,es,div))
+  (param(1)=far memory(b,seg,siv))
+  (code 0xA6);
+
+opcode "CMPS"
+  (reads far memory(v,es,div),far memory(v,seg,siv),siv,div,es)
+  (modifies siv,div)
+  (param(0)=far memory(v,es,div))
+  (param(1)=far memory(v,seg,siv))
+  (code 0xA7);
+
 opcode "MOV"
   (writes reg(b))
   (dest=reg(b))
