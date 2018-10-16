@@ -1746,10 +1746,16 @@ public:
     std::vector<SingleByteSpec> stack_ops;              // push or pop
     unsigned int                stack_op_dir = 0;       // TOK_PUSH or TOK_POP
     unsigned int                prefix_seg_assign = 0;  // token segment override assignment (PREFIX)
+    unsigned char               reg_constraint = 0;     // bitmask of valid reg values
     signed char                 mod3 = 0;               // -3 means mod!=3   3 means mod==3
 public:
+    void                        add_reg_constraint(const unsigned char reg);
     std::string                 to_string(void);
 };
+
+void OpcodeSpec::add_reg_constraint(const unsigned char reg) {
+    reg_constraint |= 1u << reg;
+}
 
 std::string SingleByteSpec::to_string(void) {
     std::string res;
@@ -1859,6 +1865,24 @@ std::string OpcodeSpec::to_string(void) {
             res += "mod!=3";
         else
             abort();
+    }
+
+    if (reg_constraint != 0) {
+        unsigned int c = 0;
+
+        if (!res.empty()) res += ",";
+        res += "regconstraint=[";
+        for (unsigned int b=0;b < 16;b++) {
+            if (reg_constraint & (1u << b)) {
+                if (c != 0) res += ",";
+
+                char tmp[16];
+                sprintf(tmp,"%u",b);
+                res += tmp;
+                c++;
+            }
+        }
+        res += "]";
     }
 
     {
@@ -3234,6 +3258,45 @@ bool read_opcode_spec_opcode_parens(tokenlist &parent_tokens,OpcodeSpec &spec) {
 
                 bs.meaning = TOK_MRM;
                 spec.bytes.push_back(bs);
+            }
+            else if (tokens.peek(0).type == TOK_REG && tokens.peek(1).type == TOK_OPEN_PARENS) {
+                tokens.discard(2);
+
+                do {
+                    auto &n = tokens.next();
+
+                    if (n.type == TOK_UINT) {
+                        if (n.intval.u < 16) {
+                            spec.add_reg_constraint((unsigned char)n.intval.u);
+                        }
+                        else {
+                            fprintf(stderr,"reg() spec out of range\n");
+                            return false;
+                        }
+                    }
+                    else if (n.type == TOK_CLOSE_PARENS) {
+                        break;
+                    }
+                    else if (n.type == TOK_COMMA) {
+                        continue;
+                    }
+                    else {
+                        fprintf(stderr,"reg() spec unexpected token\n");
+                        return false;
+                    }
+
+                    n = tokens.next();
+                    if (n.type == TOK_COMMA) {
+                        continue;
+                    }
+                    else if (n.type == TOK_CLOSE_PARENS) {
+                        break;
+                    }
+                    else {
+                        fprintf(stderr,"reg() spec expected comma\n");
+                        return false;
+                    }
+                } while (1);
             }
             else if (tokens.peek(0).type == TOK_MOD && tokens.peek(1).type == TOK_OPEN_PARENS) {
                 tokens.discard(2);

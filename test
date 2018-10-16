@@ -577,13 +577,13 @@ opcode "MOV"
   (param=i)
   (dest=rm(b))
   (writes rm(b))
-  (code 0xC6 mrm i=immediate(b));
+  (code 0xC6 mrm i=immediate(b) reg(0));
 
 opcode "MOV"
   (param=i)
   (dest=rm(v))
   (writes rm(v))
-  (code 0xC7 mrm i=immediate(v));
+  (code 0xC7 mrm i=immediate(v) reg(0));
 
 opcode "RETF"
   (modifies spv)
