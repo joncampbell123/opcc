@@ -488,6 +488,7 @@ opcode "TEST"
 
 opcode "STOS"
   (reads al)
+  (param=al)
   (writes far memory(b,es,div),div)
   (modifies div)
   (dest=far memory(b,es,div))
@@ -495,6 +496,7 @@ opcode "STOS"
 
 opcode "STOS"
   (reads av)
+  (param=av)
   (writes far memory(v,es,div),div)
   (modifies div)
   (dest=far memory(v,es,div))
