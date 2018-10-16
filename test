@@ -502,6 +502,22 @@ opcode "STOS"
   (dest=far memory(v,es,div))
   (code 0xAB);
 
+opcode "LODS"
+  (reads siv,far memory(b,seg,siv))
+  (param=far memory(b,seg,siv))
+  (modifies siv)
+  (writes al)
+  (dest al)
+  (code 0xAC);
+
+opcode "LODS"
+  (reads siv,far memory(v,seg,siv))
+  (param=far memory(v,seg,siv))
+  (modifies siv)
+  (writes av)
+  (dest av)
+  (code 0xAD);
+
 opcode "MOV"
   (writes reg(b))
   (dest=reg(b))
