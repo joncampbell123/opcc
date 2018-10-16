@@ -380,6 +380,13 @@ opcode "MOV"
   (reads reg(v))
   (code 0x8E mrm);
 
+opcode "POP"
+  (dest=rm(v))
+  (modifies spv)
+  (reads far memory(v,ss,spv))
+  (writes rm(v))
+  (code 0x8F mrm reg(0));
+
 opcode "NOP"
   (comment "Technically, XCHG AX,AX, but that does nothing and nothing else is modified")
   (code 0x90);
