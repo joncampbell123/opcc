@@ -471,17 +471,17 @@ opcode "CMPS"
   (code 0xA7);
 
 opcode "TEST"
-  (dest=al)
-  (param=i)
   (reads al)
+  (param(0)=al)
+  (param(1)=i)
   (modifies flags(of,cf,sf,zf,pf,af))
   (writes flags(of,cf,sf,zf,pf,af))
   (code 0xA8 i=immediate(b));
 
 opcode "TEST"
-  (dest=av)
-  (param=i)
   (reads av)
+  (param(0)=av)
+  (param(1)=i)
   (modifies flags(of,cf,sf,zf,pf,af))
   (writes flags(of,cf,sf,zf,pf,af))
   (code 0xA9 i=immediate(v));
