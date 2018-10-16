@@ -383,6 +383,11 @@ opcode "CALL"
   (param=p)
   (code 0x9A p=immediate(fpv));
 
+prefix "WAIT"
+  (comment "originally an instruction, but used as a prefix later on in the ISA. Often prefixes FPU instructions")
+  (comment "TODO: Set wait prefix flag")
+  (code 0x9B);
+
 opcode "PUSHF"
   (code 0x9C)
   (reads flags(all))
