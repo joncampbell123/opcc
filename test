@@ -470,6 +470,22 @@ opcode "CMPS"
   (param(1)=far memory(v,seg,siv))
   (code 0xA7);
 
+opcode "TEST"
+  (dest=al)
+  (param=i)
+  (reads al)
+  (modifies flags(of,cf,sf,zf,pf,af))
+  (writes flags(of,cf,sf,zf,pf,af))
+  (code 0xA8 i=immediate(b));
+
+opcode "TEST"
+  (dest=av)
+  (param=i)
+  (reads av)
+  (modifies flags(of,cf,sf,zf,pf,af))
+  (writes flags(of,cf,sf,zf,pf,af))
+  (code 0xA9 i=immediate(v));
+
 opcode "MOV"
   (writes reg(b))
   (dest=reg(b))
