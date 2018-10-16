@@ -560,11 +560,15 @@ opcode "RET"
   (code 0xC3);
 
 opcode "LES"
+  (dest=reg(v))
+  (param=rm(fpv))
   (reads rm(fpv))
   (writes reg(v),es)
   (code 0xC4 mrm mod(!3));
 
 opcode "LDS"
+  (dest=reg(v))
+  (param=rm(fpv))
   (reads rm(fpv))
   (writes reg(v),ds)
   (code 0xC5 mrm mod(!3));
