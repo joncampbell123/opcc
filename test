@@ -559,6 +559,16 @@ opcode "RET"
   (writes ipv)
   (code 0xC3);
 
+opcode "LES"
+  (reads rm(fpv))
+  (writes reg(v),es)
+  (code 0xC4 mrm mod(!3));
+
+opcode "LDS"
+  (reads rm(fpv))
+  (writes reg(v),ds)
+  (code 0xC5 mrm mod(!3));
+
 opcode "RETF"
   (modifies spv)
   (stack pop ipv,cs)
