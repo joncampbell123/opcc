@@ -518,6 +518,22 @@ opcode "LODS"
   (dest=av)
   (code 0xAD);
 
+opcode "SCAS"
+  (reads al,es,div,far memory(b,es,div))
+  (writes al)
+  (modifies div)
+  (param(0)=al)
+  (param(1)=far memory(b,es,div))
+  (code 0xAE);
+
+opcode "SCAS"
+  (reads av,es,div,far memory(v,es,div))
+  (writes av)
+  (modifies div)
+  (param(0)=av)
+  (param(1)=far memory(v,es,div))
+  (code 0xAF);
+
 opcode "MOV"
   (writes reg(b))
   (dest=reg(b))
