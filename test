@@ -420,8 +420,8 @@ opcode "CALL"
 
 prefix "WAIT"
   (comment "originally an instruction, but used as a prefix later on in the ISA. Often prefixes FPU instructions")
-  (comment "TODO: Set wait prefix flag")
-  (code 0x9B);
+  (code 0x9B)
+  (wait=1);
 
 opcode "PUSHF"
   (code 0x9C)
