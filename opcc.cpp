@@ -197,6 +197,7 @@ enum tokentype_t {
     TOK_SREG,
     TOK_FAR,
     TOK_WAIT,                   // 180
+    TOK_LOCK,
 
     TOK_MAX
 };
@@ -382,7 +383,8 @@ const char *tokentype_str[TOK_MAX] = {
     "MEMORY",
     "SREG",
     "FAR",
-    "WAIT"                      // 180
+    "WAIT",                     // 180
+    "LOCK"
 };
 
 bool debug_op = false;
@@ -1661,6 +1663,10 @@ bool toke(tokenstate_t &tok) {
             tok.type = TOK_WAIT;
             return true;
         }
+        if (tok.string == "LOCK") {
+            tok.type = TOK_LOCK;
+            return true;
+        }
     }
 
     tok.type = TOK_ERROR;
@@ -1756,6 +1762,7 @@ public:
     unsigned char               reg_constraint = 0;     // bitmask of valid reg values
     signed char                 mod3 = 0;               // -3 means mod!=3   3 means mod==3
     bool                        wait = false;
+    bool                        lock = false;
 public:
     void                        add_reg_constraint(const unsigned char reg);
     std::string                 to_string(void);
@@ -1883,6 +1890,11 @@ std::string OpcodeSpec::to_string(void) {
     if (wait) {
         if (!res.empty()) res += ",";
         res += "wait=1";
+    }
+
+    if (lock) {
+        if (!res.empty()) res += ",";
+        res += "lock=1";
     }
 
     if (reg_constraint != 0) {
@@ -2924,6 +2936,32 @@ bool read_opcode_spec_opcode_parens(tokenlist &parent_tokens,OpcodeSpec &spec) {
         auto &n = tokens.next();
         if (n.type == TOK_UINT) {
             spec.wait = n.intval.u > 0ull;
+        }
+        else {
+            fprintf(stderr,"Unexpected token past equals\n");
+            return false;
+        }
+
+        if (!tokens.eof()) {
+            fprintf(stderr,"Seg unexpected tokens\n");
+            return false;
+        }
+
+        return true;
+    }
+
+    /* lock=val */
+    if (tokens.peek(0).type == TOK_LOCK && tokens.peek(1).type == TOK_EQUAL) {
+        tokens.discard(2);
+
+        if (spec.type != TOK_PREFIX) {
+            fprintf(stderr,"Segment override specifications only allowed for prefixes\n");
+            return false;
+        }
+
+        auto &n = tokens.next();
+        if (n.type == TOK_UINT) {
+            spec.lock = n.intval.u > 0ull;
         }
         else {
             fprintf(stderr,"Unexpected token past equals\n");

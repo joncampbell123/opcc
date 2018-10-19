@@ -797,9 +797,9 @@ opcode "OUT"
 
 prefix "LOCK"
   (comment "lock prefix")
-  (comment "TODO: syntax to specify lock")
   (desc "lock prefix")
-  (code 0xF0);
+  (code 0xF0)
+  (lock=1);
 
 opcode "INT"
   (comment "INT 1h or ICEBP")
