@@ -4196,7 +4196,7 @@ int main(int argc,char **argv) {
             printf("    %s %s: %s\n",tokentype_str[(*i).type],(*i).name.c_str(),(*i).to_string().c_str());
 
         printf("Opcode coverage (single byte):\n");
-        printf(" X = coverage  O = overlap  M = multi-byte  R = group by reg\n");
+        printf(" X = coverage  O = overlap(!)  M = multi-byte  R = group by reg\n");
         {
             unsigned char cov[256];
             memset(cov,0,256);
@@ -4212,13 +4212,28 @@ int main(int argc,char **argv) {
                     continue;
                 }
 
-                // TODO: If multi-byte opcode
+                bool grp_reg = false;
 
-                for (auto j=b[0].begin();j!=b[0].end();j++) {
-                    if (cov[*j] != 0)
-                        cov[*j] = 'O';
-                    else
-                        cov[*j] = 'X';
+                // TODO: If multi-byte opcode
+                if (b.size() >= 2 && b[1].meaning == TOK_MRM && (*i).reg_constraint != 0) {
+                    grp_reg = true;
+                }
+
+                if (grp_reg) {
+                    for (auto j=b[0].begin();j!=b[0].end();j++) {
+                        if (cov[*j] != 0 && cov[*j] != 'R')
+                            cov[*j] = 'O';
+                        else
+                            cov[*j] = 'R';
+                    }
+                }
+                else {
+                    for (auto j=b[0].begin();j!=b[0].end();j++) {
+                        if (cov[*j] != 0)
+                            cov[*j] = 'O';
+                        else
+                            cov[*j] = 'X';
+                    }
                 }
             }
 
