@@ -54,6 +54,22 @@ opcode "ADD"
   (param=rm(v))
   (code 0x03 mrm);
 
+opcode "ADD"
+  (comment "ADD a,imm")
+  (modifies al,flags(cf,af,sf,zf,pf,of))
+  (writes al,flags(cf,af,sf,zf,pf,of))
+  (dest=al)
+  (param=i)
+  (code 0x04 i=immediate(b));
+
+opcode "ADD"
+  (comment "ADD a,imm")
+  (modifies av,flags(cf,af,sf,zf,pf,of))
+  (writes av,flags(cf,af,sf,zf,pf,of))
+  (dest=av)
+  (param=i)
+  (code 0x05 i=immediate(v));
+
 opcode "PUSH"
   (comment "PUSH ES")
   (modifies spv)
