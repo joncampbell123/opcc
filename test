@@ -423,6 +423,58 @@ opcode "DAS"
   (writes al, flags(cf,af,sf,zf,pf,of))
   (code 0x2F);
 
+opcode "XOR"
+  (comment "XOR r/m,reg byte")
+  (modifies rm(b),flags(cf,af,sf,zf,pf,of))
+  (writes rm(b),flags(cf,af,sf,zf,pf,of))
+  (reads reg(b))
+  (dest=rm(b))
+  (param=reg(b))
+  (code 0x30 mrm);
+
+opcode "XOR"
+  (comment "XOR r/m,reg v")
+  (modifies rm(v),flags(cf,af,sf,zf,pf,of))
+  (writes rm(v),flags(cf,af,sf,zf,pf,of))
+  (reads reg(v))
+  (dest=rm(v))
+  (param=reg(v))
+  (code 0x31 mrm);
+
+opcode "XOR"
+  (comment "XOR reg,r/m byte")
+  (modifies reg(b),flags(cf,af,sf,zf,pf,of))
+  (writes reg(b),flags(cf,af,sf,zf,pf,of))
+  (reads rm(b))
+  (dest=reg(b))
+  (param=rm(b))
+  (code 0x32 mrm);
+
+opcode "XOR"
+  (comment "XOR reg,r/m v")
+  (modifies reg(v),flags(cf,af,sf,zf,pf,of))
+  (writes reg(v),flags(cf,af,sf,zf,pf,of))
+  (reads rm(v))
+  (dest=reg(v))
+  (param=rm(v))
+  (code 0x33 mrm);
+
+opcode "XOR"
+  (comment "XOR a,imm")
+  (modifies al,flags(cf,af,sf,zf,pf,of))
+  (writes al,flags(cf,af,sf,zf,pf,of))
+  (dest=al)
+  (param=i)
+  (code 0x34 i=immediate(b));
+
+opcode "XOR"
+  (comment "XOR a,imm")
+  (modifies av,flags(cf,af,sf,zf,pf,of))
+  (writes av,flags(cf,af,sf,zf,pf,of))
+  (dest=av)
+  (param=i)
+  (code 0x35 i=immediate(v));
+
 prefix "SS:"
   (comment "Segment override prefix")
   (desc "SS segment override")
