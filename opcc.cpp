@@ -1751,6 +1751,7 @@ public:
     unsigned int                rm_type = 0;            // if TOK_RM
     unsigned int                memory_type = 0;        // if TOK_MEMORY, var_expr says what to write
     std::vector<unsigned int>   flags;                  // if TOK_FLAGS
+    std::vector<unsigned int>   fpu;                    // if TOK_FPU
     std::vector<tokenstate_t>   var_expr;
 public:
     std::string                 to_string(void);
@@ -1852,6 +1853,16 @@ std::string SingleByteSpec::to_string(void) {
             res += tokentype_str[*i];
             i++;
             if (i != flags.end()) res += ",";
+        }
+        res += "]";
+    }
+    if (!fpu.empty()) {
+        if (!res.empty()) res += ",";
+        res += "fpu=[";
+        for (auto i=fpu.begin();i!=fpu.end();) {
+            res += tokentype_str[*i];
+            i++;
+            if (i != fpu.end()) res += ",";
         }
         res += "]";
     }
@@ -2734,6 +2745,51 @@ bool parse_code_flags_spec(std::vector<unsigned int> &flags,tokenlist &tokens) {
     return true;
 }
 
+bool parse_code_fpu_spec(std::vector<unsigned int> &fpu,tokenlist &tokens) {
+    /* caller ate TOK_FLAGS */
+    if (tokens.next().type != TOK_OPEN_PARENS) return false;
+
+    do {
+        auto &n = tokens.next();
+
+        if (n.type == TOK_CLOSE_PARENS) break;
+
+        switch (n.type) {
+            case TOK_ALL:
+#if 0
+            case TOK_CF:
+            case TOK_PF:
+            case TOK_AF:
+            case TOK_ZF:
+            case TOK_SF:
+            case TOK_TF:
+            case TOK_IF:
+            case TOK_DF:
+            case TOK_OF:
+            case TOK_IOPL:
+            case TOK_NT:
+#endif
+                fpu.push_back(n.type);
+                break;
+            default:
+                return false;
+        };
+
+        if (tokens.peek().type == TOK_COMMA) {
+            tokens.discard();
+        }
+        else if (tokens.peek().type == TOK_CLOSE_PARENS) {
+            tokens.discard();
+            break;
+        }
+        else {
+            break;
+        }
+    } while (1);
+
+    return true;
+}
+
 bool parse_far_mem_spec(SingleByteSpec &bs,tokenlist &tokens) {
     // caller already ate TOK_FAR TOK_MEMORY
 
@@ -2859,6 +2915,12 @@ bool parse_sbl_list(std::vector<SingleByteSpec> &sbl,tokenlist &tokens) {
         else if (bs.meaning == TOK_FLAGS) {
             if (!parse_code_flags_spec(bs.flags,/*&*/tokens)) {
                 fprintf(stderr,"Invalid flags spec\n");
+                return false;
+            }
+        }
+        else if (bs.meaning == TOK_FPU) {
+            if (!parse_code_fpu_spec(bs.fpu,/*&*/tokens)) {
+                fprintf(stderr,"Invalid fpu spec\n");
                 return false;
             }
         }
