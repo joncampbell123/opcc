@@ -18,6 +18,24 @@ else {;
 
 comment "-----------------begin opcodes----------------";
 
+opcode "ADD"
+  (comment "ADD r/m,reg byte")
+  (modifies rm(b),flags(cf,af,sf,zf,pf,of))
+  (writes rm(b),flags(cf,af,sf,zf,pf,of))
+  (reads reg(b))
+  (dest=rm(b))
+  (param=reg(b))
+  (code 0x00 mrm);
+
+opcode "ADD"
+  (comment "ADD r/m,reg v")
+  (modifies rm(v),flags(cf,af,sf,zf,pf,of))
+  (writes rm(v),flags(cf,af,sf,zf,pf,of))
+  (reads reg(v))
+  (dest=rm(v))
+  (param=reg(v))
+  (code 0x01 mrm);
+
 opcode "PUSH"
   (comment "PUSH ES")
   (modifies spv)
