@@ -1769,12 +1769,23 @@ prefix "LOCK"
   (code 0xF0)
   (lock=1);
 
-opcode "INT"
-  (comment "INT 1h or ICEBP")
-  (desc "INT 1h, or if conditions are right, ICEBP")
-  (modifies all)
-  (param=1)
-  (code 0xF1);
+if value("cpulevel") >= 386 {;
+  opcode "INT"
+    (comment "INT 1h or ICEBP")
+    (desc "INT 1h, or if conditions are right, ICEBP")
+    (modifies all)
+    (param=1)
+    (code 0xF1);
+} if;
+else {;
+  if value("cpulevel") <= 86 {;
+    prefix "LOCK"
+      (comment "lock prefix (alias on 8086)")
+      (desc "lock prefix")
+      (code 0xF1)
+      (lock=1);
+  } if;
+} if;
 
 prefix "REPNZ"
   (comment "repeat while not z")
