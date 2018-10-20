@@ -4187,17 +4187,23 @@ int main(int argc,char **argv) {
 
     if (list_op) {
         printf("Opcodes by byte:\n");
+        printf("----------------\n");
         for (auto i=opcodes.begin();i!=opcodes.end();i++)
             printf("    %s %s: %s\n",tokentype_str[(*i).type],(*i).name.c_str(),(*i).to_string().c_str());
+        printf("\n");
 
         std::sort(opcodes.begin(),opcodes.end(),opcode_sort_func_by_name);
 
         printf("Opcodes by name:\n");
+        printf("----------------\n");
         for (auto i=opcodes.begin();i!=opcodes.end();i++)
             printf("    %s %s: %s\n",tokentype_str[(*i).type],(*i).name.c_str(),(*i).to_string().c_str());
+        printf("\n");
 
         printf("Opcode coverage (single byte):\n");
-        printf(" X = coverage  O = overlap(!)  M = multi-byte  R = group by reg\n");
+        printf("------------------------------\n");
+        printf("X = coverage  O = overlap(!)  M = multi-byte  R = group by reg\n");
+        printf("\n");
         {
             unsigned char cov[256];
             memset(cov,0,256);
