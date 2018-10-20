@@ -593,16 +593,16 @@ opcode "PUSH"
   (comment "PUSH register, word size(v). reg16 if 16-bit, reg32 if 32-bit")
   (code a=0x50-0x57 reg=(a&7))
   (reads reg(v))
-  (modifies reg(v))
-  (writes reg(v))
+  (modifies spv)
+  (stack push reg(v))
   (param=reg(v));
 
 opcode "POP"
   (comment "POP register, word size(v). reg16 if 16-bit, reg32 if 32-bit")
   (code a=0x58-0x5F reg=(a&7))
-  (reads reg(v))
-  (modifies reg(v))
+  (modifies spv)
   (writes reg(v))
+  (stack pop reg(v))
   (param=reg(v));
 
 if value("cpulevel") >= 386
