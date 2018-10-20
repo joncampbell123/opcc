@@ -1808,6 +1808,7 @@ public:
     unsigned int                stack_op_dir = 0;       // TOK_PUSH or TOK_POP
     unsigned int                prefix_seg_assign = 0;  // token segment override assignment (PREFIX)
     unsigned char               reg_constraint = 0;     // bitmask of valid reg values
+    unsigned char               rm_constraint = 0;
     signed char                 mod3 = 0;               // -3 means mod!=3   3 means mod==3
     unsigned int                rep_condition = 0;      // 0 or TOK_Z
     bool                        wait = false;
@@ -1818,11 +1819,16 @@ public:
     unsigned int                fpu_stack_op_dir = 0;       // TOK_PUSH or TOK_POP
 public:
     void                        add_reg_constraint(const unsigned char reg);
+    void                        add_rm_constraint(const unsigned char reg);
     std::string                 to_string(void);
 };
 
 void OpcodeSpec::add_reg_constraint(const unsigned char reg) {
     reg_constraint |= 1u << reg;
+}
+
+void OpcodeSpec::add_rm_constraint(const unsigned char reg) {
+    rm_constraint |= 1u << reg;
 }
 
 std::string SingleByteSpec::to_string(void) {
@@ -2021,6 +2027,24 @@ std::string OpcodeSpec::to_string(void) {
         res += "regconstraint=[";
         for (unsigned int b=0;b < 16;b++) {
             if (reg_constraint & (1u << b)) {
+                if (c != 0) res += ",";
+
+                char tmp[16];
+                sprintf(tmp,"%u",b);
+                res += tmp;
+                c++;
+            }
+        }
+        res += "]";
+    }
+
+    if (rm_constraint != 0) {
+        unsigned int c = 0;
+
+        if (!res.empty()) res += ",";
+        res += "rmconstraint=[";
+        for (unsigned int b=0;b < 16;b++) {
+            if (rm_constraint & (1u << b)) {
                 if (c != 0) res += ",";
 
                 char tmp[16];
@@ -3709,7 +3733,8 @@ bool read_opcode_spec_opcode_parens(tokenlist &parent_tokens,OpcodeSpec &spec) {
                 bs.meaning = TOK_MRM;
                 spec.bytes.push_back(bs);
             }
-            else if (tokens.peek(0).type == TOK_REG && tokens.peek(1).type == TOK_OPEN_PARENS) {
+            else if ((tokens.peek(0).type == TOK_REG || tokens.peek(0).type == TOK_RM) && tokens.peek(1).type == TOK_OPEN_PARENS) {
+                unsigned int typ = tokens.peek(0).type;
                 tokens.discard(2);
 
                 do {
@@ -3717,7 +3742,10 @@ bool read_opcode_spec_opcode_parens(tokenlist &parent_tokens,OpcodeSpec &spec) {
 
                     if (n.type == TOK_UINT) {
                         if (n.intval.u < 16) {
-                            spec.add_reg_constraint((unsigned char)n.intval.u);
+                            if (typ == TOK_RM)
+                                spec.add_rm_constraint((unsigned char)n.intval.u);
+                            else
+                                spec.add_reg_constraint((unsigned char)n.intval.u);
                         }
                         else {
                             fprintf(stderr,"reg() spec out of range\n");
