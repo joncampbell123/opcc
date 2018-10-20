@@ -1678,6 +1678,14 @@ opcode "FLD"
   (fpu stack push rm(sw))
   (code 0xDF mrm mod(!3) reg(0) fpu);
 
+opcode "FLD"
+  (comment "FLD MF=1 [esc]11011 [mf]11 [esc]1 int16 from memory")
+  (reads rm(sqw))
+  (modifies fpu(top))
+  (writes fpu(top),st(0))
+  (fpu stack push rm(sqw))
+  (code 0xDF mrm mod(!3) reg(5) fpu);
+
 opcode "FLD1"
   (reads fpu(top))
   (modifies fpu(top))
