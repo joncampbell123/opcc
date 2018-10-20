@@ -1663,6 +1663,14 @@ opcode "FILD"
   (code 0xDB mrm mod(!3) reg(0) fpu);
 
 opcode "FLD"
+  (comment "FLD MF=1 [esc]11011011 float80 from memory")
+  (reads rm(f80))
+  (modifies fpu(top))
+  (writes fpu(top),st(0))
+  (fpu stack push rm(f80))
+  (code 0xDB mrm mod(!3) reg(5) fpu);
+
+opcode "FLD"
   (comment "FLD MF=1 [esc]11011 [mf]10 [esc]1 float64 from memory")
   (reads rm(f64))
   (modifies fpu(top))
