@@ -489,6 +489,58 @@ opcode "AAA"
   (writes ax, flags(cf,af,of,sf,zf,pf))
   (code 0x37);
 
+opcode "CMP"
+  (comment "CMP r/m,reg byte")
+  (modifies rm(b),flags(cf,af,sf,zf,pf,of))
+  (writes rm(b),flags(cf,af,sf,zf,pf,of))
+  (reads reg(b))
+  (dest=rm(b))
+  (param=reg(b))
+  (code 0x38 mrm);
+
+opcode "CMP"
+  (comment "CMP r/m,reg v")
+  (modifies rm(v),flags(cf,af,sf,zf,pf,of))
+  (writes rm(v),flags(cf,af,sf,zf,pf,of))
+  (reads reg(v))
+  (dest=rm(v))
+  (param=reg(v))
+  (code 0x39 mrm);
+
+opcode "CMP"
+  (comment "CMP reg,r/m byte")
+  (modifies reg(b),flags(cf,af,sf,zf,pf,of))
+  (writes reg(b),flags(cf,af,sf,zf,pf,of))
+  (reads rm(b))
+  (dest=reg(b))
+  (param=rm(b))
+  (code 0x3A mrm);
+
+opcode "CMP"
+  (comment "CMP reg,r/m v")
+  (modifies reg(v),flags(cf,af,sf,zf,pf,of))
+  (writes reg(v),flags(cf,af,sf,zf,pf,of))
+  (reads rm(v))
+  (dest=reg(v))
+  (param=rm(v))
+  (code 0x3B mrm);
+
+opcode "CMP"
+  (comment "CMP a,imm")
+  (modifies al,flags(cf,af,sf,zf,pf,of))
+  (writes al,flags(cf,af,sf,zf,pf,of))
+  (dest=al)
+  (param=i)
+  (code 0x3C i=immediate(b));
+
+opcode "CMP"
+  (comment "CMP a,imm")
+  (modifies av,flags(cf,af,sf,zf,pf,of))
+  (writes av,flags(cf,af,sf,zf,pf,of))
+  (dest=av)
+  (param=i)
+  (code 0x3D i=immediate(v));
+
 prefix "DS:"
   (comment "Segment override prefix")
   (desc "DS segment override")
