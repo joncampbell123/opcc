@@ -1755,6 +1755,16 @@ public:
     std::string                 to_string(void);
 };
 
+bool operator<(const ByteSpec &a,const ByteSpec &b) {
+         if (a.meaning                          < b.meaning)                    return true;
+    else if (a.meaning                          > b.meaning)                    return false;
+
+         if ((std::vector<uint8_t>)a            < (std::vector<uint8_t>)b)      return true;
+    else if ((std::vector<uint8_t>)a            > (std::vector<uint8_t>)b)      return false;
+
+    return false;
+}
+
 class OpcodeSpec {
 public:
     std::vector<ByteSpec>       bytes;                  // opcode byte sequence
