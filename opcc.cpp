@@ -3610,7 +3610,7 @@ bool read_opcode_spec(OpcodeSpec &spec,tokenlist &tokens) {
     }
 
 parse_error:
-    fprintf(stderr,"Parse error\n");
+    fprintf(stderr,"Parse error, next token %s\n",tokens.peek().type_str());
     return false;
 }
 
