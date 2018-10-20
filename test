@@ -1633,6 +1633,13 @@ opcode "AAD"
   (param=d)
   (code 0xD5 d=immediate(b));
 
+opcode "SALC"
+  (comment "Undocumented Intel opcode")
+  (reads flags(cf))
+  (modifies al)
+  (writes al)
+  (code 0xD6);
+
 opcode "XLAT"
   (reads al, bv)
   (modifies al)
