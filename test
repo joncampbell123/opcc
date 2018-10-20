@@ -1811,14 +1811,28 @@ opcode "NOT"
   (modifies rm(b))
   (writes rm(b))
   (dest=rm(b))
-  (code 0xF6 mrm reg(1));
+  (code 0xF6 mrm reg(2));
 
 opcode "NOT"
   (reads rm(v))
   (modifies rm(v))
   (writes rm(v))
   (dest=rm(v))
-  (code 0xF7 mrm reg(1));
+  (code 0xF7 mrm reg(2));
+
+opcode "NEG"
+  (reads rm(b))
+  (modifies rm(b))
+  (writes rm(b))
+  (dest=rm(b))
+  (code 0xF6 mrm reg(3));
+
+opcode "NEG"
+  (reads rm(v))
+  (modifies rm(v))
+  (writes rm(v))
+  (dest=rm(v))
+  (code 0xF7 mrm reg(3));
 
 opcode "CLC"
   (writes flags(cf))
