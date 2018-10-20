@@ -958,6 +958,43 @@ opcode "SUB"
   (code 0x83 mrm i=immediate(sb) reg(5));
 
 
+opcode "XOR"
+  (comment "XOR r/m,i")
+  (modifies rm(b),flags(cf,af,sf,zf,pf,of))
+  (writes rm(b),flags(cf,af,sf,zf,pf,of))
+  (reads rm(b))
+  (dest=rm(b))
+  (param=i)
+  (code 0x80 mrm i=immediate(b) reg(6));
+
+opcode "XOR"
+  (comment "XOR r/m,i")
+  (modifies rm(v),flags(cf,af,sf,zf,pf,of))
+  (writes rm(v),flags(cf,af,sf,zf,pf,of))
+  (reads rm(v))
+  (dest=rm(v))
+  (param=i)
+  (code 0x81 mrm i=immediate(v) reg(6));
+
+opcode "XOR"
+  (comment "XOR r/m,i")
+  (modifies rm(b),flags(cf,af,sf,zf,pf,of))
+  (writes rm(b),flags(cf,af,sf,zf,pf,of))
+  (reads rm(b))
+  (dest=rm(b))
+  (param=i)
+  (code 0x82 mrm i=immediate(b) reg(6));
+
+opcode "XOR"
+  (comment "XOR r/m,i")
+  (modifies rm(v),flags(cf,af,sf,zf,pf,of))
+  (writes rm(v),flags(cf,af,sf,zf,pf,of))
+  (reads rm(v))
+  (dest=rm(v))
+  (param=i)
+  (code 0x83 mrm i=immediate(sb) reg(6));
+
+
 opcode "TEST"
   (reads reg(b),rm(b))
   (writes flags(of,cf,sf,zf,pf,af))
