@@ -4212,14 +4212,26 @@ int main(int argc,char **argv) {
                     continue;
                 }
 
+                bool multibyte = false;
                 bool grp_reg = false;
 
-                // TODO: If multi-byte opcode
+                if (b.size() >= 2 && (b[1].meaning == 0 && b[1].size() != 0)) {
+                    multibyte = true;
+                }
+
                 if (b.size() >= 2 && b[1].meaning == TOK_MRM && (*i).reg_constraint != 0) {
                     grp_reg = true;
                 }
 
-                if (grp_reg) {
+                if (multibyte) {
+                    for (auto j=b[0].begin();j!=b[0].end();j++) {
+                        if (cov[*j] != 0 && cov[*j] != 'M')
+                            cov[*j] = 'O';
+                        else
+                            cov[*j] = 'M';
+                    }
+                }
+                else if (grp_reg) {
                     for (auto j=b[0].begin();j!=b[0].end();j++) {
                         if (cov[*j] != 0 && cov[*j] != 'R')
                             cov[*j] = 'O';
