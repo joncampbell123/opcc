@@ -201,6 +201,7 @@ enum tokentype_t {
     TOK_LOCK,
     TOK_REP,
     TOK_FPU,
+    TOK_TOP,
 
     TOK_MAX
 };
@@ -389,7 +390,8 @@ const char *tokentype_str[TOK_MAX] = {
     "WAIT",                     // 180
     "LOCK",
     "REP",
-    "FPU"
+    "FPU",
+    "TOP"
 };
 
 bool list_op = false;
@@ -1681,6 +1683,10 @@ bool toke(tokenstate_t &tok) {
             tok.type = TOK_FPU;
             return true;
         }
+        if (tok.string == "TOP") {
+            tok.type = TOK_TOP;
+            return true;
+        }
     }
 
     tok.type = TOK_ERROR;
@@ -2756,6 +2762,7 @@ bool parse_code_fpu_spec(std::vector<unsigned int> &fpu,tokenlist &tokens) {
 
         switch (n.type) {
             case TOK_ALL:
+            case TOK_TOP:
 #if 0
             case TOK_CF:
             case TOK_PF:
