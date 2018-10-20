@@ -4262,10 +4262,12 @@ int main(int argc,char **argv) {
                 printf("  %x|",y);
                 for (unsigned int x=0;x < 16;x++) {
                     unsigned char c = cov[(y*16)+x];
+                    unsigned char c2 = ' ';
 
                     if (c == 0) c = ' ';
+                    if (c == 'O') c2 = '!';
 
-                    printf("%c ",(char)c);
+                    printf("%c%c",(char)c,(char)c2);
                 }
                 printf("\n");
             }
