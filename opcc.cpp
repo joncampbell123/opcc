@@ -4198,6 +4198,7 @@ int main(int argc,char **argv) {
         printf("Opcode coverage (single byte):\n");
         printf("------------------------------\n");
         printf("X = coverage  O = overlap(!)  M = multi-byte  R = group by reg\n");
+        printf("P = prefix\n");
         printf("\n");
         {
             unsigned char cov[256];
@@ -4245,6 +4246,8 @@ int main(int argc,char **argv) {
                     for (auto j=b[0].begin();j!=b[0].end();j++) {
                         if (cov[*j] != 0)
                             cov[*j] = 'O';
+                        else if ((*i).type == TOK_PREFIX)
+                            cov[*j] = 'P';
                         else
                             cov[*j] = 'X';
                     }
