@@ -578,7 +578,7 @@ opcode "INC"
   (reads reg(v))
   (modifies reg(v))
   (writes reg(v))
-  (param=reg(v));
+  (dest=reg(v));
 
 opcode "DEC"
   (comment "DEC register, word size(v). reg16 if 16-bit, reg32 if 32-bit")
@@ -587,7 +587,7 @@ opcode "DEC"
   (reads reg(v))
   (modifies reg(v))
   (writes reg(v))
-  (param=reg(v));
+  (dest=reg(v));
 
 opcode "PUSH"
   (comment "PUSH register, word size(v). reg16 if 16-bit, reg32 if 32-bit")
