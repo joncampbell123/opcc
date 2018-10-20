@@ -1942,3 +1942,41 @@ opcode "DEC"
   (dest=rm(v))
   (code 0xFF mrm reg(1));
 
+opcode "CALL"
+  (reads rm(v),ipv)
+  (modifies ipv,spv)
+  (stack push ipv)
+  (writes ipv)
+  (dest=rm(v))
+  (code 0xFF mrm reg(2));
+
+opcode "CALL"
+  (reads rm(fpv),ipv)
+  (modifies cs,ipv,spv)
+  (stack push cs,ipv)
+  (writes cs,ipv)
+  (dest=rm(fpv))
+  (code 0xFF mrm reg(3) mod(!3));
+
+opcode "JMP"
+  (reads rm(v),ipv)
+  (modifies ipv,spv)
+  (stack push ipv)
+  (writes cs,ipv)
+  (dest=rm(v))
+  (code 0xFF mrm reg(4));
+
+opcode "JMP"
+  (reads rm(fpv),ipv)
+  (modifies cs,ipv,spv)
+  (writes cs,ipv)
+  (dest=rm(fpv))
+  (code 0xFF mrm reg(5) mod(!3));
+
+opcode "PUSH"
+  (reads rm(v))
+  (stack push rm(v))
+  (modifies spv)
+  (dest=rm(v))
+  (code 0xFF mrm reg(6));
+
