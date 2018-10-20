@@ -2056,6 +2056,45 @@ std::string OpcodeSpec::to_string(void) {
         res += "]";
     }
 
+    if (mod3 == 3) {
+        unsigned char minval=0xC0,maxval=0xFF;
+
+        if (reg_constraint != 0 && /*power of 2*/(reg_constraint & (reg_constraint - 1)) == 0) {
+            unsigned int c,v;
+
+            c = 0;
+            v = reg_constraint;
+            while (v > 1) {
+                v >>= 1;
+                c++;
+            }
+            minval += (c << 3);
+            maxval  = minval | 0x7;
+
+            if (rm_constraint != 0 && (rm_constraint & (rm_constraint - 1)) == 0) {
+                c = 0;
+                v = rm_constraint;
+                while (v > 1) {
+                    v >>= 1;
+                    c++;
+                }
+                minval += c;
+                maxval  = minval;
+            }
+
+            char tmp[64];
+            if (minval == maxval)
+                sprintf(tmp,"%02x",minval);
+            else
+                sprintf(tmp,"%02x-%02x",minval,maxval);
+
+            if (!res.empty()) res += ",";
+            res += "mrm-comb-range=[";
+            res += tmp;
+            res += "]";
+        }
+    }
+
     {
         std::string subres = destination.to_string();
 
