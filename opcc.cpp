@@ -2262,6 +2262,8 @@ bool valid_immediate_size_token(unsigned int tok) {
         case TOK_FPV:
         case TOK_FPW:
         case TOK_FPDW:
+        case TOK_F32:
+        case TOK_F64:
             return true;
         default:
             break;
