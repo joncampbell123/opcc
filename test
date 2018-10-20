@@ -1646,6 +1646,27 @@ opcode "XLAT"
   (writes al)
   (code 0xD7);
 
+opcode "FLD1"
+  (code 0xD9 0xE8 fpu);
+
+opcode "FLDL2T"
+  (code 0xD9 0xE9 fpu);
+
+opcode "FLDL2E"
+  (code 0xD9 0xEA fpu);
+
+opcode "FLDPI"
+  (code 0xD9 0xEB fpu);
+
+opcode "FLDLG2"
+  (code 0xD9 0xEC fpu);
+
+opcode "FLDLN2"
+  (code 0xD9 0xED fpu);
+
+opcode "FLDZ"
+  (code 0xD9 0xEE fpu);
+
 opcode "LOOPNZ"
   (comment "ipv is evaluated after decoding instruction")
   (comment "--(E)CX, if (E)CX != 0 and !ZF, jump")

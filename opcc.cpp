@@ -200,6 +200,7 @@ enum tokentype_t {
     TOK_WAIT,                   // 180
     TOK_LOCK,
     TOK_REP,
+    TOK_FPU,
 
     TOK_MAX
 };
@@ -387,7 +388,8 @@ const char *tokentype_str[TOK_MAX] = {
     "FAR",
     "WAIT",                     // 180
     "LOCK",
-    "REP"
+    "REP",
+    "FPU"
 };
 
 bool list_op = false;
@@ -1675,6 +1677,10 @@ bool toke(tokenstate_t &tok) {
             tok.type = TOK_REP;
             return true;
         }
+        if (tok.string == "FPU") {
+            tok.type = TOK_FPU;
+            return true;
+        }
     }
 
     tok.type = TOK_ERROR;
@@ -1786,6 +1792,7 @@ public:
     bool                        wait = false;
     bool                        lock = false;
     bool                        rep_condition_negate = false;
+    bool                        fpu = false;
 public:
     void                        add_reg_constraint(const unsigned char reg);
     std::string                 to_string(void);
@@ -3429,6 +3436,11 @@ bool read_opcode_spec_opcode_parens(tokenlist &parent_tokens,OpcodeSpec &spec) {
                         break;
                     }
                 } while (1);
+            }
+            else if (tokens.peek().type == TOK_FPU) {
+                tokens.discard();
+
+                spec.fpu = true;
             }
             else if (tokens.peek().type == TOK_MRM) {
                 tokens.discard();
