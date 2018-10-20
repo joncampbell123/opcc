@@ -2947,6 +2947,8 @@ bool parse_code_st_spec(std::vector<tokenstate_t> &st,tokenlist &tokens) {
 
         switch (n.type) {
             case TOK_UINT:
+            case TOK_REG:
+            case TOK_RM:
             case TOK_ALL:
                 st.push_back(n);
                 break;

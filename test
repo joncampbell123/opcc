@@ -1647,6 +1647,13 @@ opcode "XLAT"
   (code 0xD7);
 
 opcode "FLD"
+  (comment "FLD MF=0 [esc]11011001 st(i) to st(0)")
+  (reads st(rm))
+  (writes fpu(top),st(0))
+  (fpu stack push st(rm))
+  (code 0xD9 mrm mod(3) reg(0) fpu);
+
+opcode "FLD"
   (comment "FLD MF=0 [esc]11011 [mf]00 [esc]1 float32 from memory")
   (reads rm(f32))
   (modifies fpu(top))
