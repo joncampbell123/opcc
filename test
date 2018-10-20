@@ -36,6 +36,24 @@ opcode "ADD"
   (param=reg(v))
   (code 0x01 mrm);
 
+opcode "ADD"
+  (comment "ADD reg,r/m byte")
+  (modifies reg(b),flags(cf,af,sf,zf,pf,of))
+  (writes reg(b),flags(cf,af,sf,zf,pf,of))
+  (reads rm(b))
+  (dest=reg(b))
+  (param=rm(b))
+  (code 0x02 mrm);
+
+opcode "ADD"
+  (comment "ADD reg,r/m v")
+  (modifies reg(v),flags(cf,af,sf,zf,pf,of))
+  (writes reg(v),flags(cf,af,sf,zf,pf,of))
+  (reads rm(v))
+  (dest=reg(v))
+  (param=rm(v))
+  (code 0x03 mrm);
+
 opcode "PUSH"
   (comment "PUSH ES")
   (modifies spv)
