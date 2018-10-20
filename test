@@ -1914,3 +1914,31 @@ opcode "STD"
   (writes flags(df))
   (code 0xFD);
 
+opcode "INC"
+  (reads rm(b))
+  (modifies rm(b),flags(of,sf,zf,af,pf))
+  (writes rm(b),flags(of,sf,zf,af,pf))
+  (dest=rm(b))
+  (code 0xFE mrm reg(0));
+
+opcode "INC"
+  (reads rm(v))
+  (modifies rm(v),flags(of,sf,zf,af,pf))
+  (writes rm(v),flags(of,sf,zf,af,pf))
+  (dest=rm(v))
+  (code 0xFF mrm reg(0));
+
+opcode "DEC"
+  (reads rm(b))
+  (modifies rm(b),flags(of,sf,zf,af,pf))
+  (writes rm(b),flags(of,sf,zf,af,pf))
+  (dest=rm(b))
+  (code 0xFE mrm reg(1));
+
+opcode "DEC"
+  (reads rm(v))
+  (modifies rm(v),flags(of,sf,zf,af,pf))
+  (writes rm(v),flags(of,sf,zf,af,pf))
+  (dest=rm(v))
+  (code 0xFF mrm reg(1));
+
