@@ -1450,6 +1450,72 @@ opcode "ROR"
   (code 0xD3 mrm reg(1));
 
 
+opcode "RCL"
+  (reads rm(b))
+  (modifies rm(b))
+  (writes rm(b))
+  (dest=rm(b))
+  (param=1)
+  (code 0xD0 mrm reg(2));
+
+opcode "RCL"
+  (reads rm(v))
+  (modifies rm(v))
+  (writes rm(v))
+  (dest=rm(v))
+  (param=1)
+  (code 0xD1 mrm reg(2));
+
+opcode "RCL"
+  (reads rm(b))
+  (modifies rm(b))
+  (writes rm(b))
+  (dest=rm(b))
+  (param=cl)
+  (code 0xD2 mrm reg(2));
+
+opcode "RCL"
+  (reads rm(v))
+  (modifies rm(v))
+  (writes rm(v))
+  (dest=rm(v))
+  (param=cl)
+  (code 0xD3 mrm reg(2));
+
+
+opcode "RCR"
+  (reads rm(b))
+  (modifies rm(b))
+  (writes rm(b))
+  (dest=rm(b))
+  (param=1)
+  (code 0xD0 mrm reg(3));
+
+opcode "RCR"
+  (reads rm(v))
+  (modifies rm(v))
+  (writes rm(v))
+  (dest=rm(v))
+  (param=1)
+  (code 0xD1 mrm reg(3));
+
+opcode "RCR"
+  (reads rm(b))
+  (modifies rm(b))
+  (writes rm(b))
+  (dest=rm(b))
+  (param=cl)
+  (code 0xD2 mrm reg(3));
+
+opcode "RCR"
+  (reads rm(v))
+  (modifies rm(v))
+  (writes rm(v))
+  (dest=rm(v))
+  (param=cl)
+  (code 0xD3 mrm reg(3));
+
+
 opcode "AAM"
   (comment "AAD ascii adjust AX before multiply")
   (comment "TODO: Not valid in x64 long mode")
