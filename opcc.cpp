@@ -2040,6 +2040,13 @@ bool opcode_sort_func(const OpcodeSpec &a,const OpcodeSpec &b) {
     return false;
 }
 
+bool opcode_sort_func_by_name(const OpcodeSpec &a,const OpcodeSpec &b) {
+         if (a.name                 < b.name)                   return true;
+    else if (a.name                 > b.name)                   return false;
+
+    return opcode_sort_func(a,b);
+}
+
 std::vector<OpcodeSpec>         opcodes;
 
 int                             unknown_opcode = -1;
@@ -4178,9 +4185,15 @@ int main(int argc,char **argv) {
     std::sort(opcodes.begin(),opcodes.end(),opcode_sort_func);
 
     if (list_op) {
-        printf("Opcodes:\n");
+        printf("Opcodes by byte:\n");
         for (auto i=opcodes.begin();i!=opcodes.end();i++)
-            printf("%s %s: %s\n",tokentype_str[(*i).type],(*i).name.c_str(),(*i).to_string().c_str());
+            printf("    %s %s: %s\n",tokentype_str[(*i).type],(*i).name.c_str(),(*i).to_string().c_str());
+
+        std::sort(opcodes.begin(),opcodes.end(),opcode_sort_func_by_name);
+
+        printf("Opcodes by name:\n");
+        for (auto i=opcodes.begin();i!=opcodes.end();i++)
+            printf("    %s %s: %s\n",tokentype_str[(*i).type],(*i).name.c_str(),(*i).to_string().c_str());
     }
 
     if (opcode_limit < 0) {
