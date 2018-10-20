@@ -389,6 +389,7 @@ const char *tokentype_str[TOK_MAX] = {
     "REP"
 };
 
+bool list_op = false;
 bool debug_op = false;
 
 bool supported_dialect(const std::string &d) {
@@ -1709,6 +1710,9 @@ int parse_argv(int argc,char **argv) {
             }
             else if (!strcmp(a,"dop")) {
                 debug_op = true;
+            }
+            else if (!strcmp(a,"lop")) {
+                list_op = true;
             }
             else {
                 fprintf(stderr,"Unknown sw %s\n",a);
@@ -4147,6 +4151,12 @@ int main(int argc,char **argv) {
     }
 
     while (read_opcode_block());
+
+    if (list_op) {
+        printf("Opcodes:\n");
+        for (auto i=opcodes.begin();i!=opcodes.end();i++)
+            printf("%s %s: %s\n",tokentype_str[(*i).type],(*i).name.c_str(),(*i).to_string().c_str());
+    }
 
     if (opcode_limit < 0) {
         opcode_limit = 0; // none
