@@ -163,7 +163,7 @@ opcode "ADC"
   (comment "ADC r/m,reg byte")
   (modifies rm(b),flags(cf,af,sf,zf,pf,of))
   (writes rm(b),flags(cf,af,sf,zf,pf,of))
-  (reads reg(b))
+  (reads reg(b),flags(cf))
   (dest=rm(b))
   (param=reg(b))
   (code 0x10 mrm);
@@ -172,7 +172,7 @@ opcode "ADC"
   (comment "ADC r/m,reg v")
   (modifies rm(v),flags(cf,af,sf,zf,pf,of))
   (writes rm(v),flags(cf,af,sf,zf,pf,of))
-  (reads reg(v))
+  (reads reg(v),flags(cf))
   (dest=rm(v))
   (param=reg(v))
   (code 0x11 mrm);
@@ -181,7 +181,7 @@ opcode "ADC"
   (comment "ADC reg,r/m byte")
   (modifies reg(b),flags(cf,af,sf,zf,pf,of))
   (writes reg(b),flags(cf,af,sf,zf,pf,of))
-  (reads rm(b))
+  (reads rm(b),flags(cf))
   (dest=reg(b))
   (param=rm(b))
   (code 0x12 mrm);
@@ -190,14 +190,14 @@ opcode "ADC"
   (comment "ADC reg,r/m v")
   (modifies reg(v),flags(cf,af,sf,zf,pf,of))
   (writes reg(v),flags(cf,af,sf,zf,pf,of))
-  (reads rm(v))
+  (reads rm(v),flags(cf))
   (dest=reg(v))
   (param=rm(v))
   (code 0x13 mrm);
 
 opcode "ADC"
   (comment "ADC a,imm")
-  (reads al)
+  (reads al,flags(cf))
   (modifies al,flags(cf,af,sf,zf,pf,of))
   (writes al,flags(cf,af,sf,zf,pf,of))
   (dest=al)
@@ -206,7 +206,7 @@ opcode "ADC"
 
 opcode "ADC"
   (comment "ADC a,imm")
-  (reads av)
+  (reads av,flags(cf))
   (modifies av,flags(cf,af,sf,zf,pf,of))
   (writes av,flags(cf,af,sf,zf,pf,of))
   (dest=av)
@@ -233,7 +233,7 @@ opcode "SBB"
   (comment "SBB r/m,reg byte")
   (modifies rm(b),flags(cf,af,sf,zf,pf,of))
   (writes rm(b),flags(cf,af,sf,zf,pf,of))
-  (reads reg(b))
+  (reads reg(b),flags(cf))
   (dest=rm(b))
   (param=reg(b))
   (code 0x18 mrm);
@@ -242,7 +242,7 @@ opcode "SBB"
   (comment "SBB r/m,reg v")
   (modifies rm(v),flags(cf,af,sf,zf,pf,of))
   (writes rm(v),flags(cf,af,sf,zf,pf,of))
-  (reads reg(v))
+  (reads reg(v),flags(cf))
   (dest=rm(v))
   (param=reg(v))
   (code 0x19 mrm);
@@ -251,7 +251,7 @@ opcode "SBB"
   (comment "SBB reg,r/m byte")
   (modifies reg(b),flags(cf,af,sf,zf,pf,of))
   (writes reg(b),flags(cf,af,sf,zf,pf,of))
-  (reads rm(b))
+  (reads rm(b),flags(cf))
   (dest=reg(b))
   (param=rm(b))
   (code 0x1A mrm);
@@ -260,14 +260,14 @@ opcode "SBB"
   (comment "SBB reg,r/m v")
   (modifies reg(v),flags(cf,af,sf,zf,pf,of))
   (writes reg(v),flags(cf,af,sf,zf,pf,of))
-  (reads rm(v))
+  (reads rm(v),flags(cf))
   (dest=reg(v))
   (param=rm(v))
   (code 0x1B mrm);
 
 opcode "SBB"
   (comment "SBB a,imm")
-  (reads al)
+  (reads al,flags(cf))
   (modifies al,flags(cf,af,sf,zf,pf,of))
   (writes al,flags(cf,af,sf,zf,pf,of))
   (dest=al)
@@ -276,7 +276,7 @@ opcode "SBB"
 
 opcode "SBB"
   (comment "SBB a,imm")
-  (reads av)
+  (reads av,flags(cf))
   (modifies av,flags(cf,af,sf,zf,pf,of))
   (writes av,flags(cf,af,sf,zf,pf,of))
   (dest=av)
