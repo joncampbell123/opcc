@@ -3780,6 +3780,7 @@ bool process_if_statement(tokenlist &tokens,bool suppress=false);
 
 bool process_block(tokenlist &tokens);
 bool read_opcode_token_block(tokenlist &tokens);
+void unput_opcode_token_block(tokenlist &tokens);
 
 bool process_if_block(const bool result_bool,tokenlist &tokens) {
     while (true) {
@@ -3882,15 +3883,7 @@ bool process_if_statement(tokenlist &tokens,bool suppress) {
         }
     }
     else {
-        if (!suppress) {
-            if (!process_block(tokens))
-                return false;
-        }
-        else if (tokens.peek().type == TOK_IF) { /* if condition if condition (nested) */
-            tokens.discard();
-            if (!process_if_statement(tokens,suppress))
-                return false;
-        }
+        unput_opcode_token_block(tokens);
     }
 
     return true;
@@ -4025,8 +4018,24 @@ bool process_block(tokenlist &tokens) {
     return true;
 }
 
+bool tokens_unput_valid = false;
+tokenlist tokens_unput;
+
+void unput_opcode_token_block(tokenlist &tokens) {
+    assert(tokens_unput_valid == false);
+    tokens_unput_valid = true;
+    tokens_unput = tokens;
+}
+
 bool read_opcode_token_block(tokenlist &tokens) {
     tokens.clear();
+
+    if (tokens_unput_valid) {
+        tokens_unput_valid = false;
+        tokens = tokens_unput;
+        tokens_unput.clear();
+        return true;
+    }
 
     do {
         tokenstate_t tok;
