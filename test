@@ -357,6 +357,58 @@ opcode "DAA"
   (writes al, flags(cf,af,sf,zf,pf,of))
   (code 0x27);
 
+opcode "SUB"
+  (comment "SUB r/m,reg byte")
+  (modifies rm(b),flags(cf,af,sf,zf,pf,of))
+  (writes rm(b),flags(cf,af,sf,zf,pf,of))
+  (reads reg(b))
+  (dest=rm(b))
+  (param=reg(b))
+  (code 0x28 mrm);
+
+opcode "SUB"
+  (comment "SUB r/m,reg v")
+  (modifies rm(v),flags(cf,af,sf,zf,pf,of))
+  (writes rm(v),flags(cf,af,sf,zf,pf,of))
+  (reads reg(v))
+  (dest=rm(v))
+  (param=reg(v))
+  (code 0x29 mrm);
+
+opcode "SUB"
+  (comment "SUB reg,r/m byte")
+  (modifies reg(b),flags(cf,af,sf,zf,pf,of))
+  (writes reg(b),flags(cf,af,sf,zf,pf,of))
+  (reads rm(b))
+  (dest=reg(b))
+  (param=rm(b))
+  (code 0x2A mrm);
+
+opcode "SUB"
+  (comment "SUB reg,r/m v")
+  (modifies reg(v),flags(cf,af,sf,zf,pf,of))
+  (writes reg(v),flags(cf,af,sf,zf,pf,of))
+  (reads rm(v))
+  (dest=reg(v))
+  (param=rm(v))
+  (code 0x2B mrm);
+
+opcode "SUB"
+  (comment "SUB a,imm")
+  (modifies al,flags(cf,af,sf,zf,pf,of))
+  (writes al,flags(cf,af,sf,zf,pf,of))
+  (dest=al)
+  (param=i)
+  (code 0x2C i=immediate(b));
+
+opcode "SUB"
+  (comment "SUB a,imm")
+  (modifies av,flags(cf,af,sf,zf,pf,of))
+  (writes av,flags(cf,af,sf,zf,pf,of))
+  (dest=av)
+  (param=i)
+  (code 0x2D i=immediate(v));
+
 prefix "CS:"
   (comment "Segment override prefix")
   (desc "CS segment override")
