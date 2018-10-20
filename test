@@ -603,7 +603,7 @@ opcode "POP"
   (modifies spv)
   (writes reg(v))
   (stack pop reg(v))
-  (param=reg(v));
+  (dest=reg(v));
 
 if value("cpulevel") >= 386
 prefix "FS:"
