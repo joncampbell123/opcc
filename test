@@ -1649,26 +1649,50 @@ opcode "XLAT"
 opcode "FLD1"
   (reads fpu(top))
   (modifies fpu(top))
-  (writes fpu(top))
-  (fpu stack push 0)
+  (writes fpu(top),st(0))
+  (fpu stack push 1)
   (code 0xD9 0xE8 fpu);
 
 opcode "FLDL2T"
+  (reads fpu(top))
+  (modifies fpu(top))
+  (writes fpu(top),st(0))
+  (fpu stack push 0)
   (code 0xD9 0xE9 fpu);
 
 opcode "FLDL2E"
+  (reads fpu(top))
+  (modifies fpu(top))
+  (writes fpu(top),st(0))
+  (fpu stack push 0)
   (code 0xD9 0xEA fpu);
 
 opcode "FLDPI"
+  (reads fpu(top))
+  (modifies fpu(top))
+  (writes fpu(top),st(0))
+  (fpu stack push 0)
   (code 0xD9 0xEB fpu);
 
 opcode "FLDLG2"
+  (reads fpu(top))
+  (modifies fpu(top))
+  (writes fpu(top),st(0))
+  (fpu stack push 0)
   (code 0xD9 0xEC fpu);
 
 opcode "FLDLN2"
+  (reads fpu(top))
+  (modifies fpu(top))
+  (writes fpu(top),st(0))
+  (fpu stack push 0)
   (code 0xD9 0xED fpu);
 
 opcode "FLDZ"
+  (reads fpu(top))
+  (modifies fpu(top))
+  (writes fpu(top),st(0))
+  (fpu stack push 0)
   (code 0xD9 0xEE fpu);
 
 opcode "LOOPNZ"
