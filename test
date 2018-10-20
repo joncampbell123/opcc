@@ -1659,42 +1659,48 @@ opcode "FLDL2T"
   (modifies fpu(top))
   (writes fpu(top),st(0))
   (fpu stack push constant("log2(10)"))
-  (code 0xD9 0xE9 fpu);
+  (comment "0xD9 0xE9 aka mod==3 reg=5 rm=1")
+  (code 0xD9 mrm mod(3) reg(5) rm(1) fpu);
 
 opcode "FLDL2E"
   (reads fpu(top))
   (modifies fpu(top))
   (writes fpu(top),st(0))
   (fpu stack push constant("log2(e)"))
-  (code 0xD9 0xEA fpu);
+  (comment "0xD9 0xEA aka mod==3 reg=5 rm=2")
+  (code 0xD9 mrm mod(3) reg(5) rm(2) fpu);
 
 opcode "FLDPI"
   (reads fpu(top))
   (modifies fpu(top))
   (writes fpu(top),st(0))
   (fpu stack push constant("pi"))
-  (code 0xD9 0xEB fpu);
+  (comment "0xD9 0xEB aka mod==3 reg=5 rm=3")
+  (code 0xD9 mrm mod(3) reg(5) rm(3) fpu);
 
 opcode "FLDLG2"
   (reads fpu(top))
   (modifies fpu(top))
   (writes fpu(top),st(0))
   (fpu stack push constant("log10(2)"))
-  (code 0xD9 0xEC fpu);
+  (comment "0xD9 0xEB aka mod==3 reg=5 rm=4")
+  (code 0xD9 mrm mod(3) reg(5) rm(4) fpu);
 
 opcode "FLDLN2"
   (reads fpu(top))
   (modifies fpu(top))
   (writes fpu(top),st(0))
   (fpu stack push constant("loge(2)"))
-  (code 0xD9 0xED fpu);
+  (comment "0xD9 0xEB aka mod==3 reg=5 rm=5")
+  (code 0xD9 mrm mod(3) reg(5) rm(5) fpu);
 
 opcode "FLDZ"
   (reads fpu(top))
   (modifies fpu(top))
   (writes fpu(top),st(0))
   (fpu stack push 0)
-  (code 0xD9 0xEE fpu);
+  (comment "0xD9 0xEB aka mod==3 reg=5 rm=6")
+  (code 0xD9 mrm mod(3) reg(5) rm(6) fpu);
 
 opcode "LOOPNZ"
   (comment "ipv is evaluated after decoding instruction")
