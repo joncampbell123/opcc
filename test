@@ -1822,71 +1822,71 @@ opcode "NOT"
 
 opcode "NEG"
   (reads rm(b))
-  (modifies rm(b))
-  (writes rm(b))
+  (modifies rm(b),flags(cf,af,sf,zf,pf,of))
+  (writes rm(b),flags(cf,af,sf,zf,pf,of))
   (dest=rm(b))
   (code 0xF6 mrm reg(3));
 
 opcode "NEG"
   (reads rm(v))
-  (modifies rm(v))
-  (writes rm(v))
+  (modifies rm(v),flags(cf,af,sf,zf,pf,of))
+  (writes rm(v),flags(cf,af,sf,zf,pf,of))
   (dest=rm(v))
   (code 0xF7 mrm reg(3));
 
 opcode "MUL"
   (reads rm(b))
-  (modifies rm(b))
-  (writes rm(b))
+  (modifies rm(b),flags(cf,af,sf,zf,pf,of))
+  (writes rm(b),flags(cf,af,sf,zf,pf,of))
   (dest=rm(b))
   (code 0xF6 mrm reg(4));
 
 opcode "MUL"
   (reads rm(v))
-  (modifies rm(v))
-  (writes rm(v))
+  (modifies rm(v),flags(cf,af,sf,zf,pf,of))
+  (writes rm(v),flags(cf,af,sf,zf,pf,of))
   (dest=rm(v))
   (code 0xF7 mrm reg(4));
 
 opcode "IMUL"
   (reads rm(b))
-  (modifies rm(b))
-  (writes rm(b))
+  (modifies rm(b),flags(cf,af,sf,zf,pf,of))
+  (writes rm(b),flags(cf,af,sf,zf,pf,of))
   (dest=rm(b))
   (code 0xF6 mrm reg(5));
 
 opcode "IMUL"
   (reads rm(v))
-  (modifies rm(v))
-  (writes rm(v))
+  (modifies rm(v),flags(cf,af,sf,zf,pf,of))
+  (writes rm(v),flags(cf,af,sf,zf,pf,of))
   (dest=rm(v))
   (code 0xF7 mrm reg(5));
 
 opcode "DIV"
   (reads rm(b))
-  (modifies rm(b))
-  (writes rm(b))
+  (modifies rm(b),flags(cf,af,sf,zf,pf,of))
+  (writes rm(b),flags(cf,af,sf,zf,pf,of))
   (dest=rm(b))
   (code 0xF6 mrm reg(6));
 
 opcode "DIV"
   (reads rm(v))
-  (modifies rm(v))
-  (writes rm(v))
+  (modifies rm(v),flags(cf,af,sf,zf,pf,of))
+  (writes rm(v),flags(cf,af,sf,zf,pf,of))
   (dest=rm(v))
   (code 0xF7 mrm reg(6));
 
 opcode "IDIV"
   (reads rm(b))
-  (modifies rm(b))
-  (writes rm(b))
+  (modifies rm(b),flags(cf,af,sf,zf,pf,of))
+  (writes rm(b),flags(cf,af,sf,zf,pf,of))
   (dest=rm(b))
   (code 0xF6 mrm reg(7));
 
 opcode "IDIV"
   (reads rm(v))
-  (modifies rm(v))
-  (writes rm(v))
+  (modifies rm(v),flags(cf,af,sf,zf,pf,of))
+  (writes rm(v),flags(cf,af,sf,zf,pf,of))
   (dest=rm(v))
   (code 0xF7 mrm reg(7));
 
