@@ -1105,8 +1105,8 @@ opcode "LEA"
 opcode "MOV"
   (dest=sreg(v))
   (writes sreg(v))
-  (param=reg(v))
-  (reads reg(v))
+  (param=rm(v))
+  (reads rm(v))
   (code 0x8E mrm);
 
 opcode "POP"
