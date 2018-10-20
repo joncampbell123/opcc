@@ -56,6 +56,7 @@ opcode "ADD"
 
 opcode "ADD"
   (comment "ADD a,imm")
+  (reads al)
   (modifies al,flags(cf,af,sf,zf,pf,of))
   (writes al,flags(cf,af,sf,zf,pf,of))
   (dest=al)
@@ -64,6 +65,7 @@ opcode "ADD"
 
 opcode "ADD"
   (comment "ADD a,imm")
+  (reads av)
   (modifies av,flags(cf,af,sf,zf,pf,of))
   (writes av,flags(cf,af,sf,zf,pf,of))
   (dest=av)
@@ -124,6 +126,7 @@ opcode "OR"
 
 opcode "OR"
   (comment "OR a,imm")
+  (reads al)
   (modifies al,flags(cf,af,sf,zf,pf,of))
   (writes al,flags(cf,af,sf,zf,pf,of))
   (dest=al)
@@ -132,6 +135,7 @@ opcode "OR"
 
 opcode "OR"
   (comment "OR a,imm")
+  (reads av)
   (modifies av,flags(cf,af,sf,zf,pf,of))
   (writes av,flags(cf,af,sf,zf,pf,of))
   (dest=av)
@@ -193,6 +197,7 @@ opcode "ADC"
 
 opcode "ADC"
   (comment "ADC a,imm")
+  (reads al)
   (modifies al,flags(cf,af,sf,zf,pf,of))
   (writes al,flags(cf,af,sf,zf,pf,of))
   (dest=al)
@@ -201,6 +206,7 @@ opcode "ADC"
 
 opcode "ADC"
   (comment "ADC a,imm")
+  (reads av)
   (modifies av,flags(cf,af,sf,zf,pf,of))
   (writes av,flags(cf,af,sf,zf,pf,of))
   (dest=av)
@@ -261,6 +267,7 @@ opcode "SBB"
 
 opcode "SBB"
   (comment "SBB a,imm")
+  (reads al)
   (modifies al,flags(cf,af,sf,zf,pf,of))
   (writes al,flags(cf,af,sf,zf,pf,of))
   (dest=al)
@@ -269,6 +276,7 @@ opcode "SBB"
 
 opcode "SBB"
   (comment "SBB a,imm")
+  (reads av)
   (modifies av,flags(cf,af,sf,zf,pf,of))
   (writes av,flags(cf,af,sf,zf,pf,of))
   (dest=av)
@@ -329,6 +337,7 @@ opcode "AND"
 
 opcode "AND"
   (comment "AND a,imm")
+  (reads al)
   (modifies al,flags(cf,af,sf,zf,pf,of))
   (writes al,flags(cf,af,sf,zf,pf,of))
   (dest=al)
@@ -337,6 +346,7 @@ opcode "AND"
 
 opcode "AND"
   (comment "AND a,imm")
+  (reads av)
   (modifies av,flags(cf,af,sf,zf,pf,of))
   (writes av,flags(cf,af,sf,zf,pf,of))
   (dest=av)
@@ -395,6 +405,7 @@ opcode "SUB"
 
 opcode "SUB"
   (comment "SUB a,imm")
+  (reads al)
   (modifies al,flags(cf,af,sf,zf,pf,of))
   (writes al,flags(cf,af,sf,zf,pf,of))
   (dest=al)
@@ -403,6 +414,7 @@ opcode "SUB"
 
 opcode "SUB"
   (comment "SUB a,imm")
+  (reads av)
   (modifies av,flags(cf,af,sf,zf,pf,of))
   (writes av,flags(cf,af,sf,zf,pf,of))
   (dest=av)
@@ -461,6 +473,7 @@ opcode "XOR"
 
 opcode "XOR"
   (comment "XOR a,imm")
+  (reads al)
   (modifies al,flags(cf,af,sf,zf,pf,of))
   (writes al,flags(cf,af,sf,zf,pf,of))
   (dest=al)
@@ -469,6 +482,7 @@ opcode "XOR"
 
 opcode "XOR"
   (comment "XOR a,imm")
+  (reads av)
   (modifies av,flags(cf,af,sf,zf,pf,of))
   (writes av,flags(cf,af,sf,zf,pf,of))
   (dest=av)
@@ -527,6 +541,7 @@ opcode "CMP"
 
 opcode "CMP"
   (comment "CMP a,imm")
+  (reads al)
   (modifies al,flags(cf,af,sf,zf,pf,of))
   (writes al,flags(cf,af,sf,zf,pf,of))
   (dest=al)
@@ -535,6 +550,7 @@ opcode "CMP"
 
 opcode "CMP"
   (comment "CMP a,imm")
+  (reads av)
   (modifies av,flags(cf,af,sf,zf,pf,of))
   (writes av,flags(cf,af,sf,zf,pf,of))
   (dest=av)
