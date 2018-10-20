@@ -3356,11 +3356,6 @@ bool read_opcode_spec_opcode_parens(tokenlist &parent_tokens,OpcodeSpec &spec) {
     if (tokens.peek(0).type == TOK_CODE) {
         tokens.discard(1);
 
-        if (spec.bytes.size() != 0) {
-            fprintf(stderr,"The same opcode cannot have multiple code specs\n");
-            return false;
-        }
-
         while (!tokens.eof()) {
             ByteSpec bs;
 
