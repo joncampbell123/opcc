@@ -825,6 +825,7 @@ opcode "HLT"
 
 opcode "CMC"
   (reads flags(cf))
+  (modifies flags(cf))
   (writes flags(cf))
   (code 0xF5);
 
