@@ -1686,6 +1686,14 @@ opcode "FILD"
   (fpu stack push rm(sw))
   (code 0xDF mrm mod(!3) reg(0) fpu);
 
+opcode "FBLD"
+  (comment "FLD [esc]11011111 int64 from memory")
+  (reads rm(f80bcd))
+  (modifies fpu(top))
+  (writes fpu(top),st(0))
+  (fpu stack push rm(f80bcd))
+  (code 0xDF mrm mod(!3) reg(4) fpu);
+
 opcode "FILD"
   (comment "FLD [esc]11011111 int64 from memory")
   (reads rm(sqw))

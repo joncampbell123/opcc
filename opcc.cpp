@@ -204,6 +204,7 @@ enum tokentype_t {
     TOK_TOP,
     TOK_ST,                     // 185
     TOK_CONSTANT,
+    TOK_F80BCD,
 
     TOK_MAX
 };
@@ -394,8 +395,9 @@ const char *tokentype_str[TOK_MAX] = {
     "REP",
     "FPU",
     "TOP",
-    "ST",
-    "CONSTANT"
+    "ST",                       // 185
+    "CONSTANT",
+    "F80BCD"
 };
 
 bool list_op = false;
@@ -1699,6 +1701,10 @@ bool toke(tokenstate_t &tok) {
             tok.type = TOK_CONSTANT;
             return true;
         }
+        if (tok.string == "F80BCD") {
+            tok.type = TOK_F80BCD;
+            return true;
+        }
     }
 
     tok.type = TOK_ERROR;
@@ -2265,6 +2271,7 @@ bool valid_immediate_size_token(unsigned int tok) {
         case TOK_F32:
         case TOK_F64:
         case TOK_F80:
+        case TOK_F80BCD:
         case TOK_QW:
         case TOK_SQW:
             return true;
