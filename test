@@ -223,6 +223,58 @@ opcode "POP"
   (dest=ss)
   (code 0x17);
 
+opcode "SBB"
+  (comment "SBB r/m,reg byte")
+  (modifies rm(b),flags(cf,af,sf,zf,pf,of))
+  (writes rm(b),flags(cf,af,sf,zf,pf,of))
+  (reads reg(b))
+  (dest=rm(b))
+  (param=reg(b))
+  (code 0x18 mrm);
+
+opcode "SBB"
+  (comment "SBB r/m,reg v")
+  (modifies rm(v),flags(cf,af,sf,zf,pf,of))
+  (writes rm(v),flags(cf,af,sf,zf,pf,of))
+  (reads reg(v))
+  (dest=rm(v))
+  (param=reg(v))
+  (code 0x19 mrm);
+
+opcode "SBB"
+  (comment "SBB reg,r/m byte")
+  (modifies reg(b),flags(cf,af,sf,zf,pf,of))
+  (writes reg(b),flags(cf,af,sf,zf,pf,of))
+  (reads rm(b))
+  (dest=reg(b))
+  (param=rm(b))
+  (code 0x1A mrm);
+
+opcode "SBB"
+  (comment "SBB reg,r/m v")
+  (modifies reg(v),flags(cf,af,sf,zf,pf,of))
+  (writes reg(v),flags(cf,af,sf,zf,pf,of))
+  (reads rm(v))
+  (dest=reg(v))
+  (param=rm(v))
+  (code 0x1B mrm);
+
+opcode "SBB"
+  (comment "SBB a,imm")
+  (modifies al,flags(cf,af,sf,zf,pf,of))
+  (writes al,flags(cf,af,sf,zf,pf,of))
+  (dest=al)
+  (param=i)
+  (code 0x1C i=immediate(b));
+
+opcode "SBB"
+  (comment "SBB a,imm")
+  (modifies av,flags(cf,af,sf,zf,pf,of))
+  (writes av,flags(cf,af,sf,zf,pf,of))
+  (dest=av)
+  (param=i)
+  (code 0x1D i=immediate(v));
+
 opcode "PUSH"
   (comment "PUSH DS")
   (modifies spv)
