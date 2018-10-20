@@ -155,6 +155,58 @@ opcode "POP"
   (dest=cs)
   (code 0x0F);
 
+opcode "ADC"
+  (comment "ADC r/m,reg byte")
+  (modifies rm(b),flags(cf,af,sf,zf,pf,of))
+  (writes rm(b),flags(cf,af,sf,zf,pf,of))
+  (reads reg(b))
+  (dest=rm(b))
+  (param=reg(b))
+  (code 0x10 mrm);
+
+opcode "ADC"
+  (comment "ADC r/m,reg v")
+  (modifies rm(v),flags(cf,af,sf,zf,pf,of))
+  (writes rm(v),flags(cf,af,sf,zf,pf,of))
+  (reads reg(v))
+  (dest=rm(v))
+  (param=reg(v))
+  (code 0x11 mrm);
+
+opcode "ADC"
+  (comment "ADC reg,r/m byte")
+  (modifies reg(b),flags(cf,af,sf,zf,pf,of))
+  (writes reg(b),flags(cf,af,sf,zf,pf,of))
+  (reads rm(b))
+  (dest=reg(b))
+  (param=rm(b))
+  (code 0x12 mrm);
+
+opcode "ADC"
+  (comment "ADC reg,r/m v")
+  (modifies reg(v),flags(cf,af,sf,zf,pf,of))
+  (writes reg(v),flags(cf,af,sf,zf,pf,of))
+  (reads rm(v))
+  (dest=reg(v))
+  (param=rm(v))
+  (code 0x13 mrm);
+
+opcode "ADC"
+  (comment "ADC a,imm")
+  (modifies al,flags(cf,af,sf,zf,pf,of))
+  (writes al,flags(cf,af,sf,zf,pf,of))
+  (dest=al)
+  (param=i)
+  (code 0x14 i=immediate(b));
+
+opcode "ADC"
+  (comment "ADC a,imm")
+  (modifies av,flags(cf,af,sf,zf,pf,of))
+  (writes av,flags(cf,af,sf,zf,pf,of))
+  (dest=av)
+  (param=i)
+  (code 0x15 i=immediate(v));
+
 opcode "PUSH"
   (comment "PUSH SS")
   (modifies spv)
