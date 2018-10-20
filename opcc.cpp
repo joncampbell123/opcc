@@ -1800,6 +1800,8 @@ public:
     bool                        lock = false;
     bool                        rep_condition_negate = false;
     bool                        fpu = false;
+    std::vector<SingleByteSpec> fpu_stack_ops;              // push or pop
+    unsigned int                fpu_stack_op_dir = 0;       // TOK_PUSH or TOK_POP
 public:
     void                        add_reg_constraint(const unsigned char reg);
     std::string                 to_string(void);
@@ -1826,7 +1828,7 @@ std::string SingleByteSpec::to_string(void) {
             sprintf(tmp,"=%llu",(unsigned long long)intval);
             res += tmp;
         }
-    }
+   }
     if (immediate_type != TOK_NONE) {
         if (!res.empty()) res += ",";
         res += "immediate=";
@@ -2042,6 +2044,22 @@ std::string OpcodeSpec::to_string(void) {
             res += (*i).to_string();
             i++;
             if (i!=stack_ops.end()) res += " ";
+        }
+        res += "]";
+    }
+
+    if (fpu_stack_ops.size() != 0) {
+        if (!res.empty()) res += ",";
+        res += "fpu_stack_ops(";
+        if (stack_op_dir == TOK_PUSH)
+            res += "push";
+        else if (stack_op_dir == TOK_POP)
+            res += "pop";
+        res += ")=[";
+        for (auto i=fpu_stack_ops.begin();i!=fpu_stack_ops.end();) {
+            res += (*i).to_string();
+            i++;
+            if (i!=fpu_stack_ops.end()) res += " ";
         }
         res += "]";
     }
@@ -3214,6 +3232,46 @@ bool read_opcode_spec_opcode_parens(tokenlist &parent_tokens,OpcodeSpec &spec) {
         }
 
         if (!parse_sbl_list(spec.stack_ops,tokens))
+            return false;
+
+        if (!tokens.eof()) {
+            fprintf(stderr,"Unexpected tokens\n");
+            return false;
+        }
+
+        return true;
+    }
+
+    /* fpu stack push ... */
+    /* fpu stack pop ... */
+    if (tokens.peek(0).type == TOK_FPU && tokens.peek(1).type == TOK_STACK) {
+        tokens.discard(2);
+
+        if (tokens.peek().type == TOK_PUSH) {
+            tokens.discard();
+
+            if (spec.fpu_stack_op_dir != TOK_NONE && spec.fpu_stack_op_dir != TOK_PUSH) {
+                fprintf(stderr,"Stack ops can be push or pop, not both\n");
+                return false;
+            }
+
+            spec.fpu_stack_op_dir = TOK_PUSH;
+        }
+        else if (tokens.peek().type == TOK_POP) {
+            tokens.discard();
+
+            if (spec.fpu_stack_op_dir != TOK_NONE && spec.fpu_stack_op_dir != TOK_POP) {
+                fprintf(stderr,"Stack ops can be push or pop, not both\n");
+                return false;
+            }
+
+            spec.fpu_stack_op_dir = TOK_POP;
+        }
+        else {
+            return false;
+        }
+
+        if (!parse_sbl_list(spec.fpu_stack_ops,tokens))
             return false;
 
         if (!tokens.eof()) {

@@ -1650,6 +1650,7 @@ opcode "FLD1"
   (reads fpu(top))
   (modifies fpu(top))
   (writes fpu(top))
+  (fpu stack push 0)
   (code 0xD9 0xE8 fpu);
 
 opcode "FLDL2T"
