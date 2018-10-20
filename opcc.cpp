@@ -3387,6 +3387,7 @@ bool read_opcode_spec_opcode_parens(tokenlist &parent_tokens,OpcodeSpec &spec) {
                         bs.var_expr.push_back(n);
                     } while (1);
 
+                    bs.meaning = TOK_EQUAL; /* don't make it a byte sequence */
                     spec.bytes.push_back(bs);
                     continue;
                 }
@@ -4215,7 +4216,7 @@ int main(int argc,char **argv) {
                 bool multibyte = false;
                 bool grp_reg = false;
 
-                if (b.size() >= 2 && (b[1].meaning == 0 && b[1].size() != 0)) {
+                if (b.size() >= 2 && b[1].meaning == 0) {
                     multibyte = true;
                 }
 
