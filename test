@@ -86,6 +86,58 @@ opcode "POP"
   (dest=es)
   (code 0x07);
 
+opcode "OR"
+  (comment "OR r/m,reg byte")
+  (modifies rm(b),flags(cf,af,sf,zf,pf,of))
+  (writes rm(b),flags(cf,af,sf,zf,pf,of))
+  (reads reg(b))
+  (dest=rm(b))
+  (param=reg(b))
+  (code 0x08 mrm);
+
+opcode "OR"
+  (comment "OR r/m,reg v")
+  (modifies rm(v),flags(cf,af,sf,zf,pf,of))
+  (writes rm(v),flags(cf,af,sf,zf,pf,of))
+  (reads reg(v))
+  (dest=rm(v))
+  (param=reg(v))
+  (code 0x09 mrm);
+
+opcode "OR"
+  (comment "OR reg,r/m byte")
+  (modifies reg(b),flags(cf,af,sf,zf,pf,of))
+  (writes reg(b),flags(cf,af,sf,zf,pf,of))
+  (reads rm(b))
+  (dest=reg(b))
+  (param=rm(b))
+  (code 0x0A mrm);
+
+opcode "OR"
+  (comment "OR reg,r/m v")
+  (modifies reg(v),flags(cf,af,sf,zf,pf,of))
+  (writes reg(v),flags(cf,af,sf,zf,pf,of))
+  (reads rm(v))
+  (dest=reg(v))
+  (param=rm(v))
+  (code 0x0B mrm);
+
+opcode "OR"
+  (comment "OR a,imm")
+  (modifies al,flags(cf,af,sf,zf,pf,of))
+  (writes al,flags(cf,af,sf,zf,pf,of))
+  (dest=al)
+  (param=i)
+  (code 0x0C i=immediate(b));
+
+opcode "OR"
+  (comment "OR a,imm")
+  (modifies av,flags(cf,af,sf,zf,pf,of))
+  (writes av,flags(cf,af,sf,zf,pf,of))
+  (dest=av)
+  (param=i)
+  (code 0x0D i=immediate(v));
+
 opcode "PUSH"
   (comment "PUSH CS")
   (modifies spv)
