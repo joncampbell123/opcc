@@ -815,7 +815,6 @@ prefix "REPNZ"
   (rep=!z);
 
 prefix "REPZ"
-  (comment "TODO: rep=z syntax")
   (comment "repeat while z")
   (desc "rep while z")
   (code 0xF3)
