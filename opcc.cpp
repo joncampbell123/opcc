@@ -4194,6 +4194,54 @@ int main(int argc,char **argv) {
         printf("Opcodes by name:\n");
         for (auto i=opcodes.begin();i!=opcodes.end();i++)
             printf("    %s %s: %s\n",tokentype_str[(*i).type],(*i).name.c_str(),(*i).to_string().c_str());
+
+        printf("Opcode coverage (single byte):\n");
+        printf(" X = coverage  O = overlap  M = multi-byte  R = group by reg\n");
+        {
+            unsigned char cov[256];
+            memset(cov,0,256);
+
+            for (auto i=opcodes.begin();i!=opcodes.end();i++) {
+                const auto &b = (*i).bytes;
+
+                if (b.size() == 0) continue;
+
+                if (b[0].meaning != 0) {
+                    printf(" BUG? Opcode with first byte entry not a byte seq:\n");
+                    printf("  %s\n",(*i).to_string().c_str());
+                    continue;
+                }
+
+                // TODO: If multi-byte opcode
+
+                for (auto j=b[0].begin();j!=b[0].end();j++) {
+                    if (cov[*j] != 0)
+                        cov[*j] = 'O';
+                    else
+                        cov[*j] = 'X';
+                }
+            }
+
+            printf("    ");
+            for (unsigned int x=0;x < 16;x++) printf("%x ",x);
+            printf("\n");
+
+            printf("   ");
+            for (unsigned int x=0;x < 16;x++) printf("--");
+            printf("\n");
+
+            for (unsigned int y=0;y < 16;y++) {
+                printf("  %x|",y);
+                for (unsigned int x=0;x < 16;x++) {
+                    unsigned char c = cov[(y*16)+x];
+
+                    if (c == 0) c = ' ';
+
+                    printf("%c ",(char)c);
+                }
+                printf("\n");
+            }
+        }
     }
 
     if (opcode_limit < 0) {
