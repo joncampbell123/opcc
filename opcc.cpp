@@ -10,6 +10,7 @@
 #include <errno.h>
 #include <math.h>
 
+#include <algorithm>
 #include <string>
 #include <vector>
 #include <stack>
@@ -2015,6 +2016,16 @@ std::string OpcodeSpec::to_string(void) {
 }
 
 static tokenstate_t tokenstate_t_none;
+
+bool opcode_sort_func(const OpcodeSpec &a,const OpcodeSpec &b) {
+         if (a.bytes                < b.bytes)                  return true;
+    else if (a.bytes                > b.bytes)                  return false;
+
+         if (a.reg_constraint       < b.reg_constraint)         return true;
+    else if (a.reg_constraint       > b.reg_constraint)         return false;
+
+    return false;
+}
 
 std::vector<OpcodeSpec>         opcodes;
 
@@ -4151,6 +4162,7 @@ int main(int argc,char **argv) {
     }
 
     while (read_opcode_block());
+    std::sort(opcodes.begin(),opcodes.end(),opcode_sort_func);
 
     if (list_op) {
         printf("Opcodes:\n");
