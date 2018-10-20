@@ -1905,6 +1905,12 @@ std::string OpcodeSpec::to_string(void) {
         res += "lock=1";
     }
 
+    if (prefix_seg_assign != 0) {
+        if (!res.empty()) res += ",";
+        res += "seg=";
+        res += tokentype_str[prefix_seg_assign];
+    }
+
     if (rep_condition != 0) {
         if (!res.empty()) res += ",";
         res += "rep=";
