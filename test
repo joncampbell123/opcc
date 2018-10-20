@@ -303,7 +303,7 @@ opcode "AND"
   (comment "AND r/m,reg byte")
   (modifies rm(b),flags(cf,af,sf,zf,pf,of))
   (writes rm(b),flags(cf,af,sf,zf,pf,of))
-  (reads reg(b))
+  (reads reg(b),rm(b))
   (dest=rm(b))
   (param=reg(b))
   (code 0x20 mrm);
@@ -312,7 +312,7 @@ opcode "AND"
   (comment "AND r/m,reg v")
   (modifies rm(v),flags(cf,af,sf,zf,pf,of))
   (writes rm(v),flags(cf,af,sf,zf,pf,of))
-  (reads reg(v))
+  (reads reg(v),rm(v))
   (dest=rm(v))
   (param=reg(v))
   (code 0x21 mrm);
@@ -321,7 +321,7 @@ opcode "AND"
   (comment "AND reg,r/m byte")
   (modifies reg(b),flags(cf,af,sf,zf,pf,of))
   (writes reg(b),flags(cf,af,sf,zf,pf,of))
-  (reads rm(b))
+  (reads rm(b),reg(b))
   (dest=reg(b))
   (param=rm(b))
   (code 0x22 mrm);
@@ -330,7 +330,7 @@ opcode "AND"
   (comment "AND reg,r/m v")
   (modifies reg(v),flags(cf,af,sf,zf,pf,of))
   (writes reg(v),flags(cf,af,sf,zf,pf,of))
-  (reads rm(v))
+  (reads rm(v),reg(v))
   (dest=reg(v))
   (param=rm(v))
   (code 0x23 mrm);
@@ -371,7 +371,7 @@ opcode "SUB"
   (comment "SUB r/m,reg byte")
   (modifies rm(b),flags(cf,af,sf,zf,pf,of))
   (writes rm(b),flags(cf,af,sf,zf,pf,of))
-  (reads reg(b))
+  (reads reg(b),rm(b))
   (dest=rm(b))
   (param=reg(b))
   (code 0x28 mrm);
@@ -380,7 +380,7 @@ opcode "SUB"
   (comment "SUB r/m,reg v")
   (modifies rm(v),flags(cf,af,sf,zf,pf,of))
   (writes rm(v),flags(cf,af,sf,zf,pf,of))
-  (reads reg(v))
+  (reads reg(v),rm(v))
   (dest=rm(v))
   (param=reg(v))
   (code 0x29 mrm);
@@ -389,7 +389,7 @@ opcode "SUB"
   (comment "SUB reg,r/m byte")
   (modifies reg(b),flags(cf,af,sf,zf,pf,of))
   (writes reg(b),flags(cf,af,sf,zf,pf,of))
-  (reads rm(b))
+  (reads rm(b),reg(b))
   (dest=reg(b))
   (param=rm(b))
   (code 0x2A mrm);
@@ -398,7 +398,7 @@ opcode "SUB"
   (comment "SUB reg,r/m v")
   (modifies reg(v),flags(cf,af,sf,zf,pf,of))
   (writes reg(v),flags(cf,af,sf,zf,pf,of))
-  (reads rm(v))
+  (reads rm(v),reg(v))
   (dest=reg(v))
   (param=rm(v))
   (code 0x2B mrm);
@@ -439,7 +439,7 @@ opcode "XOR"
   (comment "XOR r/m,reg byte")
   (modifies rm(b),flags(cf,af,sf,zf,pf,of))
   (writes rm(b),flags(cf,af,sf,zf,pf,of))
-  (reads reg(b))
+  (reads reg(b),rm(b))
   (dest=rm(b))
   (param=reg(b))
   (code 0x30 mrm);
@@ -448,7 +448,7 @@ opcode "XOR"
   (comment "XOR r/m,reg v")
   (modifies rm(v),flags(cf,af,sf,zf,pf,of))
   (writes rm(v),flags(cf,af,sf,zf,pf,of))
-  (reads reg(v))
+  (reads reg(v),rm(v))
   (dest=rm(v))
   (param=reg(v))
   (code 0x31 mrm);
@@ -457,7 +457,7 @@ opcode "XOR"
   (comment "XOR reg,r/m byte")
   (modifies reg(b),flags(cf,af,sf,zf,pf,of))
   (writes reg(b),flags(cf,af,sf,zf,pf,of))
-  (reads rm(b))
+  (reads rm(b),reg(b))
   (dest=reg(b))
   (param=rm(b))
   (code 0x32 mrm);
@@ -466,7 +466,7 @@ opcode "XOR"
   (comment "XOR reg,r/m v")
   (modifies reg(v),flags(cf,af,sf,zf,pf,of))
   (writes reg(v),flags(cf,af,sf,zf,pf,of))
-  (reads rm(v))
+  (reads rm(v),reg(v))
   (dest=reg(v))
   (param=rm(v))
   (code 0x33 mrm);
