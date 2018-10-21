@@ -402,6 +402,7 @@ const char *tokentype_str[TOK_MAX] = {
 
 bool list_op = false;
 bool debug_op = false;
+bool read_error = false;
 
 bool supported_dialect(const std::string &d) {
     if (d == "intel-x86")
@@ -4472,8 +4473,10 @@ bool read_opcode_block(void) {
         if (!read_opcode_token_block(/*&*/tokens))
             return false;
 
-        if (!process_block(/*&*/tokens))
+        if (!process_block(/*&*/tokens)) {
+            read_error = true;
             return false;
+        }
     } while (1);
 
     return true;
@@ -4589,6 +4592,12 @@ int main(int argc,char **argv) {
     }
 
     while (read_opcode_block());
+
+    if (read_error) {
+        fprintf(stderr,"Parse error, exiting\n");
+        return 1;
+    }
+
     std::sort(opcodes.begin(),opcodes.end(),opcode_sort_func);
 
     if (list_op) {
