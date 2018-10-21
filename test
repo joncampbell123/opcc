@@ -2623,6 +2623,27 @@ opcode "FSCALE"
   (param(1)=st(1))
   (code 0xD9 mrm mod(3) reg(7) rm(5));
 
+opcode "FENI"
+  (comment "Enable 8087 interrrupts")
+  (modifies fpu(all))
+  (writes fpu(all))
+  (code 0xDB mrm mod(3) reg(4) rm(0));
+
+opcode "FDISI"
+  (comment "Disable 8087 interrupts")
+  (comment "TODO: FPU state")
+  (code 0xDB mrm mod(3) reg(4) rm(1));
+
+opcode "FCLEX"
+  (comment "Clear 8087 exceptions")
+  (comment "TODO: FPU state")
+  (code 0xDB mrm mod(3) reg(4) rm(2));
+
+opcode "FINIT"
+  (comment "FINIT 8087 state")
+  (comment "TODO: FPU state")
+  (code 0xDB mrm mod(3) reg(4) rm(3));
+
 opcode "LOOPNZ"
   (comment "ipv is evaluated after decoding instruction")
   (comment "--(E)CX, if (E)CX != 0 and !ZF, jump")
