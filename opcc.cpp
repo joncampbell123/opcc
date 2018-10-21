@@ -1941,6 +1941,19 @@ std::string SingleByteSpec::pretty_string(void) {
         }
         res += "]";
     }
+    else if (meaning == TOK_CONSTANT) {
+        res += "const(";
+        for (auto i=constant.begin();i!=constant.end();i++) {
+            if (i != constant.begin())
+                res + " ";
+
+            if ((*i).type == TOK_STRING)
+                res += "\""+(*i).string+"\"";
+            else
+                res += (*i).to_string();
+        }
+        res += ")";
+    }
     else if (meaning == 0) {
     }
     else {
