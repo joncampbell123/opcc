@@ -1852,20 +1852,20 @@ void OpcodeSpec::add_rm_constraint(const unsigned char reg) {
 
 const char *regrmtype_str(unsigned int type) {
     switch (type) {
-        case TOK_B:
-        case TOK_SB:    return "byte";
-        case TOK_W:
-        case TOK_SW:    return "word";
-        case TOK_V:
-        case TOK_SV:    return "value";
-        case TOK_DW:
-        case TOK_SDW:   return "dword";
-        case TOK_QW:
-        case TOK_SQW:   return "qword";
-        case TOK_F32:   return "float32";
-        case TOK_F64:   return "float64";
-        case TOK_F80:   return "float80";
-        case TOK_F80BCD:return "floatbcd";
+        case TOK_B:     return "u8";
+        case TOK_SB:    return "i8";
+        case TOK_W:     return "u16";
+        case TOK_SW:    return "i16";
+        case TOK_V:     return "uv";
+        case TOK_SV:    return "iv";
+        case TOK_DW:    return "u32";
+        case TOK_SDW:   return "i32";
+        case TOK_QW:    return "u64";
+        case TOK_SQW:   return "i64";
+        case TOK_F32:   return "f32";
+        case TOK_F64:   return "f64";
+        case TOK_F80:   return "f80";
+        case TOK_F80BCD:return "fbcd";
         case TOK_F87ENV:return "f87env";
         case TOK_F87STATE:return "f87state";
         case TOK_FPW:   return "far16";
