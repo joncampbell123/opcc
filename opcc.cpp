@@ -2142,6 +2142,16 @@ std::string OpcodeSpec::pretty_string(void) {
             params += (*i).pretty_string();
         }
     }
+
+    unsigned int tok_regand7_assign = 0;
+    unsigned int tok_opbyte_assign = 0;
+    unsigned int tok_opbyte_assign_base = 0;
+
+    if (bytes.size() >= 1 && bytes[0].meaning == 0 && bytes[0].var_assign != 0 && bytes[0].size() > 0) {
+        tok_opbyte_assign = bytes[0].var_assign;
+        tok_opbyte_assign_base = bytes[0][0];
+    }
+
     for (auto i=bytes.begin();i!=bytes.end();i++) {
         if ((*i).meaning == TOK_EQUAL) {
             if (!byte_strvas.empty())
@@ -2164,8 +2174,46 @@ std::string OpcodeSpec::pretty_string(void) {
                     byte_strvas += tokentype_str[(*j).type];
             }
             byte_strvas += ")";
+
+            if ((*i).var_assign == TOK_REG) {
+                if ((*i).var_expr.size() == 3 && tok_opbyte_assign != 0) {
+                    if ((*i).var_expr[0].type == tok_opbyte_assign &&
+                        (*i).var_expr[1].type == TOK_AMPERSAND &&
+                        (*i).var_expr[2].type == TOK_UINT &&
+                        (*i).var_expr[2].intval.u == 7) {
+                        tok_regand7_assign = 1;
+                    }
+                }
+            }
         }
     }
+
+    if (tok_regand7_assign) {
+        auto &x = bytes[0];
+        unsigned int min,expect;
+        bool ok = false;
+
+        if (x.size() > 1) {
+            auto i = x.begin();
+            min = *i; i++; expect = min + 1;
+            ok = true;
+            while (i != x.end()) {
+                if ((min & (~7)) != ((*i) & (~7))) {
+                    ok = false;
+                    break;
+                }
+                if (*i != expect) {
+                    ok = false;
+                    break;
+                }
+                expect = *i + 1;
+                i++;
+            }
+        }
+
+        if (!ok) tok_regand7_assign = false;
+    }
+
     for (auto i=bytes.begin();i!=bytes.end();i++) {
         if ((*i).meaning == 0) {
             if ((*i).size() > 1) {
@@ -2311,6 +2359,14 @@ std::string OpcodeSpec::pretty_string(void) {
             byte_str += regrmtype_str((*i).immediate_type);
             byte_str += ")";
         }
+    }
+
+    if (tok_regand7_assign) {
+        sprintf(tmp,"reg=%u-7",tok_opbyte_assign_base&7);
+        byte_strvas = tmp;
+
+        sprintf(tmp,"%02x+reg",tok_opbyte_assign_base&(~7));
+        byte_str = tmp;
     }
 
     while (params.size() < (opspec_ins_col_len-9)) params += " ";
