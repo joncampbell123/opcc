@@ -1648,7 +1648,8 @@ opcode "XLAT"
 
 opcode "FLD"
   (comment "FLD [esc]11011001 st(i) to st(0)")
-  (reads st(rm))
+  (reads fpu(top),st(rm))
+  (modifies fpu(top))
   (writes fpu(top),st(0))
   (fpu stack push st(rm))
   (dest=st(0))
@@ -1657,7 +1658,7 @@ opcode "FLD"
 
 opcode "FLD"
   (comment "FLD MF=0 [esc]11011 [mf]00 [esc]1 float32 from memory")
-  (reads rm(f32))
+  (reads fpu(top),rm(f32))
   (modifies fpu(top))
   (writes fpu(top),st(0))
   (fpu stack push rm(f32))
@@ -1667,7 +1668,7 @@ opcode "FLD"
 
 opcode "FILD"
   (comment "FLD MF=1 [esc]11011 [mf]01 [esc]1 int32 from memory")
-  (reads rm(sdw))
+  (reads fpu(top),rm(sdw))
   (modifies fpu(top))
   (writes fpu(top),st(0))
   (fpu stack push rm(sdw))
@@ -1677,7 +1678,7 @@ opcode "FILD"
 
 opcode "FLD"
   (comment "FLD MF=1 [esc]11011011 float80 from memory")
-  (reads rm(f80))
+  (reads fpu(top),rm(f80))
   (modifies fpu(top))
   (writes fpu(top),st(0))
   (fpu stack push rm(f80))
@@ -1687,7 +1688,7 @@ opcode "FLD"
 
 opcode "FLD"
   (comment "FLD MF=1 [esc]11011 [mf]10 [esc]1 float64 from memory")
-  (reads rm(f64))
+  (reads fpu(top),rm(f64))
   (modifies fpu(top))
   (writes fpu(top),st(0))
   (fpu stack push rm(f64))
@@ -1697,7 +1698,7 @@ opcode "FLD"
 
 opcode "FILD"
   (comment "FLD MF=1 [esc]11011 [mf]11 [esc]1 int16 from memory")
-  (reads rm(sw))
+  (reads fpu(top),rm(sw))
   (modifies fpu(top))
   (writes fpu(top),st(0))
   (fpu stack push rm(sw))
@@ -1707,7 +1708,7 @@ opcode "FILD"
 
 opcode "FBLD"
   (comment "FLD [esc]11011111 int64 from memory")
-  (reads rm(f80bcd))
+  (reads fpu(top),rm(f80bcd))
   (modifies fpu(top))
   (writes fpu(top),st(0))
   (fpu stack push rm(f80bcd))
@@ -1717,7 +1718,7 @@ opcode "FBLD"
 
 opcode "FILD"
   (comment "FLD [esc]11011111 int64 from memory")
-  (reads rm(sqw))
+  (reads fpu(top),rm(sqw))
   (modifies fpu(top))
   (writes fpu(top),st(0))
   (fpu stack push rm(sqw))
@@ -1842,9 +1843,9 @@ opcode "FST"
 opcode "FSTP"
   (comment "FLD MF=0 [esc]11011 [mf]00 [esc]1 float32 from memory")
   (fpu stack pop rm(f32))
-  (writes rm(f32))
-  (modifies rm(f32))
-  (reads st(0))
+  (writes fpu(top),rm(f32))
+  (modifies fpu(top))
+  (reads fpu(top),st(0))
   (param=st(0))
   (dest=rm(f32))
   (code 0xD9 mrm mod(!3) reg(3) fpu);
@@ -1852,9 +1853,9 @@ opcode "FSTP"
 opcode "FISTP"
   (comment "FLD MF=1 [esc]11011 [mf]01 [esc]1 int32 from memory")
   (fpu stack pop rm(sdw))
-  (writes rm(sdw))
-  (modifies rm(sdw))
-  (reads st(0))
+  (writes fpu(top),rm(sdw))
+  (modifies fpu(top))
+  (reads fpu(top),st(0))
   (param=st(0))
   (dest=rm(sdw))
   (code 0xDB mrm mod(!3) reg(3) fpu);
@@ -1862,9 +1863,9 @@ opcode "FISTP"
 opcode "FSTP"
   (comment "FLD MF=1 [esc]11011 [mf]10 [esc]1 float64 from memory")
   (fpu stack pop rm(f64))
-  (writes rm(f64))
-  (modifies rm(f64))
-  (reads st(0))
+  (writes fpu(top),rm(f64))
+  (modifies fpu(top))
+  (reads fpu(top),st(0))
   (param=st(0))
   (dest=rm(f64))
   (code 0xDD mrm mod(!3) reg(3) fpu);
@@ -1872,9 +1873,9 @@ opcode "FSTP"
 opcode "FISTP"
   (comment "FLD MF=1 [esc]11011 [mf]11 [esc]1 int16 from memory")
   (fpu stack pop rm(sw))
-  (writes rm(sw))
-  (modifies rm(sw))
-  (reads st(0))
+  (writes fpu(top),rm(sw))
+  (modifies fpu(top))
+  (reads fpu(top),st(0))
   (param=st(0))
   (dest=rm(sw))
   (code 0xDF mrm mod(!3) reg(3) fpu);
@@ -1882,8 +1883,9 @@ opcode "FISTP"
 opcode "FSTP"
   (comment "FLD [esc]11011101 st(0) to st(i)")
   (fpu stack pop st(rm))
-  (reads st(0))
-  (writes st(rm))
+  (reads fpu(top),st(0))
+  (writes fpu(top),st(rm))
+  (modifies fpu(top))
   (param=st(0))
   (dest=st(rm))
   (code 0xDD mrm mod(3) reg(3) fpu);
@@ -1891,8 +1893,9 @@ opcode "FSTP"
 opcode "FISTP"
   (comment "FLD MF=1 [esc]11011111 int64 from memory")
   (fpu stack pop rm(sqw))
-  (writes rm(sqw))
-  (reads st(0))
+  (writes fpu(top),rm(sqw))
+  (reads fpu(top),st(0))
+  (modifies fpu(top))
   (param=st(0))
   (dest=rm(sqw))
   (code 0xDF mrm mod(!3) reg(7) fpu);
@@ -1900,8 +1903,9 @@ opcode "FISTP"
 opcode "FSTP"
   (comment "FLD MF=1 [esc]11011111 float80 from memory")
   (fpu stack pop rm(f80))
-  (writes rm(f80))
-  (reads st(0))
+  (writes fpu(top),rm(f80))
+  (reads fpu(top),st(0))
+  (modifies fpu(top))
   (param=st(0))
   (dest=rm(f80))
   (code 0xDB mrm mod(!3) reg(7) fpu);
@@ -1909,8 +1913,9 @@ opcode "FSTP"
 opcode "FBSTP"
   (comment "FLD MF=1 [esc]11011111 float80bcd from memory")
   (fpu stack pop rm(f80bcd))
-  (writes rm(f80bcd))
-  (reads st(0))
+  (writes fpu(top),rm(f80bcd))
+  (reads fpu(top),st(0))
+  (modifies fpu(top))
   (param=st(0))
   (dest=rm(f80bcd))
   (code 0xDF mrm mod(!3) reg(6) fpu);
@@ -1965,7 +1970,9 @@ opcode "FCOM"
 
 opcode "FCOMP"
   (comment "FCOMP MF=0 [esc]11011 [mf]00 [esc]0 float32 from memory")
-  (reads rm(f32),st(0))
+  (reads fpu(top),rm(f32),st(0))
+  (writes fpu(top))
+  (modifies fpu(top))
   (fpu stack pop st(0))
   (comment "TODO: modifies FPU condition flags")
   (dest=st(0))
@@ -1974,7 +1981,9 @@ opcode "FCOMP"
 
 opcode "FICOMP"
   (comment "FCOMP MF=1 [esc]11011 [mf]01 [esc]0 int32 from memory")
-  (reads rm(sdw),st(0))
+  (reads fpu(top),rm(sdw),st(0))
+  (writes fpu(top))
+  (modifies fpu(top))
   (fpu stack pop st(0))
   (comment "TODO: modifies FPU condition flags")
   (dest=st(0))
@@ -1984,7 +1993,9 @@ opcode "FICOMP"
 opcode "FCOMP"
   (comment "FCOMP MF=2 [esc]11011 [mf]10 [esc]0 float64 from memory")
   (fpu stack pop st(0))
-  (reads rm(f64),st(0))
+  (reads fpu(top),rm(f64),st(0))
+  (writes fpu(top))
+  (modifies fpu(top))
   (comment "TODO: modifies FPU condition flags")
   (dest=st(0))
   (param=rm(f64))
@@ -1993,7 +2004,9 @@ opcode "FCOMP"
 opcode "FICOMP"
   (comment "FCOMP MF=3 [esc]11011 [mf]11 [esc]0 int16 from memory")
   (fpu stack pop st(0))
-  (reads rm(sw),st(0))
+  (reads fpu(top),rm(sw),st(0))
+  (writes fpu(top))
+  (modifies fpu(top))
   (comment "TODO: modifies FPU condition flags")
   (dest=st(0))
   (param=rm(sw))
@@ -2002,7 +2015,9 @@ opcode "FICOMP"
 opcode "FCOMP"
   (comment "FCOMP [esc]11011000 st(i)")
   (fpu stack pop st(0))
-  (reads st(rm),st(0))
+  (reads fpu(top),st(rm),st(0))
+  (writes fpu(top))
+  (modifies fpu(top))
   (comment "TODO: modifies FPU condition flags")
   (dest=st(0))
   (param=st(rm))
@@ -2011,7 +2026,9 @@ opcode "FCOMP"
 opcode "FCOMPP"
   (comment "FCOMPP [esc]11011000 st(i)")
   (fpu stack pop st(0),st(1))
-  (reads st(0),st(1))
+  (reads fpu(top),st(0),st(1))
+  (writes fpu(top))
+  (modifies fpu(top))
   (comment "TODO: modifies FPU condition flags")
   (dest=st(0))
   (param=st(1))
