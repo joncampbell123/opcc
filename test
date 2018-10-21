@@ -2035,11 +2035,18 @@ opcode "FCOMPP"
   (code 0xDE mrm mod(3) reg(3) rm(1) fpu);
 
 opcode "FTST"
-  (comment "FTST [esc]11011001 st(0)")
+  (comment "FTST [esc]11011001 st(0) (compares against 0.0)")
   (reads st(0))
   (comment "TODO: Modifies FPU condition flags")
   (param=st(0))
   (code 0xD9 mrm mod(3) reg(4) rm(4) fpu);
+
+opcode "FXAM"
+  (comment "FXAM [esc]11011001 st(0)")
+  (reads st(0))
+  (comment "TODO: Modifies FPU condition flags")
+  (param=st(0))
+  (code 0xD9 mrm mod(3) reg(4) rm(5) fpu);
 
 opcode "LOOPNZ"
   (comment "ipv is evaluated after decoding instruction")
