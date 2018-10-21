@@ -405,6 +405,7 @@ const char *tokentype_str[TOK_MAX] = {
 bool list_op = false;
 bool debug_op = false;
 bool read_error = false;
+bool verbose_op = false;
 
 bool supported_dialect(const std::string &d) {
     if (d == "intel-x86")
@@ -1752,6 +1753,9 @@ int parse_argv(int argc,char **argv) {
             else if (!strcmp(a,"lop")) {
                 list_op = true;
             }
+            else if (!strcmp(a,"vop")) {
+                verbose_op = true;
+            }
             else {
                 fprintf(stderr,"Unknown sw %s\n",a);
                 return 1;
@@ -1788,6 +1792,7 @@ public:
     std::vector<tokenstate_t>   constant;
 public:
     std::string                 to_string(void);
+    std::string                 pretty_string(void);
 };
 
 class ByteSpec : public SingleByteSpec, public std::vector<uint8_t> {
@@ -1834,6 +1839,7 @@ public:
     void                        add_reg_constraint(const unsigned char reg);
     void                        add_rm_constraint(const unsigned char reg);
     std::string                 to_string(void);
+    std::string                 pretty_string(void);
 };
 
 void OpcodeSpec::add_reg_constraint(const unsigned char reg) {
@@ -1842,6 +1848,85 @@ void OpcodeSpec::add_reg_constraint(const unsigned char reg) {
 
 void OpcodeSpec::add_rm_constraint(const unsigned char reg) {
     rm_constraint |= 1u << reg;
+}
+
+const char *regrmtype_str(unsigned int type) {
+    switch (type) {
+        case TOK_B:
+        case TOK_SB:    return "byte";
+        case TOK_W:
+        case TOK_SW:    return "word";
+        case TOK_V:
+        case TOK_SV:    return "value";
+        case TOK_DW:
+        case TOK_SDW:   return "dword";
+        case TOK_QW:
+        case TOK_SQW:   return "qword";
+    };
+
+    return "";
+}
+
+std::string SingleByteSpec::pretty_string(void) {
+    std::string res;
+
+    if (meaning == TOK_RM) {
+        res += regrmtype_str(rm_type);
+        if (!res.empty()) res += " ";
+        res += "r/m";
+    }
+    else if (meaning == TOK_REG) {
+        res += regrmtype_str(reg_type);
+        if (!res.empty()) res += " ";
+        res += "reg";
+    }
+    else if (meaning == TOK_SREG) {
+        res += regrmtype_str(reg_type);
+        if (!res.empty()) res += " ";
+        res += "segreg";
+    }
+    else if (meaning == TOK_IMMEDIATE) {
+        res += regrmtype_str(immediate_type);
+        if (!res.empty()) res += " ";
+        res += "imm";
+    }
+    else if (meaning == TOK_UINT) {
+        char tmp[64];
+        sprintf(tmp,"%llu",(unsigned long long)intval);
+        if (!res.empty()) res += " ";
+        res += tmp;
+    }
+    else if (meaning == TOK_AV) {
+        if (!res.empty()) res += " ";
+        res += "Av";
+    }
+    else if (meaning == TOK_ST) {
+        if (fpu_st.size() == 1) {
+            if (fpu_st[0].type == TOK_REG ||
+                fpu_st[0].type == TOK_RM) {
+                res += "st(i)";
+            }
+            else if (fpu_st[0].type == TOK_UINT) {
+                char tmp[64];
+                sprintf(tmp,"st(%llu)",(unsigned long long)intval);
+                if (!res.empty()) res += " ";
+                res += tmp;
+            }
+            else {
+                res += "st(?)";
+            }
+        }
+        else {
+            res += "st(?)";
+        }
+    }
+    else if (meaning == 0) {
+    }
+    else {
+        res += tokentype_str[meaning];
+    }
+
+    return res;
 }
 
 std::string SingleByteSpec::to_string(void) {
@@ -1986,6 +2071,237 @@ std::string ByteSpec::to_string(void) {
         }
     }
 
+    return res;
+}
+
+std::string OpcodeSpec::pretty_string(void) {
+    std::string res;
+    std::string params;
+
+    if (destination.meaning != 0) {
+        if (!params.empty()) params += ", ";
+        params += destination.pretty_string();
+    }
+    for (auto i=param.begin();i!=param.end();i++) {
+        if ((*i).meaning != 0) {
+            if (!params.empty()) params += ", ";
+            params += (*i).pretty_string();
+        }
+    }
+
+    res += params;
+
+#if 0
+    res += "bytes=(";
+    for (auto i=bytes.begin();i!=bytes.end();) {
+        res += (*i).to_string();
+        i++;
+        if (i != bytes.end()) res += " ";
+    }
+    res += ")";
+
+    if (mod3 != 0) {
+        if (!res.empty()) res += ",";
+        if (mod3 == 3)
+            res += "mod==3";
+        else if (mod3 == -3)
+            res += "mod!=3";
+        else
+            abort();
+    }
+
+    if (wait) {
+        if (!res.empty()) res += ",";
+        res += "wait=1";
+    }
+
+    if (lock) {
+        if (!res.empty()) res += ",";
+        res += "lock=1";
+    }
+
+    if (prefix_seg_assign != 0) {
+        if (!res.empty()) res += ",";
+        res += "seg=";
+        res += tokentype_str[prefix_seg_assign];
+    }
+
+    if (rep_condition != 0) {
+        if (!res.empty()) res += ",";
+        res += "rep=";
+        if (rep_condition_negate) res += "!";
+        res += tokentype_str[rep_condition];
+    }
+
+    if (reg_constraint != 0) {
+        unsigned int c = 0;
+
+        if (!res.empty()) res += ",";
+        res += "regconstraint=[";
+        for (unsigned int b=0;b < 16;b++) {
+            if (reg_constraint & (1u << b)) {
+                if (c != 0) res += ",";
+
+                char tmp[16];
+                sprintf(tmp,"%u",b);
+                res += tmp;
+                c++;
+            }
+        }
+        res += "]";
+    }
+
+    if (rm_constraint != 0) {
+        unsigned int c = 0;
+
+        if (!res.empty()) res += ",";
+        res += "rmconstraint=[";
+        for (unsigned int b=0;b < 16;b++) {
+            if (rm_constraint & (1u << b)) {
+                if (c != 0) res += ",";
+
+                char tmp[16];
+                sprintf(tmp,"%u",b);
+                res += tmp;
+                c++;
+            }
+        }
+        res += "]";
+    }
+
+    if (mod3 == -3 || mod3 == 3) {
+        unsigned char minval=(mod3 == 3) ? 0xC0 : 0x00;
+        unsigned char maxval=(mod3 == 3) ? 0xFF : 0xBF;
+
+        if (reg_constraint != 0 && /*power of 2*/(reg_constraint & (reg_constraint - 1)) == 0) {
+            unsigned int c,v;
+
+            c = 0;
+            v = reg_constraint;
+            while (v > 1) {
+                v >>= 1;
+                c++;
+            }
+            minval += (c << 3);
+            maxval  = minval | 0x7;
+
+            if (rm_constraint != 0 && (rm_constraint & (rm_constraint - 1)) == 0) {
+                c = 0;
+                v = rm_constraint;
+                while (v > 1) {
+                    v >>= 1;
+                    c++;
+                }
+                minval += c;
+                maxval  = minval;
+            }
+
+            if (!res.empty()) res += ",";
+            res += "mrm-comb-range=[";
+
+            for (unsigned int a=0;a < ((mod3!=3)?0xC0:0x40);a += 0x40) {
+                if (a != 0) res += ",";
+
+                char tmp[64];
+                if (minval == maxval)
+                    sprintf(tmp,"%02x",minval+a);
+                else
+                    sprintf(tmp,"%02x-%02x",minval+a,maxval+a);
+
+                res += tmp;
+            }
+
+            res += "]";
+        }
+    }
+
+    {
+        std::string subres = destination.to_string();
+
+        if (!subres.empty()) {
+            if (!res.empty()) res += ",";
+            res += "dest=[";
+            res += subres;
+            res += "]";
+        }
+    }
+
+    if (param.size() != 0) {
+        if (!res.empty()) res += ",";
+        res += "param=[";
+        for (auto i=param.begin();i!=param.end();) {
+            res += (*i).to_string();
+            i++;
+            if (i!=param.end()) res += " ";
+        }
+        res += "]";
+    }
+
+    if (reads.size() != 0) {
+        if (!res.empty()) res += ",";
+        res += "reads=[";
+        for (auto i=reads.begin();i!=reads.end();) {
+            res += (*i).to_string();
+            i++;
+            if (i!=reads.end()) res += " ";
+        }
+        res += "]";
+    }
+
+    if (writes.size() != 0) {
+        if (!res.empty()) res += ",";
+        res += "writes=[";
+        for (auto i=writes.begin();i!=writes.end();) {
+            res += (*i).to_string();
+            i++;
+            if (i!=writes.end()) res += " ";
+        }
+        res += "]";
+    }
+
+    if (modifies.size() != 0) {
+        if (!res.empty()) res += ",";
+        res += "modifies=[";
+        for (auto i=modifies.begin();i!=modifies.end();) {
+            res += (*i).to_string();
+            i++;
+            if (i!=modifies.end()) res += " ";
+        }
+        res += "]";
+    }
+
+    if (stack_ops.size() != 0) {
+        if (!res.empty()) res += ",";
+        res += "stack_ops(";
+        if (stack_op_dir == TOK_PUSH)
+            res += "push";
+        else if (stack_op_dir == TOK_POP)
+            res += "pop";
+        res += ")=[";
+        for (auto i=stack_ops.begin();i!=stack_ops.end();) {
+            res += (*i).to_string();
+            i++;
+            if (i!=stack_ops.end()) res += " ";
+        }
+        res += "]";
+    }
+
+    if (fpu_stack_ops.size() != 0) {
+        if (!res.empty()) res += ",";
+        res += "fpu_stack_ops(";
+        if (stack_op_dir == TOK_PUSH)
+            res += "push";
+        else if (stack_op_dir == TOK_POP)
+            res += "pop";
+        res += ")=[";
+        for (auto i=fpu_stack_ops.begin();i!=fpu_stack_ops.end();) {
+            res += (*i).to_string();
+            i++;
+            if (i!=fpu_stack_ops.end()) res += " ";
+        }
+        res += "]";
+    }
+#endif
     return res;
 }
 
@@ -4611,16 +4927,29 @@ int main(int argc,char **argv) {
     if (list_op) {
         printf("Opcodes by byte:\n");
         printf("----------------\n");
-        for (auto i=opcodes.begin();i!=opcodes.end();i++)
-            printf("    %s %s: %s\n",tokentype_str[(*i).type],(*i).name.c_str(),(*i).to_string().c_str());
+
+        if (verbose_op) {
+            for (auto i=opcodes.begin();i!=opcodes.end();i++)
+                printf("    %s %s: %s\n",tokentype_str[(*i).type],(*i).name.c_str(),(*i).to_string().c_str());
+        }
+        else {
+            for (auto i=opcodes.begin();i!=opcodes.end();i++)
+                printf("%12s %s\n",(*i).name.c_str(),(*i).pretty_string().c_str());
+        }
         printf("\n");
 
         std::sort(opcodes.begin(),opcodes.end(),opcode_sort_func_by_name);
 
         printf("Opcodes by name:\n");
         printf("----------------\n");
-        for (auto i=opcodes.begin();i!=opcodes.end();i++)
-            printf("    %s %s: %s\n",tokentype_str[(*i).type],(*i).name.c_str(),(*i).to_string().c_str());
+        if (verbose_op) {
+            for (auto i=opcodes.begin();i!=opcodes.end();i++)
+                printf("    %s %s: %s\n",tokentype_str[(*i).type],(*i).name.c_str(),(*i).to_string().c_str());
+        }
+        else {
+            for (auto i=opcodes.begin();i!=opcodes.end();i++)
+                printf("%12s %s\n",(*i).name.c_str(),(*i).pretty_string().c_str());
+        }
         printf("\n");
 
         printf("Opcode coverage (single byte):\n");
