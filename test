@@ -2511,7 +2511,7 @@ opcode "FCHS"
   (writes st(0))
   (dest=st(0))
   (param=st(0))
-  (code 0xD9 mrm mod(3) reg(4) rm(0));
+  (code 0xD9 mrm mod(3) reg(4) rm(0) fpu);
 
 opcode "FABS"
   (comment "FABS st(0) = fabs(st(0))")
@@ -2520,7 +2520,7 @@ opcode "FABS"
   (writes st(0))
   (dest=st(0))
   (param=st(0))
-  (code 0xD9 mrm mod(3) reg(4) rm(1));
+  (code 0xD9 mrm mod(3) reg(4) rm(1) fpu);
 
 opcode "FPTAN"
   (comment "FPTAN st(0) = atan(st(0)), push(1.0)")
@@ -2530,7 +2530,7 @@ opcode "FPTAN"
   (fpu stack push 1.0)
   (dest=st(0))
   (param=st(0))
-  (code 0xD9 mrm mod(3) reg(6) rm(2));
+  (code 0xD9 mrm mod(3) reg(6) rm(2) fpu);
 
 opcode "FPATAN"
   (comment "FPATAN st(1) = atan(st(1) / st(0)), pop")
@@ -2541,7 +2541,7 @@ opcode "FPATAN"
   (dest=st(1))
   (param(0)=st(0))
   (param(1)=st(1))
-  (code 0xD9 mrm mod(3) reg(6) rm(3));
+  (code 0xD9 mrm mod(3) reg(6) rm(3) fpu);
 
 opcode "FXTRACT"
   (comment "FPREM tmp=st(0), st(0) = exponent(tmp), push(significand(tmp))")
@@ -2552,7 +2552,7 @@ opcode "FXTRACT"
   (dest=st(0))
   (param(0)=st(0))
   (param(1)=st(1))
-  (code 0xD9 mrm mod(3) reg(6) rm(4));
+  (code 0xD9 mrm mod(3) reg(6) rm(4) fpu);
 
 opcode "F2XM1"
   (comment "F2XM1 st(0) = (2 ^ st(0)) - 1")
@@ -2561,7 +2561,7 @@ opcode "F2XM1"
   (writes st(0))
   (dest=st(0))
   (param=st(0))
-  (code 0xD9 mrm mod(3) reg(6) rm(0));
+  (code 0xD9 mrm mod(3) reg(6) rm(0) fpu);
 
 opcode "FYL2X"
   (comment "FYL2X st(1) = (st(1) * log2(st(0))), pop")
@@ -2572,7 +2572,7 @@ opcode "FYL2X"
   (dest=st(0))
   (param(0)=st(0))
   (param(1)=st(1))
-  (code 0xD9 mrm mod(3) reg(6) rm(1));
+  (code 0xD9 mrm mod(3) reg(6) rm(1) fpu);
 
 opcode "FYL2XP1"
   (comment "FYL2XP1 st(1) = (st(1) * log2(st(0) + 1.0)), pop")
@@ -2583,7 +2583,7 @@ opcode "FYL2XP1"
   (dest=st(0))
   (param(0)=st(0))
   (param(1)=st(1))
-  (code 0xD9 mrm mod(3) reg(7) rm(1));
+  (code 0xD9 mrm mod(3) reg(7) rm(1) fpu);
 
 opcode "FPREM"
   (comment "FPREM st(0) = remainder(st(0) / st(1))")
@@ -2593,7 +2593,7 @@ opcode "FPREM"
   (dest=st(0))
   (param(0)=st(0))
   (param(1)=st(1))
-  (code 0xD9 mrm mod(3) reg(7) rm(0));
+  (code 0xD9 mrm mod(3) reg(7) rm(0) fpu);
 
 opcode "FSQRT"
   (comment "FSQRT st(0) = sqrt(st(0))")
@@ -2602,7 +2602,7 @@ opcode "FSQRT"
   (writes st(0))
   (dest=st(0))
   (param=st(0))
-  (code 0xD9 mrm mod(3) reg(7) rm(2));
+  (code 0xD9 mrm mod(3) reg(7) rm(2) fpu);
 
 opcode "FRNDINT"
   (comment "FSQRT st(0) = floor(st(0))")
@@ -2611,7 +2611,7 @@ opcode "FRNDINT"
   (writes st(0))
   (dest=st(0))
   (param=st(0))
-  (code 0xD9 mrm mod(3) reg(7) rm(4));
+  (code 0xD9 mrm mod(3) reg(7) rm(4) fpu);
 
 opcode "FSCALE"
   (comment "FSCALE st(0) = st(0) * (2 ^ floor(st(1)))")
@@ -2621,51 +2621,52 @@ opcode "FSCALE"
   (dest=st(0))
   (param(0)=st(0))
   (param(1)=st(1))
-  (code 0xD9 mrm mod(3) reg(7) rm(5));
+  (code 0xD9 mrm mod(3) reg(7) rm(5) fpu);
 
 opcode "FENI"
   (comment "Enable 8087 interrrupts")
   (modifies fpu(all))
   (writes fpu(all))
-  (code 0xDB mrm mod(3) reg(4) rm(0));
+  (code 0xDB mrm mod(3) reg(4) rm(0) fpu);
 
 opcode "FDISI"
   (comment "Disable 8087 interrupts")
   (comment "TODO: FPU state")
-  (code 0xDB mrm mod(3) reg(4) rm(1));
+  (code 0xDB mrm mod(3) reg(4) rm(1) fpu);
 
 opcode "FCLEX"
   (comment "Clear 8087 exceptions")
   (comment "TODO: FPU state")
-  (code 0xDB mrm mod(3) reg(4) rm(2));
+  (code 0xDB mrm mod(3) reg(4) rm(2) fpu);
 
 opcode "FINIT"
   (comment "FINIT 8087 state")
   (comment "TODO: FPU state")
-  (code 0xDB mrm mod(3) reg(4) rm(3));
+  (code 0xDB mrm mod(3) reg(4) rm(3) fpu);
 
 opcode "FDECSTP"
   (comment "Decrement stack pointer")
   (reads fpu(top))
   (modifies fpu(top))
   (writes fpu(top))
-  (code 0xD9 mrm mod(3) reg(6) rm(6));
+  (code 0xD9 mrm mod(3) reg(6) rm(6) fpu);
 
 opcode "FINCSTP"
   (comment "Increment stack pointer")
   (reads fpu(top))
   (modifies fpu(top))
   (writes fpu(top))
-  (code 0xD9 mrm mod(3) reg(6) rm(7));
+  (code 0xD9 mrm mod(3) reg(6) rm(7) fpu);
 
 opcode "FFREE"
   (comment "Free st(i)")
   (comment "TODO: FPU state")
   (modifies st(rm))
+  (dest=st(rm))
   (code 0xDD mrm mod(3) reg(0) fpu);
 
 opcode "FNOP"
-  (code 0xD9 mrm mod(3) reg(2) rm(0));
+  (code 0xD9 mrm mod(3) reg(2) rm(0) fpu);
 
 opcode "LOOPNZ"
   (comment "ipv is evaluated after decoding instruction")
