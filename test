@@ -2352,6 +2352,158 @@ opcode "FMUL"
   (param=st(0))
   (code 0xDE mrm mod(3) reg(1) fpu);
 
+opcode "FDIV"
+  (comment "FDIV MF=0 [esc]11011 [mf]00 [esc]0 st(0) /= mem(float32)")
+  (reads rm(f32),st(0))
+  (modifies st(0))
+  (writes st(0))
+  (dest=st(0))
+  (param=rm(f32))
+  (code 0xD8 mrm mod(!3) reg(6) fpu);
+
+opcode "FIDIV"
+  (comment "FDIV MF=1 [esc]11011 [mf]01 [esc]0 st(0) /= mem(int32)")
+  (reads rm(sdw),st(0))
+  (modifies st(0))
+  (writes st(0))
+  (dest=st(0))
+  (param=rm(sdw))
+  (code 0xDA mrm mod(!3) reg(6) fpu);
+
+opcode "FDIV"
+  (comment "FDIV MF=2 [esc]11011 [mf]10 [esc]0 st(0) /= mem(float64)")
+  (reads rm(f64),st(0))
+  (modifies st(0))
+  (writes st(0))
+  (dest=st(0))
+  (param=rm(f64))
+  (code 0xDC mrm mod(!3) reg(6) fpu);
+
+opcode "FIDIV"
+  (comment "FDIV MF=3 [esc]11011 [mf]11 [esc]0 st(0) /= mem(int16)")
+  (reads rm(sw),st(0))
+  (modifies st(0))
+  (writes st(0))
+  (dest=st(0))
+  (param=rm(sw))
+  (code 0xDE mrm mod(!3) reg(6) fpu);
+
+opcode "FDIV"
+  (comment "FDIV st(0) /= st(i), no pop d=0 P=0")
+  (reads st(rm),st(0))
+  (modifies st(0))
+  (writes st(0))
+  (dest=st(0))
+  (param=st(rm))
+  (code 0xD8 mrm mod(3) reg(6) fpu);
+
+if value("cpulevel") < 686 {;
+  opcode "FDIV"
+    (comment "FDIV st(0) /= st(i), pop d=0 P=1, useless, redefined by Intel on Pentium Pro for conditional FP moves")
+    (reads st(rm),st(0),fpu(top))
+    (modifies st(0),fpu(top))
+    (writes st(0),fpu(top))
+    (fpu stack pop st(0))
+    (dest=st(0))
+    (param=st(rm))
+    (code 0xDA mrm mod(3) reg(6) fpu);
+} if;
+
+opcode "FDIV"
+  (comment "FDIV st(i) /= st(0), no pop d=1 P=0")
+  (reads st(rm),st(0))
+  (modifies st(rm))
+  (writes st(rm))
+  (dest=st(rm))
+  (param=st(0))
+  (code 0xDC mrm mod(3) reg(6) fpu);
+
+opcode "FDIV"
+  (comment "FDIV st(i) /= st(0), pop d=1 P=1")
+  (reads st(rm),st(0),fpu(top))
+  (modifies st(rm),fpu(top))
+  (writes st(rm),fpu(top))
+  (fpu stack pop st(0))
+  (dest=st(rm))
+  (param=st(0))
+  (code 0xDE mrm mod(3) reg(6) fpu);
+
+opcode "FDIVR"
+  (comment "FDIVR MF=0 [esc]11011 [mf]00 [esc]0 st(0) = mem(float32) / st(0)")
+  (reads rm(f32),st(0))
+  (modifies st(0))
+  (writes st(0))
+  (dest=st(0))
+  (param=rm(f32))
+  (code 0xD8 mrm mod(!3) reg(7) fpu);
+
+opcode "FIDIVR"
+  (comment "FDIVR MF=1 [esc]11011 [mf]01 [esc]0 st(0) = mem(int32) / st(0)")
+  (reads rm(sdw),st(0))
+  (modifies st(0))
+  (writes st(0))
+  (dest=st(0))
+  (param=rm(sdw))
+  (code 0xDA mrm mod(!3) reg(7) fpu);
+
+opcode "FDIVR"
+  (comment "FDIVR MF=2 [esc]11011 [mf]10 [esc]0 st(0) = mem(float64) / st(0)")
+  (reads rm(f64),st(0))
+  (modifies st(0))
+  (writes st(0))
+  (dest=st(0))
+  (param=rm(f64))
+  (code 0xDC mrm mod(!3) reg(7) fpu);
+
+opcode "FIDIVR"
+  (comment "FDIVR MF=3 [esc]11011 [mf]11 [esc]0 st(0) = mem(int16) / st(0)")
+  (reads rm(sw),st(0))
+  (modifies st(0))
+  (writes st(0))
+  (dest=st(0))
+  (param=rm(sw))
+  (code 0xDE mrm mod(!3) reg(7) fpu);
+
+opcode "FDIVR"
+  (comment "FDIVR st(0) = st(i) / st(0), no pop d=0 P=0")
+  (reads st(rm),st(0))
+  (modifies st(0))
+  (writes st(0))
+  (dest=st(0))
+  (param=st(rm))
+  (code 0xD8 mrm mod(3) reg(7) fpu);
+
+if value("cpulevel") < 686 {;
+  opcode "FDIVR"
+    (comment "FDIVR st(0) = st(i) / st(0), pop d=0 P=1, useless, redefined by Intel on Pentium Pro for conditional FP moves")
+    (reads st(rm),st(0),fpu(top))
+    (modifies st(0),fpu(top))
+    (writes st(0),fpu(top))
+    (fpu stack pop st(0))
+    (dest=st(0))
+    (param=st(rm))
+    (code 0xDA mrm mod(3) reg(7) fpu);
+} if;
+
+opcode "FDIVR"
+  (comment "FDIVR st(i) = st(0) / st(i), no pop d=1 P=0")
+  (reads st(rm),st(0))
+  (modifies st(rm))
+  (writes st(rm))
+  (dest=st(rm))
+  (param=st(0))
+  (code 0xDC mrm mod(3) reg(7) fpu);
+
+opcode "FDIVR"
+  (comment "FDIVR st(i) = st(0) / st(i), pop d=1 P=1")
+  (reads st(rm),st(0),fpu(top))
+  (modifies st(rm),fpu(top))
+  (writes st(rm),fpu(top))
+  (fpu stack pop st(0))
+  (dest=st(rm))
+  (param=st(0))
+  (code 0xDE mrm mod(3) reg(7) fpu);
+
 opcode "LOOPNZ"
   (comment "ipv is evaluated after decoding instruction")
   (comment "--(E)CX, if (E)CX != 0 and !ZF, jump")
