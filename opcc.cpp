@@ -2754,9 +2754,27 @@ std::string OpcodeSpec::to_string(void) {
 
 static tokenstate_t tokenstate_t_none;
 
+std::vector<ByteSpec> bytes_only_bytes(const std::vector<ByteSpec> &s) {
+    std::vector<ByteSpec> r;
+
+    for (const auto &b : s) {
+        if (b.meaning == 0 ||
+            b.meaning == TOK_MRM) {
+            r.push_back(b);
+        }
+    }
+
+    return r;
+}
+
 bool opcode_sort_func(const OpcodeSpec &a,const OpcodeSpec &b) {
-         if (a.bytes                < b.bytes)                  return true;
-    else if (a.bytes                > b.bytes)                  return false;
+    {
+        std::vector<ByteSpec> ab = bytes_only_bytes(a.bytes);
+        std::vector<ByteSpec> bb = bytes_only_bytes(b.bytes);
+
+             if (ab                 < bb)                       return true;
+        else if (ab                 > bb)                       return false;
+    }
 
          if (a.mod3                 < b.mod3)                   return true;
     else if (a.mod3                 > b.mod3)                   return false;
