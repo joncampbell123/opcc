@@ -1647,7 +1647,7 @@ opcode "XLAT"
   (code 0xD7);
 
 opcode "FLD"
-  (comment "FLD MF=0 [esc]11011001 st(i) to st(0)")
+  (comment "FLD [esc]11011001 st(i) to st(0)")
   (reads st(rm))
   (writes fpu(top),st(0))
   (fpu stack push st(rm))
@@ -1832,7 +1832,7 @@ opcode "FIST"
   (code 0xDF mrm mod(!3) reg(2) fpu);
 
 opcode "FST"
-  (comment "FLD MF=0 [esc]11011101 st(0) to st(i)")
+  (comment "FLD [esc]11011101 st(0) to st(i)")
   (reads st(0))
   (writes st(rm))
   (param=st(0))
@@ -1880,7 +1880,7 @@ opcode "FISTP"
   (code 0xDF mrm mod(!3) reg(3) fpu);
 
 opcode "FSTP"
-  (comment "FLD MF=0 [esc]11011101 st(0) to st(i)")
+  (comment "FLD [esc]11011101 st(0) to st(i)")
   (fpu stack pop st(rm))
   (reads st(0))
   (writes st(rm))
@@ -1956,7 +1956,7 @@ opcode "FICOM"
   (code 0xDE mrm mod(!3) reg(2) fpu);
 
 opcode "FCOM"
-  (comment "FCOM MF=2 [esc]11011000 st(i)")
+  (comment "FCOM [esc]11011000 st(i)")
   (reads st(rm),st(0))
   (comment "TODO: modifies FPU condition flags")
   (dest=st(0))
