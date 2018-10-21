@@ -1915,6 +1915,14 @@ opcode "FBSTP"
   (dest=rm(f80bcd))
   (code 0xDF mrm mod(!3) reg(6) fpu);
 
+opcode "FXCH"
+  (comment "FXCH st(i) and st(0)")
+  (reads st(rm),st(0))
+  (writes st(rm),st(0))
+  (dest=st(0))
+  (param=st(rm))
+  (code 0xD9 mrm mod(3) reg(1) fpu);
+
 opcode "LOOPNZ"
   (comment "ipv is evaluated after decoding instruction")
   (comment "--(E)CX, if (E)CX != 0 and !ZF, jump")
