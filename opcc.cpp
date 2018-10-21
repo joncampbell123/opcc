@@ -2129,6 +2129,7 @@ std::string OpcodeSpec::pretty_string(void) {
     std::string params;
     std::string byte_str;
     std::string byte_strvas;
+    bool i07_key=false;
     char tmp[64];
 
     if (destination.meaning != 0) {
@@ -2255,6 +2256,9 @@ std::string OpcodeSpec::pretty_string(void) {
                 else
                     sprintf(tmp,"%02x+rm",b);
 
+                if (is_i)
+                    i07_key=true;
+
                 byte_str += tmp;
             }
             else if (reg_constraint != 0) {
@@ -2313,6 +2317,13 @@ std::string OpcodeSpec::pretty_string(void) {
     if (type == TOK_PREFIX) params += "; prefix ";
 
     while (params.size() < opspec_ins_col_len) params += " ";
+
+    if (i07_key) {
+        if (!byte_strvas.empty())
+            byte_strvas += " ";
+
+        byte_strvas += "i=0-7";
+    }
 
     res += params;
     res += "; ";
