@@ -205,6 +205,7 @@ enum tokentype_t {
     TOK_ST,                     // 185
     TOK_CONSTANT,
     TOK_F80BCD,
+    TOK_CW,
 
     TOK_MAX
 };
@@ -397,7 +398,8 @@ const char *tokentype_str[TOK_MAX] = {
     "TOP",
     "ST",                       // 185
     "CONSTANT",
-    "F80BCD"
+    "F80BCD",
+    "CW"
 };
 
 bool list_op = false;
@@ -1706,6 +1708,10 @@ bool toke(tokenstate_t &tok) {
             tok.type = TOK_F80BCD;
             return true;
         }
+        if (tok.string == "CW") {
+            tok.type = TOK_CW;
+            return true;
+        }
     }
 
     tok.type = TOK_ERROR;
@@ -2993,6 +2999,8 @@ bool parse_code_fpu_spec(std::vector<unsigned int> &fpu,tokenlist &tokens) {
         switch (n.type) {
             case TOK_ALL:
             case TOK_TOP:
+            case TOK_CW:
+            case TOK_SW:
 #if 0
             case TOK_CF:
             case TOK_PF:

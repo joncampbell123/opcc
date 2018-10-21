@@ -2671,19 +2671,19 @@ opcode "FNOP"
 opcode "FLDCW"
   (comment "Load control word from memory")
   (reads rm(w))
-  (comment "TODO: modifies/writes control word")
+  (writes fpu(cw))
   (code 0xD9 mrm mod(3) reg(5) fpu);
 
 opcode "FSTCW"
   (comment "Store control word to memory")
+  (reads fpu(cw))
   (writes rm(w))
-  (comment "TODO: reads control word")
   (code 0xD9 mrm mod(3) reg(7) fpu);
 
 opcode "FSTSW"
   (comment "Store status word to memory")
+  (reads fpu(sw))
   (writes rm(w))
-  (comment "TODO: reads status word")
   (code 0xDD mrm mod(3) reg(7) fpu);
 
 opcode "FLDENV"
