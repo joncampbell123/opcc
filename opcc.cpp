@@ -1868,6 +1868,9 @@ const char *regrmtype_str(unsigned int type) {
         case TOK_F80BCD:return "floatbcd";
         case TOK_F87ENV:return "f87env";
         case TOK_F87STATE:return "f87state";
+        case TOK_FPW:   return "far16";
+        case TOK_FPDW:  return "far32";
+        case TOK_FPV:   return "farptr";
     };
 
     return "";
@@ -2114,9 +2117,13 @@ std::string ByteSpec::to_string(void) {
     return res;
 }
 
+const size_t        opspec_ins_col_len = 60;
+
 std::string OpcodeSpec::pretty_string(void) {
     std::string res;
     std::string params;
+    std::string byte_str;
+    char tmp[64];
 
     if (destination.meaning != 0) {
         if (!params.empty()) params += ", ";
@@ -2128,8 +2135,52 @@ std::string OpcodeSpec::pretty_string(void) {
             params += (*i).pretty_string();
         }
     }
+    for (auto i=bytes.begin();i!=bytes.end();i++) {
+        if ((*i).meaning == 0) {
+            if ((*i).size() > 1) {
+                if (!byte_str.empty())
+                     byte_str += " ";
+
+                byte_str += "[";
+                for (auto j=(*i).begin();j!=(*i).end();j++) {
+                    if (j != (*i).begin()) byte_str += "|";
+                    sprintf(tmp,"%02x",(*j));
+                    byte_str += tmp;
+                }
+                byte_str += "]";
+            }
+            else if ((*i).size() == 1) {
+                if (!byte_str.empty())
+                     byte_str += " ";
+
+                sprintf(tmp,"%02x",(*i)[0]);
+                byte_str += tmp;
+            }
+        }
+        else if ((*i).meaning == TOK_MRM) {
+            if (!byte_str.empty())
+                 byte_str += " ";
+
+            byte_str += "mod/reg/rm";
+        }
+        else if ((*i).meaning == TOK_IMMEDIATE) {
+            if (!byte_str.empty())
+                 byte_str += " ";
+
+            byte_str += "imm(";
+            byte_str += regrmtype_str((*i).immediate_type);
+            byte_str += ")";
+        }
+    }
+
+    while (params.size() < (opspec_ins_col_len-9)) params += " ";
+    if (type == TOK_PREFIX) params += "; prefix ";
+
+    while (params.size() < opspec_ins_col_len) params += " ";
 
     res += params;
+    res += "; ";
+    res += byte_str;
 
 #if 0
     res += "bytes=(";
