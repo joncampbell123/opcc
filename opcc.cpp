@@ -1880,24 +1880,28 @@ std::string SingleByteSpec::pretty_string(void) {
     std::string res;
 
     if (meaning == TOK_RM) {
-        res += regrmtype_str(rm_type);
         if (!res.empty()) res += " ";
-        res += "r/m";
+        res += "r/m(";
+        res += regrmtype_str(rm_type);
+        res += ")";
     }
     else if (meaning == TOK_REG) {
-        res += regrmtype_str(reg_type);
         if (!res.empty()) res += " ";
-        res += "reg";
+        res += "reg(";
+        res += regrmtype_str(reg_type);
+        res += ")";
     }
     else if (meaning == TOK_SREG) {
-        res += regrmtype_str(reg_type);
         if (!res.empty()) res += " ";
-        res += "segreg";
+        res += "segreg(";
+        res += regrmtype_str(reg_type);
+        res += ")";
     }
     else if (meaning == TOK_IMMEDIATE) {
-        res += regrmtype_str(immediate_type);
         if (!res.empty()) res += " ";
-        res += "imm";
+        res += "imm(";
+        res += regrmtype_str(immediate_type);
+        res += ")";
     }
     else if (meaning == TOK_UINT) {
         char tmp[64];
