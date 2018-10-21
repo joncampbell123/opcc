@@ -1765,6 +1765,13 @@ opcode "FLDZ"
   (comment "0xD9 0xEB aka mod==3 reg=5 rm=6")
   (code 0xD9 mrm mod(3) reg(5) rm(6) fpu);
 
+opcode "FST"
+  (comment "FLD MF=0 [esc]11011 [mf]00 [esc]1 float32 from memory")
+  (writes rm(f32))
+  (modifies rm(f32))
+  (reads st(0))
+  (code 0xD9 mrm mod(!3) reg(2) fpu);
+
 opcode "LOOPNZ"
   (comment "ipv is evaluated after decoding instruction")
   (comment "--(E)CX, if (E)CX != 0 and !ZF, jump")
