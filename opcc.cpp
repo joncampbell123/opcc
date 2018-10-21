@@ -3557,7 +3557,19 @@ bool read_opcode_spec_opcode_parens(tokenlist &parent_tokens,OpcodeSpec &spec) {
                 return false;
             }
         }
-
+        else if (bs.meaning == TOK_ST) {
+            if (!parse_code_st_spec(bs.fpu_st,/*&*/tokens)) {
+                fprintf(stderr,"Invalid st() spec\n");
+                return false;
+            }
+        }
+        else if (bs.meaning == TOK_CONSTANT) {
+            if (!parse_code_constant_spec(bs.constant,/*&*/tokens)) {
+                fprintf(stderr,"Invalid constant() spec\n");
+                return false;
+            }
+        }
+ 
         if (!tokens.eof()) {
             fprintf(stderr,"Unexpected tokens\n");
             return false;
@@ -3624,7 +3636,19 @@ bool read_opcode_spec_opcode_parens(tokenlist &parent_tokens,OpcodeSpec &spec) {
                 return false;
             }
         }
-
+        else if (bs.meaning == TOK_ST) {
+            if (!parse_code_st_spec(bs.fpu_st,/*&*/tokens)) {
+                fprintf(stderr,"Invalid st() spec\n");
+                return false;
+            }
+        }
+        else if (bs.meaning == TOK_CONSTANT) {
+            if (!parse_code_constant_spec(bs.constant,/*&*/tokens)) {
+                fprintf(stderr,"Invalid constant() spec\n");
+                return false;
+            }
+        }
+ 
         if (!tokens.eof()) {
             fprintf(stderr,"Unexpected tokens\n");
             return false;
@@ -3697,7 +3721,19 @@ bool read_opcode_spec_opcode_parens(tokenlist &parent_tokens,OpcodeSpec &spec) {
                 return false;
             }
         }
-
+        else if (bs.meaning == TOK_ST) {
+            if (!parse_code_st_spec(bs.fpu_st,/*&*/tokens)) {
+                fprintf(stderr,"Invalid st() spec\n");
+                return false;
+            }
+        }
+        else if (bs.meaning == TOK_CONSTANT) {
+            if (!parse_code_constant_spec(bs.constant,/*&*/tokens)) {
+                fprintf(stderr,"Invalid constant() spec\n");
+                return false;
+            }
+        }
+ 
         if (!tokens.eof()) {
             fprintf(stderr,"Unexpected tokens\n");
             return false;
