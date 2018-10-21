@@ -2689,13 +2689,13 @@ opcode "FSTSW"
 opcode "FLDENV"
   (comment "Load FPU environment from memory")
   (reads rm(f87env))
-  (comment "TODO: writes status, control, etc")
+  (writes fpu(all))
   (code 0xD9 mrm mod(3) reg(4) fpu);
 
 opcode "FSTENV"
   (comment "Store FPU environment to memory")
+  (reads fpu(all))
   (writes rm(f87env))
-  (comment "TODO: reads status, control, etc")
   (code 0xD9 mrm mod(3) reg(6) fpu);
 
 opcode "FRSTOR"
