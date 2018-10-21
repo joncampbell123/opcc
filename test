@@ -1987,7 +1987,7 @@ opcode "FCOMP"
   (param=rm(f64))
   (code 0xDC mrm mod(!3) reg(3) fpu);
 
-opcode "FICOM"
+opcode "FICOMP"
   (comment "FCOMP MF=3 [esc]11011 [mf]11 [esc]0 int16 from memory")
   (reads rm(sw),st(0))
   (comment "TODO: modifies FPU condition flags")
