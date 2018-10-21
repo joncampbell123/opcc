@@ -1651,6 +1651,8 @@ opcode "FLD"
   (reads st(rm))
   (writes fpu(top),st(0))
   (fpu stack push st(rm))
+  (dest=st(0))
+  (param=st(rm))
   (code 0xD9 mrm mod(3) reg(0) fpu);
 
 opcode "FLD"
@@ -1659,6 +1661,8 @@ opcode "FLD"
   (modifies fpu(top))
   (writes fpu(top),st(0))
   (fpu stack push rm(f32))
+  (dest=st(0))
+  (param=rm(f32))
   (code 0xD9 mrm mod(!3) reg(0) fpu);
 
 opcode "FILD"
@@ -1667,6 +1671,8 @@ opcode "FILD"
   (modifies fpu(top))
   (writes fpu(top),st(0))
   (fpu stack push rm(sdw))
+  (dest=st(0))
+  (param=rm(sdw))
   (code 0xDB mrm mod(!3) reg(0) fpu);
 
 opcode "FLD"
@@ -1675,6 +1681,8 @@ opcode "FLD"
   (modifies fpu(top))
   (writes fpu(top),st(0))
   (fpu stack push rm(f80))
+  (dest=st(0))
+  (param=rm(f80))
   (code 0xDB mrm mod(!3) reg(5) fpu);
 
 opcode "FLD"
@@ -1683,6 +1691,8 @@ opcode "FLD"
   (modifies fpu(top))
   (writes fpu(top),st(0))
   (fpu stack push rm(f64))
+  (dest=st(0))
+  (param=rm(f64))
   (code 0xDD mrm mod(!3) reg(0) fpu);
 
 opcode "FILD"
@@ -1691,6 +1701,8 @@ opcode "FILD"
   (modifies fpu(top))
   (writes fpu(top),st(0))
   (fpu stack push rm(sw))
+  (dest=st(0))
+  (param=rm(sw))
   (code 0xDF mrm mod(!3) reg(0) fpu);
 
 opcode "FBLD"
@@ -1699,6 +1711,8 @@ opcode "FBLD"
   (modifies fpu(top))
   (writes fpu(top),st(0))
   (fpu stack push rm(f80bcd))
+  (dest=st(0))
+  (param=rm(f80bcd))
   (code 0xDF mrm mod(!3) reg(4) fpu);
 
 opcode "FILD"
@@ -1707,6 +1721,8 @@ opcode "FILD"
   (modifies fpu(top))
   (writes fpu(top),st(0))
   (fpu stack push rm(sqw))
+  (dest=st(0))
+  (param=rm(sqw))
   (code 0xDF mrm mod(!3) reg(5) fpu);
 
 opcode "FLD1"
@@ -1715,6 +1731,8 @@ opcode "FLD1"
   (writes fpu(top),st(0))
   (fpu stack push 1)
   (comment "0xD9 0xE8 aka mod==3 reg=5 rm=0")
+  (dest=st(0))
+  (param=1)
   (code 0xD9 mrm mod(3) reg(5) rm(0) fpu);
 
 opcode "FLDL2T"
@@ -1723,6 +1741,8 @@ opcode "FLDL2T"
   (writes fpu(top),st(0))
   (fpu stack push constant("log2(10)"))
   (comment "0xD9 0xE9 aka mod==3 reg=5 rm=1")
+  (dest=st(0))
+  (param=constant("log2(10)"))
   (code 0xD9 mrm mod(3) reg(5) rm(1) fpu);
 
 opcode "FLDL2E"
@@ -1731,6 +1751,8 @@ opcode "FLDL2E"
   (writes fpu(top),st(0))
   (fpu stack push constant("log2(e)"))
   (comment "0xD9 0xEA aka mod==3 reg=5 rm=2")
+  (dest=st(0))
+  (param=constant("log2(e)"))
   (code 0xD9 mrm mod(3) reg(5) rm(2) fpu);
 
 opcode "FLDPI"
@@ -1739,6 +1761,8 @@ opcode "FLDPI"
   (writes fpu(top),st(0))
   (fpu stack push constant("pi"))
   (comment "0xD9 0xEB aka mod==3 reg=5 rm=3")
+  (dest=st(0))
+  (param=constant("pi"))
   (code 0xD9 mrm mod(3) reg(5) rm(3) fpu);
 
 opcode "FLDLG2"
@@ -1747,6 +1771,8 @@ opcode "FLDLG2"
   (writes fpu(top),st(0))
   (fpu stack push constant("log10(2)"))
   (comment "0xD9 0xEB aka mod==3 reg=5 rm=4")
+  (dest=st(0))
+  (param=constant("log10(2)"))
   (code 0xD9 mrm mod(3) reg(5) rm(4) fpu);
 
 opcode "FLDLN2"
@@ -1755,6 +1781,8 @@ opcode "FLDLN2"
   (writes fpu(top),st(0))
   (fpu stack push constant("loge(2)"))
   (comment "0xD9 0xEB aka mod==3 reg=5 rm=5")
+  (dest=st(0))
+  (param=constant("loge(2)"))
   (code 0xD9 mrm mod(3) reg(5) rm(5) fpu);
 
 opcode "FLDZ"
@@ -1763,6 +1791,8 @@ opcode "FLDZ"
   (writes fpu(top),st(0))
   (fpu stack push 0)
   (comment "0xD9 0xEB aka mod==3 reg=5 rm=6")
+  (dest=st(0))
+  (param=0)
   (code 0xD9 mrm mod(3) reg(5) rm(6) fpu);
 
 opcode "FST"
