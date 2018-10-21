@@ -2003,6 +2003,14 @@ opcode "FCOMP"
   (param=st(rm))
   (code 0xD8 mrm mod(3) reg(3) fpu);
 
+opcode "FCOMPP"
+  (comment "FCOMPP [esc]11011000 st(i)")
+  (reads st(0),st(1))
+  (comment "TODO: modifies FPU condition flags")
+  (dest=st(0))
+  (param=st(1))
+  (code 0xDE mrm mod(3) reg(3) rm(1) fpu);
+
 opcode "LOOPNZ"
   (comment "ipv is evaluated after decoding instruction")
   (comment "--(E)CX, if (E)CX != 0 and !ZF, jump")
