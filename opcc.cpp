@@ -2204,6 +2204,35 @@ std::string OpcodeSpec::pretty_string(void) {
                 sprintf(tmp,"%02x",b);
                 byte_str += tmp;
             }
+            else if (mod3 == 3 &&
+                reg_constraint != 0 && (reg_constraint & (reg_constraint - 1)) == 0 &&
+                 rm_constraint == 0) {
+                unsigned char b = 0xC0;
+                bool is_i = false;
+
+                c = 0;
+                v = reg_constraint;
+                while (v > 1) {
+                    v >>= 1;
+                    c++;
+                }
+                b += c << 3;
+
+                if (destination.fpu_st.size() == 1 &&
+                    destination.fpu_st[0].type == TOK_RM)
+                    is_i = true;
+                else if (param.size() == 1 &&
+                         param[0].fpu_st.size() == 1 &&
+                         param[0].fpu_st[0].type == TOK_RM)
+                    is_i = true;
+
+                if (is_i)
+                    sprintf(tmp,"%02x+i",b);
+                else
+                    sprintf(tmp,"%02x+rm",b);
+
+                byte_str += tmp;
+            }
             else if (reg_constraint != 0) {
                 if ((reg_constraint & (reg_constraint - 1)) == 0) {/*power of 2*/
                     c = 0;
