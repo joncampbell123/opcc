@@ -2062,8 +2062,9 @@ std::string OpcodeSpec::to_string(void) {
         res += "]";
     }
 
-    if (mod3 == 3) {
-        unsigned char minval=0xC0,maxval=0xFF;
+    if (mod3 == -3 || mod3 == 3) {
+        unsigned char minval=(mod3 == 3) ? 0xC0 : 0x00;
+        unsigned char maxval=(mod3 == 3) ? 0xFF : 0xBF;
 
         if (reg_constraint != 0 && /*power of 2*/(reg_constraint & (reg_constraint - 1)) == 0) {
             unsigned int c,v;
@@ -2088,15 +2089,21 @@ std::string OpcodeSpec::to_string(void) {
                 maxval  = minval;
             }
 
-            char tmp[64];
-            if (minval == maxval)
-                sprintf(tmp,"%02x",minval);
-            else
-                sprintf(tmp,"%02x-%02x",minval,maxval);
-
             if (!res.empty()) res += ",";
             res += "mrm-comb-range=[";
-            res += tmp;
+
+            for (unsigned int a=0;a < ((mod3!=3)?0xC0:0x40);a += 0x40) {
+                if (a != 0) res += ",";
+
+                char tmp[64];
+                if (minval == maxval)
+                    sprintf(tmp,"%02x",minval+a);
+                else
+                    sprintf(tmp,"%02x-%02x",minval+a,maxval+a);
+
+                res += tmp;
+            }
+
             res += "]";
         }
     }
