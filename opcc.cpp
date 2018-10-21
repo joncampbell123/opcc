@@ -2174,10 +2174,56 @@ std::string OpcodeSpec::pretty_string(void) {
             }
         }
         else if ((*i).meaning == TOK_MRM) {
+            unsigned int c,v;
+            char tmp[64];
+
             if (!byte_str.empty())
                  byte_str += " ";
 
-            byte_str += "/r"; /* Intel uses this syntax, so follow it */
+            if (mod3 == 3 &&
+                reg_constraint != 0 && (reg_constraint & (reg_constraint - 1)) == 0 &&
+                 rm_constraint != 0 && ( rm_constraint & ( rm_constraint - 1)) == 0) {
+                unsigned char b = 0xC0;
+
+                c = 0;
+                v = reg_constraint;
+                while (v > 1) {
+                    v >>= 1;
+                    c++;
+                }
+                b += c << 3;
+
+                c = 0;
+                v = rm_constraint;
+                while (v > 1) {
+                    v >>= 1;
+                    c++;
+                }
+                b += c;
+
+                sprintf(tmp,"%02x",b);
+                byte_str += tmp;
+            }
+            else if (reg_constraint != 0) {
+                if ((reg_constraint & (reg_constraint - 1)) == 0) {/*power of 2*/
+                    c = 0;
+                    v = reg_constraint;
+                    while (v > 1) {
+                        v >>= 1;
+                        c++;
+                    }
+
+                    sprintf(tmp,"/%u",c);
+                    byte_str += tmp;
+                }
+                else {
+                    // TODO: Find a way to indicate a range of reg values
+                    byte_str += "/r"; /* Intel uses this syntax, so follow it */
+                }
+            }
+            else {
+                byte_str += "/r"; /* Intel uses this syntax, so follow it */
+            }
         }
         else if ((*i).meaning == TOK_IMMEDIATE) {
             if (!byte_str.empty())
