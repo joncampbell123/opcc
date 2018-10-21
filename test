@@ -1963,6 +1963,46 @@ opcode "FCOM"
   (param=st(rm))
   (code 0xD8 mrm mod(3) reg(2) fpu);
 
+opcode "FCOMP"
+  (comment "FCOMP MF=0 [esc]11011 [mf]00 [esc]0 float32 from memory")
+  (reads rm(f32),st(0))
+  (comment "TODO: modifies FPU condition flags")
+  (dest=st(0))
+  (param=rm(f32))
+  (code 0xD8 mrm mod(!3) reg(3) fpu);
+
+opcode "FICOMP"
+  (comment "FCOMP MF=1 [esc]11011 [mf]01 [esc]0 int32 from memory")
+  (reads rm(sdw),st(0))
+  (comment "TODO: modifies FPU condition flags")
+  (dest=st(0))
+  (param=rm(sdw))
+  (code 0xDA mrm mod(!3) reg(3) fpu);
+
+opcode "FCOMP"
+  (comment "FCOMP MF=2 [esc]11011 [mf]10 [esc]0 float64 from memory")
+  (reads rm(f64),st(0))
+  (comment "TODO: modifies FPU condition flags")
+  (dest=st(0))
+  (param=rm(f64))
+  (code 0xDC mrm mod(!3) reg(3) fpu);
+
+opcode "FICOM"
+  (comment "FCOMP MF=3 [esc]11011 [mf]11 [esc]0 int16 from memory")
+  (reads rm(sw),st(0))
+  (comment "TODO: modifies FPU condition flags")
+  (dest=st(0))
+  (param=rm(sw))
+  (code 0xDE mrm mod(!3) reg(3) fpu);
+
+opcode "FCOMP"
+  (comment "FCOMP [esc]11011000 st(i)")
+  (reads st(rm),st(0))
+  (comment "TODO: modifies FPU condition flags")
+  (dest=st(0))
+  (param=st(rm))
+  (code 0xD8 mrm mod(3) reg(3) fpu);
+
 opcode "LOOPNZ"
   (comment "ipv is evaluated after decoding instruction")
   (comment "--(E)CX, if (E)CX != 0 and !ZF, jump")
