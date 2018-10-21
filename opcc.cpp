@@ -2128,6 +2128,7 @@ std::string OpcodeSpec::pretty_string(void) {
     std::string res;
     std::string params;
     std::string byte_str;
+    std::string byte_strvas;
     char tmp[64];
 
     if (destination.meaning != 0) {
@@ -2191,6 +2192,28 @@ std::string OpcodeSpec::pretty_string(void) {
             byte_str += regrmtype_str((*i).immediate_type);
             byte_str += ")";
         }
+        else if ((*i).meaning == TOK_EQUAL) {
+            if (!byte_strvas.empty())
+                byte_strvas += " ";
+
+            if ((*i).var_assign != 0) {
+                byte_strvas += tokentype_str[(*i).var_assign];
+                byte_strvas += "=";
+            }
+
+            byte_strvas += "(";
+            for (auto j=(*i).var_expr.begin();j!=(*i).var_expr.end();j++) {
+                if ((*j).type == TOK_AMPERSAND)
+                    byte_strvas += "&";
+                else if ((*j).type == TOK_UINT)
+                    byte_strvas += (*j).to_string();
+                else if ((*j).type == TOK_PLUS)
+                    byte_strvas += "+";
+                else
+                    byte_strvas += tokentype_str[(*j).type];
+            }
+            byte_strvas += ")";
+       }
     }
 
     while (params.size() < (opspec_ins_col_len-9)) params += " ";
@@ -2201,6 +2224,10 @@ std::string OpcodeSpec::pretty_string(void) {
     res += params;
     res += "; ";
     res += byte_str;
+    if (!byte_strvas.empty()) {
+        res += "; ";
+        res += byte_strvas;
+    }
 
 #if 0
     res += "bytes=(";
