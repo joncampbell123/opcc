@@ -1920,6 +1920,27 @@ std::string SingleByteSpec::pretty_string(void) {
             res += "st(?)";
         }
     }
+    else if (meaning == TOK_MEMORY) {
+        res += regrmtype_str(memory_type);
+        if (!res.empty()) res += " ";
+
+        if (memseg_type != 0 && memseg_type != TOK_SEG) {
+            res += tokentype_str[memseg_type];
+            res += ":";
+        }
+
+        res += "[";
+        for (auto i=var_expr.begin();i!=var_expr.end();i++) {
+            if (i != var_expr.begin())
+                res += " ";
+
+            if ((*i).type == TOK_AMPERSAND)
+                res += "&";
+            else
+                res += std::string((*i).type_str());
+        }
+        res += "]";
+    }
     else if (meaning == 0) {
     }
     else {
