@@ -1966,6 +1966,7 @@ opcode "FCOM"
 opcode "FCOMP"
   (comment "FCOMP MF=0 [esc]11011 [mf]00 [esc]0 float32 from memory")
   (reads rm(f32),st(0))
+  (fpu stack pop st(0))
   (comment "TODO: modifies FPU condition flags")
   (dest=st(0))
   (param=rm(f32))
@@ -1974,6 +1975,7 @@ opcode "FCOMP"
 opcode "FICOMP"
   (comment "FCOMP MF=1 [esc]11011 [mf]01 [esc]0 int32 from memory")
   (reads rm(sdw),st(0))
+  (fpu stack pop st(0))
   (comment "TODO: modifies FPU condition flags")
   (dest=st(0))
   (param=rm(sdw))
@@ -1981,6 +1983,7 @@ opcode "FICOMP"
 
 opcode "FCOMP"
   (comment "FCOMP MF=2 [esc]11011 [mf]10 [esc]0 float64 from memory")
+  (fpu stack pop st(0))
   (reads rm(f64),st(0))
   (comment "TODO: modifies FPU condition flags")
   (dest=st(0))
@@ -1989,6 +1992,7 @@ opcode "FCOMP"
 
 opcode "FICOMP"
   (comment "FCOMP MF=3 [esc]11011 [mf]11 [esc]0 int16 from memory")
+  (fpu stack pop st(0))
   (reads rm(sw),st(0))
   (comment "TODO: modifies FPU condition flags")
   (dest=st(0))
@@ -1997,6 +2001,7 @@ opcode "FICOMP"
 
 opcode "FCOMP"
   (comment "FCOMP [esc]11011000 st(i)")
+  (fpu stack pop st(0))
   (reads st(rm),st(0))
   (comment "TODO: modifies FPU condition flags")
   (dest=st(0))
@@ -2005,6 +2010,7 @@ opcode "FCOMP"
 
 opcode "FCOMPP"
   (comment "FCOMPP [esc]11011000 st(i)")
+  (fpu stack pop st(0),st(1))
   (reads st(0),st(1))
   (comment "TODO: modifies FPU condition flags")
   (dest=st(0))
