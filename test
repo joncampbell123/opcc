@@ -2034,6 +2034,13 @@ opcode "FCOMPP"
   (param=st(1))
   (code 0xDE mrm mod(3) reg(3) rm(1) fpu);
 
+opcode "FTST"
+  (comment "FTST [esc]11011001 st(0)")
+  (reads st(0))
+  (comment "TODO: Modifies FPU condition flags")
+  (param=st(0))
+  (code 0xD9 mrm mod(3) reg(4) rm(4) fpu);
+
 opcode "LOOPNZ"
   (comment "ipv is evaluated after decoding instruction")
   (comment "--(E)CX, if (E)CX != 0 and !ZF, jump")
