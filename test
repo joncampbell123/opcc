@@ -2552,6 +2552,15 @@ opcode "FXTRACT"
   (param=st(0))
   (code 0xD9 mrm mod(3) reg(6) rm(4));
 
+opcode "F2XM1"
+  (comment "F2XM1 st(0) = (2 ^ st(0)) - 1")
+  (reads st(0))
+  (modifies st(0))
+  (writes st(0))
+  (dest=st(0))
+  (param=st(0))
+  (code 0xD9 mrm mod(3) reg(6) rm(0));
+
 opcode "FPREM"
   (comment "FPREM st(0) = remainder(st(0) / st(1))")
   (reads st(0),st(1))
