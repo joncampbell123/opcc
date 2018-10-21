@@ -2504,6 +2504,42 @@ opcode "FDIVR"
   (param=st(0))
   (code 0xDE mrm mod(3) reg(7) fpu);
 
+opcode "FPREM"
+  (comment "FPREM st(0) = remainder(st(0) / st(1))")
+  (reads st(0),st(1))
+  (modifies st(0))
+  (writes st(0))
+  (dest=st(0))
+  (param=st(1))
+  (code 0xD9 mrm mod(3) reg(7) rm(0));
+
+opcode "FSQRT"
+  (comment "FSQRT st(0) = sqrt(st(0))")
+  (reads st(0))
+  (modifies st(0))
+  (writes st(0))
+  (dest=st(0))
+  (param=st(0))
+  (code 0xD9 mrm mod(3) reg(7) rm(2));
+
+opcode "FRNDINT"
+  (comment "FSQRT st(0) = floor(st(0))")
+  (reads st(0))
+  (modifies st(0))
+  (writes st(0))
+  (dest=st(0))
+  (param=st(0))
+  (code 0xD9 mrm mod(3) reg(7) rm(4));
+
+opcode "FSCALE"
+  (comment "FSCALE st(0) = st(0) * (2 ^ floor(st(1)))")
+  (reads st(0),st(1))
+  (modifies st(0))
+  (writes st(0))
+  (dest=st(0))
+  (param=st(1))
+  (code 0xD9 mrm mod(3) reg(7) rm(5));
+
 opcode "LOOPNZ"
   (comment "ipv is evaluated after decoding instruction")
   (comment "--(E)CX, if (E)CX != 0 and !ZF, jump")
