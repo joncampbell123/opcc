@@ -1968,6 +1968,7 @@ std::string SingleByteSpec::pretty_string(void) {
         res += ")";
     }
     else if (meaning == 0) {
+        return "";
     }
     else {
         res += tokentype_str[meaning];
@@ -2145,6 +2146,11 @@ std::string OpcodeSpec::pretty_string(void) {
                 if (!byte_str.empty())
                      byte_str += " ";
 
+                if ((*i).var_assign != 0) {
+                    byte_str += tokentype_str[(*i).var_assign];
+                    byte_str += "=";
+                }
+
                 byte_str += "[";
                 for (auto j=(*i).begin();j!=(*i).end();j++) {
                     if (j != (*i).begin()) byte_str += "|";
@@ -2156,6 +2162,11 @@ std::string OpcodeSpec::pretty_string(void) {
             else if ((*i).size() == 1) {
                 if (!byte_str.empty())
                      byte_str += " ";
+
+                if ((*i).var_assign != 0) {
+                    byte_str += tokentype_str[(*i).var_assign];
+                    byte_str += "=";
+                }
 
                 sprintf(tmp,"%02x",(*i)[0]);
                 byte_str += tmp;
@@ -2170,6 +2181,11 @@ std::string OpcodeSpec::pretty_string(void) {
         else if ((*i).meaning == TOK_IMMEDIATE) {
             if (!byte_str.empty())
                  byte_str += " ";
+
+            if ((*i).var_assign != 0) {
+                byte_str += tokentype_str[(*i).var_assign];
+                byte_str += "=";
+            }
 
             byte_str += "imm(";
             byte_str += regrmtype_str((*i).immediate_type);
