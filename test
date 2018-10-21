@@ -1888,6 +1888,33 @@ opcode "FSTP"
   (dest=st(rm))
   (code 0xDD mrm mod(3) reg(3) fpu);
 
+opcode "FISTP"
+  (comment "FLD MF=1 [esc]11011111 int64 from memory")
+  (fpu stack pop rm(sqw))
+  (writes rm(sqw))
+  (reads st(0))
+  (param=st(0))
+  (dest=rm(sqw))
+  (code 0xDF mrm mod(!3) reg(7) fpu);
+
+opcode "FSTP"
+  (comment "FLD MF=1 [esc]11011111 float80 from memory")
+  (fpu stack pop rm(f80))
+  (writes rm(f80))
+  (reads st(0))
+  (param=st(0))
+  (dest=rm(f80))
+  (code 0xDB mrm mod(!3) reg(7) fpu);
+
+opcode "FBSTP"
+  (comment "FLD MF=1 [esc]11011111 float80bcd from memory")
+  (fpu stack pop rm(f80bcd))
+  (writes rm(f80bcd))
+  (reads st(0))
+  (param=st(0))
+  (dest=rm(f80bcd))
+  (code 0xDF mrm mod(!3) reg(6) fpu);
+
 opcode "LOOPNZ"
   (comment "ipv is evaluated after decoding instruction")
   (comment "--(E)CX, if (E)CX != 0 and !ZF, jump")
