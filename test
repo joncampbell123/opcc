@@ -2644,6 +2644,29 @@ opcode "FINIT"
   (comment "TODO: FPU state")
   (code 0xDB mrm mod(3) reg(4) rm(3));
 
+opcode "FDECSTP"
+  (comment "Decrement stack pointer")
+  (reads fpu(top))
+  (modifies fpu(top))
+  (writes fpu(top))
+  (code 0xD9 mrm mod(3) reg(6) rm(6));
+
+opcode "FINCSTP"
+  (comment "Increment stack pointer")
+  (reads fpu(top))
+  (modifies fpu(top))
+  (writes fpu(top))
+  (code 0xD9 mrm mod(3) reg(6) rm(7));
+
+opcode "FFREE"
+  (comment "Free st(i)")
+  (comment "TODO: FPU state")
+  (modifies st(rm))
+  (code 0xDD mrm mod(3) reg(0) fpu);
+
+opcode "FNOP"
+  (code 0xD9 mrm mod(3) reg(2) rm(0));
+
 opcode "LOOPNZ"
   (comment "ipv is evaluated after decoding instruction")
   (comment "--(E)CX, if (E)CX != 0 and !ZF, jump")
