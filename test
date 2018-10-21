@@ -2574,6 +2574,17 @@ opcode "FYL2X"
   (param(1)=st(1))
   (code 0xD9 mrm mod(3) reg(6) rm(1));
 
+opcode "FYL2XP1"
+  (comment "FYL2XP1 st(1) = (st(1) * log2(st(0) + 1.0)), pop")
+  (reads st(0),st(1),fpu(top))
+  (modifies st(0),st(1),fpu(top))
+  (writes st(0),st(1),fpu(top))
+  (fpu stack pop st(0))
+  (dest=st(0))
+  (param(0)=st(0))
+  (param(1)=st(1))
+  (code 0xD9 mrm mod(3) reg(7) rm(1));
+
 opcode "FPREM"
   (comment "FPREM st(0) = remainder(st(0) / st(1))")
   (reads st(0),st(1))
