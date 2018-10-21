@@ -2084,6 +2084,27 @@ opcode "FIADD"
   (param=rm(sw))
   (code 0xDE mrm mod(!3) reg(0) fpu);
 
+opcode "FADD"
+  (comment "FADD st(0) += st(i), no pop d=0 P=0")
+  (reads st(rm),st(0))
+  (modifies st(0))
+  (writes st(0))
+  (dest=st(0))
+  (param=st(rm))
+  (code 0xD8 mrm mod(3) reg(0) fpu);
+
+if value("cpulevel") < 686 {;
+  opcode "FADD"
+    (comment "FADD st(0) += st(i), pop d=0 P=1, useless, redefined by Intel on Pentium Pro for conditional FP moves")
+    (reads st(rm),st(0),fpu(top))
+    (modifies st(0),fpu(top))
+    (writes st(0),fpu(top))
+    (fpu stack pop st(0))
+    (dest=st(0))
+    (param=st(rm))
+    (code 0xDA mrm mod(3) reg(0) fpu);
+} if;
+
 opcode "LOOPNZ"
   (comment "ipv is evaluated after decoding instruction")
   (comment "--(E)CX, if (E)CX != 0 and !ZF, jump")
