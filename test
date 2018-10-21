@@ -2668,6 +2668,24 @@ opcode "FFREE"
 opcode "FNOP"
   (code 0xD9 mrm mod(3) reg(2) rm(0) fpu);
 
+opcode "FLDCW"
+  (comment "Load control word from memory")
+  (reads rm(w))
+  (comment "TODO: modifies/writes control word")
+  (code 0xD9 mrm mod(3) reg(5) fpu);
+
+opcode "FSTCW"
+  (comment "Store control word to memory")
+  (writes rm(w))
+  (comment "TODO: reads control word")
+  (code 0xD9 mrm mod(3) reg(7) fpu);
+
+opcode "FSTSW"
+  (comment "Store status word to memory")
+  (writes rm(w))
+  (comment "TODO: reads status word")
+  (code 0xDD mrm mod(3) reg(7) fpu);
+
 opcode "LOOPNZ"
   (comment "ipv is evaluated after decoding instruction")
   (comment "--(E)CX, if (E)CX != 0 and !ZF, jump")
