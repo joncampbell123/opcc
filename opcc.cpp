@@ -2280,6 +2280,7 @@ bool valid_immediate_size_token(unsigned int tok) {
         case TOK_F80:
         case TOK_F80BCD:
         case TOK_F87ENV:
+        case TOK_F87STATE:
         case TOK_QW:
         case TOK_SQW:
             return true;
