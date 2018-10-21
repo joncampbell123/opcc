@@ -2539,7 +2539,8 @@ opcode "FPATAN"
   (writes st(0),st(1),fpu(top))
   (fpu stack pop st(0))
   (dest=st(1))
-  (param=st(0))
+  (param(0)=st(0))
+  (param(1)=st(1))
   (code 0xD9 mrm mod(3) reg(6) rm(3));
 
 opcode "FXTRACT"
@@ -2549,7 +2550,8 @@ opcode "FXTRACT"
   (writes st(0),st(1),fpu(top))
   (fpu stack push st(0))
   (dest=st(0))
-  (param=st(0))
+  (param(0)=st(0))
+  (param(1)=st(1))
   (code 0xD9 mrm mod(3) reg(6) rm(4));
 
 opcode "F2XM1"
@@ -2561,13 +2563,25 @@ opcode "F2XM1"
   (param=st(0))
   (code 0xD9 mrm mod(3) reg(6) rm(0));
 
+opcode "FYL2X"
+  (comment "FYL2X st(1) = (st(1) * log2(st(0))), pop")
+  (reads st(0),st(1),fpu(top))
+  (modifies st(0),st(1),fpu(top))
+  (writes st(0),st(1),fpu(top))
+  (fpu stack pop st(0))
+  (dest=st(0))
+  (param(0)=st(0))
+  (param(1)=st(1))
+  (code 0xD9 mrm mod(3) reg(6) rm(1));
+
 opcode "FPREM"
   (comment "FPREM st(0) = remainder(st(0) / st(1))")
   (reads st(0),st(1))
   (modifies st(0))
   (writes st(0))
   (dest=st(0))
-  (param=st(1))
+  (param(0)=st(0))
+  (param(1)=st(1))
   (code 0xD9 mrm mod(3) reg(7) rm(0));
 
 opcode "FSQRT"
@@ -2594,7 +2608,8 @@ opcode "FSCALE"
   (modifies st(0))
   (writes st(0))
   (dest=st(0))
-  (param=st(1))
+  (param(0)=st(0))
+  (param(1)=st(1))
   (code 0xD9 mrm mod(3) reg(7) rm(5));
 
 opcode "LOOPNZ"
