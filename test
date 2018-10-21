@@ -1772,6 +1772,27 @@ opcode "FST"
   (reads st(0))
   (code 0xD9 mrm mod(!3) reg(2) fpu);
 
+opcode "FIST"
+  (comment "FLD MF=1 [esc]11011 [mf]01 [esc]1 int32 from memory")
+  (writes rm(sdw))
+  (modifies rm(sdw))
+  (reads st(0))
+  (code 0xDB mrm mod(!3) reg(2) fpu);
+
+opcode "FST"
+  (comment "FLD MF=1 [esc]11011 [mf]10 [esc]1 float64 from memory")
+  (writes rm(f64))
+  (modifies rm(f64))
+  (reads st(0))
+  (code 0xDD mrm mod(!3) reg(2) fpu);
+
+opcode "FIST"
+  (comment "FLD MF=1 [esc]11011 [mf]11 [esc]1 int16 from memory")
+  (writes rm(sw))
+  (modifies rm(sw))
+  (reads st(0))
+  (code 0xDF mrm mod(!3) reg(2) fpu);
+
 opcode "LOOPNZ"
   (comment "ipv is evaluated after decoding instruction")
   (comment "--(E)CX, if (E)CX != 0 and !ZF, jump")
