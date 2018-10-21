@@ -2249,9 +2249,25 @@ std::string OpcodeSpec::pretty_string(void) {
                     // TODO: Find a way to indicate a range of reg values
                     byte_str += "/r"; /* Intel uses this syntax, so follow it */
                 }
+
+                if (rm_constraint != 0)
+                    byte_str += "=rm";
+
+                if (mod3 == 3)
+                    byte_str += "!m";
+                else if (mod3 == -3)
+                    byte_str += "=m";
             }
             else {
                 byte_str += "/r"; /* Intel uses this syntax, so follow it */
+
+                if (rm_constraint != 0)
+                    byte_str += "=rm";
+
+                if (mod3 == 3)
+                    byte_str += "!m";
+                else if (mod3 == -3)
+                    byte_str += "=m";
             }
         }
         else if ((*i).meaning == TOK_IMMEDIATE) {
