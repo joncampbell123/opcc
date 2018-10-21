@@ -1839,6 +1839,55 @@ opcode "FST"
   (dest=st(rm))
   (code 0xDD mrm mod(3) reg(2) fpu);
 
+opcode "FSTP"
+  (comment "FLD MF=0 [esc]11011 [mf]00 [esc]1 float32 from memory")
+  (fpu stack pop rm(f32))
+  (writes rm(f32))
+  (modifies rm(f32))
+  (reads st(0))
+  (param=st(0))
+  (dest=rm(f32))
+  (code 0xD9 mrm mod(!3) reg(3) fpu);
+
+opcode "FISTP"
+  (comment "FLD MF=1 [esc]11011 [mf]01 [esc]1 int32 from memory")
+  (fpu stack pop rm(sdw))
+  (writes rm(sdw))
+  (modifies rm(sdw))
+  (reads st(0))
+  (param=st(0))
+  (dest=rm(sdw))
+  (code 0xDB mrm mod(!3) reg(3) fpu);
+
+opcode "FSTP"
+  (comment "FLD MF=1 [esc]11011 [mf]10 [esc]1 float64 from memory")
+  (fpu stack pop rm(f64))
+  (writes rm(f64))
+  (modifies rm(f64))
+  (reads st(0))
+  (param=st(0))
+  (dest=rm(f64))
+  (code 0xDD mrm mod(!3) reg(3) fpu);
+
+opcode "FISTP"
+  (comment "FLD MF=1 [esc]11011 [mf]11 [esc]1 int16 from memory")
+  (fpu stack pop rm(sw))
+  (writes rm(sw))
+  (modifies rm(sw))
+  (reads st(0))
+  (param=st(0))
+  (dest=rm(sw))
+  (code 0xDF mrm mod(!3) reg(3) fpu);
+
+opcode "FSTP"
+  (comment "FLD MF=0 [esc]11011101 st(0) to st(i)")
+  (fpu stack pop st(rm))
+  (reads st(0))
+  (writes st(rm))
+  (param=st(0))
+  (dest=st(rm))
+  (code 0xDD mrm mod(3) reg(3) fpu);
+
 opcode "LOOPNZ"
   (comment "ipv is evaluated after decoding instruction")
   (comment "--(E)CX, if (E)CX != 0 and !ZF, jump")
