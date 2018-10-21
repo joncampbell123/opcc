@@ -2701,13 +2701,13 @@ opcode "FSTENV"
 opcode "FRSTOR"
   (comment "Load FPU state from memory")
   (reads rm(f87state))
-  (comment "TODO: writes status, control, etc")
+  (writes fpu(all))
   (code 0xDD mrm mod(3) reg(4) fpu);
 
 opcode "FSAVE"
   (comment "Store FPU state to memory")
+  (reads fpu(all))
   (writes rm(f87state))
-  (comment "TODO: reads status, control, etc")
   (code 0xDD mrm mod(3) reg(6) fpu);
 
 opcode "LOOPNZ"
