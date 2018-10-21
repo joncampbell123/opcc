@@ -2522,6 +2522,26 @@ opcode "FABS"
   (param=st(0))
   (code 0xD9 mrm mod(3) reg(4) rm(1));
 
+opcode "FPTAN"
+  (comment "FPTAN st(0) = atan(st(0)), push(1.0)")
+  (reads st(0))
+  (modifies st(0),st(1),fpu(top))
+  (writes st(0),st(1),fpu(top))
+  (fpu stack push 1.0)
+  (dest=st(0))
+  (param=st(0))
+  (code 0xD9 mrm mod(3) reg(6) rm(2));
+
+opcode "FPATAN"
+  (comment "FPATAN st(1) = atan(st(1) / st(0)), pop")
+  (reads st(0),st(1))
+  (modifies st(0),st(1),fpu(top))
+  (writes st(0),st(1),fpu(top))
+  (fpu stack pop st(0))
+  (dest=st(1))
+  (param=st(0))
+  (code 0xD9 mrm mod(3) reg(6) rm(3));
+
 opcode "FXTRACT"
   (comment "FPREM tmp=st(0), st(0) = exponent(tmp), push(significand(tmp))")
   (reads st(0))
