@@ -1793,6 +1793,12 @@ opcode "FIST"
   (reads st(0))
   (code 0xDF mrm mod(!3) reg(2) fpu);
 
+opcode "FST"
+  (comment "FLD MF=0 [esc]11011101 st(0) to st(i)")
+  (reads st(0))
+  (writes st(rm))
+  (code 0xDD mrm mod(3) reg(2) fpu);
+
 opcode "LOOPNZ"
   (comment "ipv is evaluated after decoding instruction")
   (comment "--(E)CX, if (E)CX != 0 and !ZF, jump")
