@@ -2105,6 +2105,25 @@ if value("cpulevel") < 686 {;
     (code 0xDA mrm mod(3) reg(0) fpu);
 } if;
 
+opcode "FADD"
+  (comment "FADD st(i) += st(0), no pop d=1 P=0")
+  (reads st(rm),st(0))
+  (modifies st(rm))
+  (writes st(rm))
+  (dest=st(rm))
+  (param=st(0))
+  (code 0xDC mrm mod(3) reg(0) fpu);
+
+opcode "FADD"
+  (comment "FADD st(i) += st(0), pop d=1 P=1")
+  (reads st(rm),st(0),fpu(top))
+  (modifies st(rm),fpu(top))
+  (writes st(rm),fpu(top))
+  (fpu stack pop st(0))
+  (dest=st(rm))
+  (param=st(0))
+  (code 0xDE mrm mod(3) reg(0) fpu);
+
 opcode "LOOPNZ"
   (comment "ipv is evaluated after decoding instruction")
   (comment "--(E)CX, if (E)CX != 0 and !ZF, jump")
