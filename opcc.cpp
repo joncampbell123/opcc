@@ -1862,6 +1862,12 @@ const char *regrmtype_str(unsigned int type) {
         case TOK_SDW:   return "dword";
         case TOK_QW:
         case TOK_SQW:   return "qword";
+        case TOK_F32:   return "float32";
+        case TOK_F64:   return "float64";
+        case TOK_F80:   return "float80";
+        case TOK_F80BCD:return "floatbcd";
+        case TOK_F87ENV:return "f87env";
+        case TOK_F87STATE:return "f87state";
     };
 
     return "";
