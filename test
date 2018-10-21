@@ -2048,6 +2048,42 @@ opcode "FXAM"
   (param=st(0))
   (code 0xD9 mrm mod(3) reg(4) rm(5) fpu);
 
+opcode "FADD"
+  (comment "FADD MF=0 [esc]11011 [mf]00 [esc]0 st(0) += mem(float32)")
+  (reads rm(f32),st(0))
+  (modifies st(0))
+  (writes st(0))
+  (dest=st(0))
+  (param=rm(f32))
+  (code 0xD8 mrm mod(!3) reg(0) fpu);
+
+opcode "FIADD"
+  (comment "FADD MF=1 [esc]11011 [mf]01 [esc]0 st(0) += mem(int32)")
+  (reads rm(sdw),st(0))
+  (modifies st(0))
+  (writes st(0))
+  (dest=st(0))
+  (param=rm(sdw))
+  (code 0xDA mrm mod(!3) reg(0) fpu);
+
+opcode "FADD"
+  (comment "FADD MF=2 [esc]11011 [mf]10 [esc]0 st(0) += mem(float64)")
+  (reads rm(f64),st(0))
+  (modifies st(0))
+  (writes st(0))
+  (dest=st(0))
+  (param=rm(f64))
+  (code 0xDC mrm mod(!3) reg(0) fpu);
+
+opcode "FIADD"
+  (comment "FADD MF=3 [esc]11011 [mf]11 [esc]0 st(0) += mem(int16)")
+  (reads rm(sw),st(0))
+  (modifies st(0))
+  (writes st(0))
+  (dest=st(0))
+  (param=rm(sw))
+  (code 0xDE mrm mod(!3) reg(0) fpu);
+
 opcode "LOOPNZ"
   (comment "ipv is evaluated after decoding instruction")
   (comment "--(E)CX, if (E)CX != 0 and !ZF, jump")
