@@ -2142,6 +2142,30 @@ std::string OpcodeSpec::pretty_string(void) {
         }
     }
     for (auto i=bytes.begin();i!=bytes.end();i++) {
+        if ((*i).meaning == TOK_EQUAL) {
+            if (!byte_strvas.empty())
+                byte_strvas += " ";
+
+            if ((*i).var_assign != 0) {
+                byte_strvas += tokentype_str[(*i).var_assign];
+                byte_strvas += "=";
+            }
+
+            byte_strvas += "(";
+            for (auto j=(*i).var_expr.begin();j!=(*i).var_expr.end();j++) {
+                if ((*j).type == TOK_AMPERSAND)
+                    byte_strvas += "&";
+                else if ((*j).type == TOK_UINT)
+                    byte_strvas += (*j).to_string();
+                else if ((*j).type == TOK_PLUS)
+                    byte_strvas += "+";
+                else
+                    byte_strvas += tokentype_str[(*j).type];
+            }
+            byte_strvas += ")";
+        }
+    }
+    for (auto i=bytes.begin();i!=bytes.end();i++) {
         if ((*i).meaning == 0) {
             if ((*i).size() > 1) {
                 if (!byte_str.empty())
@@ -2283,28 +2307,6 @@ std::string OpcodeSpec::pretty_string(void) {
             byte_str += regrmtype_str((*i).immediate_type);
             byte_str += ")";
         }
-        else if ((*i).meaning == TOK_EQUAL) {
-            if (!byte_strvas.empty())
-                byte_strvas += " ";
-
-            if ((*i).var_assign != 0) {
-                byte_strvas += tokentype_str[(*i).var_assign];
-                byte_strvas += "=";
-            }
-
-            byte_strvas += "(";
-            for (auto j=(*i).var_expr.begin();j!=(*i).var_expr.end();j++) {
-                if ((*j).type == TOK_AMPERSAND)
-                    byte_strvas += "&";
-                else if ((*j).type == TOK_UINT)
-                    byte_strvas += (*j).to_string();
-                else if ((*j).type == TOK_PLUS)
-                    byte_strvas += "+";
-                else
-                    byte_strvas += tokentype_str[(*j).type];
-            }
-            byte_strvas += ")";
-       }
     }
 
     while (params.size() < (opspec_ins_col_len-9)) params += " ";
@@ -2756,14 +2758,14 @@ bool opcode_sort_func(const OpcodeSpec &a,const OpcodeSpec &b) {
          if (a.bytes                < b.bytes)                  return true;
     else if (a.bytes                > b.bytes)                  return false;
 
+         if (a.mod3                 < b.mod3)                   return true;
+    else if (a.mod3                 > b.mod3)                   return false;
+
          if (a.reg_constraint       < b.reg_constraint)         return true;
     else if (a.reg_constraint       > b.reg_constraint)         return false;
 
          if (a.rm_constraint        < b.rm_constraint)          return true;
     else if (a.rm_constraint        > b.rm_constraint)          return false;
-
-         if (a.mod3                 < b.mod3)                   return true;
-    else if (a.mod3                 > b.mod3)                   return false;
 
     return false;
 }
