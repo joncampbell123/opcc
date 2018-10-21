@@ -2698,6 +2698,18 @@ opcode "FSTENV"
   (comment "TODO: reads status, control, etc")
   (code 0xD9 mrm mod(3) reg(6) fpu);
 
+opcode "FRSTOR"
+  (comment "Load FPU state from memory")
+  (reads rm(f87state))
+  (comment "TODO: writes status, control, etc")
+  (code 0xDD mrm mod(3) reg(4) fpu);
+
+opcode "FSAVE"
+  (comment "Store FPU state to memory")
+  (writes rm(f87state))
+  (comment "TODO: reads status, control, etc")
+  (code 0xDD mrm mod(3) reg(6) fpu);
+
 opcode "LOOPNZ"
   (comment "ipv is evaluated after decoding instruction")
   (comment "--(E)CX, if (E)CX != 0 and !ZF, jump")
