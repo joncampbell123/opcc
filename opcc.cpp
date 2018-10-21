@@ -2177,7 +2177,7 @@ std::string OpcodeSpec::pretty_string(void) {
             if (!byte_str.empty())
                  byte_str += " ";
 
-            byte_str += "mod/reg/rm";
+            byte_str += "/r"; /* Intel uses this syntax, so follow it */
         }
         else if ((*i).meaning == TOK_IMMEDIATE) {
             if (!byte_str.empty())
