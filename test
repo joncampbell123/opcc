@@ -2672,42 +2672,49 @@ opcode "FLDCW"
   (comment "Load control word from memory")
   (reads rm(w))
   (writes fpu(cw))
+  (param=rm(w))
   (code 0xD9 mrm mod(3) reg(5) fpu);
 
 opcode "FSTCW"
   (comment "Store control word to memory")
   (reads fpu(cw))
   (writes rm(w))
+  (dest=rm(w))
   (code 0xD9 mrm mod(3) reg(7) fpu);
 
 opcode "FSTSW"
   (comment "Store status word to memory")
   (reads fpu(sw))
   (writes rm(w))
+  (dest=rm(w))
   (code 0xDD mrm mod(3) reg(7) fpu);
 
 opcode "FLDENV"
   (comment "Load FPU environment from memory")
   (reads rm(f87env))
   (writes fpu(all))
+  (param=rm(f87env))
   (code 0xD9 mrm mod(3) reg(4) fpu);
 
 opcode "FSTENV"
   (comment "Store FPU environment to memory")
   (reads fpu(all))
   (writes rm(f87env))
+  (dest=rm(f87env))
   (code 0xD9 mrm mod(3) reg(6) fpu);
 
 opcode "FRSTOR"
   (comment "Load FPU state from memory")
   (reads rm(f87state))
   (writes fpu(all))
+  (param=rm(f87state))
   (code 0xDD mrm mod(3) reg(4) fpu);
 
 opcode "FSAVE"
   (comment "Store FPU state to memory")
   (reads fpu(all))
   (writes rm(f87state))
+  (dest=rm(f87state))
   (code 0xDD mrm mod(3) reg(6) fpu);
 
 opcode "LOOPNZ"
