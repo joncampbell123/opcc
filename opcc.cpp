@@ -3894,6 +3894,30 @@ bool parse_sbl_list(std::vector<SingleByteSpec> &sbl,tokenlist &tokens) {
     return true;
 }
 
+bool code_subexpr(tokenstate_t &subtoken,tokenlist &tokens) {
+    tokenlist subtokens;
+    int parens = 1;
+
+    do {
+        auto &t = tokens.next();
+        if (t.type == TOK_ERROR || t.type == TOK_NONE)
+            return false;
+        else if (t.type == TOK_OPEN_PARENS)
+            parens++;
+        else if (t.type == TOK_CLOSE_PARENS) {
+            if (parens-- <= 1)
+                break;
+        }
+
+        subtokens.push_back(t);
+    } while (1);
+
+    if (!eval_if_condition(subtoken,subtokens))
+        return false;
+
+    return true;
+}
+
 bool read_opcode_spec_opcode_parens(tokenlist &parent_tokens,OpcodeSpec &spec) {
     /* caller already read '(' */
     tokenlist tokens;
@@ -4457,7 +4481,31 @@ bool read_opcode_spec_opcode_parens(tokenlist &parent_tokens,OpcodeSpec &spec) {
                 }
             }
 
-            if (tokens.peek().type == TOK_UINT) {
+            if (tokens.peek().type == TOK_OPEN_PARENS) {
+                tokens.discard();
+
+                tokenstate_t subtoken;
+
+                if (!code_subexpr(subtoken,tokens))
+                    return false;
+
+                if (subtoken.type == TOK_UINT) {
+                    bs.push_back((uint8_t)subtoken.intval.u);
+                }
+                else {
+                    fprintf(stderr,"code eval, invalid type %s\n",subtoken.type_str());
+                    return false;
+                }
+
+                if (tokens.peek().type == TOK_MINUS ||
+                    tokens.peek().type == TOK_COMMA) {
+                    fprintf(stderr,"ranges or multiples not supported at this time\n");
+                    return false;
+                }
+
+                spec.bytes.push_back(bs);
+            }
+            else if (tokens.peek().type == TOK_UINT) {
                 do {
                     auto &next = tokens.next();
 
