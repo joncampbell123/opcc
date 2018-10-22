@@ -18,59 +18,58 @@ else {;
 
 comment "-----------------begin opcodes----------------";
 
-opcode "ADD"
-  (comment "ADD r/m,reg byte")
-  (modifies rm(b),flags(cf,af,sf,zf,pf,of))
-  (writes rm(b),flags(cf,af,sf,zf,pf,of))
-  (reads reg(b),rm(b))
-  (dest=rm(b))
-  (param=reg(b))
-  (code 0x00 mrm);
+comment "Group 00-3F sub 0-5 (00-05,08-0D,10-15,18-1D,etc) ADD/SUB/etc";
+set macro "group00-3F sub 0-5" (n,b) {;
+  opcode value(n)
+    (modifies rm(b),flags(cf,af,sf,zf,pf,of))
+    (writes rm(b),flags(cf,af,sf,zf,pf,of))
+    (reads reg(b),rm(b))
+    (dest=rm(b))
+    (param=reg(b))
+    (code (value(b)+0) mrm);
 
-opcode "ADD"
-  (comment "ADD r/m,reg v")
-  (modifies rm(v),flags(cf,af,sf,zf,pf,of))
-  (writes rm(v),flags(cf,af,sf,zf,pf,of))
-  (reads reg(v),rm(v))
-  (dest=rm(v))
-  (param=reg(v))
-  (code 0x01 mrm);
+  opcode value(n)
+    (modifies rm(v),flags(cf,af,sf,zf,pf,of))
+    (writes rm(v),flags(cf,af,sf,zf,pf,of))
+    (reads reg(v),rm(v))
+    (dest=rm(v))
+    (param=reg(v))
+    (code (value(b)+1) mrm);
 
-opcode "ADD"
-  (comment "ADD reg,r/m byte")
-  (modifies reg(b),flags(cf,af,sf,zf,pf,of))
-  (writes reg(b),flags(cf,af,sf,zf,pf,of))
-  (reads rm(b),reg(b))
-  (dest=reg(b))
-  (param=rm(b))
-  (code 0x02 mrm);
+  opcode value(n)
+    (modifies reg(b),flags(cf,af,sf,zf,pf,of))
+    (writes reg(b),flags(cf,af,sf,zf,pf,of))
+    (reads rm(b),reg(b))
+    (dest=reg(b))
+    (param=rm(b))
+    (code (value(b)+2) mrm);
 
-opcode "ADD"
-  (comment "ADD reg,r/m v")
-  (modifies reg(v),flags(cf,af,sf,zf,pf,of))
-  (writes reg(v),flags(cf,af,sf,zf,pf,of))
-  (reads rm(v),reg(v))
-  (dest=reg(v))
-  (param=rm(v))
-  (code 0x03 mrm);
+  opcode value(n)
+    (modifies reg(v),flags(cf,af,sf,zf,pf,of))
+    (writes reg(v),flags(cf,af,sf,zf,pf,of))
+    (reads rm(v),reg(v))
+    (dest=reg(v))
+    (param=rm(v))
+    (code (value(b)+3) mrm);
 
-opcode "ADD"
-  (comment "ADD a,imm")
-  (reads al)
-  (modifies al,flags(cf,af,sf,zf,pf,of))
-  (writes al,flags(cf,af,sf,zf,pf,of))
-  (dest=al)
-  (param=i)
-  (code 0x04 i=immediate(b));
+  opcode value(n)
+    (reads al)
+    (modifies al,flags(cf,af,sf,zf,pf,of))
+    (writes al,flags(cf,af,sf,zf,pf,of))
+    (dest=al)
+    (param=i)
+    (code (value(b)+4) i=immediate(b));
 
-opcode "ADD"
-  (comment "ADD a,imm")
-  (reads av)
-  (modifies av,flags(cf,af,sf,zf,pf,of))
-  (writes av,flags(cf,af,sf,zf,pf,of))
-  (dest=av)
-  (param=i)
-  (code 0x05 i=immediate(v));
+  opcode value(n)
+    (reads av)
+    (modifies av,flags(cf,af,sf,zf,pf,of))
+    (writes av,flags(cf,af,sf,zf,pf,of))
+    (dest=av)
+    (param=i)
+    (code (value(b)+5) i=immediate(v));
+} macro;
+
+macro "group00-3F sub 0-5" ("ADD",0x00);
 
 opcode "PUSH"
   (comment "PUSH ES")
