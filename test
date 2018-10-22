@@ -3069,3 +3069,23 @@ opcode "PUSH"
   (dest=rm(v))
   (code 0xFF mrm reg(6));
 
+set macro "hello" {;
+  log "Hello world";
+  log "How are you";
+} macro;
+
+set macro "hello2" {;
+  log "Hello world2";
+  macro "hello";
+  log "How are you2";
+} macro;
+
+macro "hello";
+macro "hello";
+
+log "Yay";
+
+macro "hello2";
+
+log "Yay";
+

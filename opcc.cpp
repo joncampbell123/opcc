@@ -206,6 +206,7 @@ enum tokentype_t {
     TOK_CONSTANT,
     TOK_F80BCD,
     TOK_CW,
+    TOK_MACRO,
 
     TOK_MAX
 };
@@ -399,7 +400,8 @@ const char *tokentype_str[TOK_MAX] = {
     "ST",                       // 185
     "CONSTANT",
     "F80BCD",
-    "CW"
+    "CW",
+    "MACRO"
 };
 
 bool list_op = false;
@@ -1713,6 +1715,10 @@ bool toke(tokenstate_t &tok) {
             tok.type = TOK_CW;
             return true;
         }
+        if (tok.string == "MACRO") {
+            tok.type = TOK_MACRO;
+            return true;
+        }
     }
 
     tok.type = TOK_ERROR;
@@ -2900,6 +2906,32 @@ public:
 public:
     size_t              read = 0;
 };
+
+class Macro {
+public:
+    std::vector<tokenlist>      tlist;
+};
+
+std::map<std::string,Macro>     macros;
+
+/* temporary replacement of stream by a list of tokenlists.
+ * this is needed for the macro system to work. */
+bool tokens_macro_enable = false;
+std::vector<tokenlist> tokens_macro;
+size_t tokens_macro_read = 0;
+
+bool tokens_unput_valid = false;
+tokenlist tokens_unput;
+
+void tokens_macro_begin(void) {
+    tokens_macro_enable = true;
+    tokens_macro_read = 0;
+}
+
+void tokens_macro_clear(void) {
+    tokens_macro_enable = false;
+    tokens_macro.clear();
+}
 
 bool valid_immediate_size_token(unsigned int tok) {
     switch (tok) {
@@ -4821,6 +4853,8 @@ bool eval_format(std::string &msg,tokenlist &tokens) {
     return true;
 }
 
+bool read_opcode_block(void);
+
 bool process_if_statement(tokenlist &tokens,bool suppress=false);
 
 bool process_block(tokenlist &tokens);
@@ -4934,12 +4968,113 @@ bool process_if_statement(tokenlist &tokens,bool suppress) {
     return true;
 }
 
+/* caller already ate SET MACRO "name" {; */
+bool process_macro_def(Macro &macro) {
+    tokenlist tokens;
+
+    do {
+        if (!read_opcode_token_block(/*&*/tokens))
+            return false;
+
+        /* end of macro is "} macro" */
+        if (tokens.peek(0).type == TOK_CLOSE_CURLYBRACKET && tokens.peek(1).type == TOK_MACRO) {
+            tokens.discard(2);
+            if (!tokens.eof()) {
+                fprintf(stderr,"End macro unexpected tokens\n");
+                return false;
+            }
+
+            return true;
+        }
+        /* no recursive macros allowed! */
+        if (tokens.peek(0).type == TOK_SET && tokens.peek(1).type == TOK_MACRO &&
+            tokens.peek(2).type == TOK_STRING && tokens.peek(3).type == TOK_OPEN_CURLYBRACKET) {
+            fprintf(stderr,"Recursive macro definitions not allowed\n");
+            return false;
+        }
+
+        macro.tlist.push_back(tokens);
+    } while(1);
+
+    return false;
+}
+
 bool process_block(tokenlist &tokens) {
     if (tokens.peek(0).type == TOK_IF) {
         tokens.discard(); // discard IF
 
         if (!process_if_statement(tokens))
             return false;
+
+        return true;
+    }
+    /* set macro "name" {; ...; } macro; */
+    if (tokens.peek(0).type == TOK_SET && tokens.peek(1).type == TOK_MACRO &&
+        tokens.peek(2).type == TOK_STRING && tokens.peek(3).type == TOK_OPEN_CURLYBRACKET) {
+        std::string name = tokens.peek(2).string;
+        tokens.discard(4);
+
+        if (name.empty()) {
+            fprintf(stderr,"name is empty\n");
+            return false;
+        }
+
+        /* do not allow re-defining macros */
+        if (macros.find(name) != macros.end()) {
+            fprintf(stderr,"macro '%s' already defined\n",name.c_str());
+            return false;
+        }
+
+        /* nothing after curly brace */
+        if (!tokens.eof()) {
+            fprintf(stderr,"Extra tokens after beginning of macro def\n");
+            return false;
+        }
+
+        if (!process_macro_def(macros[name])) /* operator[] makes the element appear */
+            return false;
+
+        return true;
+    }
+    /* macro "name" */
+    if (tokens.peek(0).type == TOK_MACRO && tokens.peek(1).type == TOK_STRING) {
+        std::string name = tokens.peek(1).string;
+        tokens.discard(2);
+
+        if (name.empty()) {
+            fprintf(stderr,"name is empty\n");
+            return false;
+        }
+
+        if (macros.find(name) == macros.end()) {
+            fprintf(stderr,"macro '%s' not defined\n",name.c_str());
+            return false;
+        }
+
+        if (!tokens.eof()) {
+            fprintf(stderr,"Extra tokens after beginning of macro def\n");
+            return false;
+        }
+
+        const Macro &macro = macros[name];
+
+        size_t o_read = tokens_macro_read;
+        bool o_enable = tokens_macro_enable;
+        auto o_macro = tokens_macro;
+
+        tokens_macro = macro.tlist;
+        tokens_macro_begin();
+
+        while (read_opcode_block());
+
+        tokens_macro = o_macro;
+        tokens_macro_enable = o_enable;
+        tokens_macro_read = o_read;
+
+        if (read_error) {
+            fprintf(stderr,"Error processing macro\n");
+            return false;
+        }
 
         return true;
     }
@@ -5063,9 +5198,6 @@ bool process_block(tokenlist &tokens) {
     return true;
 }
 
-bool tokens_unput_valid = false;
-tokenlist tokens_unput;
-
 void unput_opcode_token_block(tokenlist &tokens) {
     assert(tokens_unput_valid == false);
     tokens_unput_valid = true;
@@ -5079,6 +5211,15 @@ bool read_opcode_token_block(tokenlist &tokens) {
         tokens_unput_valid = false;
         tokens = tokens_unput;
         tokens_unput.clear();
+        return true;
+    }
+
+    if (tokens_macro_enable) {
+        // NTS: Macro evaluation should be it's own process block loop
+        if (tokens_macro_read >= tokens_macro.size())
+            return false;
+
+        tokens = tokens_macro[tokens_macro_read++];
         return true;
     }
 
