@@ -326,301 +326,49 @@ opcode "JG"
   (code 0x7F p=immediate(sb) n=(ipv+p));
 
 
-opcode "ADD"
-  (comment "ADD r/m,i")
-  (modifies rm(b),flags(cf,af,sf,zf,pf,of))
-  (writes rm(b),flags(cf,af,sf,zf,pf,of))
-  (reads rm(b))
-  (dest=rm(b))
-  (param=i)
-  (code 0x80 mrm i=immediate(b) reg(0));
+comment "group 80-83, n=name r=reg";
+set macro "group80code" (n,r) {;
+  opcode value(n)
+    (modifies rm(b),flags(cf,af,sf,zf,pf,of))
+    (writes rm(b),flags(cf,af,sf,zf,pf,of))
+    (reads rm(b))
+    (dest=rm(b))
+    (param=i)
+    (code 0x80 mrm i=immediate(b) reg(value(r)));
 
-opcode "ADD"
-  (comment "ADD r/m,i")
-  (modifies rm(v),flags(cf,af,sf,zf,pf,of))
-  (writes rm(v),flags(cf,af,sf,zf,pf,of))
-  (reads rm(v))
-  (dest=rm(v))
-  (param=i)
-  (code 0x81 mrm i=immediate(v) reg(0));
+  opcode value(n)
+    (modifies rm(v),flags(cf,af,sf,zf,pf,of))
+    (writes rm(v),flags(cf,af,sf,zf,pf,of))
+    (reads rm(v))
+    (dest=rm(v))
+    (param=i)
+    (code 0x81 mrm i=immediate(v) reg(value(r)));
 
-opcode "ADD"
-  (comment "ADD r/m,i")
-  (modifies rm(b),flags(cf,af,sf,zf,pf,of))
-  (writes rm(b),flags(cf,af,sf,zf,pf,of))
-  (reads rm(b))
-  (dest=rm(b))
-  (param=i)
-  (code 0x82 mrm i=immediate(b) reg(0));
+  opcode value(n)
+    (modifies rm(b),flags(cf,af,sf,zf,pf,of))
+    (writes rm(b),flags(cf,af,sf,zf,pf,of))
+    (reads rm(b))
+    (dest=rm(b))
+    (param=i)
+    (code 0x82 mrm i=immediate(b) reg(value(r)));
 
-opcode "ADD"
-  (comment "ADD r/m,i")
-  (modifies rm(v),flags(cf,af,sf,zf,pf,of))
-  (writes rm(v),flags(cf,af,sf,zf,pf,of))
-  (reads rm(v))
-  (dest=rm(v))
-  (param=i)
-  (code 0x83 mrm i=immediate(sb) reg(0));
+  opcode value(n)
+    (modifies rm(v),flags(cf,af,sf,zf,pf,of))
+    (writes rm(v),flags(cf,af,sf,zf,pf,of))
+    (reads rm(v))
+    (dest=rm(v))
+    (param=i)
+    (code 0x83 mrm i=immediate(sb) reg(value(r)));
+} macro;
 
-
-opcode "OR"
-  (comment "OR r/m,i")
-  (modifies rm(b),flags(cf,af,sf,zf,pf,of))
-  (writes rm(b),flags(cf,af,sf,zf,pf,of))
-  (reads rm(b))
-  (dest=rm(b))
-  (param=i)
-  (code 0x80 mrm i=immediate(b) reg(1));
-
-opcode "OR"
-  (comment "OR r/m,i")
-  (modifies rm(v),flags(cf,af,sf,zf,pf,of))
-  (writes rm(v),flags(cf,af,sf,zf,pf,of))
-  (reads rm(v))
-  (dest=rm(v))
-  (param=i)
-  (code 0x81 mrm i=immediate(v) reg(1));
-
-opcode "OR"
-  (comment "OR r/m,i")
-  (modifies rm(b),flags(cf,af,sf,zf,pf,of))
-  (writes rm(b),flags(cf,af,sf,zf,pf,of))
-  (reads rm(b))
-  (dest=rm(b))
-  (param=i)
-  (code 0x82 mrm i=immediate(b) reg(1));
-
-opcode "OR"
-  (comment "OR r/m,i")
-  (modifies rm(v),flags(cf,af,sf,zf,pf,of))
-  (writes rm(v),flags(cf,af,sf,zf,pf,of))
-  (reads rm(v))
-  (dest=rm(v))
-  (param=i)
-  (code 0x83 mrm i=immediate(sb) reg(1));
-
-
-opcode "ADC"
-  (comment "ADC r/m,i")
-  (modifies rm(b),flags(cf,af,sf,zf,pf,of))
-  (writes rm(b),flags(cf,af,sf,zf,pf,of))
-  (reads rm(b),flags(cf))
-  (dest=rm(b))
-  (param=i)
-  (code 0x80 mrm i=immediate(b) reg(2));
-
-opcode "ADC"
-  (comment "ADC r/m,i")
-  (modifies rm(v),flags(cf,af,sf,zf,pf,of))
-  (writes rm(v),flags(cf,af,sf,zf,pf,of))
-  (reads rm(v),flags(cf))
-  (dest=rm(v))
-  (param=i)
-  (code 0x81 mrm i=immediate(v) reg(2));
-
-opcode "ADC"
-  (comment "ADC r/m,i")
-  (modifies rm(b),flags(cf,af,sf,zf,pf,of))
-  (writes rm(b),flags(cf,af,sf,zf,pf,of))
-  (reads rm(b),flags(cf))
-  (dest=rm(b))
-  (param=i)
-  (code 0x82 mrm i=immediate(b) reg(2));
-
-opcode "ADC"
-  (comment "ADC r/m,i")
-  (modifies rm(v),flags(cf,af,sf,zf,pf,of))
-  (writes rm(v),flags(cf,af,sf,zf,pf,of))
-  (reads rm(v),flags(cf))
-  (dest=rm(v))
-  (param=i)
-  (code 0x83 mrm i=immediate(sb) reg(2));
-
-
-opcode "SBB"
-  (comment "SBB r/m,i")
-  (modifies rm(b),flags(cf,af,sf,zf,pf,of))
-  (writes rm(b),flags(cf,af,sf,zf,pf,of))
-  (reads rm(b),flags(cf))
-  (dest=rm(b))
-  (param=i)
-  (code 0x80 mrm i=immediate(b) reg(3));
-
-opcode "SBB"
-  (comment "SBB r/m,i")
-  (modifies rm(v),flags(cf,af,sf,zf,pf,of))
-  (writes rm(v),flags(cf,af,sf,zf,pf,of))
-  (reads rm(v),flags(cf))
-  (dest=rm(v))
-  (param=i)
-  (code 0x81 mrm i=immediate(v) reg(3));
-
-opcode "SBB"
-  (comment "SBB r/m,i")
-  (modifies rm(b),flags(cf,af,sf,zf,pf,of))
-  (writes rm(b),flags(cf,af,sf,zf,pf,of))
-  (reads rm(b),flags(cf))
-  (dest=rm(b))
-  (param=i)
-  (code 0x82 mrm i=immediate(b) reg(3));
-
-opcode "SBB"
-  (comment "SBB r/m,i")
-  (modifies rm(v),flags(cf,af,sf,zf,pf,of))
-  (writes rm(v),flags(cf,af,sf,zf,pf,of))
-  (reads rm(v),flags(cf))
-  (dest=rm(v))
-  (param=i)
-  (code 0x83 mrm i=immediate(sb) reg(3));
-
-
-opcode "AND"
-  (comment "AND r/m,i")
-  (modifies rm(b),flags(cf,af,sf,zf,pf,of))
-  (writes rm(b),flags(cf,af,sf,zf,pf,of))
-  (reads rm(b))
-  (dest=rm(b))
-  (param=i)
-  (code 0x80 mrm i=immediate(b) reg(4));
-
-opcode "AND"
-  (comment "AND r/m,i")
-  (modifies rm(v),flags(cf,af,sf,zf,pf,of))
-  (writes rm(v),flags(cf,af,sf,zf,pf,of))
-  (reads rm(v))
-  (dest=rm(v))
-  (param=i)
-  (code 0x81 mrm i=immediate(v) reg(4));
-
-opcode "AND"
-  (comment "AND r/m,i")
-  (modifies rm(b),flags(cf,af,sf,zf,pf,of))
-  (writes rm(b),flags(cf,af,sf,zf,pf,of))
-  (reads rm(b))
-  (dest=rm(b))
-  (param=i)
-  (code 0x82 mrm i=immediate(b) reg(4));
-
-opcode "AND"
-  (comment "AND r/m,i")
-  (modifies rm(v),flags(cf,af,sf,zf,pf,of))
-  (writes rm(v),flags(cf,af,sf,zf,pf,of))
-  (reads rm(v))
-  (dest=rm(v))
-  (param=i)
-  (code 0x83 mrm i=immediate(sb) reg(4));
-
-
-opcode "SUB"
-  (comment "SUB r/m,i")
-  (modifies rm(b),flags(cf,af,sf,zf,pf,of))
-  (writes rm(b),flags(cf,af,sf,zf,pf,of))
-  (reads rm(b))
-  (dest=rm(b))
-  (param=i)
-  (code 0x80 mrm i=immediate(b) reg(5));
-
-opcode "SUB"
-  (comment "SUB r/m,i")
-  (modifies rm(v),flags(cf,af,sf,zf,pf,of))
-  (writes rm(v),flags(cf,af,sf,zf,pf,of))
-  (reads rm(v))
-  (dest=rm(v))
-  (param=i)
-  (code 0x81 mrm i=immediate(v) reg(5));
-
-opcode "SUB"
-  (comment "SUB r/m,i")
-  (modifies rm(b),flags(cf,af,sf,zf,pf,of))
-  (writes rm(b),flags(cf,af,sf,zf,pf,of))
-  (reads rm(b))
-  (dest=rm(b))
-  (param=i)
-  (code 0x82 mrm i=immediate(b) reg(5));
-
-opcode "SUB"
-  (comment "SUB r/m,i")
-  (modifies rm(v),flags(cf,af,sf,zf,pf,of))
-  (writes rm(v),flags(cf,af,sf,zf,pf,of))
-  (reads rm(v))
-  (dest=rm(v))
-  (param=i)
-  (code 0x83 mrm i=immediate(sb) reg(5));
-
-
-opcode "XOR"
-  (comment "XOR r/m,i")
-  (modifies rm(b),flags(cf,af,sf,zf,pf,of))
-  (writes rm(b),flags(cf,af,sf,zf,pf,of))
-  (reads rm(b))
-  (dest=rm(b))
-  (param=i)
-  (code 0x80 mrm i=immediate(b) reg(6));
-
-opcode "XOR"
-  (comment "XOR r/m,i")
-  (modifies rm(v),flags(cf,af,sf,zf,pf,of))
-  (writes rm(v),flags(cf,af,sf,zf,pf,of))
-  (reads rm(v))
-  (dest=rm(v))
-  (param=i)
-  (code 0x81 mrm i=immediate(v) reg(6));
-
-opcode "XOR"
-  (comment "XOR r/m,i")
-  (modifies rm(b),flags(cf,af,sf,zf,pf,of))
-  (writes rm(b),flags(cf,af,sf,zf,pf,of))
-  (reads rm(b))
-  (dest=rm(b))
-  (param=i)
-  (code 0x82 mrm i=immediate(b) reg(6));
-
-opcode "XOR"
-  (comment "XOR r/m,i")
-  (modifies rm(v),flags(cf,af,sf,zf,pf,of))
-  (writes rm(v),flags(cf,af,sf,zf,pf,of))
-  (reads rm(v))
-  (dest=rm(v))
-  (param=i)
-  (code 0x83 mrm i=immediate(sb) reg(6));
-
-
-opcode "CMP"
-  (comment "CMP r/m,i")
-  (modifies flags(cf,af,sf,zf,pf,of))
-  (writes flags(cf,af,sf,zf,pf,of))
-  (reads rm(b))
-  (dest=rm(b))
-  (param=i)
-  (code 0x80 mrm i=immediate(b) reg(7));
-
-opcode "CMP"
-  (comment "CMP r/m,i")
-  (modifies flags(cf,af,sf,zf,pf,of))
-  (writes flags(cf,af,sf,zf,pf,of))
-  (reads rm(v))
-  (dest=rm(v))
-  (param=i)
-  (code 0x81 mrm i=immediate(v) reg(7));
-
-opcode "CMP"
-  (comment "CMP r/m,i")
-  (modifies flags(cf,af,sf,zf,pf,of))
-  (writes flags(cf,af,sf,zf,pf,of))
-  (reads rm(b))
-  (dest=rm(b))
-  (param=i)
-  (code 0x82 mrm i=immediate(b) reg(7));
-
-opcode "CMP"
-  (comment "CMP r/m,i")
-  (modifies flags(cf,af,sf,zf,pf,of))
-  (writes flags(cf,af,sf,zf,pf,of))
-  (reads rm(v))
-  (dest=rm(v))
-  (param=i)
-  (code 0x83 mrm i=immediate(sb) reg(7));
-
+macro "group80code" ("ADD", 0);
+macro "group80code" ("OR",  1);
+macro "group80code" ("ADC", 2);
+macro "group80code" ("SBB", 3);
+macro "group80code" ("AND", 4);
+macro "group80code" ("SUB", 5);
+macro "group80code" ("XOR", 6);
+macro "group80code" ("CMP", 7);
 
 opcode "TEST"
   (reads reg(b),rm(b))
