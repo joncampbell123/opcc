@@ -75,6 +75,8 @@ macro "group00-3F sub 0-5" ("ADC", 0x10);
 macro "group00-3F sub 0-5" ("SBB", 0x18);
 macro "group00-3F sub 0-5" ("AND", 0x20);
 macro "group00-3F sub 0-5" ("SUB", 0x28);
+macro "group00-3F sub 0-5" ("XOR", 0x30);
+macro "group00-3F sub 0-5" ("CMP", 0x38);
 
 opcode "PUSH"
   (comment "PUSH ES")
@@ -169,60 +171,6 @@ opcode "DAS"
   (writes al, flags(cf,af,sf,zf,pf,of))
   (code 0x2F);
 
-opcode "XOR"
-  (comment "XOR r/m,reg byte")
-  (modifies rm(b),flags(cf,af,sf,zf,pf,of))
-  (writes rm(b),flags(cf,af,sf,zf,pf,of))
-  (reads reg(b),rm(b))
-  (dest=rm(b))
-  (param=reg(b))
-  (code 0x30 mrm);
-
-opcode "XOR"
-  (comment "XOR r/m,reg v")
-  (modifies rm(v),flags(cf,af,sf,zf,pf,of))
-  (writes rm(v),flags(cf,af,sf,zf,pf,of))
-  (reads reg(v),rm(v))
-  (dest=rm(v))
-  (param=reg(v))
-  (code 0x31 mrm);
-
-opcode "XOR"
-  (comment "XOR reg,r/m byte")
-  (modifies reg(b),flags(cf,af,sf,zf,pf,of))
-  (writes reg(b),flags(cf,af,sf,zf,pf,of))
-  (reads rm(b),reg(b))
-  (dest=reg(b))
-  (param=rm(b))
-  (code 0x32 mrm);
-
-opcode "XOR"
-  (comment "XOR reg,r/m v")
-  (modifies reg(v),flags(cf,af,sf,zf,pf,of))
-  (writes reg(v),flags(cf,af,sf,zf,pf,of))
-  (reads rm(v),reg(v))
-  (dest=reg(v))
-  (param=rm(v))
-  (code 0x33 mrm);
-
-opcode "XOR"
-  (comment "XOR a,imm")
-  (reads al)
-  (modifies al,flags(cf,af,sf,zf,pf,of))
-  (writes al,flags(cf,af,sf,zf,pf,of))
-  (dest=al)
-  (param=i)
-  (code 0x34 i=immediate(b));
-
-opcode "XOR"
-  (comment "XOR a,imm")
-  (reads av)
-  (modifies av,flags(cf,af,sf,zf,pf,of))
-  (writes av,flags(cf,af,sf,zf,pf,of))
-  (dest=av)
-  (param=i)
-  (code 0x35 i=immediate(v));
-
 prefix "SS:"
   (comment "Segment override prefix")
   (desc "SS segment override")
@@ -236,60 +184,6 @@ opcode "AAA"
   (modifies ax)
   (writes ax, flags(cf,af,of,sf,zf,pf))
   (code 0x37);
-
-opcode "CMP"
-  (comment "CMP r/m,reg byte")
-  (modifies flags(cf,af,sf,zf,pf,of))
-  (writes flags(cf,af,sf,zf,pf,of))
-  (reads reg(b))
-  (dest=rm(b))
-  (param=reg(b))
-  (code 0x38 mrm);
-
-opcode "CMP"
-  (comment "CMP r/m,reg v")
-  (modifies flags(cf,af,sf,zf,pf,of))
-  (writes flags(cf,af,sf,zf,pf,of))
-  (reads reg(v))
-  (dest=rm(v))
-  (param=reg(v))
-  (code 0x39 mrm);
-
-opcode "CMP"
-  (comment "CMP reg,r/m byte")
-  (modifies flags(cf,af,sf,zf,pf,of))
-  (writes flags(cf,af,sf,zf,pf,of))
-  (reads rm(b))
-  (dest=reg(b))
-  (param=rm(b))
-  (code 0x3A mrm);
-
-opcode "CMP"
-  (comment "CMP reg,r/m v")
-  (modifies flags(cf,af,sf,zf,pf,of))
-  (writes flags(cf,af,sf,zf,pf,of))
-  (reads rm(v))
-  (dest=reg(v))
-  (param=rm(v))
-  (code 0x3B mrm);
-
-opcode "CMP"
-  (comment "CMP a,imm")
-  (reads al)
-  (modifies flags(cf,af,sf,zf,pf,of))
-  (writes flags(cf,af,sf,zf,pf,of))
-  (dest=al)
-  (param=i)
-  (code 0x3C i=immediate(b));
-
-opcode "CMP"
-  (comment "CMP a,imm")
-  (reads av)
-  (modifies flags(cf,af,sf,zf,pf,of))
-  (writes flags(cf,af,sf,zf,pf,of))
-  (dest=av)
-  (param=i)
-  (code 0x3D i=immediate(v));
 
 prefix "DS:"
   (comment "Segment override prefix")
