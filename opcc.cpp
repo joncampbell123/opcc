@@ -4987,8 +4987,7 @@ bool process_macro_def(Macro &macro) {
             return true;
         }
         /* no recursive macros allowed! */
-        if (tokens.peek(0).type == TOK_SET && tokens.peek(1).type == TOK_MACRO &&
-            tokens.peek(2).type == TOK_STRING && tokens.peek(3).type == TOK_OPEN_CURLYBRACKET) {
+        if (tokens.peek(0).type == TOK_SET && tokens.peek(1).type == TOK_MACRO && tokens.peek(2).type == TOK_STRING) {
             fprintf(stderr,"Recursive macro definitions not allowed\n");
             return false;
         }
@@ -5009,10 +5008,9 @@ bool process_block(tokenlist &tokens) {
         return true;
     }
     /* set macro "name" {; ...; } macro; */
-    if (tokens.peek(0).type == TOK_SET && tokens.peek(1).type == TOK_MACRO &&
-        tokens.peek(2).type == TOK_STRING && tokens.peek(3).type == TOK_OPEN_CURLYBRACKET) {
+    if (tokens.peek(0).type == TOK_SET && tokens.peek(1).type == TOK_MACRO && tokens.peek(2).type == TOK_STRING) {
         std::string name = tokens.peek(2).string;
-        tokens.discard(4);
+        tokens.discard(3);
 
         if (name.empty()) {
             fprintf(stderr,"name is empty\n");
@@ -5024,6 +5022,12 @@ bool process_block(tokenlist &tokens) {
             fprintf(stderr,"macro '%s' already defined\n",name.c_str());
             return false;
         }
+
+        if (tokens.peek().type != TOK_OPEN_CURLYBRACKET) {
+            fprintf(stderr,"macro def syntax error\n");
+            return false;
+        }
+        tokens.discard();
 
         /* nothing after curly brace */
         if (!tokens.eof()) {
