@@ -69,7 +69,10 @@ set macro "group00-3F sub 0-5" (n,b) {;
     (code (value(b)+5) i=immediate(v));
 } macro;
 
-macro "group00-3F sub 0-5" ("ADD",0x00);
+macro "group00-3F sub 0-5" ("ADD", 0x00);
+macro "group00-3F sub 0-5" ("OR",  0x08);
+macro "group00-3F sub 0-5" ("ADC", 0x10);
+macro "group00-3F sub 0-5" ("SBB", 0x18);
 
 opcode "PUSH"
   (comment "PUSH ES")
@@ -86,60 +89,6 @@ opcode "POP"
   (writes es)
   (dest=es)
   (code 0x07);
-
-opcode "OR"
-  (comment "OR r/m,reg byte")
-  (modifies rm(b),flags(cf,af,sf,zf,pf,of))
-  (writes rm(b),flags(cf,af,sf,zf,pf,of))
-  (reads reg(b),rm(b))
-  (dest=rm(b))
-  (param=reg(b))
-  (code 0x08 mrm);
-
-opcode "OR"
-  (comment "OR r/m,reg v")
-  (modifies rm(v),flags(cf,af,sf,zf,pf,of))
-  (writes rm(v),flags(cf,af,sf,zf,pf,of))
-  (reads reg(v),rm(v))
-  (dest=rm(v))
-  (param=reg(v))
-  (code 0x09 mrm);
-
-opcode "OR"
-  (comment "OR reg,r/m byte")
-  (modifies reg(b),flags(cf,af,sf,zf,pf,of))
-  (writes reg(b),flags(cf,af,sf,zf,pf,of))
-  (reads rm(b),reg(b))
-  (dest=reg(b))
-  (param=rm(b))
-  (code 0x0A mrm);
-
-opcode "OR"
-  (comment "OR reg,r/m v")
-  (modifies reg(v),flags(cf,af,sf,zf,pf,of))
-  (writes reg(v),flags(cf,af,sf,zf,pf,of))
-  (reads rm(v),reg(v))
-  (dest=reg(v))
-  (param=rm(v))
-  (code 0x0B mrm);
-
-opcode "OR"
-  (comment "OR a,imm")
-  (reads al)
-  (modifies al,flags(cf,af,sf,zf,pf,of))
-  (writes al,flags(cf,af,sf,zf,pf,of))
-  (dest=al)
-  (param=i)
-  (code 0x0C i=immediate(b));
-
-opcode "OR"
-  (comment "OR a,imm")
-  (reads av)
-  (modifies av,flags(cf,af,sf,zf,pf,of))
-  (writes av,flags(cf,af,sf,zf,pf,of))
-  (dest=av)
-  (param=i)
-  (code 0x0D i=immediate(v));
 
 opcode "PUSH"
   (comment "PUSH CS")
@@ -158,60 +107,6 @@ opcode "POP"
   (dest=cs)
   (code 0x0F);
 
-opcode "ADC"
-  (comment "ADC r/m,reg byte")
-  (modifies rm(b),flags(cf,af,sf,zf,pf,of))
-  (writes rm(b),flags(cf,af,sf,zf,pf,of))
-  (reads reg(b),rm(b),flags(cf))
-  (dest=rm(b))
-  (param=reg(b))
-  (code 0x10 mrm);
-
-opcode "ADC"
-  (comment "ADC r/m,reg v")
-  (modifies rm(v),flags(cf,af,sf,zf,pf,of))
-  (writes rm(v),flags(cf,af,sf,zf,pf,of))
-  (reads reg(v),rm(v),flags(cf))
-  (dest=rm(v))
-  (param=reg(v))
-  (code 0x11 mrm);
-
-opcode "ADC"
-  (comment "ADC reg,r/m byte")
-  (modifies reg(b),flags(cf,af,sf,zf,pf,of))
-  (writes reg(b),flags(cf,af,sf,zf,pf,of))
-  (reads rm(b),reg(b),flags(cf))
-  (dest=reg(b))
-  (param=rm(b))
-  (code 0x12 mrm);
-
-opcode "ADC"
-  (comment "ADC reg,r/m v")
-  (modifies reg(v),flags(cf,af,sf,zf,pf,of))
-  (writes reg(v),flags(cf,af,sf,zf,pf,of))
-  (reads rm(v),reg(v),flags(cf))
-  (dest=reg(v))
-  (param=rm(v))
-  (code 0x13 mrm);
-
-opcode "ADC"
-  (comment "ADC a,imm")
-  (reads al,flags(cf))
-  (modifies al,flags(cf,af,sf,zf,pf,of))
-  (writes al,flags(cf,af,sf,zf,pf,of))
-  (dest=al)
-  (param=i)
-  (code 0x14 i=immediate(b));
-
-opcode "ADC"
-  (comment "ADC a,imm")
-  (reads av,flags(cf))
-  (modifies av,flags(cf,af,sf,zf,pf,of))
-  (writes av,flags(cf,af,sf,zf,pf,of))
-  (dest=av)
-  (param=i)
-  (code 0x15 i=immediate(v));
-
 opcode "PUSH"
   (comment "PUSH SS")
   (modifies spv)
@@ -227,60 +122,6 @@ opcode "POP"
   (writes ss)
   (dest=ss)
   (code 0x17);
-
-opcode "SBB"
-  (comment "SBB r/m,reg byte")
-  (modifies rm(b),flags(cf,af,sf,zf,pf,of))
-  (writes rm(b),flags(cf,af,sf,zf,pf,of))
-  (reads reg(b),rm(b),flags(cf))
-  (dest=rm(b))
-  (param=reg(b))
-  (code 0x18 mrm);
-
-opcode "SBB"
-  (comment "SBB r/m,reg v")
-  (modifies rm(v),flags(cf,af,sf,zf,pf,of))
-  (writes rm(v),flags(cf,af,sf,zf,pf,of))
-  (reads reg(v),rm(v),flags(cf))
-  (dest=rm(v))
-  (param=reg(v))
-  (code 0x19 mrm);
-
-opcode "SBB"
-  (comment "SBB reg,r/m byte")
-  (modifies reg(b),flags(cf,af,sf,zf,pf,of))
-  (writes reg(b),flags(cf,af,sf,zf,pf,of))
-  (reads rm(b),reg(b),flags(cf))
-  (dest=reg(b))
-  (param=rm(b))
-  (code 0x1A mrm);
-
-opcode "SBB"
-  (comment "SBB reg,r/m v")
-  (modifies reg(v),flags(cf,af,sf,zf,pf,of))
-  (writes reg(v),flags(cf,af,sf,zf,pf,of))
-  (reads rm(v),reg(v),flags(cf))
-  (dest=reg(v))
-  (param=rm(v))
-  (code 0x1B mrm);
-
-opcode "SBB"
-  (comment "SBB a,imm")
-  (reads al,flags(cf))
-  (modifies al,flags(cf,af,sf,zf,pf,of))
-  (writes al,flags(cf,af,sf,zf,pf,of))
-  (dest=al)
-  (param=i)
-  (code 0x1C i=immediate(b));
-
-opcode "SBB"
-  (comment "SBB a,imm")
-  (reads av,flags(cf))
-  (modifies av,flags(cf,af,sf,zf,pf,of))
-  (writes av,flags(cf,af,sf,zf,pf,of))
-  (dest=av)
-  (param=i)
-  (code 0x1D i=immediate(v));
 
 opcode "PUSH"
   (comment "PUSH DS")
