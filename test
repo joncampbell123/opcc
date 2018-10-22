@@ -78,70 +78,32 @@ macro "group00-3F sub 0-5" ("SUB", 0x28);
 macro "group00-3F sub 0-5" ("XOR", 0x30);
 macro "group00-3F sub 0-5" ("CMP", 0x38);
 
-opcode "PUSH"
-  (comment "PUSH ES")
-  (modifies spv)
-  (stack push es)
-  (reads es)
-  (param=es)
-  (code 0x06);
+comment "segment push/pop pairs x6-x7";
+set macro "pushpopsegpairs x6-x7" (s,b) {;
+  opcode "PUSH"
+    (modifies spv)
+    (stack push value(s))
+    (reads value(s))
+    (param=value(s))
+    (code (value(b)+0));
 
-opcode "POP"
-  (comment "POP ES")
-  (modifies spv)
-  (stack pop es)
-  (writes es)
-  (dest=es)
-  (code 0x07);
+  if (value(b) == 0x0E) and (value("cpulevel") > 86) {;
+    comment "skip";
+  } if;
+  else {;
+    opcode "POP"
+      (modifies spv)
+      (stack pop value(s))
+      (writes value(s))
+      (dest=value(s))
+      (code (value(b)+1));
+  } if;
+} macro;
 
-opcode "PUSH"
-  (comment "PUSH CS")
-  (modifies spv)
-  (stack push cs)
-  (reads cs)
-  (param=cs)
-  (code 0x0E);
-
-if value("cpulevel") <= 86
-opcode "POP"
-  (comment "POP CS")
-  (modifies spv)
-  (stack pop cs)
-  (writes cs)
-  (dest=cs)
-  (code 0x0F);
-
-opcode "PUSH"
-  (comment "PUSH SS")
-  (modifies spv)
-  (stack push ss)
-  (reads ss)
-  (param=ss)
-  (code 0x16);
-
-opcode "POP"
-  (comment "POP SS")
-  (modifies spv)
-  (stack pop ss)
-  (writes ss)
-  (dest=ss)
-  (code 0x17);
-
-opcode "PUSH"
-  (comment "PUSH DS")
-  (modifies spv)
-  (stack push ds)
-  (reads ds)
-  (param=ds)
-  (code 0x1E);
-
-opcode "POP"
-  (comment "POP DS")
-  (modifies spv)
-  (stack pop ds)
-  (writes ds)
-  (dest=ds)
-  (code 0x1F);
+macro "pushpopsegpairs x6-x7" (es,0x06);
+macro "pushpopsegpairs x6-x7" (cs,0x0E);
+macro "pushpopsegpairs x6-x7" (ss,0x16);
+macro "pushpopsegpairs x6-x7" (ds,0x1E);
 
 prefix "ES:"
   (comment "Segment override prefix")
