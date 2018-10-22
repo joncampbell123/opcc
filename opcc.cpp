@@ -5085,6 +5085,7 @@ bool process_block(tokenlist &tokens) {
     /* macro "name" */
     if (tokens.peek(0).type == TOK_MACRO && tokens.peek(1).type == TOK_STRING) {
         std::string name = tokens.peek(1).string;
+        std::vector<tokenstate_t> params;
         tokens.discard(2);
 
         if (name.empty()) {
@@ -5097,12 +5098,48 @@ bool process_block(tokenlist &tokens) {
             return false;
         }
 
+        if (tokens.peek().type == TOK_OPEN_PARENS) {
+            tokens.discard();
+
+            do {
+                auto &n = tokens.next();
+
+                if (n.type == TOK_CLOSE_PARENS)
+                    break;
+
+                if (n.type == TOK_COMMA) {
+                    params.push_back(tokenstate_t());
+                }
+                else {
+                    params.push_back(n);
+
+                    n = tokens.peek();
+                    if (n.type == TOK_COMMA) {
+                        tokens.discard();
+                    }
+                    else if (n.type == TOK_CLOSE_PARENS) {
+                        tokens.discard();
+                        break;
+                    }
+                    else {
+                        fprintf(stderr,"Unexpected tokens in macro call\n");
+                        return false;
+                    }
+                }
+            } while (1);
+        }
+
         if (!tokens.eof()) {
             fprintf(stderr,"Extra tokens after beginning of macro def\n");
             return false;
         }
 
         const Macro &macro = macros[name];
+
+        if (params.size() != macro.param_tokens.size()) {
+            fprintf(stderr,"Macro '%s' param count mismatch (got %zu, expected %zu)\n",name.c_str(),params.size(),macro.param_tokens.size());
+            return false;
+        }
 
         size_t o_read = tokens_macro_read;
         bool o_enable = tokens_macro_enable;

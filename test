@@ -3091,9 +3091,12 @@ set macro "param2" (a,b) {;
 macro "hello";
 macro "hello";
 
-macro "param1";
+macro "param1" (1);
+macro "param1" ("hello");
+macro "param1" (4.3);
 
-macro "param2";
+macro "param2" (2,3);
+macro "param2" ("hello","world");
 
 log "Yay";
 
