@@ -2997,7 +2997,8 @@ bool eval_if_condition_block(tokenstate_t &result,tokenlist &tokens) {
 
     tokenstate_t t = tokens.next();
 
-    if (t.type == TOK_UINT || t.type == TOK_INT || t.type == TOK_FLOAT || t.type == TOK_STRING || t.type == TOK_BOOLEAN) {
+    if (t.type == TOK_UINT || t.type == TOK_INT || t.type == TOK_FLOAT || t.type == TOK_STRING || t.type == TOK_BOOLEAN ||
+        t.type == TOK_ES || t.type == TOK_DS || t.type == TOK_CS || t.type == TOK_SS) {
         result = t;
         return true;
     }
