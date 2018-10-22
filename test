@@ -3080,8 +3080,20 @@ set macro "hello2" {;
   log "How are you2";
 } macro;
 
+set macro "param1" (a) {;
+  log ("param1 is " + 1);
+} macro;
+
+set macro "param2" (a,b) {;
+  log ("param2 is " + 2 + " " + 3);
+} macro;
+
 macro "hello";
 macro "hello";
+
+macro "param1";
+
+macro "param2";
 
 log "Yay";
 

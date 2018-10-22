@@ -2910,6 +2910,7 @@ public:
 class Macro {
 public:
     std::vector<tokenlist>      tlist;
+    std::vector<unsigned int>   param_tokens;
 };
 
 std::map<std::string,Macro>     macros;
@@ -5023,6 +5024,47 @@ bool process_block(tokenlist &tokens) {
             return false;
         }
 
+        Macro &macro = macros[name]; /* operator[] will make it exist */
+
+        if (tokens.peek().type == TOK_OPEN_PARENS) {
+            /* comma separated parameters */
+            tokens.discard();
+
+            do {
+                auto &n = tokens.next();
+
+                if (n.type == TOK_CLOSE_PARENS) {
+                    break;
+                }
+                else if (is_valid_immediate_assign_var(n.type)) {
+                    if (std::find(macro.param_tokens.begin(),macro.param_tokens.end(),n.type) != macro.param_tokens.end()) {
+                        fprintf(stderr,"Macro param %s already used\n",tokentype_str[n.type]);
+                        return false;
+                    }
+                    else {
+                        macro.param_tokens.push_back(n.type);
+                    }
+                }
+                else {
+                    fprintf(stderr,"Invalid token in macro param list\n");
+                    return false;
+                }
+
+                n = tokens.peek();
+                if (n.type == TOK_COMMA) {
+                    tokens.discard();
+                }
+                else if (n.type == TOK_CLOSE_PARENS) {
+                    tokens.discard();
+                    break;
+                }
+                else {
+                    fprintf(stderr,"Unexpected token in macro params\n");
+                    return false;
+                }
+            } while (1);
+        }
+
         if (tokens.peek().type != TOK_OPEN_CURLYBRACKET) {
             fprintf(stderr,"macro def syntax error\n");
             return false;
@@ -5035,7 +5077,7 @@ bool process_block(tokenlist &tokens) {
             return false;
         }
 
-        if (!process_macro_def(macros[name])) /* operator[] makes the element appear */
+        if (!process_macro_def(macro))
             return false;
 
         return true;
