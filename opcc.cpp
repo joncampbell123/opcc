@@ -5102,16 +5102,25 @@ bool process_block(tokenlist &tokens) {
             tokens.discard();
 
             do {
-                auto &n = tokens.next();
+                auto &n = tokens.peek();
 
-                if (n.type == TOK_CLOSE_PARENS)
+                if (n.type == TOK_CLOSE_PARENS) {
+                    tokens.discard();
                     break;
-
-                if (n.type == TOK_COMMA) {
+                }
+                else if (n.type == TOK_COMMA) {
+                    tokens.discard();
                     params.push_back(tokenstate_t());
                 }
                 else {
-                    params.push_back(n);
+                    tokenstate_t result;
+
+                    if (!eval_if_condition(/*&*/result,/*&*/tokens)) {
+                        fprintf(stderr,"Macro param if condition error\n");
+                        return false;
+                    }
+
+                    params.push_back(result);
 
                     n = tokens.peek();
                     if (n.type == TOK_COMMA) {
