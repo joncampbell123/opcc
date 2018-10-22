@@ -3069,38 +3069,3 @@ opcode "PUSH"
   (dest=rm(v))
   (code 0xFF mrm reg(6));
 
-set macro "hello" {;
-  log "Hello world";
-  log "How are you";
-} macro;
-
-set macro "hello2" {;
-  log "Hello world2";
-  macro "hello";
-  log "How are you2";
-} macro;
-
-set macro "param1" (a) {;
-  log ("param1 is " + value(a));
-} macro;
-
-set macro "param2" (a,b) {;
-  log ("param2 is " + value(a) + " " + value(b));
-} macro;
-
-macro "hello";
-macro "hello";
-
-macro "param1" (1);
-macro "param1" ("hello");
-macro "param1" (4.3);
-
-macro "param2" (2,3);
-macro "param2" ("hello","world");
-
-log "Yay";
-
-macro "hello2";
-
-log "Yay";
-
