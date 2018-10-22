@@ -18,7 +18,7 @@ else {;
 
 comment "-----------------begin opcodes----------------";
 
-comment "Group 00-3F sub 0-5 (00-05,08-0D,10-15,18-1D,etc) ADD/SUB/etc";
+comment "Group 00-3F sub 0-5 (00-05,08-0D,10-15,18-1D,etc) ADD/SUB/etc   n=name b=base opcode";
 set macro "group00-3F sub 0-5" (n,b) {;
   opcode value(n)
     (modifies rm(b),flags(cf,af,sf,zf,pf,of))
