@@ -5134,7 +5134,7 @@ bool process_block(tokenlist &tokens) {
             return false;
         }
 
-        const Macro &macro = macros[name];
+        Macro &macro = macros[name];
 
         if (params.size() != macro.param_tokens.size()) {
             fprintf(stderr,"Macro '%s' param count mismatch (got %zu, expected %zu)\n",name.c_str(),params.size(),macro.param_tokens.size());
@@ -5145,7 +5145,46 @@ bool process_block(tokenlist &tokens) {
         bool o_enable = tokens_macro_enable;
         auto o_macro = tokens_macro;
 
-        tokens_macro = macro.tlist;
+        tokens_macro.clear();
+        for (auto &tlist : macro.tlist) {
+            tokenlist tcopy;
+
+            while (!tlist.eof()) {
+                auto &n = tlist.next();
+
+                if (n.type == TOK_VALUE && tlist.peek(0).type == TOK_OPEN_PARENS &&
+                    is_valid_immediate_assign_var(tlist.peek(1).type) &&
+                    tlist.peek(2).type == TOK_CLOSE_PARENS) {
+                    unsigned int tok = tlist.peek(1).type;
+                    tlist.discard(3);
+
+                    int paramidx = -1;
+                    for (size_t i=0;i < macro.param_tokens.size();i++) {
+                        if (macro.param_tokens[i] == tok) {
+                            paramidx = (int)i;
+                            break;
+                        }
+                    }
+
+                    if (paramidx == -1) {
+                        fprintf(stderr,"macro value() eval no such parameter %s\n",tokentype_str[tok]);
+                        return false;
+                    }
+
+                    assert((size_t)paramidx < params.size());
+                    assert(params.size() == macro.param_tokens.size());
+
+                    tcopy.push_back(params[paramidx]);
+                }
+                else {
+                    tcopy.push_back(n);
+                }
+            }
+
+            tokens_macro.push_back(tcopy);
+            tlist.rewind();
+        }
+
         tokens_macro_begin();
 
         while (read_opcode_block());

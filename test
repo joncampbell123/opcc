@@ -3081,11 +3081,11 @@ set macro "hello2" {;
 } macro;
 
 set macro "param1" (a) {;
-  log ("param1 is " + 1);
+  log ("param1 is " + value(a));
 } macro;
 
 set macro "param2" (a,b) {;
-  log ("param2 is " + 2 + " " + 3);
+  log ("param2 is " + value(a) + " " + value(b));
 } macro;
 
 macro "hello";
