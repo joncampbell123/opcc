@@ -5723,6 +5723,13 @@ int main(int argc,char **argv) {
 
         defines["cpulevel"] = 186;
     }
+    else if (march == "necv20") {
+        if (fpuarch.empty())
+            fpuarch = "8087";
+
+        defines["cpulevel"] = 186;
+        defines["necv20"] = 1;
+    }
     else if (march == "80286" || march == "286") {
         if (fpuarch.empty())
             fpuarch = "80287";
