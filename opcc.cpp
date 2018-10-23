@@ -3894,7 +3894,7 @@ bool parse_sbl_list(std::vector<SingleByteSpec> &sbl,tokenlist &tokens) {
                 }
             }
             else {
-                fprintf(stderr,"far... unexpected tokens\n");
+                fprintf(stderr,"far... unexpected token %s\n",n.type_str());
                 return false;
             }
         }
