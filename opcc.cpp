@@ -1969,7 +1969,7 @@ std::string SingleByteSpec::pretty_string(void) {
             }
             else if (fpu_st[0].type == TOK_UINT) {
                 char tmp[64];
-                sprintf(tmp,"st(%llu)",(unsigned long long)intval);
+                sprintf(tmp,"st(%llu)",(unsigned long long)fpu_st[0].intval.u);
                 if (!res.empty()) res += " ";
                 res += tmp;
             }
