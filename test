@@ -3178,3 +3178,19 @@ opcode "SETG"
   (code 0x0F 0x9F mrm reg(0));
 } if;
 
+if value("cpulevel") >= 386
+opcode "MOV"
+  (reads cr(dw))
+  (writes rm(dw))
+  (dest=rm(dw))
+  (param=cr(dw))
+  (code 0x0F 0x20 mrm mod(3));
+
+if value("cpulevel") >= 386
+opcode "MOV"
+  (reads rm(dw))
+  (writes cr(dw))
+  (dest=cr(dw))
+  (param=rm(dw))
+  (code 0x0F 0x22 mrm mod(3));
+

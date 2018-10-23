@@ -209,6 +209,7 @@ enum tokentype_t {
     TOK_F80BCD,
     TOK_CW,
     TOK_MACRO,
+    TOK_CR,                     // 190
 
     TOK_MAX
 };
@@ -403,7 +404,8 @@ const char *tokentype_str[TOK_MAX] = {
     "CONSTANT",
     "F80BCD",
     "CW",
-    "MACRO"
+    "MACRO",
+    "CR"
 };
 
 bool list_op = false;
@@ -1721,6 +1723,10 @@ bool toke(tokenstate_t &tok) {
             tok.type = TOK_MACRO;
             return true;
         }
+        if (tok.string == "CR") {
+            tok.type = TOK_CR;
+            return true;
+        }
     }
 
     tok.type = TOK_ERROR;
@@ -1893,6 +1899,12 @@ std::string SingleByteSpec::pretty_string(void) {
         if (!res.empty()) res += " ";
         res += "r/m(";
         res += regrmtype_str(rm_type);
+        res += ")";
+    }
+    else if (meaning == TOK_CR) {
+        if (!res.empty()) res += " ";
+        res += "cr(";
+        res += regrmtype_str(reg_type);
         res += ")";
     }
     else if (meaning == TOK_REG) {
@@ -3868,7 +3880,7 @@ bool parse_sbl_list(std::vector<SingleByteSpec> &sbl,tokenlist &tokens) {
                 return false;
             }
         }
-        else if (bs.meaning == TOK_REG || bs.meaning == TOK_SREG) {
+        else if (bs.meaning == TOK_REG || bs.meaning == TOK_SREG || bs.meaning == TOK_CR) {
             if ((bs.reg_type=parse_code_immediate_spec(/*&*/tokens)) == TOK_NONE) {
                 fprintf(stderr,"Invalid reg spec\n");
                 return false;
@@ -4247,7 +4259,7 @@ bool read_opcode_spec_opcode_parens(tokenlist &parent_tokens,OpcodeSpec &spec) {
         else if (bs.meaning == TOK_UINT) {
             bs.intval = n.intval.u;
         }
-        else if (bs.meaning == TOK_REG || bs.meaning == TOK_SREG) {
+        else if (bs.meaning == TOK_REG || bs.meaning == TOK_SREG || bs.meaning == TOK_CR) {
             if ((bs.reg_type=parse_code_immediate_spec(/*&*/tokens)) == TOK_NONE) {
                 fprintf(stderr,"Invalid reg spec\n");
                 return false;
@@ -4326,7 +4338,7 @@ bool read_opcode_spec_opcode_parens(tokenlist &parent_tokens,OpcodeSpec &spec) {
         else if (bs.meaning == TOK_UINT) {
             bs.intval = n.intval.u;
         }
-        else if (bs.meaning == TOK_REG || bs.meaning == TOK_SREG) {
+        else if (bs.meaning == TOK_REG || bs.meaning == TOK_SREG || bs.meaning == TOK_CR) {
             if ((bs.reg_type=parse_code_immediate_spec(/*&*/tokens)) == TOK_NONE) {
                 fprintf(stderr,"Invalid reg spec\n");
                 return false;
