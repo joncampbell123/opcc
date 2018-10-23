@@ -5595,6 +5595,18 @@ bool enter_opcode_byte_spec(const OpcodeSpec &opcode,size_t opcode_index,std::sh
                 return false;
             }
 
+            if (opcode.mod3 == 0 && opcode.reg_constraint == 0 && opcode.rm_constraint == 0) {
+                if (gs.maptype == OpcodeGroupBlock::NONE)
+                    gs.maptype = OpcodeGroupBlock::LEAF;
+                else if (gs.maptype != OpcodeGroupBlock::LEAF) {
+                    gs.overlap_error = true;
+                    fprintf(stderr,"map overlap error for opcode '%s'\n",opcode.name.c_str());
+                    return false;
+                }
+
+                return true;
+            }
+
             if (gs.maptype == OpcodeGroupBlock::NONE)
                 gs.maptype = OpcodeGroupBlock::MODREGRM;
             else if (gs.maptype != OpcodeGroupBlock::MODREGRM) {
@@ -5841,7 +5853,7 @@ int main(int argc,char **argv) {
 
         printf("Opcode coverage (single byte):\n");
         printf("------------------------------\n");
-        printf("X = coverage  O = overlap(!)  M = multi-byte  R = group by reg\n");
+        printf("X = coverage  O = overlap(!)  M = multi-byte  R = group by mod/reg/rm\n");
         printf("P = prefix\n");
         printf("\n");
         {
