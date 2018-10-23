@@ -2886,3 +2886,27 @@ opcode "IBTS"
   (param=reg(v))
   (code 0x0F 0xA7 mrm);
 
+if value("cpulevel") == 386
+opcode "LSS"
+  (dest=reg(v))
+  (param=rm(fpv))
+  (reads rm(fpv))
+  (writes reg(v),ss)
+  (code 0x0F 0xB2 mrm mod(!3));
+
+if value("cpulevel") == 386
+opcode "LFS"
+  (dest=reg(v))
+  (param=rm(fpv))
+  (reads rm(fpv))
+  (writes reg(v),fs)
+  (code 0x0F 0xB4 mrm mod(!3));
+
+if value("cpulevel") == 386
+opcode "LGS"
+  (dest=reg(v))
+  (param=rm(fpv))
+  (reads rm(fpv))
+  (writes reg(v),gs)
+  (code 0x0F 0xB5 mrm mod(!3));
+
