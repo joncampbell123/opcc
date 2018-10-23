@@ -2856,3 +2856,21 @@ opcode "BTR"
   (param=i)
   (code 0x0F 0xBA mrm i=immediate(b) reg(6));
 
+if value("cpulevel") >= 386
+opcode "BTS"
+  (reads rm(v),reg(v))
+  (modifies rm(v),flags(cf))
+  (writes rm(v),flags(cf))
+  (dest=rm(v))
+  (param=reg(v))
+  (code 0x0F 0xAB mrm);
+
+if value("cpulevel") >= 386
+opcode "BTS"
+  (reads rm(v))
+  (modifies rm(v),flags(cf))
+  (writes rm(v),flags(cf))
+  (dest=rm(v))
+  (param=i)
+  (code 0x0F 0xBA mrm i=immediate(b) reg(5));
+
