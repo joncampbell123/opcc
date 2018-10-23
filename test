@@ -243,11 +243,31 @@ opcode "PUSH"
   (code 0x68 i=immediate(v));
 
 if value("cpulevel") >= 186
+opcode "IMUL"
+  (reads rm(v))
+  (modifies reg(v))
+  (writes reg(v))
+  (dest=reg(v))
+  (param(0)=rm(v))
+  (param(1)=i)
+  (code 0x69 mrm i=immediate(sv));
+
+if value("cpulevel") >= 186
 opcode "PUSH"
   (modifies spv)
   (stack push i)
   (param=i)
   (code 0x6A i=immediate(sb));
+
+if value("cpulevel") >= 186
+opcode "IMUL"
+  (reads rm(v))
+  (modifies reg(v))
+  (writes reg(v))
+  (dest=reg(v))
+  (param(0)=rm(v))
+  (param(1)=i)
+  (code 0x6B mrm i=immediate(sb));
 
 opcode "JO"
   (reads ipv, flags(of))
