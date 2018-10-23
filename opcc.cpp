@@ -2159,7 +2159,7 @@ std::string OpcodeSpec::pretty_string(void) {
         tok_opbyte_assign_base = bytes[0][0];
     }
 
-    for (auto i=bytes.begin();i!=bytes.end();i++) {
+    for (auto i=assign.begin();i!=assign.end();i++) {
         if ((*i).meaning == TOK_EQUAL) {
             if (!byte_strvas.empty())
                 byte_strvas += " ";
