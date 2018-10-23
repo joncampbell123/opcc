@@ -2910,6 +2910,46 @@ opcode "LGS"
   (writes reg(v),gs)
   (code 0x0F 0xB5 mrm mod(!3));
 
+if value("cpulevel") == 386
+opcode "SHLD"
+  (dest=rm(v))
+  (param(0)=reg(v))
+  (param(1)=i)
+  (reads rm(v),reg(v))
+  (modifies rm(v))
+  (writes rm(v))
+  (code 0x0F 0xA4 mrm i=immediate(b));
+
+if value("cpulevel") == 386
+opcode "SHLD"
+  (dest=rm(v))
+  (param(0)=reg(v))
+  (param(1)=cl)
+  (reads rm(v),reg(v))
+  (modifies rm(v))
+  (writes rm(v))
+  (code 0x0F 0xA5 mrm);
+
+if value("cpulevel") == 386
+opcode "SHRD"
+  (dest=rm(v))
+  (param(0)=reg(v))
+  (param(1)=i)
+  (reads rm(v),reg(v))
+  (modifies rm(v))
+  (writes rm(v))
+  (code 0x0F 0xAC mrm i=immediate(b));
+
+if value("cpulevel") == 386
+opcode "SHRD"
+  (dest=rm(v))
+  (param(0)=reg(v))
+  (param(1)=cl)
+  (reads rm(v),reg(v))
+  (modifies rm(v))
+  (writes rm(v))
+  (code 0x0F 0xAD mrm);
+
 if value("cpulevel") >= 386 {;
 opcode "JO"
   (reads ipv, flags(of))
