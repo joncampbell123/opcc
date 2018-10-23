@@ -213,6 +213,14 @@ prefix "GS:"
 else
   log "No GS override";
 
+if value("cpulevel") >= 186
+opcode "BOUND"
+  (reads rm(dv))
+  (reads reg(v))
+  (param(0)=reg(v))
+  (param(1)=rm(v))
+  (code 0x62 mrm);
+
 opcode "JO"
   (reads ipv, flags(of))
   (modifies ipv)

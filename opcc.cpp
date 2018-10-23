@@ -2961,6 +2961,7 @@ bool valid_immediate_size_token(unsigned int tok) {
         case TOK_V:
         case TOK_SV:
         case TOK_HV:
+        case TOK_DV:
         case TOK_SHV:
         case TOK_FPV:
         case TOK_FPW:
