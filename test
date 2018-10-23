@@ -3262,6 +3262,7 @@ opcode "FSINCOS"
   (param=st(0))
   (code 0xD9 mrm mod(3) reg(7) rm(3));
 
+if value("fpulevel") >= 387
 opcode "FUCOM"
   (comment "FUCOM 0xDD 0xE0+i")
   (reads st(0),st(reg))
@@ -3269,6 +3270,7 @@ opcode "FUCOM"
   (param(1)=st(reg))
   (code 0xDD mrm mod(3) reg(4) fpu);
 
+if value("fpulevel") >= 387
 opcode "FUCOMP"
   (comment "FUCOMP 0xDD 0xE8+i")
   (modifies fpu(top))
@@ -3278,6 +3280,7 @@ opcode "FUCOMP"
   (param(1)=st(reg))
   (code 0xDD mrm mod(3) reg(4) fpu);
 
+if value("fpulevel") >= 387
 opcode "FUCOMPP"
   (comment "FUCOMPP 0xDD 0xE9")
   (modifies fpu(top))
