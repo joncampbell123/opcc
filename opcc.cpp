@@ -5511,12 +5511,23 @@ bool enter_opcode_byte_spec(const OpcodeSpec &opcode,size_t opcode_index,std::sh
         {
             auto &gs = *groups;
 
-            if (gs.maptype == OpcodeGroupBlock::NONE)
-                gs.maptype = OpcodeGroupBlock::LEAF;
-            else if (gs.maptype != OpcodeGroupBlock::LEAF) {
-                gs.overlap_error = true;
-                fprintf(stderr,"map overlap error for opcode '%s'\n",opcode.name.c_str());
-                return false;
+            if (opcode.type == TOK_PREFIX) {
+                if (gs.maptype == OpcodeGroupBlock::NONE)
+                    gs.maptype = OpcodeGroupBlock::PREFIX;
+                else if (gs.maptype != OpcodeGroupBlock::PREFIX) {
+                    gs.overlap_error = true;
+                    fprintf(stderr,"map overlap error for opcode '%s'\n",opcode.name.c_str());
+                    return false;
+                }
+            }
+            else {
+                if (gs.maptype == OpcodeGroupBlock::NONE)
+                    gs.maptype = OpcodeGroupBlock::LEAF;
+                else if (gs.maptype != OpcodeGroupBlock::LEAF) {
+                    gs.overlap_error = true;
+                    fprintf(stderr,"map overlap error for opcode '%s'\n",opcode.name.c_str());
+                    return false;
+                }
             }
 
             gs.opcode_index = opcode_index;
@@ -5553,6 +5564,11 @@ bool enter_opcode_byte_spec(const OpcodeSpec &opcode,size_t opcode_index,std::sh
         {
             auto &gs = *groups;
 
+            if (opcode.type == TOK_PREFIX) {
+                fprintf(stderr,"Prefixes cannot have immediate operands\n");
+                return false;
+            }
+
             if (gs.maptype == OpcodeGroupBlock::NONE)
                 gs.maptype = OpcodeGroupBlock::LEAF;
             else if (gs.maptype != OpcodeGroupBlock::LEAF) {
@@ -5573,6 +5589,11 @@ bool enter_opcode_byte_spec(const OpcodeSpec &opcode,size_t opcode_index,std::sh
     else if (bs.meaning == TOK_MRM) {
         {
             auto &gs = *groups;
+
+            if (opcode.type == TOK_PREFIX) {
+                fprintf(stderr,"Prefixes cannot have mod/reg/rm\n");
+                return false;
+            }
 
             if (gs.maptype == OpcodeGroupBlock::NONE)
                 gs.maptype = OpcodeGroupBlock::MODREGRM;
@@ -5850,6 +5871,9 @@ int main(int argc,char **argv) {
                         }
                         else if (gs.maptype == OpcodeGroupBlock::LEAF) {
                             c = 'X';
+                        }
+                        else if (gs.maptype == OpcodeGroupBlock::PREFIX) {
+                            c = 'P';
                         }
                         else {
                             c = '?';
