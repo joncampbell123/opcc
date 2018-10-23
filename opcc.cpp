@@ -1869,6 +1869,7 @@ const char *regrmtype_str(unsigned int type) {
         case TOK_SV:    return "iv";
         case TOK_DW:    return "u32";
         case TOK_SDW:   return "i32";
+        case TOK_TW:    return "u48";
         case TOK_QW:    return "u64";
         case TOK_SQW:   return "i64";
         case TOK_F32:   return "f32";
@@ -2962,6 +2963,7 @@ bool valid_immediate_size_token(unsigned int tok) {
         case TOK_SV:
         case TOK_HV:
         case TOK_DV:
+        case TOK_TW:
         case TOK_SHV:
         case TOK_FPV:
         case TOK_FPW:
