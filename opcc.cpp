@@ -6001,22 +6001,22 @@ int main(int argc,char **argv) {
             printf("P = prefix\n");
             printf("\n");
 
-            {
+            for (unsigned int mod=0;mod < 4;mod++) {
                 printf("    ");
-                for (unsigned int x=0;x < 16;x++) printf("%x ",x);
-                printf("\n");
+                for (unsigned int x=0;x < 8;x++) printf("%x ",x);
+                printf(" rm with mod==%u\n",mod);
 
                 printf("   ");
-                for (unsigned int x=0;x < 16;x++) printf("--");
+                for (unsigned int x=0;x < 8;x++) printf("--");
                 printf("\n");
 
-                for (unsigned int y=0;y < 16;y++) {
-                    printf("  %x|",y);
-                    for (unsigned int x=0;x < 16;x++) {
+                for (unsigned int y=0;y < 8;y++) {
+                    printf(" %02x|",(y * 8) + (mod * 64));
+                    for (unsigned int x=0;x < 8;x++) {
                         unsigned char c = ' ';
                         unsigned char c2 = ' ';
 
-                        auto gsr = (*sgroup).map_get((y*16)+x);
+                        auto gsr = (*sgroup).map_get((mod*64)+(y*8)+x);
                         if (gsr.get() != nullptr) {
                             const auto &gs = *gsr;
 
@@ -6046,8 +6046,10 @@ int main(int argc,char **argv) {
 
                         printf("%c%c",(char)c,(char)c2);
                     }
-                    printf("\n");
+                    printf(" reg=%u\n",y);
                 }
+
+                printf("\n");
             }
 
             printf("\n");
