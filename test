@@ -2781,7 +2781,8 @@ opcode "LOADALL"
 
 if value("cpulevel") >= 286
 opcode "FSETPM"
-  (code 0xDB 0xE4 mrm);
+  (comment "Opcode 0xDB 0xE4(1110 0100 = 11 100 100) (mod/reg/rm 3/4/4)")
+  (code 0xDB mrm mod(3) reg(4) rm(4));
 
 if value("cpulevel") >= 386
 opcode "BSF"
