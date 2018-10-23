@@ -2892,6 +2892,18 @@ opcode "CMPXCHG"
   (param=reg(v))
   (code 0x0F 0xA7 mrm);
 
+if (((value("cpulevel") == 486) and (value("cpuyear") >= 1992)) or (value("cpulevel") >= 586))
+opcode "CMPXCHG"
+  (dest=rm(b))
+  (param=reg(b))
+  (code 0x0F 0xB0 mrm);
+
+if (((value("cpulevel") == 486) and (value("cpuyear") >= 1992)) or (value("cpulevel") >= 586))
+opcode "CMPXCHG"
+  (dest=rm(v))
+  (param=reg(v))
+  (code 0x0F 0xB1 mrm);
+
 if value("cpulevel") == 386
 opcode "IBTS"
   (dest=rm(v))
