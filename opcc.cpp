@@ -5824,59 +5824,6 @@ int main(int argc,char **argv) {
         printf("P = prefix\n");
         printf("\n");
         {
-            unsigned char cov[256];
-            memset(cov,0,256);
-
-            for (auto i=opcodes.begin();i!=opcodes.end();i++) {
-                const auto &b = (*i).bytes;
-
-                if (b.size() == 0) continue;
-
-                if (b[0].meaning != 0) {
-                    printf(" BUG? Opcode with first byte entry not a byte seq:\n");
-                    printf("  %s\n",(*i).to_string().c_str());
-                    continue;
-                }
-
-                bool multibyte = false;
-                bool grp_reg = false;
-
-                if (b.size() >= 2 && b[1].meaning == 0) {
-                    multibyte = true;
-                }
-
-                if (b.size() >= 2 && b[1].meaning == TOK_MRM && (*i).reg_constraint != 0) {
-                    grp_reg = true;
-                }
-
-                if (multibyte) {
-                    for (auto j=b[0].begin();j!=b[0].end();j++) {
-                        if (cov[*j] != 0 && cov[*j] != 'M')
-                            cov[*j] = 'O';
-                        else
-                            cov[*j] = 'M';
-                    }
-                }
-                else if (grp_reg) {
-                    for (auto j=b[0].begin();j!=b[0].end();j++) {
-                        if (cov[*j] != 0 && cov[*j] != 'R')
-                            cov[*j] = 'O';
-                        else
-                            cov[*j] = 'R';
-                    }
-                }
-                else {
-                    for (auto j=b[0].begin();j!=b[0].end();j++) {
-                        if (cov[*j] != 0)
-                            cov[*j] = 'O';
-                        else if ((*i).type == TOK_PREFIX)
-                            cov[*j] = 'P';
-                        else
-                            cov[*j] = 'X';
-                    }
-                }
-            }
-
             printf("    ");
             for (unsigned int x=0;x < 16;x++) printf("%x ",x);
             printf("\n");
@@ -5888,11 +5835,29 @@ int main(int argc,char **argv) {
             for (unsigned int y=0;y < 16;y++) {
                 printf("  %x|",y);
                 for (unsigned int x=0;x < 16;x++) {
-                    unsigned char c = cov[(y*16)+x];
+                    unsigned char c = ' ';
                     unsigned char c2 = ' ';
 
-                    if (c == 0) c = ' ';
-                    if (c == 'O') c2 = '!';
+                    auto gsr = (*opcode_groups).map_get((y*16)+x);
+                    if (gsr.get() != nullptr) {
+                        auto gs = *gsr;
+
+                        if (gs.maptype == OpcodeGroupBlock::LINEAR) {
+                            c = 'M';
+                        }
+                        else if (gs.maptype == OpcodeGroupBlock::MODREGRM) {
+                            c = 'R';
+                        }
+                        else if (gs.maptype == OpcodeGroupBlock::LEAF) {
+                            c = 'X';
+                        }
+                        else {
+                            c = '?';
+                        }
+                    }
+                    else {
+                        c = ' ';
+                    }
 
                     printf("%c%c",(char)c,(char)c2);
                 }
