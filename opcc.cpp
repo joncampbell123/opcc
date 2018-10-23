@@ -1887,6 +1887,8 @@ const char *regrmtype_str(unsigned int type) {
         case TOK_FPW:   return "far16";
         case TOK_FPDW:  return "far32";
         case TOK_FPV:   return "farptr";
+        case TOK_REG:   return "reg";
+        case TOK_RM:    return "r/m";
     };
 
     return "";
@@ -2988,6 +2990,8 @@ bool valid_immediate_size_token(unsigned int tok) {
         case TOK_F87STATE:
         case TOK_QW:
         case TOK_SQW:
+        case TOK_REG:
+        case TOK_RM:
             return true;
         default:
             break;

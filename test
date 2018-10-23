@@ -3180,17 +3180,19 @@ opcode "SETG"
 
 if value("cpulevel") >= 386
 opcode "MOV"
-  (reads cr(dw))
+  (comment "Intel Pentium docs state: mod==3, reg=CR register, r/m=general register")
+  (reads cr(reg))
   (writes rm(dw))
   (dest=rm(dw))
-  (param=cr(dw))
+  (param=cr(reg))
   (code 0x0F 0x20 mrm mod(3));
 
 if value("cpulevel") >= 386
 opcode "MOV"
+  (comment "Intel Pentium docs state: mod==3, reg=CR register, r/m=general register")
   (reads rm(dw))
-  (writes cr(dw))
-  (dest=cr(dw))
+  (writes cr(reg))
+  (dest=cr(reg))
   (param=rm(dw))
   (code 0x0F 0x22 mrm mod(3));
 
