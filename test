@@ -716,6 +716,18 @@ opcode "MOV"
   (writes rm(v))
   (code 0xC7 mrm i=immediate(v) reg(0));
 
+if value("cpulevel") >= 186 {;
+  opcode "ENTER"
+    (param(0)=a)
+    (param(1)=l)
+    (modifies spv,bpv)
+    (code 0xC8 a=immediate(w) l=immediate(b));
+
+  opcode "LEAVE"
+    (modifies spv,bpv)
+    (code 0xC9);
+} if;
+
 opcode "RETF"
   (modifies spv)
   (stack pop ipv,cs)

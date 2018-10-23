@@ -5615,8 +5615,11 @@ bool enter_opcode_byte_spec(const OpcodeSpec &opcode,size_t opcode_index,std::sh
             gs.opcode_index = opcode_index;
         }
 
-        assert(oi != opcode.bytes.end());
-        if ((oi+1) != opcode.bytes.end()) {
+        /* pass the immediate specs.
+         * NTS: Some instructions, such as "ENTER", have more than one immediate */
+        while (oi != opcode.bytes.end() && (*oi).meaning == TOK_IMMEDIATE) oi++;
+
+        if (oi != opcode.bytes.end()) {
             fprintf(stderr,"immediate followed by more\n");
             return false;
         }
@@ -5843,12 +5846,13 @@ int main(int argc,char **argv) {
              * TODO: AMD 3Dnow! instructions are byte byte mod/reg/rm byte (0F 0F mod/reg/rm byte) */
             while (i != opcode.bytes.end() && (*i).meaning == 0) i++;
             if (i != opcode.bytes.end() && (*i).meaning == TOK_MRM) i++;
-            if (i != opcode.bytes.end() && (*i).meaning == TOK_IMMEDIATE) i++;
+            while (i != opcode.bytes.end() && (*i).meaning == TOK_IMMEDIATE) i++;
             if (i != opcode.bytes.end()) {
                 fprintf(stderr,"ERROR: opcode '%s' unexpected byte entries\n",opcode.name.c_str());
                 continue;
             }
         }
+
         if (!enter_opcode_bytes(opcode,(size_t)(op_i-opcodes.begin()),opcode_groups)) {
             fprintf(stderr,"Opcode byte to map error\n");
             continue;
