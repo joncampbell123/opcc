@@ -2761,6 +2761,13 @@ opcode "LMSW"
   (param=rm(v))
   (code 0x0F 0x01 mrm reg(6));
 
+if value("cpulevel") >= 286
+opcode "LSL"
+  (comment "TODO: modifies...")
+  (dest=reg(v))
+  (param=rm(v))
+  (code 0x0F 0x03 mrm);
+
 if value("cpulevel") == 286
 opcode "LOADALL"
   (modifies all)
