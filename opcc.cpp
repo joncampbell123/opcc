@@ -5891,6 +5891,7 @@ int main(int argc,char **argv) {
         //      use a list instead because the iterator is a pointer to a node in a linked list which
         //      does not invalidate when extending the list.
         std::list< std::pair< std::vector<uint8_t>, std::shared_ptr<OpcodeGroupBlock> > > subl;
+        std::list< std::pair< std::vector<uint8_t>, std::shared_ptr<OpcodeGroupBlock> > > submrm;
 
         {
             std::pair< std::vector<uint8_t>, std::shared_ptr<OpcodeGroupBlock> > p;
@@ -5949,6 +5950,13 @@ int main(int argc,char **argv) {
                             }
                             else if (gs.maptype == OpcodeGroupBlock::MODREGRM) {
                                 c = 'R';
+
+                                std::pair< std::vector<uint8_t>, std::shared_ptr<OpcodeGroupBlock> > p;
+                                p.first = (*si).first;
+                                p.first.push_back((y*16)+x);
+                                p.second = gsr;
+                                assert(p.second.get() != nullptr);
+                                submrm.push_back(p);
                             }
                             else if (gs.maptype == OpcodeGroupBlock::LEAF) {
                                 c = 'X';
@@ -5958,6 +5966,78 @@ int main(int argc,char **argv) {
                             }
                             else {
                                 c = '?';
+                            }
+                        }
+                        else {
+                            c = ' ';
+                        }
+
+                        printf("%c%c",(char)c,(char)c2);
+                    }
+                    printf("\n");
+                }
+            }
+
+            printf("\n");
+        }
+
+        for (auto si=submrm.begin();si!=submrm.end();si++) {
+            assert((*si).second.get() != nullptr);
+            auto sgroup = (*si).second;
+
+            printf("Opcode coverage mod/reg/rm (");
+            if ((*si).first.empty()) {
+                printf("single opcode");
+            }
+            else {
+                for (auto bi=(*si).first.begin();bi!=(*si).first.end();bi++)
+                    printf("%02x ",*bi);
+
+                printf("...");
+            }
+            printf("):\n");
+            printf("------------------------------\n");
+            printf("X = coverage  O = overlap(!)  M = multi-byte  R = group by mod/reg/rm\n");
+            printf("P = prefix\n");
+            printf("\n");
+
+            {
+                printf("    ");
+                for (unsigned int x=0;x < 16;x++) printf("%x ",x);
+                printf("\n");
+
+                printf("   ");
+                for (unsigned int x=0;x < 16;x++) printf("--");
+                printf("\n");
+
+                for (unsigned int y=0;y < 16;y++) {
+                    printf("  %x|",y);
+                    for (unsigned int x=0;x < 16;x++) {
+                        unsigned char c = ' ';
+                        unsigned char c2 = ' ';
+
+                        auto gsr = (*sgroup).map_get((y*16)+x);
+                        if (gsr.get() != nullptr) {
+                            const auto &gs = *gsr;
+
+                            if (gs.maptype == OpcodeGroupBlock::LINEAR) {
+                                c = 'M';
+                                c2 = '!';
+                            }
+                            else if (gs.maptype == OpcodeGroupBlock::MODREGRM) {
+                                c = 'R';
+                                c2 = '!';
+                            }
+                            else if (gs.maptype == OpcodeGroupBlock::LEAF) {
+                                c = 'X';
+                            }
+                            else if (gs.maptype == OpcodeGroupBlock::PREFIX) {
+                                c = 'P';
+                                c2 = '!';
+                            }
+                            else {
+                                c = '?';
+                                c2 = '!';
                             }
                         }
                         else {
