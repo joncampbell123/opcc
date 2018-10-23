@@ -3232,3 +3232,18 @@ opcode "MOV"
   (param=rm(dw))
   (code 0x0F 0x26 mrm mod(3));
 
+if value("fpulevel") >= 387
+opcode "FCOS"
+  (comment "0xD9 0xFF")
+  (code 0xD9 mrm mod(3) reg(7) rm(7));
+
+if value("fpulevel") >= 387
+opcode "FSIN"
+  (comment "0xD9 0xFE")
+  (code 0xD9 mrm mod(3) reg(7) rm(6));
+
+if value("fpulevel") >= 387
+opcode "FSINCOS"
+  (comment "0xD9 0xFE")
+  (code 0xD9 mrm mod(3) reg(7) rm(3));
+
