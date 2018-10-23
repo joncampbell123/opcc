@@ -214,6 +214,20 @@ else
   log "No GS override";
 
 if value("cpulevel") >= 186
+opcode "PUSHA"
+  (reads av,bv,cv,dv,siv,div,spv,bpv)
+  (modifies spv)
+  (stack push av,cv,dv,bv,spv,bpv,siv,div)
+  (code 0x60 mrm);
+
+if value("cpulevel") >= 186
+opcode "POPA"
+  (writes av,bv,cv,dv,siv,div,spv,bpv)
+  (modifies spv)
+  (stack pop div,siv,bpv,spv,bv,dv,cv,ax)
+  (code 0x61 mrm);
+
+if value("cpulevel") >= 186
 opcode "BOUND"
   (reads rm(dv))
   (reads reg(v))
