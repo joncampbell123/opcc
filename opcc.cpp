@@ -11,6 +11,7 @@
 #include <math.h>
 
 #include <algorithm>
+#include <memory>
 #include <string>
 #include <vector>
 #include <stack>
@@ -5459,6 +5460,175 @@ bool read_opcode_block(void) {
     return true;
 }
 
+class OpcodeGroupBlock {
+public:
+    std::vector< std::shared_ptr<OpcodeGroupBlock> >        map;
+public:
+    enum mapping_type {
+        NONE=0,                 // nothing
+        LEAF,                   // leaf node
+        LINEAR,                 // map[byte]
+        MODREGRM,               // map[modregrm(mod,reg,rm)]
+        PREFIX                  // prefix (no map)
+
+        // future plan: MANDATORY_PREFIX (for weird Pentium III SSE encodings)
+    };
+    enum mapping_type maptype = NONE;
+public:
+    bool                        overlap_error = false;
+    size_t                      opcode_index = 0;
+public:
+    inline static unsigned char modregrm(const unsigned char mod,const unsigned char reg,const unsigned char rm) {
+        return (mod << 6) + (reg << 3) + rm;
+    }
+    std::shared_ptr<OpcodeGroupBlock> map_get(const size_t i) {
+        if (map.size() <= i)
+            map.resize(i+1);
+
+        return map[i];
+    }
+    std::shared_ptr<OpcodeGroupBlock> map_get_alloc(const size_t i) {
+         if (map.size() <= i)
+            map.resize(i+1);
+
+         if (map[i].get() == nullptr)
+             map[i] = std::make_shared<OpcodeGroupBlock>();
+
+         return map[i];
+    }
+    OpcodeSpec &get_opcode(void) {
+        if (maptype != LEAF || opcode_index >= opcodes.size())
+            abort();
+
+        return opcodes[opcode_index];
+    }
+};
+
+std::shared_ptr<OpcodeGroupBlock>           opcode_groups;
+
+bool enter_opcode_byte_spec(const OpcodeSpec &opcode,size_t opcode_index,std::shared_ptr<OpcodeGroupBlock> groups,std::vector<ByteSpec>::const_iterator oi) {
+    if (oi == opcode.bytes.end()) {
+        {
+            auto gs = *groups;
+
+            if (gs.maptype == OpcodeGroupBlock::NONE)
+                gs.maptype = OpcodeGroupBlock::LEAF;
+            else if (gs.maptype != OpcodeGroupBlock::LEAF) {
+                gs.overlap_error = true;
+                fprintf(stderr,"map overlap error for opcode '%s'\n",opcode.name.c_str());
+                return false;
+            }
+
+            gs.opcode_index = opcode_index;
+        }
+        return true;
+    }
+    if (groups.get() == nullptr)
+        return false;
+
+    const ByteSpec &bs = *oi;
+
+    if (bs.meaning == 0) {
+        {
+            auto gs = *groups;
+
+            if (gs.maptype == OpcodeGroupBlock::NONE)
+                gs.maptype = OpcodeGroupBlock::LINEAR;
+            else if (gs.maptype != OpcodeGroupBlock::LINEAR) {
+                gs.overlap_error = true;
+                fprintf(stderr,"map overlap error for opcode '%s'\n",opcode.name.c_str());
+                return false;
+            }
+        }
+
+        for (const auto &b : bs) {
+            auto gsr = (*groups).map_get_alloc(b);
+            if (gsr.get() == NULL) return false;
+
+            if (!enter_opcode_byte_spec(opcode,opcode_index,gsr,oi+1))
+                return false;
+        }
+    }
+    else if (bs.meaning == TOK_IMMEDIATE) {
+        {
+            auto gs = *groups;
+
+            if (gs.maptype == OpcodeGroupBlock::NONE)
+                gs.maptype = OpcodeGroupBlock::LEAF;
+            else if (gs.maptype != OpcodeGroupBlock::LEAF) {
+                gs.overlap_error = true;
+                fprintf(stderr,"map overlap error for opcode '%s'\n",opcode.name.c_str());
+                return false;
+            }
+
+            gs.opcode_index = opcode_index;
+        }
+
+        assert(oi != opcode.bytes.end());
+        if ((oi+1) != opcode.bytes.end()) {
+            fprintf(stderr,"immediate followed by more\n");
+            return false;
+        }
+    }
+    else if (bs.meaning == TOK_MRM) {
+        {
+            auto gs = *groups;
+
+            if (gs.maptype == OpcodeGroupBlock::NONE)
+                gs.maptype = OpcodeGroupBlock::MODREGRM;
+            else if (gs.maptype != OpcodeGroupBlock::MODREGRM) {
+                gs.overlap_error = true;
+                fprintf(stderr,"map overlap error for opcode '%s' mrm\n",opcode.name.c_str());
+                return false;
+            }
+        }
+
+        for (unsigned char mod=0;mod <= 3;mod++) {
+            if (opcode.mod3 == -3 && mod == 3) /* mod(!3) */
+                continue;
+            else if (opcode.mod3 == 3 && mod != 3) /* mod(3) */
+                continue;
+
+            for (unsigned char reg=0;reg <= 7;reg++) {
+                for (unsigned char rm=0;rm <= 7;rm++) {
+                    if (opcode.reg_constraint != 0) {
+                        if (!(opcode.reg_constraint & (1 << reg)))
+                            continue;
+                    }
+                    if (opcode.rm_constraint != 0) {
+                        if (!(opcode.rm_constraint & (1 << rm)))
+                            continue;
+                    }
+
+                    unsigned char b = (mod << 6) + (reg << 3) + rm;
+
+                    auto gsr = (*groups).map_get_alloc(b);
+                    if (gsr.get() == NULL) return false;
+
+                    if (!enter_opcode_byte_spec(opcode,opcode_index,gsr,oi+1))
+                        return false;
+                }
+            }
+        }
+    }
+    else {
+        fprintf(stderr,"bs %s, not supported\n",tokentype_str[bs.meaning]);
+        return false;
+    }
+
+    return true;
+}
+
+bool enter_opcode_bytes(const OpcodeSpec &opcode,size_t opcode_index,std::shared_ptr<OpcodeGroupBlock> groups) {
+    if (opcode.bytes.size() == 0)
+        return false;
+
+    if (!enter_opcode_byte_spec(opcode,opcode_index,groups,opcode.bytes.begin()))
+        return false;
+
+    return true;
+}
+
 int main(int argc,char **argv) {
     /* setup predefined values */
     defines["dialect"] = "intel-x86";
@@ -5576,6 +5746,46 @@ int main(int argc,char **argv) {
     }
 
     std::sort(opcodes.begin(),opcodes.end(),opcode_sort_func);
+
+    /* build opcodes into the group table */
+    opcode_groups = std::make_shared<OpcodeGroupBlock>();
+    {
+        auto grref = *opcode_groups;
+        grref.map.resize(256);
+        grref.maptype = OpcodeGroupBlock::LINEAR;
+    }
+    for (auto op_i=opcodes.begin();op_i!=opcodes.end();op_i++) {
+        const auto &opcode = *op_i;
+
+        if (opcode.bytes.size() == 0) {
+            fprintf(stderr,"WARNING: opcode '%s' without bytes\n",opcode.name.c_str());
+            continue;
+        }
+
+        /* bytes[0] must be actual bytes */
+        if (opcode.bytes[0].meaning != 0) {
+            fprintf(stderr,"ERROR: opcode '%s' first entry not a byte value\n",opcode.name.c_str());
+            continue;
+        }
+        {
+            auto i = opcode.bytes.begin();
+
+            /* bytes mod/reg/rm imm.
+             * you can't have mod/reg/rm after imm.
+             * TODO: AMD 3Dnow! instructions are byte byte mod/reg/rm byte (0F 0F mod/reg/rm byte) */
+            while (i != opcode.bytes.end() && (*i).meaning == 0) i++;
+            if (i != opcode.bytes.end() && (*i).meaning == TOK_MRM) i++;
+            if (i != opcode.bytes.end() && (*i).meaning == TOK_IMMEDIATE) i++;
+            if (i != opcode.bytes.end()) {
+                fprintf(stderr,"ERROR: opcode '%s' unexpected byte entries\n",opcode.name.c_str());
+                continue;
+            }
+        }
+        if (!enter_opcode_bytes(opcode,(size_t)(op_i-opcodes.begin()),opcode_groups)) {
+            fprintf(stderr,"Opcode byte to map error\n");
+            continue;
+        }
+    }
 
     if (list_op) {
         printf("Opcodes by byte:\n");
