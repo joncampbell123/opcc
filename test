@@ -3235,15 +3235,30 @@ opcode "MOV"
 if value("fpulevel") >= 387
 opcode "FCOS"
   (comment "0xD9 0xFF")
+  (reads st(0))
+  (modifies st(0))
+  (writes st(0))
+  (dest=st(0))
+  (param=st(0))
   (code 0xD9 mrm mod(3) reg(7) rm(7));
 
 if value("fpulevel") >= 387
 opcode "FSIN"
   (comment "0xD9 0xFE")
+  (reads st(0))
+  (modifies st(0))
+  (writes st(0))
+  (dest=st(0))
+  (param=st(0))
   (code 0xD9 mrm mod(3) reg(7) rm(6));
 
 if value("fpulevel") >= 387
 opcode "FSINCOS"
-  (comment "0xD9 0xFE")
+  (comment "0xD9 0xFB")
+  (reads st(0))
+  (modifies st(0))
+  (writes st(0))
+  (dest=st(0))
+  (param=st(0))
   (code 0xD9 mrm mod(3) reg(7) rm(3));
 
