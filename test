@@ -235,6 +235,15 @@ opcode "BOUND"
   (param(1)=rm(v))
   (code 0x62 mrm);
 
+if value("cpulevel") >= 286
+opcode "ARPL"
+  (reads reg(v))
+  (modifies rm(v))
+  (writes rm(v))
+  (dest=rm(v))
+  (param=reg(v))
+  (code 0x63 mrm);
+
 if value("cpulevel") >= 186
 opcode "PUSH"
   (modifies spv)
