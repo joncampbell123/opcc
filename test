@@ -2910,3 +2910,117 @@ opcode "LGS"
   (writes reg(v),gs)
   (code 0x0F 0xB5 mrm mod(!3));
 
+if value("cpulevel") >= 386 {;
+opcode "JO"
+  (reads ipv, flags(of))
+  (modifies ipv)
+  (writes ipv)
+  (param=n)
+  (code 0x0F 0x80 p=immediate(sv) n=(ipv+p));
+
+opcode "JNO"
+  (reads ipv, flags(of))
+  (modifies ipv)
+  (writes ipv)
+  (param=n)
+  (code 0x0F 0x81 p=immediate(sv) n=(ipv+p));
+
+opcode "JC"
+  (reads ipv, flags(cf))
+  (modifies ipv)
+  (writes ipv)
+  (param=n)
+  (code 0x0F 0x82 p=immediate(sv) n=(ipv+p));
+
+opcode "JNC"
+  (reads ipv, flags(cf))
+  (modifies ipv)
+  (writes ipv)
+  (param=n)
+  (code 0x0F 0x83 p=immediate(sv) n=(ipv+p));
+
+opcode "JZ"
+  (reads ipv, flags(zf))
+  (modifies ipv)
+  (writes ipv)
+  (param=n)
+  (code 0x0F 0x84 p=immediate(sv) n=(ipv+p));
+
+opcode "JNZ"
+  (reads ipv, flags(zf))
+  (modifies ipv)
+  (writes ipv)
+  (param=n)
+  (code 0x0F 0x85 p=immediate(sv) n=(ipv+p));
+
+opcode "JNA"
+  (reads ipv, flags(zf,cf))
+  (modifies ipv)
+  (writes ipv)
+  (param=n)
+  (code 0x0F 0x86 p=immediate(sv) n=(ipv+p));
+
+opcode "JA"
+  (reads ipv, flags(zf,cf))
+  (modifies ipv)
+  (writes ipv)
+  (param=n)
+  (code 0x0F 0x87 p=immediate(sv) n=(ipv+p));
+
+opcode "JS"
+  (reads ipv, flags(sf))
+  (modifies ipv)
+  (writes ipv)
+  (param=n)
+  (code 0x0F 0x88 p=immediate(sv) n=(ipv+p));
+
+opcode "JNS"
+  (reads ipv, flags(sf))
+  (modifies ipv)
+  (writes ipv)
+  (param=n)
+  (code 0x0F 0x89 p=immediate(sv) n=(ipv+p));
+
+opcode "JP"
+  (reads ipv, flags(pf))
+  (modifies ipv)
+  (writes ipv)
+  (param=n)
+  (code 0x0F 0x8A p=immediate(sv) n=(ipv+p));
+
+opcode "JNP"
+  (reads ipv, flags(pf))
+  (modifies ipv)
+  (writes ipv)
+  (param=n)
+  (code 0x0F 0x8B p=immediate(sv) n=(ipv+p));
+
+opcode "JL"
+  (reads ipv, flags(sf,of))
+  (modifies ipv)
+  (writes ipv)
+  (param=n)
+  (code 0x0F 0x8C p=immediate(sv) n=(ipv+p));
+
+opcode "JNL"
+  (reads ipv, flags(sf,of))
+  (modifies ipv)
+  (writes ipv)
+  (param=n)
+  (code 0x0F 0x8D p=immediate(sv) n=(ipv+p));
+
+opcode "JNG"
+  (reads ipv, flags(zf,sf))
+  (modifies ipv)
+  (writes ipv)
+  (param=n)
+  (code 0x0F 0x8E p=immediate(sv) n=(ipv+p));
+
+opcode "JG"
+  (reads ipv, flags(zf,sf))
+  (modifies ipv)
+  (writes ipv)
+  (param=n)
+  (code 0x0F 0x8F p=immediate(sv) n=(ipv+p));
+} if;
+
