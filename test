@@ -3290,3 +3290,12 @@ opcode "FUCOMPP"
   (param(1)=st(1))
   (code 0xDA mrm mod(3) reg(5) rm(1) fpu);
 
+if value("cpulevel") >= 486
+opcode "BSWAP"
+  (reads reg(v))
+  (modifies reg(v))
+  (writes reg(v))
+  (dest=reg(v))
+  (param=reg(v))
+  (code 0x0F i=0xC8-0xCF reg=(i&7));
+
