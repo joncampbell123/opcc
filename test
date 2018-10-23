@@ -221,6 +221,20 @@ opcode "BOUND"
   (param(1)=rm(v))
   (code 0x62 mrm);
 
+if value("cpulevel") >= 186
+opcode "PUSH"
+  (modifies spv)
+  (stack push i)
+  (param=i)
+  (code 0x68 i=immediate(v));
+
+if value("cpulevel") >= 186
+opcode "PUSH"
+  (modifies spv)
+  (stack push i)
+  (param=i)
+  (code 0x6A i=immediate(sb));
+
 opcode "JO"
   (reads ipv, flags(of))
   (modifies ipv)
