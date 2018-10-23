@@ -648,6 +648,35 @@ opcode "MOV"
   (param=i)
   (code a=0xB8-0xBF i=immediate(v) reg=(a&7));
 
+comment "group C0 opcodes (80186) n=name r=reg";
+set macro "groupC0shops" (n,r) {;
+  opcode value(n)
+    (reads rm(b))
+    (modifies rm(b),flags(of,cf,sf,zf,pf,af))
+    (writes rm(b),flags(of,cf,sf,zf,pf,af))
+    (dest=rm(b))
+    (param=i)
+    (code 0xC0 mrm i=immediate(b) reg(value(r)));
+
+  opcode value(n)
+    (reads rm(v))
+    (modifies rm(v),flags(of,cf,sf,zf,pf,af))
+    (writes rm(v),flags(of,cf,sf,zf,pf,af))
+    (dest=rm(v))
+    (param=i)
+    (code 0xC1 mrm i=immediate(v) reg(value(r)));
+} macro;
+
+if value("cpulevel") >= 186 {;
+  macro "groupC0shops" ("ROL", 0);
+  macro "groupC0shops" ("ROR", 1);
+  macro "groupC0shops" ("RCL", 2);
+  macro "groupC0shops" ("RCR", 3);
+  macro "groupC0shops" ("SHL", 4);
+  macro "groupC0shops" ("SHR", 5);
+  macro "groupC0shops" ("SAR", 7);
+} if;
+
 opcode "RET"
   (modifies spv)
   (stack pop ipv)
