@@ -4894,6 +4894,7 @@ bool eval_format(std::string &msg,tokenlist &tokens) {
         else {
             if (!eval_if_condition(/*&*/result,/*&*/tokens)) {
                 fprintf(stderr,"'If' in format condition error\n");
+                read_error = true;
                 return false;
             }
 
@@ -4910,6 +4911,7 @@ bool eval_format(std::string &msg,tokenlist &tokens) {
             }
             else {
                 fprintf(stderr,"Format parsing, unexpected token\n");
+                read_error = true;
                 return false;
             }
         }
@@ -4935,6 +4937,7 @@ bool process_if_block(const bool result_bool,tokenlist &tokens) {
             tokens.discard(2);
             if (!tokens.eof()) {
                 fprintf(stderr,"IF end unexpected tokens\n");
+                read_error = true;
                 return false;
             }
 
@@ -4962,6 +4965,7 @@ bool process_if_statement(tokenlist &tokens,bool suppress) {
 
     if (!eval_if_condition(/*&*/result,/*&*/tokens)) {
         fprintf(stderr,"'If' condition error\n");
+        read_error = true;
         return false;
     }
 
@@ -4972,6 +4976,7 @@ bool process_if_statement(tokenlist &tokens,bool suppress) {
 
         if (!tokens.eof()) {
             fprintf(stderr,"if { unexpected token '%s'\n",tokens.peek().type_str());
+            read_error = true;
             return false;
         }
 
@@ -4985,6 +4990,7 @@ bool process_if_statement(tokenlist &tokens,bool suppress) {
              *
              * if you need nested IFs use the IF condition { ..... } IF form; */
             fprintf(stderr,"nested IFs in a single block not allowed\n");
+            read_error = true;
             return false;
         }
 
@@ -5008,6 +5014,7 @@ bool process_if_statement(tokenlist &tokens,bool suppress) {
 
             if (!tokens.eof()) {
                 fprintf(stderr,"if { unexpected token '%s'\n",tokens.peek().type_str());
+                read_error = true;
                 return false;
             }
 
@@ -5046,6 +5053,7 @@ bool process_macro_def(Macro &macro) {
             tokens.discard(2);
             if (!tokens.eof()) {
                 fprintf(stderr,"End macro unexpected tokens\n");
+                read_error = true;
                 return false;
             }
 
@@ -5054,6 +5062,7 @@ bool process_macro_def(Macro &macro) {
         /* no recursive macros allowed! */
         if (tokens.peek(0).type == TOK_SET && tokens.peek(1).type == TOK_MACRO && tokens.peek(2).type == TOK_STRING) {
             fprintf(stderr,"Recursive macro definitions not allowed\n");
+            read_error = true;
             return false;
         }
 
@@ -5079,12 +5088,14 @@ bool process_block(tokenlist &tokens) {
 
         if (name.empty()) {
             fprintf(stderr,"name is empty\n");
+            read_error = true;
             return false;
         }
 
         /* do not allow re-defining macros */
         if (macros.find(name) != macros.end()) {
             fprintf(stderr,"macro '%s' already defined\n",name.c_str());
+            read_error = true;
             return false;
         }
 
@@ -5103,6 +5114,7 @@ bool process_block(tokenlist &tokens) {
                 else if (is_valid_immediate_assign_var(n.type)) {
                     if (std::find(macro.param_tokens.begin(),macro.param_tokens.end(),n.type) != macro.param_tokens.end()) {
                         fprintf(stderr,"Macro param %s already used\n",tokentype_str[n.type]);
+                        read_error = true;
                         return false;
                     }
                     else {
@@ -5111,6 +5123,7 @@ bool process_block(tokenlist &tokens) {
                 }
                 else {
                     fprintf(stderr,"Invalid token in macro param list\n");
+                    read_error = true;
                     return false;
                 }
 
@@ -5124,6 +5137,7 @@ bool process_block(tokenlist &tokens) {
                 }
                 else {
                     fprintf(stderr,"Unexpected token in macro params\n");
+                    read_error = true;
                     return false;
                 }
             } while (1);
@@ -5131,6 +5145,7 @@ bool process_block(tokenlist &tokens) {
 
         if (tokens.peek().type != TOK_OPEN_CURLYBRACKET) {
             fprintf(stderr,"macro def syntax error\n");
+            read_error = true;
             return false;
         }
         tokens.discard();
@@ -5138,6 +5153,7 @@ bool process_block(tokenlist &tokens) {
         /* nothing after curly brace */
         if (!tokens.eof()) {
             fprintf(stderr,"Extra tokens after beginning of macro def\n");
+            read_error = true;
             return false;
         }
 
@@ -5154,11 +5170,13 @@ bool process_block(tokenlist &tokens) {
 
         if (name.empty()) {
             fprintf(stderr,"name is empty\n");
+            read_error = true;
             return false;
         }
 
         if (macros.find(name) == macros.end()) {
             fprintf(stderr,"macro '%s' not defined\n",name.c_str());
+            read_error = true;
             return false;
         }
 
@@ -5181,6 +5199,7 @@ bool process_block(tokenlist &tokens) {
 
                     if (!eval_if_condition(/*&*/result,/*&*/tokens)) {
                         fprintf(stderr,"Macro param if condition error\n");
+                        read_error = true;
                         return false;
                     }
 
@@ -5196,6 +5215,7 @@ bool process_block(tokenlist &tokens) {
                     }
                     else {
                         fprintf(stderr,"Unexpected tokens in macro call\n");
+                        read_error = true;
                         return false;
                     }
                 }
@@ -5204,6 +5224,7 @@ bool process_block(tokenlist &tokens) {
 
         if (!tokens.eof()) {
             fprintf(stderr,"Extra tokens after beginning of macro def\n");
+            read_error = true;
             return false;
         }
 
@@ -5211,6 +5232,7 @@ bool process_block(tokenlist &tokens) {
 
         if (params.size() != macro.param_tokens.size()) {
             fprintf(stderr,"Macro '%s' param count mismatch (got %zu, expected %zu)\n",name.c_str(),params.size(),macro.param_tokens.size());
+            read_error = true;
             return false;
         }
 
@@ -5241,6 +5263,7 @@ bool process_block(tokenlist &tokens) {
 
                     if (paramidx == -1) {
                         fprintf(stderr,"macro value() eval no such parameter %s\n",tokentype_str[tok]);
+                        read_error = true;
                         return false;
                     }
 
@@ -5268,6 +5291,7 @@ bool process_block(tokenlist &tokens) {
 
         if (read_error) {
             fprintf(stderr,"Error processing macro\n");
+            read_error = true;
             return false;
         }
 
@@ -5281,11 +5305,13 @@ bool process_block(tokenlist &tokens) {
 
         if (!tokens.eof()) {
             fprintf(stderr,"Desc unexpected tokens\n");
+            read_error = true;
             return false;
         }
 
         if (!supported_dialect(dialect)) {
             fprintf(stderr,"This compiler does not support dialect '%s'\n",dialect.c_str());
+            read_error = true;
             return false;
         }
 
@@ -5305,6 +5331,7 @@ bool process_block(tokenlist &tokens) {
 
         if (!eval_if_condition(/*&*/result,/*&*/tokens)) {
             fprintf(stderr,"'If' condition error\n");
+            read_error = true;
             return false;
         }
 
@@ -5321,6 +5348,7 @@ bool process_block(tokenlist &tokens) {
 
         if (!tokens.eof()) {
             fprintf(stderr,"Unexpected tokens\n");
+            read_error = true;
             return false;
         }
 
@@ -5334,11 +5362,13 @@ bool process_block(tokenlist &tokens) {
 
         if (name.empty()) {
             fprintf(stderr,"name is empty\n");
+            read_error = true;
             return false;
         }
 
         if (!tokens.eof()) {
             fprintf(stderr,"Unexpected tokens\n");
+            read_error = true;
             return false;
         }
 
@@ -5357,6 +5387,7 @@ bool process_block(tokenlist &tokens) {
 
         if (name.empty()) {
             fprintf(stderr,"name is empty\n");
+            read_error = true;
             return false;
         }
 
@@ -5364,12 +5395,14 @@ bool process_block(tokenlist &tokens) {
 
         if (!eval_if_condition(/*&*/result,/*&*/tokens)) {
             fprintf(stderr,"'If' condition error\n");
+            read_error = true;
             return false;
         }
         defines[name] = result;
 
         if (!tokens.eof()) {
             fprintf(stderr,"Unexpected tokens\n");
+            read_error = true;
             return false;
         }
 
@@ -5381,6 +5414,7 @@ bool process_block(tokenlist &tokens) {
 
         if (!tokens.eof()) {
             fprintf(stderr,"Unexpected tokens\n");
+            read_error = true;
             return false;
         }
 
@@ -5438,9 +5472,11 @@ bool read_opcode_token_block(tokenlist &tokens) {
 
 token_error:
     fprintf(stderr,"Token error\n");
+    read_error = true;
     return false;
 unexpected_end:
     fprintf(stderr,"Unexpected end of opcode\n");
+    read_error = true;
     return false;
 }
 
