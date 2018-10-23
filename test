@@ -3214,3 +3214,21 @@ opcode "MOV"
   (param=rm(dw))
   (code 0x0F 0x23 mrm mod(3));
 
+if value("cpulevel") >= 386
+opcode "MOV"
+  (comment "Intel Pentium docs state: mod==3, reg=TR register, r/m=general register")
+  (reads tr(reg))
+  (writes rm(dw))
+  (dest=rm(dw))
+  (param=tr(reg))
+  (code 0x0F 0x24 mrm mod(3));
+
+if value("cpulevel") >= 386
+opcode "MOV"
+  (comment "Intel Pentium docs state: mod==3, reg=TR register, r/m=general register")
+  (reads rm(dw))
+  (writes tr(reg))
+  (dest=tr(reg))
+  (param=rm(dw))
+  (code 0x0F 0x26 mrm mod(3));
+
