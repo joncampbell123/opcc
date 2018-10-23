@@ -2545,8 +2545,6 @@ if (value("cpulevel") >= 186 and isset("necv20"))
     (param(1)=i)
     (code 0x0F 0x19 mrm i=immediate(b) reg(0));
 
-
-
 if (value("cpulevel") >= 186 and isset("necv20"))
   opcode "NOT1"
     (reads rm(b))
@@ -2582,4 +2580,40 @@ if (value("cpulevel") >= 186 and isset("necv20"))
     (param(0)=rm(v))
     (param(1)=i)
     (code 0x0F 0x1F mrm i=immediate(b) reg(0));
+
+if (value("cpulevel") >= 186 and isset("necv20"))
+  opcode "CLR1"
+    (reads rm(b))
+    (modifies rm(b),flags(zf))
+    (writes rm(b),flags(zf))
+    (param(0)=rm(b))
+    (param(1)=cl)
+    (code 0x0F 0x12 mrm reg(0));
+
+if (value("cpulevel") >= 186 and isset("necv20"))
+  opcode "CLR1"
+    (reads rm(v))
+    (modifies rm(b),flags(zf))
+    (writes rm(b),flags(zf))
+    (param(0)=rm(v))
+    (param(1)=cl)
+    (code 0x0F 0x13 mrm reg(0));
+
+if (value("cpulevel") >= 186 and isset("necv20"))
+  opcode "CLR1"
+    (reads rm(b))
+    (modifies rm(b),flags(zf))
+    (writes rm(b),flags(zf))
+    (param(0)=rm(b))
+    (param(1)=i)
+    (code 0x0F 0x1A mrm i=immediate(b) reg(0));
+
+if (value("cpulevel") >= 186 and isset("necv20"))
+  opcode "CLR1"
+    (reads rm(v))
+    (modifies rm(b),flags(zf))
+    (writes rm(b),flags(zf))
+    (param(0)=rm(v))
+    (param(1)=i)
+    (code 0x0F 0x1B mrm i=immediate(b) reg(0));
 
