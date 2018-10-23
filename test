@@ -244,6 +244,16 @@ opcode "ARPL"
   (param=reg(v))
   (code 0x63 mrm);
 
+if value("cpulevel") >= 386
+prefix "OPSZ"
+  (comment "TODO: operand size override")
+  (code 0x66);
+
+if value("cpulevel") >= 386
+prefix "ADSZ"
+  (comment "TODO: address size override")
+  (code 0x67);
+
 if value("cpulevel") >= 186
 opcode "PUSH"
   (modifies spv)
