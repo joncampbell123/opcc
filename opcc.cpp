@@ -1819,6 +1819,7 @@ bool operator<(const ByteSpec &a,const ByteSpec &b) {
 class OpcodeSpec {
 public:
     std::vector<ByteSpec>       bytes;                  // opcode byte sequence
+    std::vector<ByteSpec>       assign;                 // assignments
     unsigned int                type = 0;               // token type (PREFIX, OPCODE, etc)
     std::string                 description;
     std::string                 comment;
@@ -2612,13 +2613,26 @@ std::string OpcodeSpec::pretty_string(void) {
 std::string OpcodeSpec::to_string(void) {
     std::string res;
 
-    res += "bytes=(";
-    for (auto i=bytes.begin();i!=bytes.end();) {
-        res += (*i).to_string();
-        i++;
-        if (i != bytes.end()) res += " ";
+    if (!bytes.empty()) {
+        res += "bytes=(";
+        for (auto i=bytes.begin();i!=bytes.end();) {
+            res += (*i).to_string();
+            i++;
+            if (i != bytes.end()) res += " ";
+        }
+        res += ")";
     }
-    res += ")";
+
+    if (!assign.empty()) {
+        if (!res.empty()) res += ",";
+        res += "assign=(";
+        for (auto i=assign.begin();i!=assign.end();) {
+            res += (*i).to_string();
+            i++;
+            if (i != assign.end()) res += " ";
+        }
+        res += ")";
+    }
 
     if (mod3 != 0) {
         if (!res.empty()) res += ",";
@@ -4477,7 +4491,7 @@ bool read_opcode_spec_opcode_parens(tokenlist &parent_tokens,OpcodeSpec &spec) {
                     } while (1);
 
                     bs.meaning = TOK_EQUAL; /* don't make it a byte sequence */
-                    spec.bytes.push_back(bs);
+                    spec.assign.push_back(bs);
                     continue;
                 }
             }
