@@ -5804,11 +5804,19 @@ int main(int argc,char **argv) {
 
         defines["cpulevel"] = 386;
     }
-    else if (march == "80486" || march == "486") {
+    else if (march == "80486" || march == "486" || march == "486new") {
         if (fpuarch.empty())
             fpuarch = "80387";
 
         defines["cpulevel"] = 486;
+        defines["cpuyear"] = 1992;
+    }
+    else if (march == "80486old" || march == "486old") {
+        if (fpuarch.empty())
+            fpuarch = "80387";
+
+        defines["cpulevel"] = 486;
+        defines["cpuyear"] = 1988;
     }
     else if (march == "80586" || march == "586") {
         if (fpuarch.empty())
