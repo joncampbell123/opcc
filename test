@@ -2761,3 +2761,14 @@ opcode "LMSW"
   (param=rm(v))
   (code 0x0F 0x01 mrm reg(6));
 
+if value("cpulevel") == 286
+opcode "LOADALL"
+  (modifies all)
+  (code 0x0F 0x05);
+
+if value("cpulevel") == 386
+opcode "LOADALL"
+  (modifies all)
+  (param=far memory(b,es,div))
+  (code 0x0F 0x07);
+
