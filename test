@@ -1738,6 +1738,18 @@ opcode "FXTRACT"
   (param(1)=st(1))
   (code 0xD9 mrm mod(3) reg(6) rm(4) fpu);
 
+if value("cpulevel") >= 386 {;
+opcode "FPREM1"
+  (comment "FPREM1 st(0) = remainder(st(0) / st(1))")
+  (reads st(0),st(1))
+  (modifies st(0))
+  (writes st(0))
+  (dest=st(0))
+  (param(0)=st(0))
+  (param(1)=st(1))
+  (code 0xD9 mrm mod(3) reg(6) rm(5) fpu);
+} if;
+
 opcode "F2XM1"
   (comment "F2XM1 st(0) = (2 ^ st(0)) - 1")
   (reads st(0))
