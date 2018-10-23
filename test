@@ -2493,3 +2493,19 @@ if (value("cpulevel") >= 186 and isset("necv20"))
     (param=far memory(v,seg,siv))
     (code 0x0F 0x26);
 
+if (value("cpulevel") >= 186 and isset("necv20"))
+  opcode "ROL4"
+    (reads rm(b))
+    (modifies rm(b))
+    (writes rm(b))
+    (dest=rm(b))
+    (code 0x0F 0x28 mrm reg(0));
+
+if (value("cpulevel") >= 186 and isset("necv20"))
+  opcode "ROR4"
+    (reads rm(b))
+    (modifies rm(b))
+    (writes rm(b))
+    (dest=rm(b))
+    (code 0x0F 0x2A mrm reg(0));
+
