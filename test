@@ -2670,7 +2670,7 @@ if (value("cpulevel") >= 186 and isset("necv20"))
 if (value("cpulevel") >= 186 and isset("necv20"))
   opcode "INS"
     (comment "reg1=rm reg2=reg    reg1=bit offset (modified by ins)  reg2=bit length")
-    (reads far memory(b,seg,siv),rm(b),div,es)
+    (reads far memory(b,es,div),rm(b),div,es)
     (writes far memory(b,es,div),rm(b),div)
     (modifies rm(b),div)
     (dest=far memory(v,es,div))
@@ -2682,7 +2682,7 @@ if (value("cpulevel") >= 186 and isset("necv20"))
 if (value("cpulevel") >= 186 and isset("necv20"))
   opcode "INS"
     (comment "rm=bit offset (modified by ins)  imm=bit length")
-    (reads far memory(b,seg,siv),rm(b),div,es)
+    (reads far memory(b,es,div),rm(b),div,es)
     (writes far memory(b,es,div),rm(b),div)
     (modifies rm(b),div)
     (dest=far memory(v,es,div))
@@ -2690,4 +2690,26 @@ if (value("cpulevel") >= 186 and isset("necv20"))
     (param(1)=i)
     (param(2)=av)
     (code 0x0F 0x39 mrm i=immediate(b) mod(3) reg(0));
+
+if (value("cpulevel") >= 186 and isset("necv20"))
+  opcode "EXT"
+    (comment "reg1=rm reg2=reg    reg1=bit offset (modified by ins)  reg2=bit length")
+    (reads far memory(b,seg,siv),rm(b),siv,seg)
+    (modifies av,siv)
+    (dest=av)
+    (param(0)=rm(b))
+    (param(1)=reg(b))
+    (param(2)=far memory(v,seg,siv))
+    (code 0x0F 0x33 mrm mod(3));
+
+if (value("cpulevel") >= 186 and isset("necv20"))
+  opcode "EXT"
+    (comment "rm=bit offset (modified by ins)  imm=bit length")
+    (reads far memory(b,seg,siv),rm(b),siv,seg)
+    (modifies av,siv)
+    (dest=av)
+    (param(0)=rm(b))
+    (param(1)=i)
+    (param(2)=far memory(v,seg,siv))
+    (code 0x0F 0x3B mrm i=immediate(b) mod(3) reg(0));
 
