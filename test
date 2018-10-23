@@ -2713,3 +2713,15 @@ if (value("cpulevel") >= 186) and isset("necv20")
     (param(2)=far memory(v,seg,siv))
     (code 0x0F 0x3B mrm i=immediate(b) mod(3) reg(0));
 
+if value("cpulevel") >= 286
+opcode "LAR"
+  (writes reg(v))
+  (param=rm(v))
+  (dest=reg(v))
+  (code 0x0F 0x02 mrm);
+
+if value("cpulevel") >= 286
+opcode "CLTS"
+  (comment "TODO: modifies machine status word")
+  (code 0x0F 0x06 mrm);
+
