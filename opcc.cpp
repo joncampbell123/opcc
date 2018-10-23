@@ -2194,10 +2194,15 @@ std::string OpcodeSpec::pretty_string(void) {
     unsigned int tok_regand7_assign = 0;
     unsigned int tok_opbyte_assign = 0;
     unsigned int tok_opbyte_assign_base = 0;
+    unsigned int tok_opbyte_index = 0;
 
-    if (bytes.size() >= 1 && bytes[0].meaning == 0 && bytes[0].var_assign != 0 && bytes[0].size() > 0) {
-        tok_opbyte_assign = bytes[0].var_assign;
-        tok_opbyte_assign_base = bytes[0][0];
+    for (size_t i=0;i < bytes.size();i++) {
+        if (bytes[i].meaning == 0 && bytes[i].var_assign != 0 && bytes[i].size() > 0) {
+            tok_opbyte_index = i;
+            tok_opbyte_assign = bytes[i].var_assign;
+            tok_opbyte_assign_base = bytes[i][0];
+            break;
+        }
     }
 
     for (auto i=assign.begin();i!=assign.end();i++) {
@@ -2237,7 +2242,8 @@ std::string OpcodeSpec::pretty_string(void) {
     }
 
     if (tok_regand7_assign) {
-        auto &x = bytes[0];
+        assert(tok_opbyte_index < bytes.size());
+        auto &x = bytes[tok_opbyte_index];
         unsigned int min,expect;
         bool ok = false;
 
@@ -2413,8 +2419,18 @@ std::string OpcodeSpec::pretty_string(void) {
         sprintf(tmp,"reg=%u-7",tok_opbyte_assign_base&7);
         byte_strvas = tmp;
 
+        assert(tok_opbyte_index < bytes.size());
+
+        byte_str.clear();
+        for (size_t i=0;i < tok_opbyte_index;i++) {
+            if (bytes[i].size() > 0) {
+                sprintf(tmp,"%02x ",bytes[i][0]);
+                byte_str += tmp;
+            }
+        }
+
         sprintf(tmp,"%02x+reg",tok_opbyte_assign_base&(~7));
-        byte_str = tmp;
+        byte_str += tmp;
     }
 
     while (params.size() < (opspec_ins_col_len-9)) params += " ";
