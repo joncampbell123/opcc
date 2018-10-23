@@ -2253,3 +2253,10 @@ opcode "PUSH"
   (dest=rm(v))
   (code 0xFF mrm reg(6));
 
+if value("cpulevel") >= 286
+  opcode "STR"
+    (comment "TODO: task register")
+    (writes rm(v))
+    (dest=rm(v))
+    (code 0x0F 0x00 mrm reg(1));
+

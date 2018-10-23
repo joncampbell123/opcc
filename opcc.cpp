@@ -5451,10 +5451,8 @@ bool read_opcode_block(void) {
         if (!read_opcode_token_block(/*&*/tokens))
             return false;
 
-        if (!process_block(/*&*/tokens)) {
-            read_error = true;
+        if (!process_block(/*&*/tokens))
             return false;
-        }
     } while (1);
 
     return true;
