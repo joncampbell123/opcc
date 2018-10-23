@@ -3262,3 +3262,28 @@ opcode "FSINCOS"
   (param=st(0))
   (code 0xD9 mrm mod(3) reg(7) rm(3));
 
+opcode "FUCOM"
+  (comment "FUCOM 0xDD 0xE0+i")
+  (reads st(0),st(reg))
+  (param(0)=st(0))
+  (param(1)=st(reg))
+  (code 0xDD mrm mod(3) reg(4) fpu);
+
+opcode "FUCOMP"
+  (comment "FUCOMP 0xDD 0xE8+i")
+  (modifies fpu(top))
+  (fpu stack pop st(0))
+  (reads st(0),st(reg))
+  (param(0)=st(0))
+  (param(1)=st(reg))
+  (code 0xDD mrm mod(3) reg(4) fpu);
+
+opcode "FUCOMPP"
+  (comment "FUCOMPP 0xDD 0xE9")
+  (modifies fpu(top))
+  (fpu stack pop st(0),st(1))
+  (reads st(0),st(1))
+  (param(0)=st(0))
+  (param(1)=st(1))
+  (code 0xDA mrm mod(3) reg(5) rm(1) fpu);
+
