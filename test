@@ -2725,3 +2725,27 @@ opcode "CLTS"
   (comment "TODO: modifies machine status word")
   (code 0x0F 0x06 mrm);
 
+if value("cpulevel") >= 286
+opcode "SGDT"
+  (comment "TODO: modifies...")
+  (dest=rm(tw))
+  (code 0x0F 0x01 mrm mod(!3) reg(0));
+
+if value("cpulevel") >= 286
+opcode "SIDT"
+  (comment "TODO: modifies...")
+  (dest=rm(tw))
+  (code 0x0F 0x01 mrm mod(!3) reg(1));
+
+if value("cpulevel") >= 286
+opcode "LGDT"
+  (comment "TODO: modifies...")
+  (param=rm(tw))
+  (code 0x0F 0x01 mrm mod(!3) reg(2));
+
+if value("cpulevel") >= 286
+opcode "LIDT"
+  (comment "TODO: modifies...")
+  (param=rm(tw))
+  (code 0x0F 0x01 mrm mod(!3) reg(3));
+
