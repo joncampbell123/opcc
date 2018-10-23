@@ -5531,7 +5531,7 @@ public:
 
          return map[i];
     }
-    OpcodeSpec &get_opcode(void) {
+    const OpcodeSpec &get_opcode(void) {
         if (maptype != LEAF || opcode_index >= opcodes.size())
             abort();
 
