@@ -2254,9 +2254,44 @@ opcode "PUSH"
   (code 0xFF mrm reg(6));
 
 if value("cpulevel") >= 286
+  opcode "SLDT"
+    (comment "TODO: task register")
+    (writes rm(v))
+    (dest=rm(v))
+    (code 0x0F 0x00 mrm reg(0));
+
+if value("cpulevel") >= 286
   opcode "STR"
     (comment "TODO: task register")
     (writes rm(v))
     (dest=rm(v))
     (code 0x0F 0x00 mrm reg(1));
+
+if value("cpulevel") >= 286
+  opcode "LLDT"
+    (comment "TODO: task register")
+    (writes rm(v))
+    (dest=rm(v))
+    (code 0x0F 0x00 mrm reg(2));
+
+if value("cpulevel") >= 286
+  opcode "LTR"
+    (comment "TODO: task register")
+    (writes rm(v))
+    (dest=rm(v))
+    (code 0x0F 0x00 mrm reg(3));
+
+if value("cpulevel") >= 286
+  opcode "VERR"
+    (comment "TODO: task register")
+    (writes rm(v))
+    (dest=rm(v))
+    (code 0x0F 0x00 mrm reg(4));
+
+if value("cpulevel") >= 286
+  opcode "VERW"
+    (comment "TODO: task register")
+    (writes rm(v))
+    (dest=rm(v))
+    (code 0x0F 0x00 mrm reg(5));
 

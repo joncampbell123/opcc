@@ -5885,6 +5885,8 @@ int main(int argc,char **argv) {
             printf("\n");
         }
 
+        std::vector< std::pair< std::vector<uint8_t>, std::shared_ptr<OpcodeGroupBlock> > > subl;
+
         printf("Opcode coverage (single byte):\n");
         printf("------------------------------\n");
         printf("X = coverage  O = overlap(!)  M = multi-byte  R = group by mod/reg/rm\n");
@@ -5911,6 +5913,11 @@ int main(int argc,char **argv) {
 
                         if (gs.maptype == OpcodeGroupBlock::LINEAR) {
                             c = 'M';
+
+                            std::pair< std::vector<uint8_t>, std::shared_ptr<OpcodeGroupBlock> > p;
+                            p.first.push_back((y*16)+x);
+                            p.second = gsr;
+                            subl.push_back(p);
                         }
                         else if (gs.maptype == OpcodeGroupBlock::MODREGRM) {
                             c = 'R';
@@ -5933,6 +5940,75 @@ int main(int argc,char **argv) {
                 }
                 printf("\n");
             }
+        }
+        printf("\n");
+
+        for (auto si=subl.begin();si!=subl.end();si++) {
+            auto sgroup = (*si).second;
+
+            printf("Opcode coverage (");
+            for (auto bi=(*si).first.begin();bi!=(*si).first.end();bi++) {
+                if (bi != (*si).first.begin()) printf(" ");
+                printf("%02x",*bi);
+            }
+            printf("):\n");
+            printf("------------------------------\n");
+            printf("X = coverage  O = overlap(!)  M = multi-byte  R = group by mod/reg/rm\n");
+            printf("P = prefix\n");
+            printf("\n");
+
+            {
+                printf("    ");
+                for (unsigned int x=0;x < 16;x++) printf("%x ",x);
+                printf("\n");
+
+                printf("   ");
+                for (unsigned int x=0;x < 16;x++) printf("--");
+                printf("\n");
+
+                for (unsigned int y=0;y < 16;y++) {
+                    printf("  %x|",y);
+                    for (unsigned int x=0;x < 16;x++) {
+                        unsigned char c = ' ';
+                        unsigned char c2 = ' ';
+
+                        auto gsr = (*sgroup).map_get((y*16)+x);
+                        if (gsr.get() != nullptr) {
+                            const auto &gs = *gsr;
+
+                            if (gs.maptype == OpcodeGroupBlock::LINEAR) {
+                                c = 'M';
+
+                                std::pair< std::vector<uint8_t>, std::shared_ptr<OpcodeGroupBlock> > p;
+                                p.first = (*si).first;
+                                p.first.push_back((y*16)+x);
+                                p.second = gsr;
+                                subl.push_back(p);
+                            }
+                            else if (gs.maptype == OpcodeGroupBlock::MODREGRM) {
+                                c = 'R';
+                            }
+                            else if (gs.maptype == OpcodeGroupBlock::LEAF) {
+                                c = 'X';
+                            }
+                            else if (gs.maptype == OpcodeGroupBlock::PREFIX) {
+                                c = 'P';
+                            }
+                            else {
+                                c = '?';
+                            }
+                        }
+                        else {
+                            c = ' ';
+                        }
+
+                        printf("%c%c",(char)c,(char)c2);
+                    }
+                    printf("\n");
+                }
+            }
+
+            printf("\n");
         }
     }
 
