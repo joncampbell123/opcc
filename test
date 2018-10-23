@@ -2779,7 +2779,7 @@ opcode "LOADALL"
   (param=far memory(b,es,div))
   (code 0x0F 0x07);
 
-if value("cpulevel") >= 286
+if value("fpulevel") >= 287
 opcode "FSETPM"
   (comment "Opcode 0xDB 0xE4(1110 0100 = 11 100 100) (mod/reg/rm 3/4/4)")
   (code 0xDB mrm mod(3) reg(4) rm(4));
