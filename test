@@ -269,6 +269,7 @@ opcode "IMUL"
   (param(1)=i)
   (code 0x6B mrm i=immediate(sb));
 
+if value("cpulevel") >= 186
 opcode "INS"
   (reads siv,far memory(b,seg,siv))
   (param=far memory(b,seg,siv))
@@ -277,6 +278,7 @@ opcode "INS"
   (dest=av)
   (code 0x6C);
 
+if value("cpulevel") >= 186
 opcode "INS"
   (reads siv,far memory(v,seg,siv))
   (param=far memory(v,seg,siv))
@@ -285,6 +287,7 @@ opcode "INS"
   (dest=al)
   (code 0x6D);
 
+if value("cpulevel") >= 186
 opcode "OUTS"
   (reads al,es,div)
   (param=al)
@@ -293,6 +296,7 @@ opcode "OUTS"
   (dest=far memory(b,es,div))
   (code 0x6E);
 
+if value("cpulevel") >= 186
 opcode "OUTS"
   (reads av,es,div)
   (param=av)
