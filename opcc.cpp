@@ -2203,6 +2203,10 @@ std::string OpcodeSpec::pretty_string(void) {
             tok_opbyte_assign_base = bytes[i][0];
             break;
         }
+        else if (bytes[i].size() > 1) {
+            /* [range] [range] cannot be expressed as opbyte+i */
+            break;
+        }
     }
 
     for (auto i=assign.begin();i!=assign.end();i++) {
