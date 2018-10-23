@@ -5509,7 +5509,7 @@ std::shared_ptr<OpcodeGroupBlock>           opcode_groups;
 bool enter_opcode_byte_spec(const OpcodeSpec &opcode,size_t opcode_index,std::shared_ptr<OpcodeGroupBlock> groups,std::vector<ByteSpec>::const_iterator oi) {
     if (oi == opcode.bytes.end()) {
         {
-            auto gs = *groups;
+            auto &gs = *groups;
 
             if (gs.maptype == OpcodeGroupBlock::NONE)
                 gs.maptype = OpcodeGroupBlock::LEAF;
@@ -5530,7 +5530,7 @@ bool enter_opcode_byte_spec(const OpcodeSpec &opcode,size_t opcode_index,std::sh
 
     if (bs.meaning == 0) {
         {
-            auto gs = *groups;
+            auto &gs = *groups;
 
             if (gs.maptype == OpcodeGroupBlock::NONE)
                 gs.maptype = OpcodeGroupBlock::LINEAR;
@@ -5551,7 +5551,7 @@ bool enter_opcode_byte_spec(const OpcodeSpec &opcode,size_t opcode_index,std::sh
     }
     else if (bs.meaning == TOK_IMMEDIATE) {
         {
-            auto gs = *groups;
+            auto &gs = *groups;
 
             if (gs.maptype == OpcodeGroupBlock::NONE)
                 gs.maptype = OpcodeGroupBlock::LEAF;
@@ -5572,7 +5572,7 @@ bool enter_opcode_byte_spec(const OpcodeSpec &opcode,size_t opcode_index,std::sh
     }
     else if (bs.meaning == TOK_MRM) {
         {
-            auto gs = *groups;
+            auto &gs = *groups;
 
             if (gs.maptype == OpcodeGroupBlock::NONE)
                 gs.maptype = OpcodeGroupBlock::MODREGRM;
@@ -5840,7 +5840,7 @@ int main(int argc,char **argv) {
 
                     auto gsr = (*opcode_groups).map_get((y*16)+x);
                     if (gsr.get() != nullptr) {
-                        auto gs = *gsr;
+                        const auto &gs = *gsr;
 
                         if (gs.maptype == OpcodeGroupBlock::LINEAR) {
                             c = 'M';
