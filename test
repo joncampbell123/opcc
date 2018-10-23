@@ -3024,3 +3024,117 @@ opcode "JG"
   (code 0x0F 0x8F p=immediate(sv) n=(ipv+p));
 } if;
 
+if value("cpulevel") >= 386 {;
+opcode "SETO"
+  (reads ipv, flags(of))
+  (modifies rm(b))
+  (writes rm(b))
+  (dest=rm(b))
+  (code 0x0F 0x90 mrm reg(0));
+
+opcode "SETNO"
+  (reads ipv, flags(of))
+  (modifies rm(b))
+  (writes rm(b))
+  (dest=rm(b))
+  (code 0x0F 0x91 mrm reg(0));
+
+opcode "SETC"
+  (reads ipv, flags(cf))
+  (modifies rm(b))
+  (writes rm(b))
+  (dest=rm(b))
+  (code 0x0F 0x92 mrm reg(0));
+
+opcode "SETNC"
+  (reads ipv, flags(cf))
+  (modifies rm(b))
+  (writes rm(b))
+  (dest=rm(b))
+  (code 0x0F 0x93 mrm reg(0));
+
+opcode "SETZ"
+  (reads ipv, flags(zf))
+  (modifies rm(b))
+  (writes rm(b))
+  (dest=rm(b))
+  (code 0x0F 0x94 mrm reg(0));
+
+opcode "SETNZ"
+  (reads ipv, flags(zf))
+  (modifies rm(b))
+  (writes rm(b))
+  (dest=rm(b))
+  (code 0x0F 0x95 mrm reg(0));
+
+opcode "SETNA"
+  (reads ipv, flags(zf,cf))
+  (modifies rm(b))
+  (writes rm(b))
+  (dest=rm(b))
+  (code 0x0F 0x96 mrm reg(0));
+
+opcode "SETA"
+  (reads ipv, flags(zf,cf))
+  (modifies rm(b))
+  (writes rm(b))
+  (dest=rm(b))
+  (code 0x0F 0x97 mrm reg(0));
+
+opcode "SETS"
+  (reads ipv, flags(sf))
+  (modifies rm(b))
+  (writes rm(b))
+  (dest=rm(b))
+  (code 0x0F 0x98 mrm reg(0));
+
+opcode "SETNS"
+  (reads ipv, flags(sf))
+  (modifies rm(b))
+  (writes rm(b))
+  (dest=rm(b))
+  (code 0x0F 0x99 mrm reg(0));
+
+opcode "SETP"
+  (reads ipv, flags(pf))
+  (modifies rm(b))
+  (writes rm(b))
+  (dest=rm(b))
+  (code 0x0F 0x9A mrm reg(0));
+
+opcode "SETNP"
+  (reads ipv, flags(pf))
+  (modifies rm(b))
+  (writes rm(b))
+  (dest=rm(b))
+  (code 0x0F 0x9B mrm reg(0));
+
+opcode "SETL"
+  (reads ipv, flags(sf,of))
+  (modifies rm(b))
+  (writes rm(b))
+  (dest=rm(b))
+  (code 0x0F 0x9C mrm reg(0));
+
+opcode "SETNL"
+  (reads ipv, flags(sf,of))
+  (modifies rm(b))
+  (writes rm(b))
+  (dest=rm(b))
+  (code 0x0F 0x9D mrm reg(0));
+
+opcode "SETNG"
+  (reads ipv, flags(zf,sf))
+  (modifies rm(b))
+  (writes rm(b))
+  (dest=rm(b))
+  (code 0x0F 0x9E mrm reg(0));
+
+opcode "SETG"
+  (reads ipv, flags(zf,sf))
+  (modifies rm(b))
+  (writes rm(b))
+  (dest=rm(b))
+  (code 0x0F 0x9F mrm reg(0));
+} if;
+
