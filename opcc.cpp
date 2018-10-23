@@ -5591,19 +5591,22 @@ int main(int argc,char **argv) {
         }
         printf("\n");
 
-        std::sort(opcodes.begin(),opcodes.end(),opcode_sort_func_by_name);
+        {
+            auto opcodes_by_name = opcodes;
+            std::sort(opcodes_by_name.begin(),opcodes_by_name.end(),opcode_sort_func_by_name);
 
-        printf("Opcodes by name:\n");
-        printf("----------------\n");
-        if (verbose_op) {
-            for (auto i=opcodes.begin();i!=opcodes.end();i++)
-                printf("    %s %s: %s\n",tokentype_str[(*i).type],(*i).name.c_str(),(*i).to_string().c_str());
+            printf("Opcodes by name:\n");
+            printf("----------------\n");
+            if (verbose_op) {
+                for (auto i=opcodes_by_name.begin();i!=opcodes_by_name.end();i++)
+                    printf("    %s %s: %s\n",tokentype_str[(*i).type],(*i).name.c_str(),(*i).to_string().c_str());
+            }
+            else {
+                for (auto i=opcodes_by_name.begin();i!=opcodes_by_name.end();i++)
+                    printf("%12s %s\n",(*i).name.c_str(),(*i).pretty_string().c_str());
+            }
+            printf("\n");
         }
-        else {
-            for (auto i=opcodes.begin();i!=opcodes.end();i++)
-                printf("%12s %s\n",(*i).name.c_str(),(*i).pretty_string().c_str());
-        }
-        printf("\n");
 
         printf("Opcode coverage (single byte):\n");
         printf("------------------------------\n");
