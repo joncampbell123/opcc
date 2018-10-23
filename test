@@ -2838,3 +2838,21 @@ opcode "BTC"
   (param=i)
   (code 0x0F 0xBA mrm i=immediate(b) reg(7));
 
+if value("cpulevel") >= 386
+opcode "BTR"
+  (reads rm(v),reg(v))
+  (modifies rm(v),flags(cf))
+  (writes rm(v),flags(cf))
+  (dest=rm(v))
+  (param=reg(v))
+  (code 0x0F 0xB3 mrm);
+
+if value("cpulevel") >= 386
+opcode "BTR"
+  (reads rm(v))
+  (modifies rm(v),flags(cf))
+  (writes rm(v),flags(cf))
+  (dest=rm(v))
+  (param=i)
+  (code 0x0F 0xBA mrm i=immediate(b) reg(6));
+
