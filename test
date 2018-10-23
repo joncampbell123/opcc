@@ -2749,3 +2749,15 @@ opcode "LIDT"
   (param=rm(tw))
   (code 0x0F 0x01 mrm mod(!3) reg(3));
 
+if value("cpulevel") >= 286
+opcode "SMSW"
+  (comment "TODO: modifies...")
+  (dest=rm(v))
+  (code 0x0F 0x01 mrm reg(4));
+
+if value("cpulevel") >= 286
+opcode "LMSW"
+  (comment "TODO: modifies...")
+  (param=rm(v))
+  (code 0x0F 0x01 mrm reg(6));
+
