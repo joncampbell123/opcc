@@ -15,6 +15,7 @@
 #include <string>
 #include <vector>
 #include <stack>
+#include <list>
 #include <map>
 
 enum tokentype_t {
@@ -5885,71 +5886,31 @@ int main(int argc,char **argv) {
             printf("\n");
         }
 
-        std::vector< std::pair< std::vector<uint8_t>, std::shared_ptr<OpcodeGroupBlock> > > subl;
+        // NTS: cannot use std::vector for the loop below. holding an iterator while pushing additional
+        //      entries can invalidate the iterator (because std::vector has to reallocate).
+        //      use a list instead because the iterator is a pointer to a node in a linked list which
+        //      does not invalidate when extending the list.
+        std::list< std::pair< std::vector<uint8_t>, std::shared_ptr<OpcodeGroupBlock> > > subl;
 
-        printf("Opcode coverage (single byte):\n");
-        printf("------------------------------\n");
-        printf("X = coverage  O = overlap(!)  M = multi-byte  R = group by mod/reg/rm\n");
-        printf("P = prefix\n");
-        printf("\n");
         {
-            printf("    ");
-            for (unsigned int x=0;x < 16;x++) printf("%x ",x);
-            printf("\n");
-
-            printf("   ");
-            for (unsigned int x=0;x < 16;x++) printf("--");
-            printf("\n");
-
-            for (unsigned int y=0;y < 16;y++) {
-                printf("  %x|",y);
-                for (unsigned int x=0;x < 16;x++) {
-                    unsigned char c = ' ';
-                    unsigned char c2 = ' ';
-
-                    auto gsr = (*opcode_groups).map_get((y*16)+x);
-                    if (gsr.get() != nullptr) {
-                        const auto &gs = *gsr;
-
-                        if (gs.maptype == OpcodeGroupBlock::LINEAR) {
-                            c = 'M';
-
-                            std::pair< std::vector<uint8_t>, std::shared_ptr<OpcodeGroupBlock> > p;
-                            p.first.push_back((y*16)+x);
-                            p.second = gsr;
-                            subl.push_back(p);
-                        }
-                        else if (gs.maptype == OpcodeGroupBlock::MODREGRM) {
-                            c = 'R';
-                        }
-                        else if (gs.maptype == OpcodeGroupBlock::LEAF) {
-                            c = 'X';
-                        }
-                        else if (gs.maptype == OpcodeGroupBlock::PREFIX) {
-                            c = 'P';
-                        }
-                        else {
-                            c = '?';
-                        }
-                    }
-                    else {
-                        c = ' ';
-                    }
-
-                    printf("%c%c",(char)c,(char)c2);
-                }
-                printf("\n");
-            }
+            std::pair< std::vector<uint8_t>, std::shared_ptr<OpcodeGroupBlock> > p;
+            p.second = opcode_groups;
+            subl.push_back(p);
         }
-        printf("\n");
 
         for (auto si=subl.begin();si!=subl.end();si++) {
+            assert((*si).second.get() != nullptr);
             auto sgroup = (*si).second;
 
             printf("Opcode coverage (");
-            for (auto bi=(*si).first.begin();bi!=(*si).first.end();bi++) {
-                if (bi != (*si).first.begin()) printf(" ");
-                printf("%02x",*bi);
+            if ((*si).first.empty()) {
+                printf("single opcode");
+            }
+            else {
+                for (auto bi=(*si).first.begin();bi!=(*si).first.end();bi++)
+                    printf("%02x ",*bi);
+
+                printf("...");
             }
             printf("):\n");
             printf("------------------------------\n");
@@ -5983,6 +5944,7 @@ int main(int argc,char **argv) {
                                 p.first = (*si).first;
                                 p.first.push_back((y*16)+x);
                                 p.second = gsr;
+                                assert(p.second.get() != nullptr);
                                 subl.push_back(p);
                             }
                             else if (gs.maptype == OpcodeGroupBlock::MODREGRM) {
