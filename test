@@ -269,6 +269,38 @@ opcode "IMUL"
   (param(1)=i)
   (code 0x6B mrm i=immediate(sb));
 
+opcode "INS"
+  (reads siv,far memory(b,seg,siv))
+  (param=far memory(b,seg,siv))
+  (modifies siv)
+  (writes av)
+  (dest=av)
+  (code 0x6C);
+
+opcode "INS"
+  (reads siv,far memory(v,seg,siv))
+  (param=far memory(v,seg,siv))
+  (modifies siv)
+  (writes al)
+  (dest=al)
+  (code 0x6D);
+
+opcode "OUTS"
+  (reads al,es,div)
+  (param=al)
+  (writes far memory(b,es,div),div)
+  (modifies div)
+  (dest=far memory(b,es,div))
+  (code 0x6E);
+
+opcode "OUTS"
+  (reads av,es,div)
+  (param=av)
+  (writes far memory(v,es,div),div)
+  (modifies div)
+  (dest=far memory(v,es,div))
+  (code 0x6F);
+
 opcode "JO"
   (reads ipv, flags(of))
   (modifies ipv)
