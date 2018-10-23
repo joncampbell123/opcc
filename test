@@ -2459,3 +2459,37 @@ if value("cpulevel") >= 286
     (dest=rm(v))
     (code 0x0F 0x00 mrm reg(5));
 
+if (value("cpulevel") >= 186 and isset("necv20"))
+  opcode "BRKEM"
+    (comment "Break for 8080 emulation")
+    (modifies all)
+    (param=i)
+    (code 0x0F 0xFF i=immediate(b));
+
+if (value("cpulevel") >= 186 and isset("necv20"))
+  opcode "ADD4S"
+    (reads far memory(v,seg,siv),siv,div,es)
+    (writes far memory(v,es,div),siv,div)
+    (modifies siv,div)
+    (dest=far memory(v,es,div))
+    (param=far memory(v,seg,siv))
+    (code 0x0F 0x20);
+
+if (value("cpulevel") >= 186 and isset("necv20"))
+  opcode "SUB4S"
+    (reads far memory(v,seg,siv),siv,div,es)
+    (writes far memory(v,es,div),siv,div)
+    (modifies siv,div)
+    (dest=far memory(v,es,div))
+    (param=far memory(v,seg,siv))
+    (code 0x0F 0x22);
+
+if (value("cpulevel") >= 186 and isset("necv20"))
+  opcode "CMP4S"
+    (reads far memory(v,seg,siv),siv,div,es)
+    (writes far memory(v,es,div),siv,div)
+    (modifies siv,div)
+    (dest=far memory(v,es,div))
+    (param=far memory(v,seg,siv))
+    (code 0x0F 0x26);
+
