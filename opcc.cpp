@@ -4082,7 +4082,7 @@ bool read_opcode_spec_opcode_parens(tokenlist &parent_tokens,OpcodeSpec &spec) {
             n = tokens.next();
         }
 
-        if (n.type == TOK_Z) {
+        if (n.type == TOK_Z || n.type == TOK_C/*NEC v20*/) {
             spec.rep_condition = n.type;
         }
         else {

@@ -2218,6 +2218,20 @@ prefix "REPZ"
   (code 0xF3)
   (rep=z);
 
+if (value("cpulevel") >= 186 and isset("necv20"))
+prefix "REPNC"
+  (comment "repeat while not c")
+  (desc "rep while not c")
+  (code 0x64)
+  (rep=!c);
+
+if (value("cpulevel") >= 186 and isset("necv20"))
+prefix "REPC"
+  (comment "repeat while c")
+  (desc "rep while c")
+  (code 0x65)
+  (rep=c);
+
 opcode "HLT"
   (code 0xF4);
 
