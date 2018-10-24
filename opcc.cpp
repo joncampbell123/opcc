@@ -1813,7 +1813,7 @@ public:
     unsigned int                memory_type = 0;        // if TOK_MEMORY, var_expr says what to write
     std::vector<unsigned int>   flags;                  // if TOK_FLAGS
     std::vector<unsigned int>   fpu;                    // if TOK_FPU
-    std::vector<tokenstate_t>   fpu_st;                 // if TOK_ST
+    tokenstate_t                fpu_st;                 // if TOK_ST
     std::vector<tokenstate_t>   var_expr;
     std::vector<tokenstate_t>   constant;
 public:
@@ -1962,14 +1962,14 @@ std::string SingleByteSpec::pretty_string(void) {
         res += "Av";
     }
     else if (meaning == TOK_ST) {
-        if (fpu_st.size() == 1) {
-            if (fpu_st[0].type == TOK_REG ||
-                fpu_st[0].type == TOK_RM) {
+        if (fpu_st.type != 0) {
+            if (fpu_st.type == TOK_REG ||
+                fpu_st.type == TOK_RM) {
                 res += "st(i)";
             }
-            else if (fpu_st[0].type == TOK_UINT) {
+            else if (fpu_st.type == TOK_UINT) {
                 char tmp[64];
-                sprintf(tmp,"st(%llu)",(unsigned long long)fpu_st[0].intval.u);
+                sprintf(tmp,"st(%llu)",(unsigned long long)fpu_st.intval.u);
                 if (!res.empty()) res += " ";
                 res += tmp;
             }
@@ -2088,23 +2088,17 @@ std::string SingleByteSpec::to_string(void) {
         }
         res += "]";
     }
-    if (!fpu_st.empty()) {
+    if (fpu_st.type != 0) {
         if (!res.empty()) res += ",";
-        res += "fpu_st=[";
-        for (auto i=fpu_st.begin();i!=fpu_st.end();) {
-            if ((*i).type == TOK_UINT) {
-                char tmp[64];
-                sprintf(tmp,"%llu",(unsigned long long)((*i).intval.u));
-                res += tmp;
-            }
-            else {
-                res += tokentype_str[(*i).type];
-            }
-
-            i++;
-            if (i != fpu_st.end()) res += ",";
+        res += "fpu_st=";
+        if (fpu_st.type == TOK_UINT) {
+            char tmp[64];
+            sprintf(tmp,"%llu",(unsigned long long)(fpu_st.intval.u));
+            res += tmp;
         }
-        res += "]";
+        else {
+            res += tokentype_str[fpu_st.type];
+        }
     }
     if (!constant.empty()) {
         if (!res.empty()) res += ",";
@@ -2349,12 +2343,10 @@ std::string OpcodeSpec::pretty_string(void) {
                 }
                 b += c << 3;
 
-                if (destination.fpu_st.size() == 1 &&
-                    destination.fpu_st[0].type == TOK_RM)
+                if (destination.fpu_st.type == TOK_RM)
                     is_i = true;
                 else if (param.size() == 1 &&
-                         param[0].fpu_st.size() == 1 &&
-                         param[0].fpu_st[0].type == TOK_RM)
+                         param[0].fpu_st.type == TOK_RM)
                     is_i = true;
 
                 if (is_i)
@@ -3488,10 +3480,11 @@ bool parse_code_constant_spec(std::vector<tokenstate_t> &constant,tokenlist &tok
     return true;
 }
 
-bool parse_code_st_spec(std::vector<tokenstate_t> &st,tokenlist &tokens) {
+bool parse_code_st_spec(tokenstate_t &st,tokenlist &tokens) {
     /* caller ate TOK_FLAGS */
     if (tokens.next().type != TOK_OPEN_PARENS) return false;
 
+    st.type = TOK_NONE;
     do {
         auto &n = tokens.next();
 
@@ -3502,7 +3495,10 @@ bool parse_code_st_spec(std::vector<tokenstate_t> &st,tokenlist &tokens) {
             case TOK_REG:
             case TOK_RM:
             case TOK_ALL:
-                st.push_back(n);
+                if (st.type != 0)
+                    return false;
+
+                st = n;
                 break;
             default:
                 return false;
