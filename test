@@ -3391,3 +3391,11 @@ opcode "RDPMC"
   (writes eax,edx)
   (code 0x0F 0x33);
 
+if value("cpulevel") > 86
+opcode "UD2"
+  (code 0x0F 0x0B);
+
+if value("cpulevel") > 86
+opcode "UD2"
+  (code 0x0F 0xB9);
+
