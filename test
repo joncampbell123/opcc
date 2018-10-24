@@ -3399,3 +3399,32 @@ if value("cpulevel") > 86
 opcode "UD2"
   (code 0x0F 0xB9);
 
+if ((value("cpulevel") >= 386) and (value("cpulevel") <= 486)) {;
+  opcode "UMOV"
+    (reads reg(b))
+    (writes rm(b))
+    (dest=rm(b))
+    (param=reg(b))
+    (code 0x0F 0x10 mrm);
+
+  opcode "UMOV"
+    (reads reg(v))
+    (writes rm(v))
+    (dest=rm(v))
+    (param=reg(v))
+    (code 0x0F 0x11 mrm);
+
+  opcode "UMOV"
+    (writes reg(b))
+    (reads rm(b))
+    (param=rm(b))
+    (dest=reg(b))
+    (code 0x0F 0x12 mrm);
+
+  opcode "UMOV"
+    (writes reg(v))
+    (reads rm(v))
+    (param=rm(v))
+    (dest=reg(v))
+    (code 0x0F 0x13 mrm);
+} if;
