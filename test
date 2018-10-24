@@ -3355,3 +3355,8 @@ opcode "CPUID"
   (writes eax,ebx,ecx,edx)
   (code 0x0F 0xA2);
 
+if value("cpulevel") >= 386
+opcode "RSM"
+  (modifies all)
+  (code 0x0F 0xAA);
+
