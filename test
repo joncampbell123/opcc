@@ -3384,3 +3384,10 @@ opcode "CMPXCHG8B"
   (writes flags(zf),rm(qw),eax,edx)
   (code 0x0F 0xC7 mrm mod(!3) reg(1));
 
+if ((value("cpulevel") >= 686) or (value("mmx") > 0))
+opcode "RDPMC"
+  (reads ecx)
+  (modifies eax,edx)
+  (writes eax,edx)
+  (code 0x0F 0x33);
+
