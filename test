@@ -3348,3 +3348,10 @@ opcode "XADD"
   (param=reg(v))
   (code 0x0F 0xC1 mrm);
 
+if value("cpuid") > 0
+opcode "CPUID"
+  (reads eax)
+  (modifies eax,ebx,ecx,edx)
+  (writes eax,ebx,ecx,edx)
+  (code 0x0F 0xA2);
+

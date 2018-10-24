@@ -5810,6 +5810,7 @@ int main(int argc,char **argv) {
 
         defines["cpulevel"] = 486;
         defines["cpuyear"] = 1992;
+        defines["cpuid"] = 1;
     }
     else if (march == "80486old" || march == "486old") {
         if (fpuarch.empty())
@@ -5823,18 +5824,21 @@ int main(int argc,char **argv) {
             fpuarch = "80587";
 
         defines["cpulevel"] = 586;
+        defines["cpuid"] = 1;
     }
     else if (march == "pentium") {
         if (fpuarch.empty())
             fpuarch = "80587";
 
         defines["cpulevel"] = 586;
+        defines["cpuid"] = 1;
     }
     else if (march == "pentium-mmx") {
         if (fpuarch.empty())
             fpuarch = "80587";
 
         defines["cpulevel"] = 586;
+        defines["cpuid"] = 1;
         defines["mmx"] = 1;
     }
     else if (march == "80686" || march == "686") {
@@ -5842,12 +5846,14 @@ int main(int argc,char **argv) {
             fpuarch = "80687";
 
         defines["cpulevel"] = 686;
+        defines["cpuid"] = 1;
     }
     else if (march == "pentium-pro") {
         if (fpuarch.empty())
             fpuarch = "80687";
 
         defines["cpulevel"] = 686;
+        defines["cpuid"] = 1;
         defines["cmov"] = 1;
     }
     else if (march == "pentium-pro-mmx") {
@@ -5855,6 +5861,7 @@ int main(int argc,char **argv) {
             fpuarch = "80687";
 
         defines["cpulevel"] = 686;
+        defines["cpuid"] = 1;
         defines["cmov"] = 1;
         defines["mmx"] = 1;
     }
