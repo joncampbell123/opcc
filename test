@@ -3428,3 +3428,11 @@ if ((value("cpulevel") >= 386) and (value("cpulevel") <= 486)) {;
     (dest=reg(v))
     (code 0x0F 0x13 mrm);
 } if;
+
+if ((value("cpulevel") >= 586) and (value("syscall") > 0))
+opcode "SYSCALL"
+  (code 0x0F 0x05);
+
+if ((value("cpulevel") >= 586) and (value("syscall") > 0))
+opcode "SYSRET"
+  (code 0x0F 0x07);
