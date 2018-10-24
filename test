@@ -293,8 +293,8 @@ opcode "INS"
   (reads siv,far memory(b,seg,siv))
   (param=far memory(b,seg,siv))
   (modifies siv)
-  (writes av)
-  (dest=av)
+  (writes al)
+  (dest=al)
   (code 0x6C);
 
 if value("cpulevel") >= 186
@@ -302,8 +302,8 @@ opcode "INS"
   (reads siv,far memory(v,seg,siv))
   (param=far memory(v,seg,siv))
   (modifies siv)
-  (writes al)
-  (dest=al)
+  (writes av)
+  (dest=av)
   (code 0x6D);
 
 if value("cpulevel") >= 186
