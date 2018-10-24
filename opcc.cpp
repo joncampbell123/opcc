@@ -5355,6 +5355,7 @@ public:
         NONE=0,                 // nothing
         LEAF,                   // leaf node
         LINEAR,                 // map[byte]
+        MRMLINEAR,              // mod/reg/rm map[byte]
         MODREGRM,               // map[modregrm(mod,reg,rm)]
         PREFIX                  // prefix (no map)
 
@@ -5495,9 +5496,9 @@ bool enter_opcode_byte_spec(const OpcodeSpec &opcode,size_t opcode_index,std::sh
                     (*(oi+1)).meaning == 0) {               // and the next is a opcode byte range
 
                     if (gs.maptype == OpcodeGroupBlock::NONE) {
-                        gs.maptype = OpcodeGroupBlock::LINEAR;
+                        gs.maptype = OpcodeGroupBlock::MRMLINEAR;
                     }
-                    else if (gs.maptype != OpcodeGroupBlock::LINEAR) {
+                    else if (gs.maptype != OpcodeGroupBlock::MRMLINEAR) {
                         gs.overlap_error = true;
                         fprintf(stderr,"map overlap error for opcode '%s'\n",opcode.name.c_str());
                         return false;
@@ -5832,6 +5833,9 @@ int main(int argc,char **argv) {
                     printf("%02x ",*bi);
 
                 printf("...");
+
+                if ((*sgroup).maptype == OpcodeGroupBlock::MRMLINEAR)
+                    printf(" with mod/reg/rm before last byte");
             }
             printf("):\n");
             printf("------------------------------\n");
@@ -5858,7 +5862,8 @@ int main(int argc,char **argv) {
                         if (gsr.get() != nullptr) {
                             const auto &gs = *gsr;
 
-                            if (gs.maptype == OpcodeGroupBlock::LINEAR) {
+                            if (gs.maptype == OpcodeGroupBlock::LINEAR ||
+                                gs.maptype == OpcodeGroupBlock::MRMLINEAR) {
                                 c = 'M';
 
                                 std::pair< std::vector<uint8_t>, std::shared_ptr<OpcodeGroupBlock> > p;
