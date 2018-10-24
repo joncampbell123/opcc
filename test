@@ -3376,3 +3376,11 @@ opcode "WRMSR"
   (reads ecx,eax,edx)
   (code 0x0F 0x30);
 
+if value("cpulevel") >= 586
+opcode "CMPXCHG8B"
+  (dest=rm(qw))
+  (reads eax,edx,ecx,ebx,rm(qw))
+  (modifies flags(zf),rm(qw))
+  (writes flags(zf),rm(qw),eax,edx)
+  (code 0x0F 0xC7 mrm mod(!3) reg(1));
+
