@@ -3360,3 +3360,19 @@ opcode "RSM"
   (modifies all)
   (code 0x0F 0xAA);
 
+if value("cpulevel") >= 586
+opcode "RDTSC"
+  (writes eax,edx)
+  (code 0x0F 0x31);
+
+if value("cpulevel") >= 586
+opcode "RDMSR"
+  (reads ecx)
+  (writes eax,edx)
+  (code 0x0F 0x32);
+
+if value("cpulevel") >= 586
+opcode "WRMSR"
+  (reads ecx,eax,edx)
+  (code 0x0F 0x30);
+
