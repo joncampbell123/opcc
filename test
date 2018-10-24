@@ -3323,3 +3323,28 @@ opcode "BSWAP"
   (param=reg(v))
   (code 0x0F i=0xC8-0xCF reg=(i&7));
 
+if value("cpulevel") >= 486
+opcode "INVD"
+  (code 0x0F 0x08);
+
+if value("cpulevel") >= 486
+opcode "INVLPG"
+  (dest=rm(v))
+  (code 0x0F 0x01 mrm reg(7) mod(!3));
+
+if value("cpulevel") >= 486
+opcode "WBINVD"
+  (code 0x0F 0x09);
+
+if value("cpulevel") >= 486
+opcode "XADD"
+  (dest=rm(b))
+  (param=reg(b))
+  (code 0x0F 0xC0 mrm);
+
+if value("cpulevel") >= 486
+opcode "XADD"
+  (dest=rm(v))
+  (param=reg(v))
+  (code 0x0F 0xC1 mrm);
+
