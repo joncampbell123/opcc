@@ -3436,3 +3436,118 @@ opcode "SYSCALL"
 if ((value("cpulevel") >= 586) and (value("syscall") > 0))
 opcode "SYSRET"
   (code 0x0F 0x07);
+
+if value("cpulevel") >= 686 {;
+opcode "CMOVO"
+  (reads rm(v),flags(of))
+  (writes reg(v))
+  (dest=reg(v))
+  (param=rm(v))
+  (code 0x0F 0x40 mrm reg(0));
+
+opcode "CMOVNO"
+  (reads rm(v), flags(of))
+  (writes reg(v))
+  (dest=reg(v))
+  (param=rm(v))
+  (code 0x0F 0x41 mrm reg(0));
+
+opcode "CMOVC"
+  (reads rm(v), flags(cf))
+  (writes reg(v))
+  (dest=reg(v))
+  (param=rm(v))
+  (code 0x0F 0x42 mrm reg(0));
+
+opcode "CMOVNC"
+  (reads rm(v), flags(cf))
+  (writes reg(v))
+  (dest=reg(v))
+  (param=rm(v))
+  (code 0x0F 0x43 mrm reg(0));
+
+opcode "CMOVZ"
+  (reads rm(v), flags(zf))
+  (writes reg(v))
+  (dest=reg(v))
+  (param=rm(v))
+  (code 0x0F 0x44 mrm reg(0));
+
+opcode "CMOVNZ"
+  (reads rm(v), flags(zf))
+  (writes reg(v))
+  (dest=reg(v))
+  (param=rm(v))
+  (code 0x0F 0x45 mrm reg(0));
+
+opcode "CMOVNA"
+  (reads rm(v), flags(zf,cf))
+  (writes reg(v))
+  (dest=reg(v))
+  (param=rm(v))
+  (code 0x0F 0x46 mrm reg(0));
+
+opcode "CMOVA"
+  (reads rm(v), flags(zf,cf))
+  (writes reg(v))
+  (dest=reg(v))
+  (param=rm(v))
+  (code 0x0F 0x47 mrm reg(0));
+
+opcode "CMOVS"
+  (reads rm(v), flags(sf))
+  (writes reg(v))
+  (dest=reg(v))
+  (param=rm(v))
+  (code 0x0F 0x48 mrm reg(0));
+
+opcode "CMOVNS"
+  (reads rm(v), flags(sf))
+  (writes reg(v))
+  (dest=reg(v))
+  (param=rm(v))
+  (code 0x0F 0x49 mrm reg(0));
+
+opcode "CMOVP"
+  (reads rm(v), flags(pf))
+  (writes reg(v))
+  (dest=reg(v))
+  (param=rm(v))
+  (code 0x0F 0x4A mrm reg(0));
+
+opcode "CMOVNP"
+  (reads rm(v), flags(pf))
+  (writes reg(v))
+  (dest=reg(v))
+  (param=rm(v))
+  (code 0x0F 0x4B mrm reg(0));
+
+opcode "CMOVL"
+  (reads rm(v), flags(sf,of))
+  (writes reg(v))
+  (dest=reg(v))
+  (param=rm(v))
+  (code 0x0F 0x4C mrm reg(0));
+
+opcode "CMOVNL"
+  (reads rm(v), flags(sf,of))
+  (writes reg(v))
+  (dest=reg(v))
+  (param=rm(v))
+  (code 0x0F 0x4D mrm reg(0));
+
+opcode "CMOVNG"
+  (reads rm(v), flags(zf,sf))
+  (writes reg(v))
+  (dest=reg(v))
+  (param=rm(v))
+  (code 0x0F 0x4E mrm reg(0));
+
+opcode "CMOVG"
+  (reads rm(v), flags(zf,sf))
+  (writes reg(v))
+  (dest=reg(v))
+  (param=rm(v))
+  (code 0x0F 0x4F mrm reg(0));
+} if;
+
