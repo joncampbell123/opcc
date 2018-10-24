@@ -3443,111 +3443,111 @@ opcode "CMOVO"
   (writes reg(v))
   (dest=reg(v))
   (param=rm(v))
-  (code 0x0F 0x40 mrm reg(0));
+  (code 0x0F 0x40 mrm);
 
 opcode "CMOVNO"
   (reads rm(v), flags(of))
   (writes reg(v))
   (dest=reg(v))
   (param=rm(v))
-  (code 0x0F 0x41 mrm reg(0));
+  (code 0x0F 0x41 mrm);
 
 opcode "CMOVC"
   (reads rm(v), flags(cf))
   (writes reg(v))
   (dest=reg(v))
   (param=rm(v))
-  (code 0x0F 0x42 mrm reg(0));
+  (code 0x0F 0x42 mrm);
 
 opcode "CMOVNC"
   (reads rm(v), flags(cf))
   (writes reg(v))
   (dest=reg(v))
   (param=rm(v))
-  (code 0x0F 0x43 mrm reg(0));
+  (code 0x0F 0x43 mrm);
 
 opcode "CMOVZ"
   (reads rm(v), flags(zf))
   (writes reg(v))
   (dest=reg(v))
   (param=rm(v))
-  (code 0x0F 0x44 mrm reg(0));
+  (code 0x0F 0x44 mrm);
 
 opcode "CMOVNZ"
   (reads rm(v), flags(zf))
   (writes reg(v))
   (dest=reg(v))
   (param=rm(v))
-  (code 0x0F 0x45 mrm reg(0));
+  (code 0x0F 0x45 mrm);
 
 opcode "CMOVNA"
   (reads rm(v), flags(zf,cf))
   (writes reg(v))
   (dest=reg(v))
   (param=rm(v))
-  (code 0x0F 0x46 mrm reg(0));
+  (code 0x0F 0x46 mrm);
 
 opcode "CMOVA"
   (reads rm(v), flags(zf,cf))
   (writes reg(v))
   (dest=reg(v))
   (param=rm(v))
-  (code 0x0F 0x47 mrm reg(0));
+  (code 0x0F 0x47 mrm);
 
 opcode "CMOVS"
   (reads rm(v), flags(sf))
   (writes reg(v))
   (dest=reg(v))
   (param=rm(v))
-  (code 0x0F 0x48 mrm reg(0));
+  (code 0x0F 0x48 mrm);
 
 opcode "CMOVNS"
   (reads rm(v), flags(sf))
   (writes reg(v))
   (dest=reg(v))
   (param=rm(v))
-  (code 0x0F 0x49 mrm reg(0));
+  (code 0x0F 0x49 mrm);
 
 opcode "CMOVP"
   (reads rm(v), flags(pf))
   (writes reg(v))
   (dest=reg(v))
   (param=rm(v))
-  (code 0x0F 0x4A mrm reg(0));
+  (code 0x0F 0x4A mrm);
 
 opcode "CMOVNP"
   (reads rm(v), flags(pf))
   (writes reg(v))
   (dest=reg(v))
   (param=rm(v))
-  (code 0x0F 0x4B mrm reg(0));
+  (code 0x0F 0x4B mrm);
 
 opcode "CMOVL"
   (reads rm(v), flags(sf,of))
   (writes reg(v))
   (dest=reg(v))
   (param=rm(v))
-  (code 0x0F 0x4C mrm reg(0));
+  (code 0x0F 0x4C mrm);
 
 opcode "CMOVNL"
   (reads rm(v), flags(sf,of))
   (writes reg(v))
   (dest=reg(v))
   (param=rm(v))
-  (code 0x0F 0x4D mrm reg(0));
+  (code 0x0F 0x4D mrm);
 
 opcode "CMOVNG"
   (reads rm(v), flags(zf,sf))
   (writes reg(v))
   (dest=reg(v))
   (param=rm(v))
-  (code 0x0F 0x4E mrm reg(0));
+  (code 0x0F 0x4E mrm);
 
 opcode "CMOVG"
   (reads rm(v), flags(zf,sf))
   (writes reg(v))
   (dest=reg(v))
   (param=rm(v))
-  (code 0x0F 0x4F mrm reg(0));
+  (code 0x0F 0x4F mrm);
 } if;
 
