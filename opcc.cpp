@@ -5362,6 +5362,7 @@ public:
     };
     enum mapping_type maptype = NONE;
 public:
+    bool                        load_mrm = false;           // linear group, read MRM then proceed
     bool                        overlap_error = false;
     size_t                      opcode_index = 0;
 public:
@@ -5432,7 +5433,7 @@ bool enter_opcode_byte_spec(const OpcodeSpec &opcode,size_t opcode_index,std::sh
 
             if (gs.maptype == OpcodeGroupBlock::NONE)
                 gs.maptype = OpcodeGroupBlock::LINEAR;
-            else if (gs.maptype != OpcodeGroupBlock::LINEAR) {
+            else if (gs.maptype != OpcodeGroupBlock::LINEAR || gs.load_mrm != false) {
                 gs.overlap_error = true;
                 fprintf(stderr,"map overlap error for opcode '%s'\n",opcode.name.c_str());
                 return false;
@@ -5486,6 +5487,35 @@ bool enter_opcode_byte_spec(const OpcodeSpec &opcode,size_t opcode_index,std::sh
             }
 
             if (opcode.mod3 == 0 && opcode.reg_constraint == 0 && opcode.rm_constraint == 0) {
+                assert(oi != opcode.bytes.end());
+
+                /* AMD 3DNow! encoding check:
+                 * current *oi is TOK_MRM, next one should be byte range,
+                 * and then THAT'S IT. */
+                if (  (oi+1) != opcode.bytes.end() &&       // this token is MRM...
+                    (*(oi+1)).meaning == 0) {               // and the next is a opcode byte range
+
+                    if (gs.maptype == OpcodeGroupBlock::NONE) {
+                        gs.maptype = OpcodeGroupBlock::LINEAR;
+                        gs.load_mrm = true;
+                    }
+                    else if (gs.maptype != OpcodeGroupBlock::LINEAR || gs.load_mrm != true) {
+                        gs.overlap_error = true;
+                        fprintf(stderr,"map overlap error for opcode '%s'\n",opcode.name.c_str());
+                        return false;
+                    }
+
+                    for (const auto &b : (*(oi+1))) {
+                        auto gsr = (*groups).map_get_alloc(b);
+                        if (gsr.get() == NULL) return false;
+
+                        if (!enter_opcode_byte_spec(opcode,opcode_index,gsr,oi+2))
+                            return false;
+                    }
+
+                    return true;
+                }
+
                 if (gs.maptype == OpcodeGroupBlock::NONE)
                     gs.maptype = OpcodeGroupBlock::LEAF;
                 else if (gs.maptype != OpcodeGroupBlock::LEAF) {
