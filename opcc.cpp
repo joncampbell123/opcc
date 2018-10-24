@@ -5362,7 +5362,6 @@ public:
     };
     enum mapping_type maptype = NONE;
 public:
-    bool                        load_mrm = false;           // linear group, read MRM then proceed
     bool                        overlap_error = false;
     size_t                      opcode_index = 0;
 public:
@@ -5433,7 +5432,7 @@ bool enter_opcode_byte_spec(const OpcodeSpec &opcode,size_t opcode_index,std::sh
 
             if (gs.maptype == OpcodeGroupBlock::NONE)
                 gs.maptype = OpcodeGroupBlock::LINEAR;
-            else if (gs.maptype != OpcodeGroupBlock::LINEAR || gs.load_mrm != false) {
+            else if (gs.maptype != OpcodeGroupBlock::LINEAR) {
                 gs.overlap_error = true;
                 fprintf(stderr,"map overlap error for opcode '%s'\n",opcode.name.c_str());
                 return false;
@@ -5497,9 +5496,8 @@ bool enter_opcode_byte_spec(const OpcodeSpec &opcode,size_t opcode_index,std::sh
 
                     if (gs.maptype == OpcodeGroupBlock::NONE) {
                         gs.maptype = OpcodeGroupBlock::LINEAR;
-                        gs.load_mrm = true;
                     }
-                    else if (gs.maptype != OpcodeGroupBlock::LINEAR || gs.load_mrm != true) {
+                    else if (gs.maptype != OpcodeGroupBlock::LINEAR) {
                         gs.overlap_error = true;
                         fprintf(stderr,"map overlap error for opcode '%s'\n",opcode.name.c_str());
                         return false;
