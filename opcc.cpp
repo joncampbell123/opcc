@@ -5715,12 +5715,26 @@ int main(int argc,char **argv) {
         {
             auto i = opcode.bytes.begin();
 
-            /* bytes mod/reg/rm imm.
-             * you can't have mod/reg/rm after imm.
-             * TODO: AMD 3Dnow! instructions are byte byte mod/reg/rm byte (0F 0F mod/reg/rm byte) */
+            /* must be <byte-range> [<byte-range>] [mrm] [immediate]
+             * exception: AMD 3DNow! 0x0F 0x0F mrm <byte-range> */
             while (i != opcode.bytes.end() && (*i).meaning == 0) i++;
-            if (i != opcode.bytes.end() && (*i).meaning == TOK_MRM) i++;
-            while (i != opcode.bytes.end() && (*i).meaning == TOK_IMMEDIATE) i++;
+            if ((i+0) != opcode.bytes.end() &&
+                (i+1) != opcode.bytes.end() &&
+                (*(i+0)).meaning == TOK_MRM &&      // mrm
+                opcode.mod3 == 0 &&                 // no constraints on mrm
+                opcode.reg_constraint == 0 &&
+                opcode.rm_constraint == 0 &&
+                (*(i+1)).meaning == 0) {            // then byte
+                /* allow */
+                assert((i+0) != opcode.bytes.end());
+                assert((i+1) != opcode.bytes.end());
+                i += 2;
+            }
+            else {
+                if (i != opcode.bytes.end() && (*i).meaning == TOK_MRM) i++;
+                while (i != opcode.bytes.end() && (*i).meaning == TOK_IMMEDIATE) i++;
+            }
+
             if (i != opcode.bytes.end()) {
                 fprintf(stderr,"ERROR: opcode '%s' unexpected byte entries\n",opcode.name.c_str());
                 continue;
