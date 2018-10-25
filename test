@@ -4181,5 +4181,36 @@ if value("3dnow") > 0 {;
     (param=mm(rm))
     (code 0x0F 0x0F mrm 0x97);
 
+  opcode "PFSUB"
+    (reads mm(reg),mm(rm))
+    (modifies mm(reg))
+    (writes mm(reg))
+    (dest=mm(reg))
+    (param=mm(rm))
+    (code 0x0F 0x0F mrm 0x9A);
+
+  opcode "PFSUBR"
+    (reads mm(reg),mm(rm))
+    (modifies mm(reg))
+    (writes mm(reg))
+    (dest=mm(reg))
+    (param=mm(rm))
+    (code 0x0F 0x0F mrm 0xAA);
+
+  opcode "PI2FD"
+    (reads mm(reg),mm(rm))
+    (modifies mm(reg))
+    (writes mm(reg))
+    (dest=mm(reg))
+    (param=mm(rm))
+    (code 0x0F 0x0F mrm 0x0D);
+
+  opcode "PMULHRW"
+    (reads mm(reg),mm(rm))
+    (modifies mm(reg))
+    (writes mm(reg))
+    (dest=mm(reg))
+    (param=mm(rm))
+    (code 0x0F 0x0F mrm 0xB7);
 } if;
 
