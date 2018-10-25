@@ -4391,5 +4391,14 @@ if value("emmi") > 0 {;
     (param(1)=mm(i))
     (code 0x0F 0x58 mrm);
 
+  opcode "PSUBSIW"
+    (comment "i=implied register")
+    (reads mm(reg),mm(rm))
+    (modifies mm(i))
+    (writes mm(i))
+    (dest=mm(i))
+    (param(0)=mm(reg))
+    (param(1)=mm(rm))
+    (code 0x0F 0x55 mrm);
 } if;
 
