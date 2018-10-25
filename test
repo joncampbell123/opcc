@@ -3817,5 +3817,26 @@ if value("mmx") > 0 {;
     (dest=mm(reg))
     (param=mm(rm))
     (code 0x0F 0x66 mrm fpu);
+
+  opcode "PMADDWD"
+    (reads mm(rm))
+    (writes mm(reg))
+    (dest=mm(reg))
+    (param=mm(rm))
+    (code 0x0F 0xF5 mrm fpu);
+
+  opcode "PMULHW"
+    (reads mm(rm))
+    (writes mm(reg))
+    (dest=mm(reg))
+    (param=mm(rm))
+    (code 0x0F 0xE5 mrm fpu);
+
+  opcode "PMULLW"
+    (reads mm(rm))
+    (writes mm(reg))
+    (dest=mm(reg))
+    (param=mm(rm))
+    (code 0x0F 0xD5 mrm fpu);
 } if;
 
