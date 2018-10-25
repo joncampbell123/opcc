@@ -4429,5 +4429,21 @@ if value("sse") > 0 {;
 
   opcode "NOP"
     (code 0x0F 0x1F mrm reg(0));
+
+  opcode "PREFETCHNTA"
+    (param=mm(rm))
+    (code 0x0F 0x18 mrm reg(0) mod(!3));
+
+  opcode "PREFETCHT0"
+    (param=mm(rm))
+    (code 0x0F 0x18 mrm reg(1) mod(!3));
+
+  opcode "PREFETCHT1"
+    (param=mm(rm))
+    (code 0x0F 0x18 mrm reg(2) mod(!3));
+
+  opcode "PREFETCHT2"
+    (param=mm(rm))
+    (code 0x0F 0x18 mrm reg(3) mod(!3));
 } if;
 
