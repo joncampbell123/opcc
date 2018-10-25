@@ -213,6 +213,7 @@ enum tokentype_t {
     TOK_DR,
     TOK_TR,
     TOK_MM,
+    TOK_IMPLIED,
 
     TOK_MAX
 };
@@ -411,7 +412,8 @@ const char *tokentype_str[TOK_MAX] = {
     "CR",
     "DR",
     "TR",
-    "MM"
+    "MM",
+    "IMPLIED"
 };
 
 bool list_op = false;
@@ -1745,6 +1747,10 @@ bool toke(tokenstate_t &tok) {
             tok.type = TOK_MM;
             return true;
         }
+        if (tok.string == "IMPLIED") {
+            tok.type = TOK_IMPLIED;
+            return true;
+        }
     }
 
     tok.type = TOK_ERROR;
@@ -1995,7 +2001,7 @@ std::string SingleByteSpec::pretty_string(void) {
                 res += tokentype_str[fpu_st.type];
                 res += ")";
             }
-            else if (fpu_st.type == TOK_I) { // for Cyrix "implied" mmx register i.e. reg ^ 1
+            else if (fpu_st.type == TOK_IMPLIED) { // for Cyrix "implied" mmx register i.e. reg ^ 1
                 // example: mm1 is implied by mm0
                 res += "mm(reg^1)";
             }
@@ -3526,7 +3532,7 @@ bool parse_code_st_spec(tokenstate_t &st,tokenlist &tokens) {
             case TOK_UINT:
             case TOK_REG:
             case TOK_RM:
-            case TOK_I: // allowed for Cyrix "implied mmx register"
+            case TOK_IMPLIED: // allowed for Cyrix "implied mmx register"
             case TOK_ALL:
                 if (st.type != 0)
                     return false;

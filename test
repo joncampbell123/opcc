@@ -4290,9 +4290,9 @@ if value("emmi") > 0 {;
   opcode "PADDSIW"
     (comment "i=implied register")
     (reads mm(reg),mm(rm))
-    (modifies mm(i))
-    (writes mm(i))
-    (dest=mm(i))
+    (modifies mm(implied))
+    (writes mm(implied))
+    (dest=mm(implied))
     (param(0)=mm(reg))
     (param(1)=mm(rm))
     (code 0x0F 0x51 mrm);
@@ -4308,9 +4308,9 @@ if value("emmi") > 0 {;
   opcode "PDISTIB"
     (comment "i=implied register")
     (reads mm(reg),mm(rm))
-    (modifies mm(i))
-    (writes mm(i))
-    (dest=mm(i))
+    (modifies mm(implied))
+    (writes mm(implied))
+    (dest=mm(implied))
     (param(0)=mm(reg))
     (param(1)=mm(rm))
     (code 0x0F 0x54 mrm);
@@ -4318,9 +4318,9 @@ if value("emmi") > 0 {;
   opcode "PMACHRIW"
     (comment "i=implied register")
     (reads mm(reg),mm(rm))
-    (modifies mm(i))
-    (writes mm(i))
-    (dest=mm(i))
+    (modifies mm(implied))
+    (writes mm(implied))
+    (dest=mm(implied))
     (param(0)=mm(reg))
     (param(1)=mm(rm))
     (code 0x0F 0x5E mrm);
@@ -4336,9 +4336,9 @@ if value("emmi") > 0 {;
   opcode "PMULHRIW"
     (comment "i=implied register")
     (reads mm(reg),mm(rm))
-    (modifies mm(i))
-    (writes mm(i))
-    (dest=mm(i))
+    (modifies mm(implied))
+    (writes mm(implied))
+    (dest=mm(implied))
     (param(0)=mm(reg))
     (param(1)=mm(rm))
     (code 0x0F 0x5D mrm);
@@ -4353,50 +4353,50 @@ if value("emmi") > 0 {;
 
   opcode "PMVGEZB"
     (comment "i=implied register")
-    (reads mm(reg),mm(rm),mm(i))
+    (reads mm(reg),mm(rm),mm(implied))
     (modifies mm(reg))
     (writes mm(reg))
     (dest=mm(reg))
     (param(0)=mm(rm))
-    (param(1)=mm(i))
+    (param(1)=mm(implied))
     (code 0x0F 0x5C mrm);
 
   opcode "PMVLZB"
     (comment "i=implied register")
-    (reads mm(reg),mm(rm),mm(i))
+    (reads mm(reg),mm(rm),mm(implied))
     (modifies mm(reg))
     (writes mm(reg))
     (dest=mm(reg))
     (param(0)=mm(rm))
-    (param(1)=mm(i))
+    (param(1)=mm(implied))
     (code 0x0F 0x5B mrm);
 
   opcode "PMVNZB"
     (comment "i=implied register")
-    (reads mm(reg),mm(rm),mm(i))
+    (reads mm(reg),mm(rm),mm(implied))
     (modifies mm(reg))
     (writes mm(reg))
     (dest=mm(reg))
     (param(0)=mm(rm))
-    (param(1)=mm(i))
+    (param(1)=mm(implied))
     (code 0x0F 0x5A mrm);
 
   opcode "PMVZB"
     (comment "i=implied register")
-    (reads mm(reg),mm(rm),mm(i))
+    (reads mm(reg),mm(rm),mm(implied))
     (modifies mm(reg))
     (writes mm(reg))
     (dest=mm(reg))
     (param(0)=mm(rm))
-    (param(1)=mm(i))
+    (param(1)=mm(implied))
     (code 0x0F 0x58 mrm);
 
   opcode "PSUBSIW"
     (comment "i=implied register")
     (reads mm(reg),mm(rm))
-    (modifies mm(i))
-    (writes mm(i))
-    (dest=mm(i))
+    (modifies mm(implied))
+    (writes mm(implied))
+    (dest=mm(implied))
     (param(0)=mm(reg))
     (param(1)=mm(rm))
     (code 0x0F 0x55 mrm);
