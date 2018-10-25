@@ -3639,3 +3639,36 @@ if value("cpulevel") >= 686 {;
     (code 0xDF mrm mod(3) reg(5) fpu);
 } if;
 
+if value("mmx") > 0 {;
+  opcode "EMMS"
+    (code 0x0F 0x77 fpu);
+
+  opcode "MOVD"
+    (reads rm(dw))
+    (writes mm(reg))
+    (dest=mm(reg))
+    (param=rm(dw))
+    (code 0x0F 0x6E mrm fpu);
+
+  opcode "MOVD"
+    (writes rm(dw))
+    (reads mm(reg))
+    (param=mm(reg))
+    (dest=rm(dw))
+    (code 0x0F 0x7E mrm fpu);
+
+  opcode "MOVQ"
+    (reads rm(qw))
+    (writes mm(reg))
+    (dest=mm(reg))
+    (param=rm(qw))
+    (code 0x0F 0x6F mrm fpu);
+
+  opcode "MOVQ"
+    (writes rm(qw))
+    (reads mm(reg))
+    (param=mm(reg))
+    (dest=rm(qw))
+    (code 0x0F 0x7F mrm fpu);
+} if;
+
