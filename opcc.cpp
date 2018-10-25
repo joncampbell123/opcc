@@ -216,6 +216,7 @@ enum tokentype_t {
     TOK_IMPLIED,
     TOK_XMM,                    // 195
     TOK_DQW,
+    TOK_SSE,
 
     TOK_MAX
 };
@@ -417,7 +418,8 @@ const char *tokentype_str[TOK_MAX] = {
     "MM",
     "IMPLIED",
     "XMM",                      // 195
-    "DQW"
+    "DQW",
+    "SSE"
 };
 
 bool list_op = false;
@@ -1763,6 +1765,10 @@ bool toke(tokenstate_t &tok) {
             tok.type = TOK_DQW;
             return true;
         }
+        if (tok.string == "SSE") {
+            tok.type = TOK_SSE;
+            return true;
+        }
     }
 
     tok.type = TOK_ERROR;
@@ -1884,6 +1890,7 @@ public:
     bool                        lock = false;
     bool                        rep_condition_negate = false;
     bool                        fpu = false;
+    bool                        sse = false;
     std::vector<SingleByteSpec> fpu_stack_ops;              // push or pop
     unsigned int                fpu_stack_op_dir = 0;       // TOK_PUSH or TOK_POP
 public:
@@ -4491,6 +4498,11 @@ bool read_opcode_spec_opcode_parens(tokenlist &parent_tokens,OpcodeSpec &spec) {
                 tokens.discard();
 
                 spec.fpu = true;
+            }
+            else if (tokens.peek().type == TOK_SSE) {
+                tokens.discard();
+
+                spec.sse = true;
             }
             else if (tokens.peek().type == TOK_MRM) {
                 tokens.discard();

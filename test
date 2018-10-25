@@ -4418,7 +4418,7 @@ if value("sse") > 0 {;
     (writes xmm(rm))
     (dest=xmm(rm))
     (param=xmm(reg))
-    (code 0x0F 0x2B mrm mod(!3));
+    (code 0x0F 0x2B mrm mod(!3) sse);
 
   opcode "MOVNTQ"
     (reads mm(reg))
@@ -4493,7 +4493,7 @@ if ((value("sse") > 0) or (value("mmx+") > 0) or (value("mmx") > 0)) {;
     (dest=xmm(reg))
     (param(0)=rm(w))
     (param(1)=i)
-    (code 0x66 0x0F 0xC4 mrm i=immediate(b));
+    (code 0x66 0x0F 0xC4 mrm i=immediate(b) sse);
 
   opcode "PEXTRW"
     (reads mm(rm))
@@ -4511,7 +4511,7 @@ if ((value("sse") > 0) or (value("mmx+") > 0) or (value("mmx") > 0)) {;
     (dest=reg(dw))
     (param(0)=xmm(rm))
     (param(1)=i)
-    (code 0x66 0x0F 0xC5 mrm i=immediate(b) mod(3));
+    (code 0x66 0x0F 0xC5 mrm i=immediate(b) mod(3) sse);
 
   opcode "PMOVMSKB"
     (reads mm(rm))
@@ -4527,7 +4527,7 @@ if ((value("sse") > 0) or (value("mmx+") > 0) or (value("mmx") > 0)) {;
     (writes reg(dw))
     (dest=reg(dw))
     (param=xmm(rm))
-    (code 0x66 0x0F 0xD7 mrm mod(3));
+    (code 0x66 0x0F 0xD7 mrm mod(3) sse);
 
   opcode "PMINUB"
     (reads mm(rm))
@@ -4543,7 +4543,7 @@ if ((value("sse") > 0) or (value("mmx+") > 0) or (value("mmx") > 0)) {;
     (writes xmm(reg))
     (dest=xmm(reg))
     (param=xmm(rm))
-    (code 0x66 0x0F 0xDA mrm);
+    (code 0x66 0x0F 0xDA mrm sse);
 
   opcode "PMAXUB"
     (reads mm(rm))
@@ -4559,7 +4559,7 @@ if ((value("sse") > 0) or (value("mmx+") > 0) or (value("mmx") > 0)) {;
     (writes xmm(reg))
     (dest=xmm(reg))
     (param=xmm(rm))
-    (code 0x66 0x0F 0xDE mrm);
+    (code 0x66 0x0F 0xDE mrm sse);
 
   opcode "PAVGB"
     (reads mm(rm))
@@ -4575,7 +4575,7 @@ if ((value("sse") > 0) or (value("mmx+") > 0) or (value("mmx") > 0)) {;
     (writes xmm(reg))
     (dest=xmm(reg))
     (param=xmm(rm))
-    (code 0x66 0x0F 0xE0 mrm);
+    (code 0x66 0x0F 0xE0 mrm sse);
 
   opcode "PAVGW"
     (reads mm(rm))
@@ -4591,7 +4591,7 @@ if ((value("sse") > 0) or (value("mmx+") > 0) or (value("mmx") > 0)) {;
     (writes xmm(reg))
     (dest=xmm(reg))
     (param=xmm(rm))
-    (code 0x66 0x0F 0xE3 mrm);
+    (code 0x66 0x0F 0xE3 mrm sse);
 
   opcode "PMULHUW"
     (reads mm(rm))
@@ -4607,7 +4607,7 @@ if ((value("sse") > 0) or (value("mmx+") > 0) or (value("mmx") > 0)) {;
     (writes xmm(reg))
     (dest=xmm(reg))
     (param=xmm(rm))
-    (code 0x66 0x0F 0xE4 mrm);
+    (code 0x66 0x0F 0xE4 mrm sse);
 
   opcode "PMINSW"
     (reads mm(rm))
@@ -4623,7 +4623,7 @@ if ((value("sse") > 0) or (value("mmx+") > 0) or (value("mmx") > 0)) {;
     (writes xmm(reg))
     (dest=xmm(reg))
     (param=xmm(rm))
-    (code 0x66 0x0F 0xEA mrm);
+    (code 0x66 0x0F 0xEA mrm sse);
 
   opcode "PMAXSW"
     (reads mm(rm))
@@ -4639,7 +4639,7 @@ if ((value("sse") > 0) or (value("mmx+") > 0) or (value("mmx") > 0)) {;
     (writes xmm(reg))
     (dest=xmm(reg))
     (param=xmm(rm))
-    (code 0x66 0x0F 0xEE mrm);
+    (code 0x66 0x0F 0xEE mrm sse);
 
   opcode "PSADBW"
     (reads mm(rm))
@@ -4655,7 +4655,7 @@ if ((value("sse") > 0) or (value("mmx+") > 0) or (value("mmx") > 0)) {;
     (writes xmm(reg))
     (dest=xmm(reg))
     (param=xmm(rm))
-    (code 0x66 0x0F 0xF6 mrm);
+    (code 0x66 0x0F 0xF6 mrm sse);
 
   opcode "ANDPS"
     (reads xmm(rm))
@@ -4663,7 +4663,7 @@ if ((value("sse") > 0) or (value("mmx+") > 0) or (value("mmx") > 0)) {;
     (writes xmm(reg))
     (dest=xmm(reg))
     (param=xmm(rm))
-    (code 0x0F 0x54 mrm);
+    (code 0x0F 0x54 mrm sse);
 
   opcode "ANDNPS"
     (reads xmm(rm))
@@ -4671,7 +4671,7 @@ if ((value("sse") > 0) or (value("mmx+") > 0) or (value("mmx") > 0)) {;
     (writes xmm(reg))
     (dest=xmm(reg))
     (param=xmm(rm))
-    (code 0x0F 0x55 mrm);
+    (code 0x0F 0x55 mrm sse);
 
   opcode "ORPS"
     (reads xmm(rm))
@@ -4679,7 +4679,7 @@ if ((value("sse") > 0) or (value("mmx+") > 0) or (value("mmx") > 0)) {;
     (writes xmm(reg))
     (dest=xmm(reg))
     (param=xmm(rm))
-    (code 0x0F 0x56 mrm);
+    (code 0x0F 0x56 mrm sse);
 
   opcode "XORPS"
     (reads xmm(rm))
@@ -4687,7 +4687,7 @@ if ((value("sse") > 0) or (value("mmx+") > 0) or (value("mmx") > 0)) {;
     (writes xmm(reg))
     (dest=xmm(reg))
     (param=xmm(rm))
-    (code 0x0F 0x57 mrm);
+    (code 0x0F 0x57 mrm sse);
 
   opcode "MOVUPS"
     (reads xmm(rm))
@@ -4695,7 +4695,7 @@ if ((value("sse") > 0) or (value("mmx+") > 0) or (value("mmx") > 0)) {;
     (writes xmm(reg))
     (dest=xmm(reg))
     (param=xmm(rm))
-    (code 0x0F 0x10 mrm);
+    (code 0x0F 0x10 mrm sse);
 
   opcode "MOVSS"
     (reads xmm(rm))
@@ -4703,7 +4703,7 @@ if ((value("sse") > 0) or (value("mmx+") > 0) or (value("mmx") > 0)) {;
     (writes xmm(reg))
     (dest=xmm(reg))
     (param=xmm(rm))
-    (code 0xF3 0x0F 0x10 mrm);
+    (code 0xF3 0x0F 0x10 mrm sse);
 
   opcode "MOVUPS"
     (reads xmm(reg))
@@ -4711,7 +4711,7 @@ if ((value("sse") > 0) or (value("mmx+") > 0) or (value("mmx") > 0)) {;
     (writes xmm(rm))
     (dest=xmm(rm))
     (param=xmm(reg))
-    (code 0x0F 0x11 mrm);
+    (code 0x0F 0x11 mrm sse);
 
   opcode "MOVSS"
     (reads xmm(reg))
@@ -4719,7 +4719,7 @@ if ((value("sse") > 0) or (value("mmx+") > 0) or (value("mmx") > 0)) {;
     (writes xmm(rm))
     (dest=xmm(rm))
     (param=xmm(reg))
-    (code 0xF3 0x0F 0x11 mrm);
+    (code 0xF3 0x0F 0x11 mrm sse);
 
   opcode "MOVLPS"
     (reads mm(rm))
@@ -4727,7 +4727,7 @@ if ((value("sse") > 0) or (value("mmx+") > 0) or (value("mmx") > 0)) {;
     (writes xmm(reg))
     (dest=xmm(reg))
     (param=mm(rm))
-    (code 0x0F 0x12 mrm mod(!3));
+    (code 0x0F 0x12 mrm mod(!3) sse);
 
   opcode "MOVHLPS"
     (reads xmm(rm))
@@ -4735,7 +4735,7 @@ if ((value("sse") > 0) or (value("mmx+") > 0) or (value("mmx") > 0)) {;
     (writes xmm(reg))
     (dest=xmm(reg))
     (param=xmm(rm))
-    (code 0x0F 0x12 mrm mod(3));
+    (code 0x0F 0x12 mrm mod(3) sse);
 
   opcode "MOVLPS"
     (reads xmm(reg))
@@ -4743,7 +4743,7 @@ if ((value("sse") > 0) or (value("mmx+") > 0) or (value("mmx") > 0)) {;
     (writes mm(rm))
     (dest=mm(rm))
     (param=xmm(reg))
-    (code 0x0F 0x13 mrm mod(!3));
+    (code 0x0F 0x13 mrm mod(!3) sse);
 
 } if;
 
