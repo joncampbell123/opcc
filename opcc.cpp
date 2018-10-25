@@ -1991,7 +1991,9 @@ std::string SingleByteSpec::pretty_string(void) {
         if (fpu_st.type != 0) {
             if (fpu_st.type == TOK_REG ||
                 fpu_st.type == TOK_RM) {
-                res += "mm(i)";
+                res += "mm(";
+                res += tokentype_str[fpu_st.type];
+                res += ")";
             }
             else if (fpu_st.type == TOK_UINT) {
                 char tmp[64];
