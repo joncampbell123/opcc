@@ -4486,5 +4486,14 @@ if ((value("sse") > 0) or (value("mmx+") > 0) or (value("mmx") > 0)) {;
     (param(1)=i)
     (code 0x0F 0xC4 mrm i=immediate(b));
 
+  opcode "PEXTRW"
+    (reads mm(rm))
+    (modifies reg(dw))
+    (writes reg(dw))
+    (dest=reg(dw))
+    (param(0)=mm(rm))
+    (param(1)=i)
+    (code 0x0F 0xC5 mrm i=immediate(b));
+
 } if;
 
