@@ -4656,5 +4656,37 @@ if ((value("sse") > 0) or (value("mmx+") > 0) or (value("mmx") > 0)) {;
     (dest=xmm(reg))
     (param=xmm(rm))
     (code 0x66 0x0F 0xF6 mrm);
+
+  opcode "ANDPS"
+    (reads xmm(rm))
+    (modifies xmm(reg))
+    (writes xmm(reg))
+    (dest=xmm(reg))
+    (param=xmm(rm))
+    (code 0x0F 0x54 mrm);
+
+  opcode "ANDNPS"
+    (reads xmm(rm))
+    (modifies xmm(reg))
+    (writes xmm(reg))
+    (dest=xmm(reg))
+    (param=xmm(rm))
+    (code 0x0F 0x55 mrm);
+
+  opcode "ORPS"
+    (reads xmm(rm))
+    (modifies xmm(reg))
+    (writes xmm(reg))
+    (dest=xmm(reg))
+    (param=xmm(rm))
+    (code 0x0F 0x56 mrm);
+
+  opcode "XORPS"
+    (reads xmm(rm))
+    (modifies xmm(reg))
+    (writes xmm(reg))
+    (dest=xmm(reg))
+    (param=xmm(rm))
+    (code 0x0F 0x57 mrm);
 } if;
 
