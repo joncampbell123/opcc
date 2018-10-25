@@ -4465,6 +4465,26 @@ if value("sse") > 0 {;
   opcode "STMXCSR"
     (dest=rm(dw))
     (code 0x0F 0xAE mrm mod(!3) reg(3));
+} if;
+
+if ((value("sse") > 0) or (value("mmx+") > 0) or (value("mmx") > 0)) {;
+  opcode "PSHUFW"
+    (reads mm(rm))
+    (modifies mm(reg))
+    (writes mm(reg))
+    (dest=mm(reg))
+    (param(0)=mm(rm))
+    (param(1)=i)
+    (code 0x0F 0x70 mrm i=immediate(b));
+
+  opcode "PINSRW"
+    (reads rm(w))
+    (modifies mm(reg))
+    (writes mm(reg))
+    (dest=mm(reg))
+    (param(0)=rm(w))
+    (param(1)=i)
+    (code 0x0F 0xC4 mrm i=immediate(b));
 
 } if;
 
