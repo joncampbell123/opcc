@@ -5717,12 +5717,24 @@ int main(int argc,char **argv) {
         defines["cmov"] = 1;
         defines["mmx"] = 1;
     }
+    else if (march == "pentium-2") {
+        if (fpuarch.empty())
+            fpuarch = "80687";
+
+        defines["cpulevel"] = 686;
+        defines["sysenter"] = 1;
+        defines["pentium"] = 2;
+        defines["cpuid"] = 1;
+        defines["cmov"] = 1;
+        defines["mmx"] = 1;
+    }
     else if (march == "everything") { /* catch-all for generic decompilers. cover as much as possible without overlapping opcodes. */
         if (fpuarch.empty())
             fpuarch = "80687";
 
         defines["everything"] = 1;
         defines["cpulevel"] = 686;
+        defines["sysenter"] = 1;
         defines["syscall"] = 1;
         defines["cpuid"] = 1;
         defines["cmov"] = 1;
