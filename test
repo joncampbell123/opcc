@@ -4426,5 +4426,8 @@ if value("sse") > 0 {;
     (dest=mm(rm))
     (param=mm(reg))
     (code 0x0F 0xE7 mrm mod(!3));
+
+  opcode "NOP"
+    (code 0x0F 0x1F mrm reg(0));
 } if;
 
