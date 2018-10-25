@@ -1,0 +1,18 @@
+[x] 8086 opcodes
+[x] 8087 opcodes
+[x] 80186 opcodes
+[x] NEC V20 opcodes
+[x] 286 opcodes
+[x] 287 opcodes
+[x] 386 opcodes
+[x] 387 opcodes
+[x] 486 opcodes
+[x] 487 opcodes
+[x] Pentium opcodes
+[x] Pentium MMX opcodes
+[x] Pentium Pro/MMX opcodes
+[x] Pentium II
+[x] AMD K6
+[x] Cyrix 6x86 EMMI
+[ ] SSE (in progress)
+
