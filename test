@@ -4447,6 +4447,24 @@ if value("sse") > 0 {;
     (code 0x0F 0x18 mrm reg(3) mod(!3));
 
   opcode "SFENCE"
-    (code 0x0F 0xAE 0xF8);
+    (comment "0x0F 0xAE 0xF8")
+    (code 0x0F 0xAE mrm mod(3) reg(7) rm(0));
+
+  opcode "FXSAVE"
+    (dest=rm(f87state))
+    (code 0x0F 0xAE mrm mod(!3) reg(0));
+
+  opcode "FXRSTOR"
+    (dest=rm(f87state))
+    (code 0x0F 0xAE mrm mod(!3) reg(1));
+
+  opcode "LDMXCSR"
+    (dest=rm(dw))
+    (code 0x0F 0xAE mrm mod(!3) reg(2));
+
+  opcode "STMXCSR"
+    (dest=rm(dw))
+    (code 0x0F 0xAE mrm mod(!3) reg(3));
+
 } if;
 
