@@ -4296,5 +4296,60 @@ if value("emmi") > 0 {;
     (param(0)=mm(reg))
     (param(1)=mm(rm))
     (code 0x0F 0x51 mrm);
+
+  opcode "PAVEB"
+    (reads mm(reg),mm(rm))
+    (modifies mm(reg))
+    (writes mm(reg))
+    (dest=mm(reg))
+    (param=mm(rm))
+    (code 0x0F 0x50 mrm);
+
+  opcode "PDISTIB"
+    (comment "i=implied register")
+    (reads mm(reg),mm(rm))
+    (modifies mm(i))
+    (writes mm(i))
+    (dest=mm(i))
+    (param(0)=mm(reg))
+    (param(1)=mm(rm))
+    (code 0x0F 0x54 mrm);
+
+  opcode "PMACHRIW"
+    (comment "i=implied register")
+    (reads mm(reg),mm(rm))
+    (modifies mm(i))
+    (writes mm(i))
+    (dest=mm(i))
+    (param(0)=mm(reg))
+    (param(1)=mm(rm))
+    (code 0x0F 0x5E mrm);
+
+  opcode "PMAGW"
+    (reads mm(reg),mm(rm))
+    (modifies mm(reg))
+    (writes mm(reg))
+    (dest=mm(reg))
+    (param=mm(rm))
+    (code 0x0F 0x52 mrm);
+
+  opcode "PMULHRIW"
+    (comment "i=implied register")
+    (reads mm(reg),mm(rm))
+    (modifies mm(i))
+    (writes mm(i))
+    (dest=mm(i))
+    (param(0)=mm(reg))
+    (param(1)=mm(rm))
+    (code 0x0F 0x5D mrm);
+
+  opcode "PMULHRW"
+    (reads mm(reg),mm(rm))
+    (modifies mm(reg))
+    (writes mm(reg))
+    (dest=mm(reg))
+    (param=mm(rm))
+    (code 0x0F 0x59 mrm);
+
 } if;
 
