@@ -4264,5 +4264,25 @@ if value("3dnow+") > 0 {;
     (dest=mm(reg))
     (param=mm(rm))
     (code 0x0F 0x0F mrm 0xBB);
+
+  comment "Not sure when these appeared, but said to appear with AMD Geode GX";
+
+  if value("everything") > 0 {;
+    opcode "PFRSQRTV"
+      (reads mm(reg),mm(rm))
+      (modifies mm(reg))
+      (writes mm(reg))
+      (dest=mm(reg))
+      (param=mm(rm))
+      (code 0x0F 0x0F mrm 0x87);
+
+    opcode "PFRCPV"
+      (reads mm(reg),mm(rm))
+      (modifies mm(reg))
+      (writes mm(reg))
+      (dest=mm(reg))
+      (param=mm(rm))
+      (code 0x0F 0x0F mrm 0x86);
+  } if;
 } if;
 
