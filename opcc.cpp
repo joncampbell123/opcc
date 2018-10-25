@@ -5802,7 +5802,19 @@ int main(int argc,char **argv) {
         defines["cmov"] = 1;
         defines["mmx"] = 1;
     }
-     else if (march == "cyrix-6x86-mmx") {
+    else if (march == "pentium-3") {
+        if (fpuarch.empty())
+            fpuarch = "80687";
+
+        defines["cpulevel"] = 686;
+        defines["sysenter"] = 1;
+        defines["pentium"] = 3;
+        defines["cpuid"] = 1;
+        defines["cmov"] = 1;
+        defines["mmx"] = 1;
+        defines["sse"] = 1;
+    }
+    else if (march == "cyrix-6x86-mmx") {
         if (fpuarch.empty())
             fpuarch = "80687";
 
