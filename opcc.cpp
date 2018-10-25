@@ -1995,6 +1995,10 @@ std::string SingleByteSpec::pretty_string(void) {
                 res += tokentype_str[fpu_st.type];
                 res += ")";
             }
+            else if (fpu_st.type == TOK_I) { // for Cyrix "implied" mmx register i.e. reg ^ 1
+                // example: mm1 is implied by mm0
+                res += "mm(reg^1)";
+            }
             else if (fpu_st.type == TOK_UINT) {
                 char tmp[64];
                 sprintf(tmp,"mm(%llu)",(unsigned long long)fpu_st.intval.u);
@@ -3522,6 +3526,7 @@ bool parse_code_st_spec(tokenstate_t &st,tokenlist &tokens) {
             case TOK_UINT:
             case TOK_REG:
             case TOK_RM:
+            case TOK_I: // allowed for Cyrix "implied mmx register"
             case TOK_ALL:
                 if (st.type != 0)
                     return false;
@@ -5752,6 +5757,17 @@ int main(int argc,char **argv) {
         defines["sysenter"] = 1;
         defines["pentium"] = 2;
         defines["cpuid"] = 1;
+        defines["cmov"] = 1;
+        defines["mmx"] = 1;
+    }
+     else if (march == "cyrix-6x86-mmx") {
+        if (fpuarch.empty())
+            fpuarch = "80687";
+
+        defines["cpulevel"] = 686;
+        defines["sysenter"] = 1;
+        defines["cpuid"] = 1;
+        defines["emmi"] = 1;
         defines["cmov"] = 1;
         defines["mmx"] = 1;
     }

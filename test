@@ -4286,3 +4286,15 @@ if value("3dnow+") > 0 {;
   } if;
 } if;
 
+if value("emmi") > 0 {;
+  opcode "PADDSIW"
+    (comment "i=implied register")
+    (reads mm(reg),mm(rm))
+    (modifies mm(i))
+    (writes mm(i))
+    (dest=mm(i))
+    (param(0)=mm(reg))
+    (param(1)=mm(rm))
+    (code 0x0F 0x51 mrm);
+} if;
+
