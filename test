@@ -4061,12 +4061,15 @@ opcode "FEMMS"
 
 if ((value("3dnow") > 0) or ((value("vendor") == "amd") and (value("cpulevel") >= 686))) {;
   opcode "PREFETCH"
+    (param=rm(b))
     (code 0x0F 0x0D mrm reg(0));
 
   opcode "PREFETCHW"
+    (param=rm(b))
     (code 0x0F 0x0D mrm reg(1));
 
   opcode "PREFETCHWT1"
+    (param=rm(b))
     (code 0x0F 0x0D mrm reg(2));
 } if;
 
