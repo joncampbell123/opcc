@@ -4493,7 +4493,15 @@ if ((value("sse") > 0) or (value("mmx+") > 0) or (value("mmx") > 0)) {;
     (dest=reg(dw))
     (param(0)=mm(rm))
     (param(1)=i)
-    (code 0x0F 0xC5 mrm i=immediate(b));
+    (code 0x0F 0xC5 mrm i=immediate(b) mod(3));
+
+  opcode "PMOVMSKB"
+    (reads mm(rm))
+    (modifies reg(dw))
+    (writes reg(dw))
+    (dest=reg(dw))
+    (param=mm(rm))
+    (code 0x0F 0xD7 mrm mod(3));
 
 } if;
 
