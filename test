@@ -3607,5 +3607,35 @@ if value("cpulevel") >= 686 {;
     (dest=st(0))
     (param=st(rm))
     (code 0xDB mrm mod(3) reg(3) fpu);
+
+  opcode "FCOMI"
+    (reads st(rm),st(0))
+    (writes st(0))
+    (dest=st(0))
+    (param=st(rm))
+    (code 0xDB mrm mod(3) reg(6) fpu);
+
+  opcode "FCOMIP"
+    (fpu stack pop st(0))
+    (reads st(rm),st(0))
+    (writes st(0))
+    (dest=st(0))
+    (param=st(rm))
+    (code 0xDF mrm mod(3) reg(6) fpu);
+
+  opcode "FUCOMI"
+    (reads st(rm),st(0))
+    (writes st(0))
+    (dest=st(0))
+    (param=st(rm))
+    (code 0xDB mrm mod(3) reg(5) fpu);
+
+  opcode "FUCOMIP"
+    (fpu stack pop st(0))
+    (reads st(rm),st(0))
+    (writes st(0))
+    (dest=st(0))
+    (param=st(rm))
+    (code 0xDF mrm mod(3) reg(5) fpu);
 } if;
 
