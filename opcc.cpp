@@ -212,6 +212,7 @@ enum tokentype_t {
     TOK_CR,                     // 190
     TOK_DR,
     TOK_TR,
+    TOK_MM,
 
     TOK_MAX
 };
@@ -409,7 +410,8 @@ const char *tokentype_str[TOK_MAX] = {
     "MACRO",
     "CR",
     "DR",
-    "TR"
+    "TR",
+    "MM"
 };
 
 bool list_op = false;
@@ -1739,6 +1741,10 @@ bool toke(tokenstate_t &tok) {
             tok.type = TOK_TR;
             return true;
         }
+        if (tok.string == "MM") {
+            tok.type = TOK_MM;
+            return true;
+        }
     }
 
     tok.type = TOK_ERROR;
@@ -1813,7 +1819,7 @@ public:
     unsigned int                memory_type = 0;        // if TOK_MEMORY, var_expr says what to write
     std::vector<unsigned int>   flags;                  // if TOK_FLAGS
     std::vector<unsigned int>   fpu;                    // if TOK_FPU
-    tokenstate_t                fpu_st;                 // if TOK_ST
+    tokenstate_t                fpu_st;                 // if TOK_ST or TOK_MM
     std::vector<tokenstate_t>   var_expr;
     std::vector<tokenstate_t>   constant;
 public:
@@ -1979,6 +1985,26 @@ std::string SingleByteSpec::pretty_string(void) {
         }
         else {
             res += "st(?)";
+        }
+    }
+    else if (meaning == TOK_MM) {
+        if (fpu_st.type != 0) {
+            if (fpu_st.type == TOK_REG ||
+                fpu_st.type == TOK_RM) {
+                res += "mm(i)";
+            }
+            else if (fpu_st.type == TOK_UINT) {
+                char tmp[64];
+                sprintf(tmp,"mm(%llu)",(unsigned long long)fpu_st.intval.u);
+                if (!res.empty()) res += " ";
+                res += tmp;
+            }
+            else {
+                res += "mm(?)";
+            }
+        }
+        else {
+            res += "mm(?)";
         }
     }
     else if (meaning == TOK_MEMORY) {
@@ -3695,7 +3721,7 @@ bool parse_sbl_list(std::vector<SingleByteSpec> &sbl,tokenlist &tokens) {
                 return false;
             }
         }
-        else if (bs.meaning == TOK_ST) {
+        else if (bs.meaning == TOK_ST || bs.meaning == TOK_MM) {
             if (!parse_code_st_spec(bs.fpu_st,/*&*/tokens)) {
                 fprintf(stderr,"Invalid st() spec\n");
                 return false;
@@ -4124,7 +4150,7 @@ bool read_opcode_spec_opcode_parens(tokenlist &parent_tokens,OpcodeSpec &spec) {
                 return false;
             }
         }
-        else if (bs.meaning == TOK_ST) {
+        else if (bs.meaning == TOK_ST || bs.meaning == TOK_MM) {
             if (!parse_code_st_spec(bs.fpu_st,/*&*/tokens)) {
                 fprintf(stderr,"Invalid st() spec\n");
                 return false;
@@ -4203,7 +4229,7 @@ bool read_opcode_spec_opcode_parens(tokenlist &parent_tokens,OpcodeSpec &spec) {
                 return false;
             }
         }
-        else if (bs.meaning == TOK_ST) {
+        else if (bs.meaning == TOK_ST || bs.meaning == TOK_MM) {
             if (!parse_code_st_spec(bs.fpu_st,/*&*/tokens)) {
                 fprintf(stderr,"Invalid st() spec\n");
                 return false;
@@ -4288,7 +4314,7 @@ bool read_opcode_spec_opcode_parens(tokenlist &parent_tokens,OpcodeSpec &spec) {
                 return false;
             }
         }
-        else if (bs.meaning == TOK_ST) {
+        else if (bs.meaning == TOK_ST || bs.meaning == TOK_MM) {
             if (!parse_code_st_spec(bs.fpu_st,/*&*/tokens)) {
                 fprintf(stderr,"Invalid st() spec\n");
                 return false;
