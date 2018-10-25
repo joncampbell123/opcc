@@ -4419,5 +4419,12 @@ if value("sse") > 0 {;
     (dest=xmm(rm))
     (param=xmm(reg))
     (code 0x0F 0x2B mrm mod(!3));
+
+  opcode "MOVNTQ"
+    (reads mm(reg))
+    (writes mm(rm))
+    (dest=mm(rm))
+    (param=mm(reg))
+    (code 0x0F 0xE7 mrm mod(!3));
 } if;
 
