@@ -4503,5 +4503,21 @@ if ((value("sse") > 0) or (value("mmx+") > 0) or (value("mmx") > 0)) {;
     (param=mm(rm))
     (code 0x0F 0xD7 mrm mod(3));
 
+  opcode "PMINUB"
+    (reads mm(rm))
+    (modifies mm(reg))
+    (writes mm(reg))
+    (dest=mm(reg))
+    (param=mm(rm))
+    (code 0x0F 0xDA mrm);
+
+  opcode "PMAXUB"
+    (reads mm(rm))
+    (modifies mm(reg))
+    (writes mm(reg))
+    (dest=mm(reg))
+    (param=mm(rm))
+    (code 0x0F 0xDE mrm);
+
 } if;
 
