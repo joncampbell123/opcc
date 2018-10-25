@@ -36,9 +36,9 @@ Opcodes by byte:
         INVD                                                             ; 0f 08
       WBINVD                                                             ; 0f 09
          UD2                                                             ; 0f 0b
-    PREFETCH                                                             ; 0f 0d /0
-   PREFETCHW                                                             ; 0f 0d /1
- PREFETCHWT1                                                             ; 0f 0d /2
+    PREFETCH r/m(u8)                                                     ; 0f 0d /0
+   PREFETCHW r/m(u8)                                                     ; 0f 0d /1
+ PREFETCHWT1 r/m(u8)                                                     ; 0f 0d /2
        FEMMS                                                             ; 0f 0e
        PI2FW mm(reg), mm(rm)                                             ; 0f 0f /r 0c
        PI2FD mm(reg), mm(rm)                                             ; 0f 0f /r 0d
@@ -1113,13 +1113,13 @@ Opcodes by name:
         POPA                                                             ; 61 /r
         POPF                                                             ; 9d
          POR mm(reg), mm(rm)                                             ; 0f eb /r
-    PREFETCH                                                             ; 0f 0d /0
+    PREFETCH r/m(u8)                                                     ; 0f 0d /0
  PREFETCHNTA mm(rm)                                                      ; 0f 18 /0=m
   PREFETCHT0 mm(rm)                                                      ; 0f 18 /1=m
   PREFETCHT1 mm(rm)                                                      ; 0f 18 /2=m
   PREFETCHT2 mm(rm)                                                      ; 0f 18 /3=m
-   PREFETCHW                                                             ; 0f 0d /1
- PREFETCHWT1                                                             ; 0f 0d /2
+   PREFETCHW r/m(u8)                                                     ; 0f 0d /1
+ PREFETCHWT1 r/m(u8)                                                     ; 0f 0d /2
       PSADBW mm(reg), mm(rm)                                             ; 0f f6 /r
       PSADBW xmm(reg), xmm(rm)                                           ; 66 0f f6 /r
       PSHUFW mm(reg), mm(rm), I                                          ; 0f 70 /r I=imm(u8)
