@@ -3551,3 +3551,61 @@ opcode "CMOVG"
   (code 0x0F 0x4F mrm);
 } if;
 
+if value("cpulevel") >= 686 {;
+  opcode "FCMOVB"
+    (reads st(rm),st(0))
+    (writes st(0))
+    (dest=st(0))
+    (param=st(rm))
+    (code 0xDA mrm mod(3) reg(0) fpu);
+
+  opcode "FCMOVE"
+    (reads st(rm),st(0))
+    (writes st(0))
+    (dest=st(0))
+    (param=st(rm))
+    (code 0xDA mrm mod(3) reg(1) fpu);
+
+  opcode "FCMOVBE"
+    (reads st(rm),st(0))
+    (writes st(0))
+    (dest=st(0))
+    (param=st(rm))
+    (code 0xDA mrm mod(3) reg(2) fpu);
+
+  opcode "FCMOVU"
+    (reads st(rm),st(0))
+    (writes st(0))
+    (dest=st(0))
+    (param=st(rm))
+    (code 0xDA mrm mod(3) reg(3) fpu);
+
+  opcode "FCMOVNB"
+    (reads st(rm),st(0))
+    (writes st(0))
+    (dest=st(0))
+    (param=st(rm))
+    (code 0xDB mrm mod(3) reg(0) fpu);
+
+  opcode "FCMOVNE"
+    (reads st(rm),st(0))
+    (writes st(0))
+    (dest=st(0))
+    (param=st(rm))
+    (code 0xDB mrm mod(3) reg(1) fpu);
+
+  opcode "FCMOVNBE"
+    (reads st(rm),st(0))
+    (writes st(0))
+    (dest=st(0))
+    (param=st(rm))
+    (code 0xDB mrm mod(3) reg(2) fpu);
+
+  opcode "FCMOVNU"
+    (reads st(rm),st(0))
+    (writes st(0))
+    (dest=st(0))
+    (param=st(rm))
+    (code 0xDB mrm mod(3) reg(3) fpu);
+} if;
+
