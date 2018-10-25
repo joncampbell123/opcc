@@ -3670,5 +3670,26 @@ if value("mmx") > 0 {;
     (param=mm(reg))
     (dest=rm(qw))
     (code 0x0F 0x7F mrm fpu);
+
+  opcode "PACKSSDW"
+    (reads mm(rm))
+    (writes mm(reg))
+    (dest=mm(reg))
+    (param=mm(rm))
+    (code 0x0F 0x6B mrm fpu);
+
+  opcode "PACKSSWB"
+    (reads mm(rm))
+    (writes mm(reg))
+    (dest=mm(reg))
+    (param=mm(rm))
+    (code 0x0F 0x63 mrm fpu);
+
+  opcode "PACKUSWB"
+    (reads mm(rm))
+    (writes mm(reg))
+    (dest=mm(reg))
+    (param=mm(rm))
+    (code 0x0F 0x67 mrm fpu);
 } if;
 
