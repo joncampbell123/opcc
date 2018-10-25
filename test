@@ -3691,5 +3691,33 @@ if value("mmx") > 0 {;
     (dest=mm(reg))
     (param=mm(rm))
     (code 0x0F 0x67 mrm fpu);
+
+  opcode "PADDB"
+    (reads mm(rm))
+    (writes mm(reg))
+    (dest=mm(reg))
+    (param=mm(rm))
+    (code 0x0F 0xFC mrm fpu);
+
+  opcode "PADDW"
+    (reads mm(rm))
+    (writes mm(reg))
+    (dest=mm(reg))
+    (param=mm(rm))
+    (code 0x0F 0xFD mrm fpu);
+
+  opcode "PADDD"
+    (reads mm(rm))
+    (writes mm(reg))
+    (dest=mm(reg))
+    (param=mm(rm))
+    (code 0x0F 0xFE mrm fpu);
+
+  opcode "PADDQ"
+    (reads mm(rm))
+    (writes mm(reg))
+    (dest=mm(reg))
+    (param=mm(rm))
+    (code 0x0F 0xD4 mrm fpu);
 } if;
 
