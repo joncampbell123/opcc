@@ -4224,3 +4224,45 @@ if value("3dnow") > 0 {;
     (code 0x0F 0x0F mrm 0xB7);
 } if;
 
+if value("3dnow+") > 0 {;
+  opcode "PF2IW"
+    (reads mm(reg),mm(rm))
+    (modifies mm(reg))
+    (writes mm(reg))
+    (dest=mm(reg))
+    (param=mm(rm))
+    (code 0x0F 0x0F mrm 0x1C);
+
+  opcode "PFNACC"
+    (reads mm(reg),mm(rm))
+    (modifies mm(reg))
+    (writes mm(reg))
+    (dest=mm(reg))
+    (param=mm(rm))
+    (code 0x0F 0x0F mrm 0x8A);
+
+  opcode "PFPNACC"
+    (reads mm(reg),mm(rm))
+    (modifies mm(reg))
+    (writes mm(reg))
+    (dest=mm(reg))
+    (param=mm(rm))
+    (code 0x0F 0x0F mrm 0x8E);
+
+  opcode "PI2FW"
+    (reads mm(reg),mm(rm))
+    (modifies mm(reg))
+    (writes mm(reg))
+    (dest=mm(reg))
+    (param=mm(rm))
+    (code 0x0F 0x0F mrm 0x0C);
+
+  opcode "PSWAPD"
+    (reads mm(reg),mm(rm))
+    (modifies mm(reg))
+    (writes mm(reg))
+    (dest=mm(reg))
+    (param=mm(rm))
+    (code 0x0F 0x0F mrm 0xBB);
+} if;
+

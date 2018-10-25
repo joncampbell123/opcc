@@ -5708,6 +5708,18 @@ int main(int argc,char **argv) {
         defines["cpuid"] = 1;
         defines["mmx"] = 1;
     }
+    else if (march == "amd-k6-2+") {
+        if (fpuarch.empty())
+            fpuarch = "80587";
+
+        defines["vendor"] = "amd";
+        defines["cpulevel"] = 586;
+        defines["syscall"] = 1;
+        defines["3dnow+"] = 1;
+        defines["3dnow"] = 1;
+        defines["cpuid"] = 1;
+        defines["mmx"] = 1;
+    }
     else if (march == "80686" || march == "686") {
         if (fpuarch.empty())
             fpuarch = "80687";
@@ -5751,6 +5763,7 @@ int main(int argc,char **argv) {
         defines["cpulevel"] = 686;
         defines["sysenter"] = 1;
         defines["syscall"] = 1;
+        defines["3dnow+"] = 1;
         defines["cpuid"] = 1;
         defines["3dnow"] = 1;
         defines["cmov"] = 1;
