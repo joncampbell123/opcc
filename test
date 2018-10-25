@@ -4537,6 +4537,14 @@ if ((value("sse") > 0) or (value("mmx+") > 0) or (value("mmx") > 0)) {;
     (param=mm(rm))
     (code 0x0F 0xDA mrm);
 
+  opcode "PMINUB"
+    (reads xmm(rm))
+    (modifies xmm(reg))
+    (writes xmm(reg))
+    (dest=xmm(reg))
+    (param=xmm(rm))
+    (code 0x66 0x0F 0xDA mrm);
+
   opcode "PMAXUB"
     (reads mm(rm))
     (modifies mm(reg))
@@ -4544,6 +4552,14 @@ if ((value("sse") > 0) or (value("mmx+") > 0) or (value("mmx") > 0)) {;
     (dest=mm(reg))
     (param=mm(rm))
     (code 0x0F 0xDE mrm);
+
+  opcode "PMAXUB"
+    (reads xmm(rm))
+    (modifies xmm(reg))
+    (writes xmm(reg))
+    (dest=xmm(reg))
+    (param=xmm(rm))
+    (code 0x66 0x0F 0xDE mrm);
 
   opcode "PAVGB"
     (reads mm(rm))
