@@ -4521,6 +4521,14 @@ if ((value("sse") > 0) or (value("mmx+") > 0) or (value("mmx") > 0)) {;
     (param=mm(rm))
     (code 0x0F 0xD7 mrm mod(3));
 
+  opcode "PMOVMSKB"
+    (reads xmm(rm))
+    (modifies reg(dw))
+    (writes reg(dw))
+    (dest=reg(dw))
+    (param=xmm(rm))
+    (code 0x66 0x0F 0xD7 mrm mod(3));
+
   opcode "PMINUB"
     (reads mm(rm))
     (modifies mm(reg))
