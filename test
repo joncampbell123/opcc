@@ -4519,5 +4519,21 @@ if ((value("sse") > 0) or (value("mmx+") > 0) or (value("mmx") > 0)) {;
     (param=mm(rm))
     (code 0x0F 0xDE mrm);
 
+  opcode "PAVGB"
+    (reads mm(rm))
+    (modifies mm(reg))
+    (writes mm(reg))
+    (dest=mm(reg))
+    (param=mm(rm))
+    (code 0x0F 0xE0 mrm);
+
+  opcode "PAVGW"
+    (reads mm(rm))
+    (modifies mm(reg))
+    (writes mm(reg))
+    (dest=mm(reg))
+    (param=mm(rm))
+    (code 0x0F 0xE3 mrm);
+
 } if;
 
