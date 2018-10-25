@@ -3851,5 +3851,31 @@ if value("mmx") > 0 {;
     (dest=mm(reg))
     (param=mm(rm))
     (code 0x0F 0xF1 mrm fpu);
+
+  opcode "PSLLD"
+    (writes mm(reg))
+    (dest=mm(reg))
+    (param=i)
+    (code 0x0F 0x72 mrm i=immediate(b) reg(6) fpu);
+
+  opcode "PSLLD"
+    (reads mm(rm))
+    (writes mm(reg))
+    (dest=mm(reg))
+    (param=mm(rm))
+    (code 0x0F 0xF2 mrm fpu);
+
+  opcode "PSLLQ"
+    (writes mm(reg))
+    (dest=mm(reg))
+    (param=i)
+    (code 0x0F 0x73 mrm i=immediate(b) reg(6) fpu);
+
+  opcode "PSLLQ"
+    (reads mm(rm))
+    (writes mm(reg))
+    (dest=mm(reg))
+    (param=mm(rm))
+    (code 0x0F 0xF3 mrm fpu);
 } if;
 
