@@ -214,6 +214,7 @@ enum tokentype_t {
     TOK_TR,
     TOK_MM,
     TOK_IMPLIED,
+    TOK_XMM,                    // 195
 
     TOK_MAX
 };
@@ -409,11 +410,12 @@ const char *tokentype_str[TOK_MAX] = {
     "F80BCD",
     "CW",
     "MACRO",
-    "CR",
+    "CR",                       // 190
     "DR",
     "TR",
     "MM",
-    "IMPLIED"
+    "IMPLIED",
+    "XMM"                       // 195
 };
 
 bool list_op = false;
@@ -1751,6 +1753,10 @@ bool toke(tokenstate_t &tok) {
             tok.type = TOK_IMPLIED;
             return true;
         }
+        if (tok.string == "XMM") {
+            tok.type = TOK_XMM;
+            return true;
+        }
     }
 
     tok.type = TOK_ERROR;
@@ -1825,7 +1831,7 @@ public:
     unsigned int                memory_type = 0;        // if TOK_MEMORY, var_expr says what to write
     std::vector<unsigned int>   flags;                  // if TOK_FLAGS
     std::vector<unsigned int>   fpu;                    // if TOK_FPU
-    tokenstate_t                fpu_st;                 // if TOK_ST or TOK_MM
+    tokenstate_t                fpu_st;                 // if TOK_ST or TOK_MM or TOK_XMM
     std::vector<tokenstate_t>   var_expr;
     std::vector<tokenstate_t>   constant;
 public:
@@ -2017,6 +2023,28 @@ std::string SingleByteSpec::pretty_string(void) {
         }
         else {
             res += "mm(?)";
+        }
+    }
+    else if (meaning == TOK_XMM) {
+        if (fpu_st.type != 0) {
+            if (fpu_st.type == TOK_REG ||
+                fpu_st.type == TOK_RM) {
+                res += "xmm(";
+                res += tokentype_str[fpu_st.type];
+                res += ")";
+            }
+            else if (fpu_st.type == TOK_UINT) {
+                char tmp[64];
+                sprintf(tmp,"xmm(%llu)",(unsigned long long)fpu_st.intval.u);
+                if (!res.empty()) res += " ";
+                res += tmp;
+            }
+            else {
+                res += "xmm(?)";
+            }
+        }
+        else {
+            res += "xmm(?)";
         }
     }
     else if (meaning == TOK_MEMORY) {
@@ -3734,7 +3762,7 @@ bool parse_sbl_list(std::vector<SingleByteSpec> &sbl,tokenlist &tokens) {
                 return false;
             }
         }
-        else if (bs.meaning == TOK_ST || bs.meaning == TOK_MM) {
+        else if (bs.meaning == TOK_ST || bs.meaning == TOK_MM || bs.meaning == TOK_XMM) {
             if (!parse_code_st_spec(bs.fpu_st,/*&*/tokens)) {
                 fprintf(stderr,"Invalid st() spec\n");
                 return false;
@@ -4163,7 +4191,7 @@ bool read_opcode_spec_opcode_parens(tokenlist &parent_tokens,OpcodeSpec &spec) {
                 return false;
             }
         }
-        else if (bs.meaning == TOK_ST || bs.meaning == TOK_MM) {
+        else if (bs.meaning == TOK_ST || bs.meaning == TOK_MM || bs.meaning == TOK_XMM) {
             if (!parse_code_st_spec(bs.fpu_st,/*&*/tokens)) {
                 fprintf(stderr,"Invalid st() spec\n");
                 return false;
@@ -4242,7 +4270,7 @@ bool read_opcode_spec_opcode_parens(tokenlist &parent_tokens,OpcodeSpec &spec) {
                 return false;
             }
         }
-        else if (bs.meaning == TOK_ST || bs.meaning == TOK_MM) {
+        else if (bs.meaning == TOK_ST || bs.meaning == TOK_MM || bs.meaning == TOK_XMM) {
             if (!parse_code_st_spec(bs.fpu_st,/*&*/tokens)) {
                 fprintf(stderr,"Invalid st() spec\n");
                 return false;
@@ -4327,7 +4355,7 @@ bool read_opcode_spec_opcode_parens(tokenlist &parent_tokens,OpcodeSpec &spec) {
                 return false;
             }
         }
-        else if (bs.meaning == TOK_ST || bs.meaning == TOK_MM) {
+        else if (bs.meaning == TOK_ST || bs.meaning == TOK_MM || bs.meaning == TOK_XMM) {
             if (!parse_code_st_spec(bs.fpu_st,/*&*/tokens)) {
                 fprintf(stderr,"Invalid st() spec\n");
                 return false;
@@ -5789,6 +5817,7 @@ int main(int argc,char **argv) {
         defines["cpuid"] = 1;
         defines["3dnow"] = 1;
         defines["cmov"] = 1;
+        defines["sse"] = 1;
         defines["mmx"] = 1;
     }
     else {
