@@ -4060,3 +4060,13 @@ if ((value("3dnow") > 0) or ((value("vendor") == "amd") and (value("cpulevel") >
     (code 0x0F 0x0D mrm reg(2));
 } if;
 
+if value("3dnow") > 0 {;
+  opcode "PAVGUSB"
+    (reads mm(reg),mm(rm))
+    (modifies mm(reg))
+    (writes mm(reg))
+    (dest=mm(reg))
+    (param=mm(rm))
+    (code 0x0F 0x0F mrm 0xBF);
+} if;
+
