@@ -4045,3 +4045,18 @@ if ((value("cpulevel") >= 586) and (value("sysenter") > 0)) {;
     (code 0x0F 0x35);
 } if;
 
+if value("3dnow") > 0
+opcode "FEMMS"
+  (code 0x0F 0x0E);
+
+if ((value("3dnow") > 0) or ((value("vendor") == "amd") and (value("cpulevel") >= 686))) {;
+  opcode "PREFETCH"
+    (code 0x0F 0x0D mrm reg(0));
+
+  opcode "PREFETCHW"
+    (code 0x0F 0x0D mrm reg(1));
+
+  opcode "PREFETCHWT1"
+    (code 0x0F 0x0D mrm reg(2));
+} if;
+
