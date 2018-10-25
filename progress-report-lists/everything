@@ -1307,7 +1307,7 @@ Opcodes by name:
 Opcode coverage (single opcode):
 ------------------------------
 X = coverage  O = overlap(!)  M = multi-byte  R = group by mod/reg/rm
-P = prefix
+P = prefix    Pm = mandatory prefix (modifies opcodes)
 
     0 1 2 3 4 5 6 7 8 9 a b c d e f 
    --------------------------------
@@ -1317,21 +1317,21 @@ P = prefix
   3|X X X X X X P X X X X X X X P X 
   4|X X X X X X X X X X X X X X X X 
   5|X X X X X X X X X X X X X X X X 
-  6|X X X X P P M P X X X X X X X X 
+  6|X X X X P P PmP X X X X X X X X 
   7|X X X X X X X X X X X X X X X X 
   8|R R R R X X X X X X X X X R X R 
-  9|X X X X X X X X X X X M X X X X 
+  9|X X X X X X X X X X X PmX X X X 
   a|X X X X X X X X X X X X X X X X 
   b|X X X X X X X X X X X X X X X X 
   c|R R X X R R R R X X X X X X X X 
   d|R R R R X X X X R R R R R R R R 
   e|X X X X X X X X X X X X X X X X 
-  f|P X P M X X R R X X X X X X R R 
+  f|P X P PmX X R R X X X X X X R R 
 
 Opcode coverage (0f ...):
 ------------------------------
 X = coverage  O = overlap(!)  M = multi-byte  R = group by mod/reg/rm
-P = prefix
+P = prefix    Pm = mandatory prefix (modifies opcodes)
 
     0 1 2 3 4 5 6 7 8 9 a b c d e f 
    --------------------------------
@@ -1355,7 +1355,7 @@ P = prefix
 Opcode coverage (66 ... mandatory prefix):
 ------------------------------
 X = coverage  O = overlap(!)  M = multi-byte  R = group by mod/reg/rm
-P = prefix
+P = prefix    Pm = mandatory prefix (modifies opcodes)
 
     0 1 2 3 4 5 6 7 8 9 a b c d e f 
    --------------------------------
@@ -1379,7 +1379,7 @@ P = prefix
 Opcode coverage (9b ... mandatory prefix):
 ------------------------------
 X = coverage  O = overlap(!)  M = multi-byte  R = group by mod/reg/rm
-P = prefix
+P = prefix    Pm = mandatory prefix (modifies opcodes)
 
     0 1 2 3 4 5 6 7 8 9 a b c d e f 
    --------------------------------
@@ -1403,7 +1403,7 @@ P = prefix
 Opcode coverage (f3 ... mandatory prefix):
 ------------------------------
 X = coverage  O = overlap(!)  M = multi-byte  R = group by mod/reg/rm
-P = prefix
+P = prefix    Pm = mandatory prefix (modifies opcodes)
 
     0 1 2 3 4 5 6 7 8 9 a b c d e f 
    --------------------------------
@@ -1427,7 +1427,7 @@ P = prefix
 Opcode coverage (0f 0f ... with mod/reg/rm before last byte):
 ------------------------------
 X = coverage  O = overlap(!)  M = multi-byte  R = group by mod/reg/rm
-P = prefix
+P = prefix    Pm = mandatory prefix (modifies opcodes)
 
     0 1 2 3 4 5 6 7 8 9 a b c d e f 
    --------------------------------
@@ -1451,7 +1451,7 @@ P = prefix
 Opcode coverage (66 0f ...):
 ------------------------------
 X = coverage  O = overlap(!)  M = multi-byte  R = group by mod/reg/rm
-P = prefix
+P = prefix    Pm = mandatory prefix (modifies opcodes)
 
     0 1 2 3 4 5 6 7 8 9 a b c d e f 
    --------------------------------
@@ -1475,7 +1475,7 @@ P = prefix
 Opcode coverage (f3 0f ...):
 ------------------------------
 X = coverage  O = overlap(!)  M = multi-byte  R = group by mod/reg/rm
-P = prefix
+P = prefix    Pm = mandatory prefix (modifies opcodes)
 
     0 1 2 3 4 5 6 7 8 9 a b c d e f 
    --------------------------------

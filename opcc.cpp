@@ -6012,7 +6012,7 @@ int main(int argc,char **argv) {
             printf("):\n");
             printf("------------------------------\n");
             printf("X = coverage  O = overlap(!)  M = multi-byte  R = group by mod/reg/rm\n");
-            printf("P = prefix\n");
+            printf("P = prefix    Pm = mandatory prefix (modifies opcodes)\n");
             printf("\n");
 
             {
@@ -6037,7 +6037,14 @@ int main(int argc,char **argv) {
                             if (gs.maptype == OpcodeGroupBlock::LINEAR ||
                                 gs.maptype == OpcodeGroupBlock::MRMLINEAR ||
                                 (gs.maptype == OpcodeGroupBlock::PREFIX && !gs.map.empty())) {
-                                c = 'M';
+
+                                if (gs.maptype == OpcodeGroupBlock::PREFIX) {
+                                    c = 'P';
+                                    c2 = 'm';
+                                }
+                                else {
+                                    c = 'M';
+                                }
 
                                 std::pair< std::vector<uint8_t>, std::shared_ptr<OpcodeGroupBlock> > p;
                                 p.first = (*si).first;
