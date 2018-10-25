@@ -3719,5 +3719,103 @@ if value("mmx") > 0 {;
     (dest=mm(reg))
     (param=mm(rm))
     (code 0x0F 0xD4 mrm fpu);
+
+  opcode "PADDSB"
+    (reads mm(rm))
+    (writes mm(reg))
+    (dest=mm(reg))
+    (param=mm(rm))
+    (code 0x0F 0xEC mrm fpu);
+
+  opcode "PADDSW"
+    (reads mm(rm))
+    (writes mm(reg))
+    (dest=mm(reg))
+    (param=mm(rm))
+    (code 0x0F 0xED mrm fpu);
+
+  opcode "PADDUSB"
+    (reads mm(rm))
+    (writes mm(reg))
+    (dest=mm(reg))
+    (param=mm(rm))
+    (code 0x0F 0xDC mrm fpu);
+
+  opcode "PADDUSW"
+    (reads mm(rm))
+    (writes mm(reg))
+    (dest=mm(reg))
+    (param=mm(rm))
+    (code 0x0F 0xDD mrm fpu);
+
+  opcode "PAND"
+    (reads mm(rm))
+    (writes mm(reg))
+    (dest=mm(reg))
+    (param=mm(rm))
+    (code 0x0F 0xDB mrm fpu);
+
+  opcode "PANDN"
+    (reads mm(rm))
+    (writes mm(reg))
+    (dest=mm(reg))
+    (param=mm(rm))
+    (code 0x0F 0xDF mrm fpu);
+
+  opcode "POR"
+    (reads mm(rm))
+    (writes mm(reg))
+    (dest=mm(reg))
+    (param=mm(rm))
+    (code 0x0F 0xEB mrm fpu);
+
+  opcode "PXOR"
+    (reads mm(rm))
+    (writes mm(reg))
+    (dest=mm(reg))
+    (param=mm(rm))
+    (code 0x0F 0xEF mrm fpu);
+
+  opcode "PCMPEQB"
+    (reads mm(rm))
+    (writes mm(reg))
+    (dest=mm(reg))
+    (param=mm(rm))
+    (code 0x0F 0x74 mrm fpu);
+
+  opcode "PCMPEQW"
+    (reads mm(rm))
+    (writes mm(reg))
+    (dest=mm(reg))
+    (param=mm(rm))
+    (code 0x0F 0x75 mrm fpu);
+
+  opcode "PCMPEQD"
+    (reads mm(rm))
+    (writes mm(reg))
+    (dest=mm(reg))
+    (param=mm(rm))
+    (code 0x0F 0x76 mrm fpu);
+
+  opcode "PCMPGTB"
+    (reads mm(rm))
+    (writes mm(reg))
+    (dest=mm(reg))
+    (param=mm(rm))
+    (code 0x0F 0x64 mrm fpu);
+
+  opcode "PCMPGTW"
+    (reads mm(rm))
+    (writes mm(reg))
+    (dest=mm(reg))
+    (param=mm(rm))
+    (code 0x0F 0x65 mrm fpu);
+
+  opcode "PCMPGTD"
+    (reads mm(rm))
+    (writes mm(reg))
+    (dest=mm(reg))
+    (param=mm(rm))
+    (code 0x0F 0x66 mrm fpu);
 } if;
 
