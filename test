@@ -4559,5 +4559,12 @@ if ((value("sse") > 0) or (value("mmx+") > 0) or (value("mmx") > 0)) {;
     (param=mm(rm))
     (code 0x0F 0xEE mrm);
 
+  opcode "PSADBW"
+    (reads mm(rm))
+    (modifies mm(reg))
+    (writes mm(reg))
+    (dest=mm(reg))
+    (param=mm(rm))
+    (code 0x0F 0xF6 mrm);
 } if;
 
