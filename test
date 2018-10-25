@@ -4412,5 +4412,12 @@ if value("sse") > 0 {;
     (param(0)=mm(reg))
     (param(1)=mm(rm))
     (code 0x0F 0xF7 mrm);
+
+  opcode "MOVNTPS"
+    (reads xmm(reg))
+    (writes xmm(rm))
+    (dest=xmm(rm))
+    (param=xmm(reg))
+    (code 0x0F 0x2B mrm mod(!3));
 } if;
 

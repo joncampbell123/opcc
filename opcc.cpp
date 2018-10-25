@@ -215,6 +215,7 @@ enum tokentype_t {
     TOK_MM,
     TOK_IMPLIED,
     TOK_XMM,                    // 195
+    TOK_DQW,
 
     TOK_MAX
 };
@@ -415,7 +416,8 @@ const char *tokentype_str[TOK_MAX] = {
     "TR",
     "MM",
     "IMPLIED",
-    "XMM"                       // 195
+    "XMM",                      // 195
+    "DQW"
 };
 
 bool list_op = false;
@@ -1757,6 +1759,10 @@ bool toke(tokenstate_t &tok) {
             tok.type = TOK_XMM;
             return true;
         }
+        if (tok.string == "DQW") {
+            tok.type = TOK_DQW;
+            return true;
+        }
     }
 
     tok.type = TOK_ERROR;
@@ -1919,6 +1925,7 @@ const char *regrmtype_str(unsigned int type) {
         case TOK_FPV:   return "farptr";
         case TOK_REG:   return "reg";
         case TOK_RM:    return "r/m";
+        case TOK_DQW:   return "u128";
     };
 
     return "";
@@ -2880,6 +2887,7 @@ bool valid_immediate_size_token(unsigned int tok) {
         case TOK_F87ENV:
         case TOK_F87STATE:
         case TOK_QW:
+        case TOK_DQW:
         case TOK_SQW:
         case TOK_REG:
         case TOK_RM:
