@@ -4467,7 +4467,7 @@ if value("sse") > 0 {;
     (code 0x0F 0xAE mrm mod(!3) reg(3));
 } if;
 
-if ((value("sse") > 0) or (value("mmx+") > 0) or (value("mmx") > 0)) {;
+if ((value("sse") > 0) or (value("mmx+") > 0) or (value("everything") > 0)) {;
   opcode "PSHUFW"
     (reads mm(rm))
     (modifies mm(reg))
