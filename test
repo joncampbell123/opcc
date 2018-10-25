@@ -3991,5 +3991,47 @@ if value("mmx") > 0 {;
     (dest=mm(reg))
     (param=mm(rm))
     (code 0x0F 0xD9 mrm fpu);
+
+  opcode "PUNPCKHBW"
+    (reads mm(rm))
+    (writes mm(reg))
+    (dest=mm(reg))
+    (param=mm(rm))
+    (code 0x0F 0x68 mrm fpu);
+
+  opcode "PUNPCKHWD"
+    (reads mm(rm))
+    (writes mm(reg))
+    (dest=mm(reg))
+    (param=mm(rm))
+    (code 0x0F 0x69 mrm fpu);
+
+  opcode "PUNPCKHDQ"
+    (reads mm(rm))
+    (writes mm(reg))
+    (dest=mm(reg))
+    (param=mm(rm))
+    (code 0x0F 0x6A mrm fpu);
+
+  opcode "PUNPCKLBW"
+    (reads mm(rm))
+    (writes mm(reg))
+    (dest=mm(reg))
+    (param=mm(rm))
+    (code 0x0F 0x60 mrm fpu);
+
+  opcode "PUNPCKLWD"
+    (reads mm(rm))
+    (writes mm(reg))
+    (dest=mm(reg))
+    (param=mm(rm))
+    (code 0x0F 0x61 mrm fpu);
+
+  opcode "PUNPCKLDQ"
+    (reads mm(rm))
+    (writes mm(reg))
+    (dest=mm(reg))
+    (param=mm(rm))
+    (code 0x0F 0x62 mrm fpu);
 } if;
 
