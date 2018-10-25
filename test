@@ -4569,6 +4569,14 @@ if ((value("sse") > 0) or (value("mmx+") > 0) or (value("mmx") > 0)) {;
     (param=mm(rm))
     (code 0x0F 0xE0 mrm);
 
+  opcode "PAVGB"
+    (reads xmm(rm))
+    (modifies xmm(reg))
+    (writes xmm(reg))
+    (dest=xmm(reg))
+    (param=xmm(rm))
+    (code 0x66 0x0F 0xE0 mrm);
+
   opcode "PAVGW"
     (reads mm(rm))
     (modifies mm(reg))
@@ -4576,6 +4584,14 @@ if ((value("sse") > 0) or (value("mmx+") > 0) or (value("mmx") > 0)) {;
     (dest=mm(reg))
     (param=mm(rm))
     (code 0x0F 0xE3 mrm);
+
+  opcode "PAVGW"
+    (reads xmm(rm))
+    (modifies xmm(reg))
+    (writes xmm(reg))
+    (dest=xmm(reg))
+    (param=xmm(rm))
+    (code 0x66 0x0F 0xE3 mrm);
 
   opcode "PMULHUW"
     (reads mm(rm))
@@ -4585,6 +4601,14 @@ if ((value("sse") > 0) or (value("mmx+") > 0) or (value("mmx") > 0)) {;
     (param=mm(rm))
     (code 0x0F 0xE4 mrm);
 
+  opcode "PMULHUW"
+    (reads xmm(rm))
+    (modifies xmm(reg))
+    (writes xmm(reg))
+    (dest=xmm(reg))
+    (param=xmm(rm))
+    (code 0x66 0x0F 0xE4 mrm);
+
   opcode "PMINSW"
     (reads mm(rm))
     (modifies mm(reg))
@@ -4592,6 +4616,14 @@ if ((value("sse") > 0) or (value("mmx+") > 0) or (value("mmx") > 0)) {;
     (dest=mm(reg))
     (param=mm(rm))
     (code 0x0F 0xEA mrm);
+
+  opcode "PMINSW"
+    (reads xmm(rm))
+    (modifies xmm(reg))
+    (writes xmm(reg))
+    (dest=xmm(reg))
+    (param=xmm(rm))
+    (code 0x66 0x0F 0xEA mrm);
 
   opcode "PMAXSW"
     (reads mm(rm))
@@ -4601,6 +4633,14 @@ if ((value("sse") > 0) or (value("mmx+") > 0) or (value("mmx") > 0)) {;
     (param=mm(rm))
     (code 0x0F 0xEE mrm);
 
+  opcode "PMAXSW"
+    (reads xmm(rm))
+    (modifies xmm(reg))
+    (writes xmm(reg))
+    (dest=xmm(reg))
+    (param=xmm(rm))
+    (code 0x66 0x0F 0xEE mrm);
+
   opcode "PSADBW"
     (reads mm(rm))
     (modifies mm(reg))
@@ -4608,5 +4648,13 @@ if ((value("sse") > 0) or (value("mmx+") > 0) or (value("mmx") > 0)) {;
     (dest=mm(reg))
     (param=mm(rm))
     (code 0x0F 0xF6 mrm);
+
+  opcode "PSADBW"
+    (reads xmm(rm))
+    (modifies xmm(reg))
+    (writes xmm(reg))
+    (dest=xmm(reg))
+    (param=xmm(rm))
+    (code 0x66 0x0F 0xF6 mrm);
 } if;
 
