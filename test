@@ -4402,3 +4402,15 @@ if value("emmi") > 0 {;
     (code 0x0F 0x55 mrm);
 } if;
 
+if value("sse") > 0 {;
+  opcode "MASKMOVQ"
+    (comment "writes to ds:[div], mm(reg)=value mm(rm)=byte mask")
+    (reads mm(reg),mm(rm),div,seg)
+    (modifies far memory(qw,seg,div))
+    (writes far memory(qw,seg,div))
+    (dest=far memory(qw,seg,div))
+    (param(0)=mm(reg))
+    (param(1)=mm(rm))
+    (code 0x0F 0xF7 mrm);
+} if;
+
