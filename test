@@ -4068,5 +4068,118 @@ if value("3dnow") > 0 {;
     (dest=mm(reg))
     (param=mm(rm))
     (code 0x0F 0x0F mrm 0xBF);
+
+  opcode "PF2ID"
+    (reads mm(reg),mm(rm))
+    (modifies mm(reg))
+    (writes mm(reg))
+    (dest=mm(reg))
+    (param=mm(rm))
+    (code 0x0F 0x0F mrm 0x1D);
+
+  opcode "PFACC"
+    (reads mm(reg),mm(rm))
+    (modifies mm(reg))
+    (writes mm(reg))
+    (dest=mm(reg))
+    (param=mm(rm))
+    (code 0x0F 0x0F mrm 0xAE);
+
+  opcode "PFADD"
+    (reads mm(reg),mm(rm))
+    (modifies mm(reg))
+    (writes mm(reg))
+    (dest=mm(reg))
+    (param=mm(rm))
+    (code 0x0F 0x0F mrm 0x9E);
+
+  opcode "PFCMPEQ"
+    (reads mm(reg),mm(rm))
+    (modifies mm(reg))
+    (writes mm(reg))
+    (dest=mm(reg))
+    (param=mm(rm))
+    (code 0x0F 0x0F mrm 0xB0);
+
+  opcode "PFCMPGE"
+    (reads mm(reg),mm(rm))
+    (modifies mm(reg))
+    (writes mm(reg))
+    (dest=mm(reg))
+    (param=mm(rm))
+    (code 0x0F 0x0F mrm 0x90);
+
+  opcode "PFCMPGT"
+    (reads mm(reg),mm(rm))
+    (modifies mm(reg))
+    (writes mm(reg))
+    (dest=mm(reg))
+    (param=mm(rm))
+    (code 0x0F 0x0F mrm 0xA0);
+
+  opcode "PFMAX"
+    (reads mm(reg),mm(rm))
+    (modifies mm(reg))
+    (writes mm(reg))
+    (dest=mm(reg))
+    (param=mm(rm))
+    (code 0x0F 0x0F mrm 0xA4);
+
+  opcode "PFMIN"
+    (reads mm(reg),mm(rm))
+    (modifies mm(reg))
+    (writes mm(reg))
+    (dest=mm(reg))
+    (param=mm(rm))
+    (code 0x0F 0x0F mrm 0x94);
+
+  opcode "PFMUL"
+    (reads mm(reg),mm(rm))
+    (modifies mm(reg))
+    (writes mm(reg))
+    (dest=mm(reg))
+    (param=mm(rm))
+    (code 0x0F 0x0F mrm 0xB4);
+
+  opcode "PFRCP"
+    (reads mm(reg),mm(rm))
+    (modifies mm(reg))
+    (writes mm(reg))
+    (dest=mm(reg))
+    (param=mm(rm))
+    (code 0x0F 0x0F mrm 0x96);
+
+  opcode "PFRCPIT1"
+    (reads mm(reg),mm(rm))
+    (modifies mm(reg))
+    (writes mm(reg))
+    (dest=mm(reg))
+    (param=mm(rm))
+    (code 0x0F 0x0F mrm 0xA6);
+
+  opcode "PFRCPIT2"
+    (reads mm(reg),mm(rm))
+    (modifies mm(reg))
+    (writes mm(reg))
+    (dest=mm(reg))
+    (param=mm(rm))
+    (code 0x0F 0x0F mrm 0xB6);
+
+  opcode "PFRSQIT1"
+    (reads mm(reg),mm(rm))
+    (modifies mm(reg))
+    (writes mm(reg))
+    (dest=mm(reg))
+    (param=mm(rm))
+    (code 0x0F 0x0F mrm 0xA7);
+
+  opcode "PFRSQRT"
+    (reads mm(reg),mm(rm))
+    (modifies mm(reg))
+    (writes mm(reg))
+    (dest=mm(reg))
+    (param=mm(rm))
+    (code 0x0F 0x0F mrm 0x97);
+
 } if;
 
