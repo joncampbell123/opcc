@@ -5457,6 +5457,10 @@ bool enter_opcode_byte_spec(const OpcodeSpec &opcode,size_t opcode_index,std::sh
 
             if (gs.maptype == OpcodeGroupBlock::NONE)
                 gs.maptype = OpcodeGroupBlock::LINEAR;
+            else if (gs.maptype == OpcodeGroupBlock::PREFIX) {
+                /* mandatory prefix (i.e. to turn MMX instructions into SSE) */
+                /* it's ok */
+            }
             else if (gs.maptype != OpcodeGroupBlock::LINEAR) {
                 gs.overlap_error = true;
                 fprintf(stderr,"map overlap error for opcode '%s'\n",opcode.name.c_str());
@@ -5905,6 +5909,8 @@ int main(int argc,char **argv) {
 
                 if ((*sgroup).maptype == OpcodeGroupBlock::MRMLINEAR)
                     printf(" with mod/reg/rm before last byte");
+                else if ((*sgroup).maptype == OpcodeGroupBlock::PREFIX)
+                    printf(" mandatory prefix");
             }
             printf("):\n");
             printf("------------------------------\n");
@@ -5932,7 +5938,8 @@ int main(int argc,char **argv) {
                             const auto &gs = *gsr;
 
                             if (gs.maptype == OpcodeGroupBlock::LINEAR ||
-                                gs.maptype == OpcodeGroupBlock::MRMLINEAR) {
+                                gs.maptype == OpcodeGroupBlock::MRMLINEAR ||
+                                (gs.maptype == OpcodeGroupBlock::PREFIX && !gs.map.empty())) {
                                 c = 'M';
 
                                 std::pair< std::vector<uint8_t>, std::shared_ptr<OpcodeGroupBlock> > p;

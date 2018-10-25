@@ -1983,11 +1983,21 @@ opcode "FDISI"
   (code 0xDB mrm mod(3) reg(4) rm(1) fpu);
 
 opcode "FCLEX"
+  (comment "Clear 8087 exceptions with WAIT")
+  (comment "TODO: FPU state")
+  (code 0x9B 0xDB mrm mod(3) reg(4) rm(2) fpu);
+
+opcode "FNCLEX"
   (comment "Clear 8087 exceptions")
   (comment "TODO: FPU state")
   (code 0xDB mrm mod(3) reg(4) rm(2) fpu);
 
 opcode "FINIT"
+  (comment "FINIT 8087 state with WAIT prefix")
+  (comment "TODO: FPU state")
+  (code 0x9B 0xDB mrm mod(3) reg(4) rm(3) fpu);
+
+opcode "FNINIT"
   (comment "FINIT 8087 state")
   (comment "TODO: FPU state")
   (code 0xDB mrm mod(3) reg(4) rm(3) fpu);
