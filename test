@@ -4035,3 +4035,13 @@ if value("mmx") > 0 {;
     (code 0x0F 0x62 mrm fpu);
 } if;
 
+if ((value("cpulevel") >= 586) and (value("sysenter") > 0)) {;
+  opcode "SYSENTER"
+    (modifies all)
+    (code 0x0F 0x34);
+
+  opcode "SYSEXIT"
+    (modifies all)
+    (code 0x0F 0x35);
+} if;
+
