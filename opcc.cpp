@@ -5851,6 +5851,7 @@ int main(int argc,char **argv) {
         defines["3dnow+"] = 1;
         defines["cpuid"] = 1;
         defines["3dnow"] = 1;
+        defines["sse2"] = 1;
         defines["cmov"] = 1;
         defines["mmx+"] = 1;
         defines["sse"] = 1;
