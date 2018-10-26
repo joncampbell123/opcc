@@ -15,6 +15,7 @@
 [x] AMD K6
 [x] Cyrix 6x86 EMMI
 [x] SSE
+[ ] SSE2 (in progress)
 
 Also todo:
 - Add to "fpu", "sse" tags by adding "mmx", "emmi", "3dnow", and "3dnow+" tags.
