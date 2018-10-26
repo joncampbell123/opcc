@@ -373,12 +373,7 @@ Opcodes by byte:
       FISUBR st(0), r/m(i32)                                             ; da /5=m
        FIDIV st(0), r/m(i32)                                             ; da /6=m
       FIDIVR st(0), r/m(i32)                                             ; da /7=m
-        FADD st(0), st(i)                                                ; da c0+i; i=0-7
-        FMUL st(0), st(i)                                                ; da c8+i; i=0-7
-        FSUB st(0), st(i)                                                ; da e0+i; i=0-7
      FUCOMPP st(0), st(1)                                                ; da e9
-        FDIV st(0), st(i)                                                ; da f0+i; i=0-7
-       FDIVR st(0), st(i)                                                ; da f8+i; i=0-7
         FILD st(0), r/m(i32)                                             ; db /0=m
         FIST r/m(i32), st(0)                                             ; db /2=m
        FISTP r/m(i32), st(0)                                             ; db /3=m
@@ -579,7 +574,6 @@ Opcodes by name:
         FABS st(0), st(0)                                                ; d9 e1
         FADD st(0), r/m(f32)                                             ; d8 /0=m
         FADD st(0), st(i)                                                ; d8 c0+i; i=0-7
-        FADD st(0), st(i)                                                ; da c0+i; i=0-7
         FADD st(0), r/m(f64)                                             ; dc /0=m
         FADD st(i), st(0)                                                ; dc c0+i; i=0-7
         FADD st(i), st(0)                                                ; de c0+i; i=0-7
@@ -599,13 +593,11 @@ Opcodes by name:
        FDISI                                                             ; db e1
         FDIV st(0), r/m(f32)                                             ; d8 /6=m
         FDIV st(0), st(i)                                                ; d8 f0+i; i=0-7
-        FDIV st(0), st(i)                                                ; da f0+i; i=0-7
         FDIV st(0), r/m(f64)                                             ; dc /6=m
         FDIV st(i), st(0)                                                ; dc f0+i; i=0-7
         FDIV st(i), st(0)                                                ; de f0+i; i=0-7
        FDIVR st(0), r/m(f32)                                             ; d8 /7=m
        FDIVR st(0), st(i)                                                ; d8 f8+i; i=0-7
-       FDIVR st(0), st(i)                                                ; da f8+i; i=0-7
        FDIVR st(0), r/m(f64)                                             ; dc /7=m
        FDIVR st(i), st(0)                                                ; dc f8+i; i=0-7
        FDIVR st(i), st(0)                                                ; de f8+i; i=0-7
@@ -652,7 +644,6 @@ Opcodes by name:
         FLDZ st(0), 0                                                    ; d9 ee
         FMUL st(0), r/m(f32)                                             ; d8 /1=m
         FMUL st(0), st(i)                                                ; d8 c8+i; i=0-7
-        FMUL st(0), st(i)                                                ; da c8+i; i=0-7
         FMUL st(0), r/m(f64)                                             ; dc /1=m
         FMUL st(i), st(0)                                                ; dc c8+i; i=0-7
         FMUL st(i), st(0)                                                ; de c8+i; i=0-7
@@ -684,7 +675,6 @@ Opcodes by name:
        FSTSW r/m(u16)                                                    ; dd /7=m
         FSUB st(0), r/m(f32)                                             ; d8 /4=m
         FSUB st(0), st(i)                                                ; d8 e0+i; i=0-7
-        FSUB st(0), st(i)                                                ; da e0+i; i=0-7
         FSUB st(0), r/m(f64)                                             ; dc /4=m
         FSUB st(i), st(0)                                                ; dc e0+i; i=0-7
         FSUB st(i), st(0)                                                ; de e0+i; i=0-7
@@ -1990,14 +1980,14 @@ P = prefix
 
     0 1 2 3 4 5 6 7  rm with mod==3
    ----------------
- c0|X X X X X X X X  reg=0
- c8|X X X X X X X X  reg=1
+ c0|                 reg=0
+ c8|                 reg=1
  d0|                 reg=2
  d8|                 reg=3
- e0|X X X X X X X X  reg=4
+ e0|                 reg=4
  e8|  X              reg=5
- f0|X X X X X X X X  reg=6
- f8|X X X X X X X X  reg=7
+ f0|                 reg=6
+ f8|                 reg=7
 
 
 Opcode coverage mod/reg/rm (db ...):
