@@ -3316,7 +3316,7 @@ opcode "FUCOMP"
 
 if value("fpulevel") >= 387
 opcode "FUCOMPP"
-  (comment "FUCOMPP 0xDD 0xE9")
+  (comment "FUCOMPP 0xDA 0xE9")
   (modifies fpu(top))
   (fpu stack pop st(0),st(1))
   (reads st(0),st(1))
