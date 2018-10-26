@@ -1581,9 +1581,9 @@ opcode "FSUBR"
   (param=st(rm))
   (code 0xD8 mrm mod(3) reg(5) fpu);
 
-if value("cpulevel") < 686 {;
+if value("cpulevel") < 386 {;
   opcode "FSUBR"
-    (comment "FSUBR st(0) = st(i) - st(0), pop d=0 P=1, useless, redefined by Intel on Pentium Pro for conditional FP moves")
+    (comment "FSUBR st(0) = st(i) - st(0), pop d=0 P=1, useless, redefined by Intel on 386 for conditional FP moves and FUCOM*")
     (reads st(rm),st(0),fpu(top))
     (modifies st(0),fpu(top))
     (writes st(0),fpu(top))
