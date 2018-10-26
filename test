@@ -5055,3 +5055,9 @@ if ((value("sse") > 0) or (value("mmx+") > 0) or (value("everything") > 0)) {;
 
 } if;
 
+if ((value("sse2") > 0) or (value("everything") > 0)) {;
+  opcode "CLFLUSH"
+    (param=rm(b))
+    (code 0x0F 0xAE mrm reg(7) mod(!3));
+} if;
+
