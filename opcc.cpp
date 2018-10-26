@@ -5485,7 +5485,7 @@ bool enter_opcode_byte_spec(const OpcodeSpec &opcode,size_t opcode_index,std::sh
             if (opcode.type == TOK_PREFIX) {
                 if (gs.maptype == OpcodeGroupBlock::NONE)
                     gs.maptype = OpcodeGroupBlock::PREFIX;
-                else if (gs.maptype != OpcodeGroupBlock::PREFIX) {
+                else/* if (gs.maptype != OpcodeGroupBlock::PREFIX)*/ {
                     gs.overlap_error = true;
                     fprintf(stderr,"map overlap error for opcode '%s'\n",opcode.name.c_str());
                     return false;
@@ -5494,7 +5494,7 @@ bool enter_opcode_byte_spec(const OpcodeSpec &opcode,size_t opcode_index,std::sh
             else {
                 if (gs.maptype == OpcodeGroupBlock::NONE)
                     gs.maptype = OpcodeGroupBlock::LEAF;
-                else if (gs.maptype != OpcodeGroupBlock::LEAF) {
+                else/*if (gs.maptype != OpcodeGroupBlock::LEAF)*/ {
                     gs.overlap_error = true;
                     fprintf(stderr,"map overlap error for opcode '%s'\n",opcode.name.c_str());
                     return false;
