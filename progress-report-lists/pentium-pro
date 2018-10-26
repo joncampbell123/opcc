@@ -434,8 +434,8 @@ Opcodes by byte:
        FFREE st(i)                                                       ; dd c0+i; i=0-7
          FST st(i), st(0)                                                ; dd d0+i; i=0-7
         FSTP st(i), st(0)                                                ; dd d8+i; i=0-7
-      FUCOMP st(0), st(i)                                                ; dd e0+rm
        FUCOM st(0), st(i)                                                ; dd e0+rm
+      FUCOMP st(0), st(i)                                                ; dd e8+rm
        FIADD st(0), r/m(i16)                                             ; de /0=m
        FIMUL st(0), r/m(i16)                                             ; de /1=m
        FICOM st(0), r/m(i16)                                             ; de /2=m
@@ -743,7 +743,7 @@ Opcodes by name:
        FUCOM st(0), st(i)                                                ; dd e0+rm
       FUCOMI st(0), st(i)                                                ; db e8+i; i=0-7
      FUCOMIP st(0), st(i)                                                ; df e8+i; i=0-7
-      FUCOMP st(0), st(i)                                                ; dd e0+rm
+      FUCOMP st(0), st(i)                                                ; dd e8+rm
      FUCOMPP st(0), st(1)                                                ; da e9
         FXAM st(0)                                                       ; d9 e5
         FXCH st(0), st(i)                                                ; d9 c8+i; i=0-7
@@ -2193,7 +2193,7 @@ P = prefix
  d0|X X X X X X X X  reg=2
  d8|X X X X X X X X  reg=3
  e0|X X X X X X X X  reg=4
- e8|                 reg=5
+ e8|X X X X X X X X  reg=5
  f0|                 reg=6
  f8|                 reg=7
 

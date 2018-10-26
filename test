@@ -3312,7 +3312,7 @@ opcode "FUCOMP"
   (reads st(0),st(reg))
   (param(0)=st(0))
   (param(1)=st(reg))
-  (code 0xDD mrm mod(3) reg(4) fpu);
+  (code 0xDD mrm mod(3) reg(5) fpu);
 
 if value("fpulevel") >= 387
 opcode "FUCOMPP"
