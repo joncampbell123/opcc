@@ -200,6 +200,9 @@ Opcodes by byte:
      FXRSTOR r/m(f87state)                                               ; 0f ae /1=m
      LDMXCSR r/m(u32)                                                    ; 0f ae /2=m
      STMXCSR r/m(u32)                                                    ; 0f ae /3=m
+     CLFLUSH r/m(u8)                                                     ; 0f ae /7=m
+      LFENCE                                                             ; 0f ae e8
+      MFENCE                                                             ; 0f ae f0
       SFENCE                                                             ; 0f ae f8
      CMPXCHG r/m(u8), reg(u8)                                            ; 0f b0 /r
      CMPXCHG r/m(uv), reg(uv)                                            ; 0f b1 /r
@@ -215,6 +218,7 @@ Opcodes by byte:
         XADD r/m(u8), reg(u8)                                            ; 0f c0 /r
         XADD r/m(uv), reg(uv)                                            ; 0f c1 /r
        CMPPS xmm(reg), xmm(rm), I                                        ; 0f c2 /r I=imm(u8)
+      MOVNTI r/m(u32), reg(u32)                                          ; 0f c3 /r=m
       PINSRW mm(reg), r/m(u16), I                                        ; 0f c4 /r I=imm(u8)
       PEXTRW reg(u32), mm(rm), I                                         ; 0f c5 /r!m I=imm(u8)
       SHUFPS xmm(reg), xmm(rm), I                                        ; 0f c6 /r I=imm(u8)
@@ -320,6 +324,8 @@ Opcodes by byte:
          FS:                                                    ; prefix ; 64
          GS:                                                    ; prefix ; 65
         OPSZ                                                    ; prefix ; 66
+      MOVAPD xmm(reg), xmm(rm)                                           ; 66 0f 28 /r
+      MOVAPD xmm(rm), xmm(reg)                                           ; 66 0f 29 /r
       PINSRW xmm(reg), r/m(u16), I                                       ; 66 0f c4 /r I=imm(u8)
       PEXTRW reg(u32), xmm(rm), I                                        ; 66 0f c5 /r!m I=imm(u8)
     PMOVMSKB reg(u32), xmm(rm)                                           ; 66 0f d7 /r!m
@@ -656,6 +662,7 @@ Opcodes by byte:
        DIVSS xmm(reg), xmm(rm)                                           ; f3 0f 5e /r
        MAXSS xmm(reg), xmm(rm)                                           ; f3 0f 5f /r
        CMPSS xmm(reg), xmm(rm), I                                        ; f3 0f c2 /r I=imm(u8)
+       PAUSE                                                             ; f3 90
          HLT                                                             ; f4
          CMC                                                             ; f5
         TEST r/m(u8), I                                                  ; f6 /0 I=imm(u8)
@@ -749,6 +756,7 @@ Opcodes by name:
          CBW                                                             ; 98
          CLC                                                             ; f8
          CLD                                                             ; fc
+     CLFLUSH r/m(u8)                                                     ; 0f ae /7=m
          CLI                                                             ; fa
         CLTS                                                             ; 0f 06 /r
          CMC                                                             ; f5
@@ -1014,6 +1022,7 @@ Opcodes by name:
          LEA reg(uv), r/m(uv)                                            ; 8d /r=m
        LEAVE                                                             ; c9
          LES reg(uv), r/m(farptr)                                        ; c4 /r=m
+      LFENCE                                                             ; 0f ae e8
         LGDT r/m(u48)                                                    ; 0f 01 /2=m
         LIDT r/m(u48)                                                    ; 0f 01 /3=m
         LLDT r/m(uv)                                                     ; 0f 00 /2
@@ -1029,6 +1038,7 @@ Opcodes by name:
     MASKMOVQ u64 [DIV], mm(reg), mm(rm)                                  ; 0f f7 /r
        MAXPS xmm(reg), xmm(rm)                                           ; 0f 5f /r
        MAXSS xmm(reg), xmm(rm)                                           ; f3 0f 5f /r
+      MFENCE                                                             ; 0f ae f0
        MINPS xmm(reg), xmm(rm)                                           ; 0f 5d /r
        MINSS xmm(reg), xmm(rm)                                           ; f3 0f 5d /r
          MOV r/m(u32), cr(reg)                                           ; 0f 20 /r!m
@@ -1051,6 +1061,8 @@ Opcodes by name:
          MOV reg(uv), I                                                  ; b8+reg; reg=0-7
          MOV r/m(u8), I                                                  ; c6 /0 I=imm(u8)
          MOV r/m(uv), I                                                  ; c7 /0 I=imm(uv)
+      MOVAPD xmm(reg), xmm(rm)                                           ; 66 0f 28 /r
+      MOVAPD xmm(rm), xmm(reg)                                           ; 66 0f 29 /r
       MOVAPS xmm(reg), xmm(rm)                                           ; 0f 28 /r
       MOVAPS xmm(rm), xmm(reg)                                           ; 0f 29 /r
         MOVD mm(reg), r/m(u32)                                           ; 0f 6e /r
@@ -1062,6 +1074,7 @@ Opcodes by name:
       MOVLPS xmm(reg), mm(rm)                                            ; 0f 12 /r=m
       MOVLPS mm(rm), xmm(reg)                                            ; 0f 13 /r=m
     MOVMSKPS r/m(uv), xmm(reg)                                           ; 0f 50 /r
+      MOVNTI r/m(u32), reg(u32)                                          ; 0f c3 /r=m
      MOVNTPS xmm(rm), xmm(reg)                                           ; 0f 2b /r=m
       MOVNTQ mm(rm), mm(reg)                                             ; 0f e7 /r=m
         MOVQ mm(reg), r/m(u64)                                           ; 0f 6f /r
@@ -1113,6 +1126,7 @@ Opcodes by name:
        PADDW mm(reg), mm(rm)                                             ; 0f fd /r
         PAND mm(reg), mm(rm)                                             ; 0f db /r
        PANDN mm(reg), mm(rm)                                             ; 0f df /r
+       PAUSE                                                             ; f3 90
        PAVGB mm(reg), mm(rm)                                             ; 0f e0 /r
        PAVGB xmm(reg), xmm(rm)                                           ; 66 0f e0 /r
      PAVGUSB mm(reg), mm(rm)                                             ; 0f 0f /r bf
@@ -1421,7 +1435,7 @@ P = prefix    Pm = mandatory prefix (modifies opcodes)
   9|R R R R R R R R R R R R R R R R 
   a|    X X             X X     R   
   b|X X   X           X R X X X     
-  c|X X X   X R X R X X X X X X X X 
+  c|X X X R X R X R X X X X X X X X 
   d|  X X X X X   R X X X X X X X X 
   e|X X X X X X   R X X X X X X X X 
   f|  X X X   X X X X X X   X X X   
@@ -1490,7 +1504,7 @@ P = prefix    Pm = mandatory prefix (modifies opcodes)
   6|                                
   7|                                
   8|                                
-  9|                                
+  9|X                               
   a|                                
   b|                                
   c|                                
@@ -1531,7 +1545,7 @@ P = prefix    Pm = mandatory prefix (modifies opcodes)
    --------------------------------
   0|                                
   1|                                
-  2|                                
+  2|                X X             
   3|                                
   4|                                
   5|                                
@@ -4734,7 +4748,7 @@ P = prefix
  20|                 reg=4
  28|                 reg=5
  30|                 reg=6
- 38|                 reg=7
+ 38|X X X X X X X X  reg=7
 
     0 1 2 3 4 5 6 7  rm with mod==1
    ----------------
@@ -4745,7 +4759,7 @@ P = prefix
  60|                 reg=4
  68|                 reg=5
  70|                 reg=6
- 78|                 reg=7
+ 78|X X X X X X X X  reg=7
 
     0 1 2 3 4 5 6 7  rm with mod==2
    ----------------
@@ -4756,7 +4770,7 @@ P = prefix
  a0|                 reg=4
  a8|                 reg=5
  b0|                 reg=6
- b8|                 reg=7
+ b8|X X X X X X X X  reg=7
 
     0 1 2 3 4 5 6 7  rm with mod==3
    ----------------
@@ -4765,8 +4779,8 @@ P = prefix
  d0|                 reg=2
  d8|                 reg=3
  e0|                 reg=4
- e8|                 reg=5
- f0|                 reg=6
+ e8|X                reg=5
+ f0|X                reg=6
  f8|X                reg=7
 
 
@@ -4818,6 +4832,56 @@ P = prefix
  e8|X X X X X X X X  reg=5
  f0|X X X X X X X X  reg=6
  f8|X X X X X X X X  reg=7
+
+
+Opcode coverage mod/reg/rm (0f c3 ...):
+------------------------------
+X = coverage  O = overlap(!)  M = multi-byte  R = group by mod/reg/rm
+P = prefix
+
+    0 1 2 3 4 5 6 7  rm with mod==0
+   ----------------
+ 00|X X X X X X X X  reg=0
+ 08|X X X X X X X X  reg=1
+ 10|X X X X X X X X  reg=2
+ 18|X X X X X X X X  reg=3
+ 20|X X X X X X X X  reg=4
+ 28|X X X X X X X X  reg=5
+ 30|X X X X X X X X  reg=6
+ 38|X X X X X X X X  reg=7
+
+    0 1 2 3 4 5 6 7  rm with mod==1
+   ----------------
+ 40|X X X X X X X X  reg=0
+ 48|X X X X X X X X  reg=1
+ 50|X X X X X X X X  reg=2
+ 58|X X X X X X X X  reg=3
+ 60|X X X X X X X X  reg=4
+ 68|X X X X X X X X  reg=5
+ 70|X X X X X X X X  reg=6
+ 78|X X X X X X X X  reg=7
+
+    0 1 2 3 4 5 6 7  rm with mod==2
+   ----------------
+ 80|X X X X X X X X  reg=0
+ 88|X X X X X X X X  reg=1
+ 90|X X X X X X X X  reg=2
+ 98|X X X X X X X X  reg=3
+ a0|X X X X X X X X  reg=4
+ a8|X X X X X X X X  reg=5
+ b0|X X X X X X X X  reg=6
+ b8|X X X X X X X X  reg=7
+
+    0 1 2 3 4 5 6 7  rm with mod==3
+   ----------------
+ c0|                 reg=0
+ c8|                 reg=1
+ d0|                 reg=2
+ d8|                 reg=3
+ e0|                 reg=4
+ e8|                 reg=5
+ f0|                 reg=6
+ f8|                 reg=7
 
 
 Opcode coverage mod/reg/rm (0f c5 ...):
