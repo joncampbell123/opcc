@@ -5026,5 +5026,23 @@ if ((value("sse") > 0) or (value("mmx+") > 0) or (value("everything") > 0)) {;
     (param=xmm(rm))
     (code 0xF3 0x0F 0x5F mrm sse);
 
+  opcode "CMPPS"
+    (reads xmm(rm))
+    (modifies xmm(reg))
+    (writes xmm(reg))
+    (dest=xmm(reg))
+    (param(0)=xmm(rm))
+    (param(1)=i)
+    (code 0x0F 0xC2 mrm i=immediate(b) sse);
+
+  opcode "CMPSS"
+    (reads xmm(rm))
+    (modifies xmm(reg))
+    (writes xmm(reg))
+    (dest=xmm(reg))
+    (param(0)=xmm(rm))
+    (param(1)=i)
+    (code 0xF3 0x0F 0xC2 mrm i=immediate(b) sse);
+
 } if;
 
