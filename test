@@ -1429,9 +1429,10 @@ opcode "FADD"
   (param=st(rm))
   (code 0xD8 mrm mod(3) reg(0) fpu);
 
-if value("cpulevel") < 686 {;
+if value("cpulevel") < 386 {;
   opcode "FADD"
     (comment "FADD st(0) += st(i), pop d=0 P=1, useless, redefined by Intel on Pentium Pro for conditional FP moves")
+    (comment "Notice in the Intel 387 reference this is listed for 0xD8/0xDC/0xDE but not 0xDA")
     (reads st(rm),st(0),fpu(top))
     (modifies st(0),fpu(top))
     (writes st(0),fpu(top))
@@ -1505,9 +1506,10 @@ opcode "FSUB"
   (param=st(rm))
   (code 0xD8 mrm mod(3) reg(4) fpu);
 
-if value("cpulevel") < 686 {;
+if value("cpulevel") < 386 {;
   opcode "FSUB"
     (comment "FSUB st(0) -= st(i), pop d=0 P=1, useless, redefined by Intel on Pentium Pro for conditional FP moves")
+    (comment "Notice in the Intel 387 reference this is listed for 0xD8/0xDC/0xDE but not 0xDA")
     (reads st(rm),st(0),fpu(top))
     (modifies st(0),fpu(top))
     (writes st(0),fpu(top))
@@ -1584,6 +1586,7 @@ opcode "FSUBR"
 if value("cpulevel") < 386 {;
   opcode "FSUBR"
     (comment "FSUBR st(0) = st(i) - st(0), pop d=0 P=1, useless, redefined by Intel on 386 for conditional FP moves and FUCOM*")
+    (comment "Notice in the Intel 387 reference this is listed for 0xD8/0xDC/0xDE but not 0xDA")
     (reads st(rm),st(0),fpu(top))
     (modifies st(0),fpu(top))
     (writes st(0),fpu(top))
@@ -1657,9 +1660,10 @@ opcode "FMUL"
   (param=st(rm))
   (code 0xD8 mrm mod(3) reg(1) fpu);
 
-if value("cpulevel") < 686 {;
+if value("cpulevel") < 386 {;
   opcode "FMUL"
     (comment "FMUL st(0) *= st(i), pop d=0 P=1, useless, redefined by Intel on Pentium Pro for conditional FP moves")
+    (comment "Notice in the Intel 387 reference this is listed for 0xD8/0xDC/0xDE but not 0xDA")
     (reads st(rm),st(0),fpu(top))
     (modifies st(0),fpu(top))
     (writes st(0),fpu(top))
@@ -1733,9 +1737,10 @@ opcode "FDIV"
   (param=st(rm))
   (code 0xD8 mrm mod(3) reg(6) fpu);
 
-if value("cpulevel") < 686 {;
+if value("cpulevel") < 386 {;
   opcode "FDIV"
     (comment "FDIV st(0) /= st(i), pop d=0 P=1, useless, redefined by Intel on Pentium Pro for conditional FP moves")
+    (comment "Notice in the Intel 387 reference this is listed for 0xD8/0xDC/0xDE but not 0xDA")
     (reads st(rm),st(0),fpu(top))
     (modifies st(0),fpu(top))
     (writes st(0),fpu(top))
@@ -1809,9 +1814,10 @@ opcode "FDIVR"
   (param=st(rm))
   (code 0xD8 mrm mod(3) reg(7) fpu);
 
-if value("cpulevel") < 686 {;
+if value("cpulevel") < 386 {;
   opcode "FDIVR"
     (comment "FDIVR st(0) = st(i) / st(0), pop d=0 P=1, useless, redefined by Intel on Pentium Pro for conditional FP moves")
+    (comment "Notice in the Intel 387 reference this is listed for 0xD8/0xDC/0xDE but not 0xDA")
     (reads st(rm),st(0),fpu(top))
     (modifies st(0),fpu(top))
     (writes st(0),fpu(top))
