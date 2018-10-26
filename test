@@ -4794,5 +4794,29 @@ if ((value("sse") > 0) or (value("mmx+") > 0) or (value("everything") > 0)) {;
     (param=xmm(reg))
     (code 0x0F 0x17 mrm mod(!3) sse);
 
+  opcode "MOVAPS"
+    (reads xmm(rm))
+    (modifies xmm(reg))
+    (writes xmm(reg))
+    (dest=xmm(reg))
+    (param=xmm(rm))
+    (code 0x0F 0x28 mrm sse);
+
+  opcode "MOVAPS"
+    (reads xmm(reg))
+    (modifies xmm(rm))
+    (writes xmm(rm))
+    (dest=xmm(rm))
+    (param=xmm(reg))
+    (code 0x0F 0x29 mrm sse);
+
+  opcode "MOVMSKPS"
+    (reads xmm(reg))
+    (modifies rm(v))
+    (writes rm(v))
+    (dest=rm(v))
+    (param=xmm(reg))
+    (code 0x0F 0x50 mrm sse);
+
 } if;
 
