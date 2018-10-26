@@ -4748,5 +4748,45 @@ if ((value("sse") > 0) or (value("mmx+") > 0) or (value("everything") > 0)) {;
     (param=xmm(reg))
     (code 0x0F 0x13 mrm mod(!3) sse);
 
+  opcode "UNPCKLPS"
+    (reads xmm(rm))
+    (modifies xmm(reg))
+    (writes xmm(reg))
+    (dest=xmm(reg))
+    (param=xmm(rm))
+    (code 0x0F 0x14 mrm sse);
+
+  opcode "UNPCKHPS"
+    (reads xmm(rm))
+    (modifies xmm(reg))
+    (writes xmm(reg))
+    (dest=xmm(reg))
+    (param=xmm(rm))
+    (code 0x0F 0x15 mrm sse);
+
+  opcode "MOVHPS"
+    (reads mm(rm))
+    (modifies xmm(reg))
+    (writes xmm(reg))
+    (dest=xmm(reg))
+    (param=mm(rm))
+    (code 0x0F 0x16 mrm mod(!3) sse);
+
+  opcode "MOVLHPS"
+    (reads xmm(rm))
+    (modifies xmm(reg))
+    (writes xmm(reg))
+    (dest=xmm(reg))
+    (param=xmm(rm))
+    (code 0x0F 0x16 mrm mod(3) sse);
+
+  opcode "MOVHPS"
+    (reads xmm(reg))
+    (modifies mm(rm))
+    (writes mm(rm))
+    (dest=mm(rm))
+    (param=xmm(reg))
+    (code 0x0F 0x17 mrm mod(!3) sse);
+
 } if;
 
