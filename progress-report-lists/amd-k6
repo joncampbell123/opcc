@@ -437,7 +437,6 @@ Opcodes by byte:
         FADD st(0), st(i)                                                ; da c0+i; i=0-7
         FMUL st(0), st(i)                                                ; da c8+i; i=0-7
         FSUB st(0), st(i)                                                ; da e0+i; i=0-7
-       FSUBR st(0), st(i)                                                ; da e8+i; i=0-7
      FUCOMPP st(0), st(1)                                                ; da e9
         FDIV st(0), st(i)                                                ; da f0+i; i=0-7
        FDIVR st(0), st(i)                                                ; da f8+i; i=0-7
@@ -754,7 +753,6 @@ Opcodes by name:
         FSUB st(i), st(0)                                                ; de e0+i; i=0-7
        FSUBR st(0), r/m(f32)                                             ; d8 /5=m
        FSUBR st(0), st(i)                                                ; d8 e8+i; i=0-7
-       FSUBR st(0), st(i)                                                ; da e8+i; i=0-7
        FSUBR st(0), r/m(f64)                                             ; dc /5=m
        FSUBR st(i), st(0)                                                ; dc e8+i; i=0-7
        FSUBR st(i), st(0)                                                ; de e8+i; i=0-7
@@ -2119,7 +2117,7 @@ P = prefix
  d0|                 reg=2
  d8|                 reg=3
  e0|X X X X X X X X  reg=4
- e8|X X X X X X X X  reg=5
+ e8|  X              reg=5
  f0|X X X X X X X X  reg=6
  f8|X X X X X X X X  reg=7
 
