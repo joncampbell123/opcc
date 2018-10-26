@@ -14,7 +14,7 @@
 [x] Pentium II
 [x] AMD K6
 [x] Cyrix 6x86 EMMI
-[ ] SSE (in progress)
+[x] SSE
 
 Also todo:
 - Add to "fpu", "sse" tags by adding "mmx", "emmi", "3dnow", and "3dnow+" tags.
