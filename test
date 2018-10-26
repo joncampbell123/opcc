@@ -4850,5 +4850,21 @@ if ((value("sse") > 0) or (value("mmx+") > 0) or (value("everything") > 0)) {;
     (param=xmm(rm))
     (code 0xF3 0x0F 0x2C mrm sse);
 
+  opcode "CVTPS2PI"
+    (reads xmm(rm))
+    (modifies mm(reg))
+    (writes mm(reg))
+    (dest=mm(reg))
+    (param=xmm(rm))
+    (code 0x0F 0x2D mrm sse);
+
+  opcode "CVTSS2SI"
+    (reads xmm(rm))
+    (modifies reg(dw))
+    (writes reg(dw))
+    (dest=reg(dw))
+    (param=xmm(rm))
+    (code 0xF3 0x0F 0x2D mrm sse);
+
 } if;
 
