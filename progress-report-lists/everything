@@ -324,6 +324,8 @@ Opcodes by byte:
          FS:                                                    ; prefix ; 64
          GS:                                                    ; prefix ; 65
         OPSZ                                                    ; prefix ; 66
+      MOVUPD xmm(reg), xmm(rm)                                           ; 66 0f 10 /r
+      MOVUPD xmm(rm), xmm(reg)                                           ; 66 0f 11 /r
       MOVLPD xmm(reg), xmm(rm)                                           ; 66 0f 12 /r=m
       MOVLPD xmm(rm), xmm(reg)                                           ; 66 0f 13 /r=m
       MOVHPD xmm(reg), xmm(rm)                                           ; 66 0f 16 /r=m
@@ -1093,6 +1095,8 @@ Opcodes by name:
         MOVS uv ES:[DIV], uv [SIV]                                       ; a5
        MOVSS xmm(reg), xmm(rm)                                           ; f3 0f 10 /r
        MOVSS xmm(rm), xmm(reg)                                           ; f3 0f 11 /r
+      MOVUPD xmm(reg), xmm(rm)                                           ; 66 0f 10 /r
+      MOVUPD xmm(rm), xmm(reg)                                           ; 66 0f 11 /r
       MOVUPS xmm(reg), xmm(rm)                                           ; 0f 10 /r
       MOVUPS xmm(rm), xmm(reg)                                           ; 0f 11 /r
          MUL r/m(u8)                                                     ; f6 /4
@@ -1554,7 +1558,7 @@ P = prefix    Pm = mandatory prefix (modifies opcodes)
     0 1 2 3 4 5 6 7 8 9 a b c d e f 
    --------------------------------
   0|                                
-  1|    R R     R R                 
+  1|X X R R     R R                 
   2|                X X   R         
   3|                                
   4|                                
