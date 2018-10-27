@@ -5087,5 +5087,12 @@ if ((value("sse2") > 0) or (value("everything") > 0)) {;
     (dest=xmm(rm))
     (param=xmm(reg))
     (code 0x66 0x0F 0x29 mrm sse2);
+
+  opcode "MOVNTPD"
+    (reads xmm(reg))
+    (writes xmm(rm))
+    (dest=xmm(rm))
+    (param=xmm(reg))
+    (code 0x66 0x0F 0x2B mrm mod(!3) sse2);
 } if;
 
