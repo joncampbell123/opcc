@@ -5377,5 +5377,19 @@ if ((value("sse2") > 0) or (value("everything") > 0)) {;
     (dest=xmm(reg))
     (param=mm(rm))
     (code 0x66 0x0F 0x2A mrm sse2);
+
+  opcode "CVTPS2DQ"
+    (reads xmm(rm))
+    (writes xmm(reg))
+    (dest=xmm(reg))
+    (param=xmm(rm))
+    (code 0x66 0x0F 0x5B mrm sse2);
+
+  opcode "CVTPS2PD"
+    (reads xmm(rm))
+    (writes xmm(reg))
+    (dest=xmm(reg))
+    (param=xmm(rm))
+    (code 0x0F 0x5A mrm sse2);
 } if;
 
