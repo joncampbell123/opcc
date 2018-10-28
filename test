@@ -5956,15 +5956,29 @@ if ((value("sse2") > 0) or (value("everything") > 0)) {;
     (code 0x66 0x0F 0x70 mrm i=immediate(b));
 
   opcode "PSLLDQ"
-    (writes mm(reg))
-    (dest=mm(reg))
+    (writes xmm(reg))
+    (dest=xmm(reg))
     (param=i)
     (code 0x66 0x0F 0x73 mrm i=immediate(b) reg(7) fpu);
 
   opcode "PSRLDQ"
-    (writes mm(reg))
-    (dest=mm(reg))
+    (writes xmm(reg))
+    (dest=xmm(reg))
     (param=i)
     (code 0x66 0x0F 0x73 mrm i=immediate(b) reg(3) fpu);
+
+  opcode "PUNPCKHQDQ"
+    (reads xmm(rm))
+    (writes xmm(reg))
+    (dest=xmm(reg))
+    (param=xmm(rm))
+    (code 0x66 0x0F 0x6D mrm fpu);
+
+  opcode "PUNPCKLQDQ"
+    (reads xmm(rm))
+    (writes xmm(reg))
+    (dest=xmm(reg))
+    (param=xmm(rm))
+    (code 0x66 0x0F 0x6c mrm fpu);
 } if;
 
