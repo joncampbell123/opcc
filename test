@@ -4240,7 +4240,7 @@ if value("3dnow+") > 0 {;
     (writes mm(reg))
     (dest=mm(reg))
     (param=mm(rm))
-    (code 0x0F 0x0F mrm 0x1C);
+    (code 0x0F 0x0F mrm 0x1C amd3dnowplus);
 
   opcode "PFNACC"
     (reads mm(reg),mm(rm))
@@ -4248,7 +4248,7 @@ if value("3dnow+") > 0 {;
     (writes mm(reg))
     (dest=mm(reg))
     (param=mm(rm))
-    (code 0x0F 0x0F mrm 0x8A);
+    (code 0x0F 0x0F mrm 0x8A amd3dnowplus);
 
   opcode "PFPNACC"
     (reads mm(reg),mm(rm))
@@ -4256,7 +4256,7 @@ if value("3dnow+") > 0 {;
     (writes mm(reg))
     (dest=mm(reg))
     (param=mm(rm))
-    (code 0x0F 0x0F mrm 0x8E);
+    (code 0x0F 0x0F mrm 0x8E amd3dnowplus);
 
   opcode "PI2FW"
     (reads mm(reg),mm(rm))
@@ -4264,7 +4264,7 @@ if value("3dnow+") > 0 {;
     (writes mm(reg))
     (dest=mm(reg))
     (param=mm(rm))
-    (code 0x0F 0x0F mrm 0x0C);
+    (code 0x0F 0x0F mrm 0x0C amd3dnowplus);
 
   opcode "PSWAPD"
     (reads mm(reg),mm(rm))
@@ -4272,7 +4272,7 @@ if value("3dnow+") > 0 {;
     (writes mm(reg))
     (dest=mm(reg))
     (param=mm(rm))
-    (code 0x0F 0x0F mrm 0xBB);
+    (code 0x0F 0x0F mrm 0xBB amd3dnowplus);
 
   comment "Not sure when these appeared, but said to appear with AMD Geode GX";
 
@@ -4283,7 +4283,7 @@ if value("3dnow+") > 0 {;
       (writes mm(reg))
       (dest=mm(reg))
       (param=mm(rm))
-      (code 0x0F 0x0F mrm 0x87);
+      (code 0x0F 0x0F mrm 0x87 amd3dnowplus);
 
     opcode "PFRCPV"
       (reads mm(reg),mm(rm))
@@ -4291,7 +4291,7 @@ if value("3dnow+") > 0 {;
       (writes mm(reg))
       (dest=mm(reg))
       (param=mm(rm))
-      (code 0x0F 0x0F mrm 0x86);
+      (code 0x0F 0x0F mrm 0x86 amd3dnowplus);
   } if;
 } if;
 
