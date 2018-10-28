@@ -220,6 +220,7 @@ enum tokentype_t {
     TOK_SSE2,
     TOK_AMD3DNOW,
     TOK_AMD3DNOWPLUS,           // 200
+    TOK_EMMI,
 
     TOK_MAX
 };
@@ -425,7 +426,8 @@ const char *tokentype_str[TOK_MAX] = {
     "SSE",
     "SSE2",
     "AMD3DNOW",
-    "AMD3DNOWPLUS"              // 200
+    "AMD3DNOWPLUS",             // 200
+    "EMMI"
 };
 
 bool list_op = false;
@@ -1787,6 +1789,10 @@ bool toke(tokenstate_t &tok) {
             tok.type = TOK_AMD3DNOWPLUS;
             return true;
         }
+        if (tok.string == "EMMI") {
+            tok.type = TOK_EMMI;
+            return true;
+        }
     }
 
     tok.type = TOK_ERROR;
@@ -1910,6 +1916,7 @@ public:
     bool                        fpu = false;
     bool                        sse = false;
     bool                        sse2 = false;
+    bool                        emmi = false;
     bool                        amd3dnow = false;
     bool                        amd3dnowplus = false;
     std::vector<SingleByteSpec> fpu_stack_ops;              // push or pop
@@ -4539,6 +4546,11 @@ bool read_opcode_spec_opcode_parens(tokenlist &parent_tokens,OpcodeSpec &spec) {
                 tokens.discard();
 
                 spec.amd3dnowplus = true;
+            }
+            else if (tokens.peek().type == TOK_EMMI) {
+                tokens.discard();
+
+                spec.emmi = true;
             }
             else if (tokens.peek().type == TOK_MRM) {
                 tokens.discard();

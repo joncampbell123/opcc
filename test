@@ -4304,7 +4304,7 @@ if value("emmi") > 0 {;
     (dest=mm(implied))
     (param(0)=mm(reg))
     (param(1)=mm(rm))
-    (code 0x0F 0x51 mrm);
+    (code 0x0F 0x51 mrm emmi);
 
   opcode "PAVEB"
     (reads mm(reg),mm(rm))
@@ -4312,7 +4312,7 @@ if value("emmi") > 0 {;
     (writes mm(reg))
     (dest=mm(reg))
     (param=mm(rm))
-    (code 0x0F 0x50 mrm);
+    (code 0x0F 0x50 mrm emmi);
 
   opcode "PDISTIB"
     (comment "i=implied register")
@@ -4322,7 +4322,7 @@ if value("emmi") > 0 {;
     (dest=mm(implied))
     (param(0)=mm(reg))
     (param(1)=mm(rm))
-    (code 0x0F 0x54 mrm);
+    (code 0x0F 0x54 mrm emmi);
 
   opcode "PMACHRIW"
     (comment "i=implied register")
@@ -4332,7 +4332,7 @@ if value("emmi") > 0 {;
     (dest=mm(implied))
     (param(0)=mm(reg))
     (param(1)=mm(rm))
-    (code 0x0F 0x5E mrm);
+    (code 0x0F 0x5E mrm emmi);
 
   opcode "PMAGW"
     (reads mm(reg),mm(rm))
@@ -4340,7 +4340,7 @@ if value("emmi") > 0 {;
     (writes mm(reg))
     (dest=mm(reg))
     (param=mm(rm))
-    (code 0x0F 0x52 mrm);
+    (code 0x0F 0x52 mrm emmi);
 
   opcode "PMULHRIW"
     (comment "i=implied register")
@@ -4350,7 +4350,7 @@ if value("emmi") > 0 {;
     (dest=mm(implied))
     (param(0)=mm(reg))
     (param(1)=mm(rm))
-    (code 0x0F 0x5D mrm);
+    (code 0x0F 0x5D mrm emmi);
 
   opcode "PMULHRW"
     (reads mm(reg),mm(rm))
@@ -4358,7 +4358,7 @@ if value("emmi") > 0 {;
     (writes mm(reg))
     (dest=mm(reg))
     (param=mm(rm))
-    (code 0x0F 0x59 mrm);
+    (code 0x0F 0x59 mrm emmi);
 
   opcode "PMVGEZB"
     (comment "i=implied register")
@@ -4368,7 +4368,7 @@ if value("emmi") > 0 {;
     (dest=mm(reg))
     (param(0)=mm(rm))
     (param(1)=mm(implied))
-    (code 0x0F 0x5C mrm);
+    (code 0x0F 0x5C mrm emmi);
 
   opcode "PMVLZB"
     (comment "i=implied register")
@@ -4378,7 +4378,7 @@ if value("emmi") > 0 {;
     (dest=mm(reg))
     (param(0)=mm(rm))
     (param(1)=mm(implied))
-    (code 0x0F 0x5B mrm);
+    (code 0x0F 0x5B mrm emmi);
 
   opcode "PMVNZB"
     (comment "i=implied register")
@@ -4388,7 +4388,7 @@ if value("emmi") > 0 {;
     (dest=mm(reg))
     (param(0)=mm(rm))
     (param(1)=mm(implied))
-    (code 0x0F 0x5A mrm);
+    (code 0x0F 0x5A mrm emmi);
 
   opcode "PMVZB"
     (comment "i=implied register")
@@ -4398,7 +4398,7 @@ if value("emmi") > 0 {;
     (dest=mm(reg))
     (param(0)=mm(rm))
     (param(1)=mm(implied))
-    (code 0x0F 0x58 mrm);
+    (code 0x0F 0x58 mrm emmi);
 
   opcode "PSUBSIW"
     (comment "i=implied register")
@@ -4408,7 +4408,7 @@ if value("emmi") > 0 {;
     (dest=mm(implied))
     (param(0)=mm(reg))
     (param(1)=mm(rm))
-    (code 0x0F 0x55 mrm);
+    (code 0x0F 0x55 mrm emmi);
 } if;
 
 if value("sse") > 0 {;
