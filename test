@@ -5457,189 +5457,189 @@ if ((value("sse2") > 0) or (value("everything") > 0)) {;
     (writes xmm(reg))
     (dest=xmm(reg))
     (param=rm(dw))
-    (code 0x66 0x0F 0x6E mrm fpu);
+    (code 0x66 0x0F 0x6E mrm sse2);
 
   opcode "MOVD"
     (writes rm(dw))
     (reads xmm(reg))
     (param=xmm(reg))
     (dest=rm(dw))
-    (code 0x66 0x0F 0x7E mrm fpu);
+    (code 0x66 0x0F 0x7E mrm sse2);
 
   opcode "MOVQ"
     (reads xmm(rm))
     (writes xmm(reg))
     (dest=xmm(reg))
     (param=xmm(rm))
-    (code 0xF3 0x0F 0x7E mrm fpu);
+    (code 0xF3 0x0F 0x7E mrm sse2);
 
   opcode "MOVQ"
     (reads xmm(reg))
     (writes xmm(rm))
     (dest=xmm(rm))
     (param=xmm(reg))
-    (code 0x66 0x0F 0xD6 mrm fpu);
+    (code 0x66 0x0F 0xD6 mrm sse2);
 
   opcode "PACKSSDW"
     (reads xmm(rm))
     (writes xmm(reg))
     (dest=xmm(reg))
     (param=xmm(rm))
-    (code 0x66 0x0F 0x6B mrm fpu);
+    (code 0x66 0x0F 0x6B mrm sse2);
 
   opcode "PACKSSWB"
     (reads xmm(rm))
     (writes xmm(reg))
     (dest=xmm(reg))
     (param=xmm(rm))
-    (code 0x66 0x0F 0x63 mrm fpu);
+    (code 0x66 0x0F 0x63 mrm sse2);
 
   opcode "PACKUSWB"
     (reads xmm(rm))
     (writes xmm(reg))
     (dest=xmm(reg))
     (param=xmm(rm))
-    (code 0x66 0x0F 0x67 mrm fpu);
+    (code 0x66 0x0F 0x67 mrm sse2);
 
   opcode "PADDB"
     (reads xmm(rm))
     (writes xmm(reg))
     (dest=xmm(reg))
     (param=xmm(rm))
-    (code 0x66 0x0F 0xFC mrm fpu);
+    (code 0x66 0x0F 0xFC mrm sse2);
 
   opcode "PADDW"
     (reads xmm(rm))
     (writes xmm(reg))
     (dest=xmm(reg))
     (param=xmm(rm))
-    (code 0x66 0x0F 0xFD mrm fpu);
+    (code 0x66 0x0F 0xFD mrm sse2);
 
   opcode "PADDD"
     (reads xmm(rm))
     (writes xmm(reg))
     (dest=xmm(reg))
     (param=xmm(rm))
-    (code 0x66 0x0F 0xFE mrm fpu);
+    (code 0x66 0x0F 0xFE mrm sse2);
 
   opcode "PADDQ"
     (reads xmm(rm))
     (writes xmm(reg))
     (dest=xmm(reg))
     (param=xmm(rm))
-    (code 0x66 0x0F 0xD4 mrm fpu);
+    (code 0x66 0x0F 0xD4 mrm sse2);
 
   opcode "PADDSB"
     (reads xmm(rm))
     (writes xmm(reg))
     (dest=xmm(reg))
     (param=xmm(rm))
-    (code 0x66 0x0F 0xEC mrm fpu);
+    (code 0x66 0x0F 0xEC mrm sse2);
 
   opcode "PADDSW"
     (reads xmm(rm))
     (writes xmm(reg))
     (dest=xmm(reg))
     (param=xmm(rm))
-    (code 0x66 0x0F 0xED mrm fpu);
+    (code 0x66 0x0F 0xED mrm sse2);
 
   opcode "PADDUSB"
     (reads xmm(rm))
     (writes xmm(reg))
     (dest=xmm(reg))
     (param=xmm(rm))
-    (code 0x66 0x0F 0xDC mrm fpu);
+    (code 0x66 0x0F 0xDC mrm sse2);
 
   opcode "PADDUSW"
     (reads xmm(rm))
     (writes xmm(reg))
     (dest=xmm(reg))
     (param=xmm(rm))
-    (code 0x66 0x0F 0xDD mrm fpu);
+    (code 0x66 0x0F 0xDD mrm sse2);
 
   opcode "PAND"
     (reads xmm(rm))
     (writes xmm(reg))
     (dest=xmm(reg))
     (param=xmm(rm))
-    (code 0x66 0x0F 0xDB mrm fpu);
+    (code 0x66 0x0F 0xDB mrm sse2);
 
   opcode "PANDN"
     (reads xmm(rm))
     (writes xmm(reg))
     (dest=xmm(reg))
     (param=xmm(rm))
-    (code 0x66 0x0F 0xDF mrm fpu);
+    (code 0x66 0x0F 0xDF mrm sse2);
 
   opcode "POR"
     (reads xmm(rm))
     (writes xmm(reg))
     (dest=xmm(reg))
     (param=xmm(rm))
-    (code 0x66 0x0F 0xEB mrm fpu);
+    (code 0x66 0x0F 0xEB mrm sse2);
 
   opcode "PXOR"
     (reads xmm(rm))
     (writes xmm(reg))
     (dest=xmm(reg))
     (param=xmm(rm))
-    (code 0x66 0x0F 0xEF mrm fpu);
+    (code 0x66 0x0F 0xEF mrm sse2);
 
   opcode "PCMPEQB"
     (reads xmm(rm))
     (writes xmm(reg))
     (dest=xmm(reg))
     (param=xmm(rm))
-    (code 0x66 0x0F 0x74 mrm fpu);
+    (code 0x66 0x0F 0x74 mrm sse2);
 
   opcode "PCMPEQW"
     (reads xmm(rm))
     (writes xmm(reg))
     (dest=xmm(reg))
     (param=xmm(rm))
-    (code 0x66 0x0F 0x75 mrm fpu);
+    (code 0x66 0x0F 0x75 mrm sse2);
 
   opcode "PCMPEQD"
     (reads xmm(rm))
     (writes xmm(reg))
     (dest=xmm(reg))
     (param=xmm(rm))
-    (code 0x66 0x0F 0x76 mrm fpu);
+    (code 0x66 0x0F 0x76 mrm sse2);
 
   opcode "PCMPGTB"
     (reads xmm(rm))
     (writes xmm(reg))
     (dest=xmm(reg))
     (param=xmm(rm))
-    (code 0x66 0x0F 0x64 mrm fpu);
+    (code 0x66 0x0F 0x64 mrm sse2);
 
   opcode "PCMPGTW"
     (reads xmm(rm))
     (writes xmm(reg))
     (dest=xmm(reg))
     (param=xmm(rm))
-    (code 0x66 0x0F 0x65 mrm fpu);
+    (code 0x66 0x0F 0x65 mrm sse2);
 
   opcode "PCMPGTD"
     (reads xmm(rm))
     (writes xmm(reg))
     (dest=xmm(reg))
     (param=xmm(rm))
-    (code 0x66 0x0F 0x66 mrm fpu);
+    (code 0x66 0x0F 0x66 mrm sse2);
 
   opcode "PMULHW"
     (reads xmm(rm))
     (writes xmm(reg))
     (dest=xmm(reg))
     (param=xmm(rm))
-    (code 0x66 0x0F 0xE5 mrm fpu);
+    (code 0x66 0x0F 0xE5 mrm sse2);
 
   opcode "PMULLW"
     (reads xmm(rm))
     (writes xmm(reg))
     (dest=xmm(reg))
     (param=xmm(rm))
-    (code 0x66 0x0F 0xD5 mrm fpu);
+    (code 0x66 0x0F 0xD5 mrm sse2);
 
   opcode "PMULUDQ"
     (reads mm(rm))
@@ -5647,7 +5647,7 @@ if ((value("sse2") > 0) or (value("everything") > 0)) {;
     (writes mm(reg))
     (dest=mm(reg))
     (param=mm(rm))
-    (code 0x0F 0xF4 mrm sse);
+    (code 0x0F 0xF4 mrm sse2);
 
   opcode "PMULUDQ"
     (reads xmm(rm))
@@ -5655,7 +5655,7 @@ if ((value("sse2") > 0) or (value("everything") > 0)) {;
     (writes xmm(reg))
     (dest=xmm(reg))
     (param=xmm(rm))
-    (code 0x66 0x0F 0xF4 mrm sse);
+    (code 0x66 0x0F 0xF4 mrm sse2);
 
   opcode "PSUBQ"
     (reads mm(rm))
@@ -5663,7 +5663,7 @@ if ((value("sse2") > 0) or (value("everything") > 0)) {;
     (writes mm(reg))
     (dest=mm(reg))
     (param=mm(rm))
-    (code 0x0F 0xFB mrm sse);
+    (code 0x0F 0xFB mrm sse2);
 
   opcode "PSUBQ"
     (reads xmm(rm))
@@ -5671,258 +5671,258 @@ if ((value("sse2") > 0) or (value("everything") > 0)) {;
     (writes xmm(reg))
     (dest=xmm(reg))
     (param=xmm(rm))
-    (code 0x66 0x0F 0xFB mrm sse);
+    (code 0x66 0x0F 0xFB mrm sse2);
 
   opcode "PSLLW"
     (writes xmm(reg))
     (dest=xmm(reg))
     (param=i)
-    (code 0x66 0x0F 0x71 mrm i=immediate(b) reg(6) fpu);
+    (code 0x66 0x0F 0x71 mrm i=immediate(b) reg(6) sse2);
 
   opcode "PSLLW"
     (reads xmm(rm))
     (writes xmm(reg))
     (dest=xmm(reg))
     (param=xmm(rm))
-    (code 0x66 0x0F 0xF1 mrm fpu);
+    (code 0x66 0x0F 0xF1 mrm sse2);
 
   opcode "PSLLD"
     (writes xmm(reg))
     (dest=xmm(reg))
     (param=i)
-    (code 0x66 0x0F 0x72 mrm i=immediate(b) reg(6) fpu);
+    (code 0x66 0x0F 0x72 mrm i=immediate(b) reg(6) sse2);
 
   opcode "PSLLD"
     (reads xmm(rm))
     (writes xmm(reg))
     (dest=xmm(reg))
     (param=xmm(rm))
-    (code 0x66 0x0F 0xF2 mrm fpu);
+    (code 0x66 0x0F 0xF2 mrm sse2);
 
   opcode "PSLLQ"
     (writes xmm(reg))
     (dest=xmm(reg))
     (param=i)
-    (code 0x66 0x0F 0x73 mrm i=immediate(b) reg(6) fpu);
+    (code 0x66 0x0F 0x73 mrm i=immediate(b) reg(6) sse2);
 
   opcode "PSLLQ"
     (reads xmm(rm))
     (writes xmm(reg))
     (dest=xmm(reg))
     (param=xmm(rm))
-    (code 0x66 0x0F 0xF3 mrm fpu);
+    (code 0x66 0x0F 0xF3 mrm sse2);
 
   opcode "PSRAD"
     (writes xmm(reg))
     (dest=xmm(reg))
     (param=i)
-    (code 0x66 0x0F 0x72 mrm i=immediate(b) reg(4) fpu);
+    (code 0x66 0x0F 0x72 mrm i=immediate(b) reg(4) sse2);
 
   opcode "PSRAD"
     (reads xmm(rm))
     (writes xmm(reg))
     (dest=xmm(reg))
     (param=xmm(rm))
-    (code 0x66 0x0F 0xE2 mrm fpu);
+    (code 0x66 0x0F 0xE2 mrm sse2);
 
   opcode "PSRAW"
     (writes xmm(reg))
     (dest=xmm(reg))
     (param=i)
-    (code 0x66 0x0F 0x71 mrm i=immediate(b) reg(4) fpu);
+    (code 0x66 0x0F 0x71 mrm i=immediate(b) reg(4) sse2);
 
   opcode "PSRAW"
     (reads xmm(rm))
     (writes xmm(reg))
     (dest=xmm(reg))
     (param=xmm(rm))
-    (code 0x66 0x0F 0xE1 mrm fpu);
+    (code 0x66 0x0F 0xE1 mrm sse2);
 
   opcode "PSRLW"
     (writes xmm(reg))
     (dest=xmm(reg))
     (param=i)
-    (code 0x66 0x0F 0x71 mrm i=immediate(b) reg(2) fpu);
+    (code 0x66 0x0F 0x71 mrm i=immediate(b) reg(2) sse2);
 
   opcode "PSRLW"
     (reads xmm(rm))
     (writes xmm(reg))
     (dest=xmm(reg))
     (param=xmm(rm))
-    (code 0x66 0x0F 0xD1 mrm fpu);
+    (code 0x66 0x0F 0xD1 mrm sse2);
 
   opcode "PSRLD"
     (writes xmm(reg))
     (dest=xmm(reg))
     (param=i)
-    (code 0x66 0x0F 0x72 mrm i=immediate(b) reg(2) fpu);
+    (code 0x66 0x0F 0x72 mrm i=immediate(b) reg(2) sse2);
 
   opcode "PSRLD"
     (reads xmm(rm))
     (writes xmm(reg))
     (dest=xmm(reg))
     (param=xmm(rm))
-    (code 0x66 0x0F 0xD2 mrm fpu);
+    (code 0x66 0x0F 0xD2 mrm sse2);
 
   opcode "PSRLQ"
     (writes xmm(reg))
     (dest=xmm(reg))
     (param=i)
-    (code 0x66 0x0F 0x73 mrm i=immediate(b) reg(2) fpu);
+    (code 0x66 0x0F 0x73 mrm i=immediate(b) reg(2) sse2);
 
   opcode "PSRLQ"
     (reads xmm(rm))
     (writes xmm(reg))
     (dest=xmm(reg))
     (param=xmm(rm))
-    (code 0x66 0x0F 0xD3 mrm fpu);
+    (code 0x66 0x0F 0xD3 mrm sse2);
 
   opcode "PSUBB"
     (reads xmm(rm))
     (writes xmm(reg))
     (dest=xmm(reg))
     (param=xmm(rm))
-    (code 0x66 0x0F 0xF8 mrm fpu);
+    (code 0x66 0x0F 0xF8 mrm sse2);
 
   opcode "PSUBW"
     (reads xmm(rm))
     (writes xmm(reg))
     (dest=xmm(reg))
     (param=xmm(rm))
-    (code 0x66 0x0F 0xF9 mrm fpu);
+    (code 0x66 0x0F 0xF9 mrm sse2);
 
   opcode "PSUBD"
     (reads xmm(rm))
     (writes xmm(reg))
     (dest=xmm(reg))
     (param=xmm(rm))
-    (code 0x66 0x0F 0xFA mrm fpu);
+    (code 0x66 0x0F 0xFA mrm sse2);
 
   opcode "PSUBSB"
     (reads xmm(rm))
     (writes xmm(reg))
     (dest=xmm(reg))
     (param=xmm(rm))
-    (code 0x66 0x0F 0xE8 mrm fpu);
+    (code 0x66 0x0F 0xE8 mrm sse2);
 
   opcode "PSUBSW"
     (reads xmm(rm))
     (writes xmm(reg))
     (dest=xmm(reg))
     (param=xmm(rm))
-    (code 0x66 0x0F 0xE9 mrm fpu);
+    (code 0x66 0x0F 0xE9 mrm sse2);
 
   opcode "PSUBUSB"
     (reads xmm(rm))
     (writes xmm(reg))
     (dest=xmm(reg))
     (param=xmm(rm))
-    (code 0x66 0x0F 0xD8 mrm fpu);
+    (code 0x66 0x0F 0xD8 mrm sse2);
 
   opcode "PSUBUSW"
     (reads xmm(rm))
     (writes xmm(reg))
     (dest=xmm(reg))
     (param=xmm(rm))
-    (code 0x66 0x0F 0xD9 mrm fpu);
+    (code 0x66 0x0F 0xD9 mrm sse2);
 
   opcode "PMADDWD"
     (reads xmm(rm))
     (writes xmm(reg))
     (dest=xmm(reg))
     (param=xmm(rm))
-    (code 0x66 0x0F 0xF5 mrm fpu);
+    (code 0x66 0x0F 0xF5 mrm sse2);
 
   opcode "PUNPCKHBW"
     (reads xmm(rm))
     (writes xmm(reg))
     (dest=xmm(reg))
     (param=xmm(rm))
-    (code 0x66 0x0F 0x68 mrm fpu);
+    (code 0x66 0x0F 0x68 mrm sse2);
 
   opcode "PUNPCKHWD"
     (reads xmm(rm))
     (writes xmm(reg))
     (dest=xmm(reg))
     (param=xmm(rm))
-    (code 0x66 0x0F 0x69 mrm fpu);
+    (code 0x66 0x0F 0x69 mrm sse2);
 
   opcode "PUNPCKHDQ"
     (reads xmm(rm))
     (writes xmm(reg))
     (dest=xmm(reg))
     (param=xmm(rm))
-    (code 0x66 0x0F 0x6A mrm fpu);
+    (code 0x66 0x0F 0x6A mrm sse2);
 
   opcode "PUNPCKLBW"
     (reads xmm(rm))
     (writes xmm(reg))
     (dest=xmm(reg))
     (param=xmm(rm))
-    (code 0x66 0x0F 0x60 mrm fpu);
+    (code 0x66 0x0F 0x60 mrm sse2);
 
   opcode "PUNPCKLWD"
     (reads xmm(rm))
     (writes xmm(reg))
     (dest=xmm(reg))
     (param=xmm(rm))
-    (code 0x66 0x0F 0x61 mrm fpu);
+    (code 0x66 0x0F 0x61 mrm sse2);
 
   opcode "PUNPCKLDQ"
     (reads xmm(rm))
     (writes xmm(reg))
     (dest=xmm(reg))
     (param=xmm(rm))
-    (code 0x66 0x0F 0x62 mrm fpu);
+    (code 0x66 0x0F 0x62 mrm sse2);
 
   opcode "MASKMOVDQU"
     (reads xmm(reg))
     (writes xmm(rm))
     (dest=xmm(rm))
     (param=xmm(reg))
-    (code 0x66 0x0F 0xF7 mrm fpu);
+    (code 0x66 0x0F 0xF7 mrm sse2);
 
   opcode "MOVDQ2Q"
     (reads xmm(reg))
     (writes mm(rm))
     (dest=mm(rm))
     (param=xmm(reg))
-    (code 0xF2 0x0F 0xD6 mrm mod(3) fpu);
+    (code 0xF2 0x0F 0xD6 mrm mod(3) sse2);
 
   opcode "MOVDQA"
     (reads xmm(rm))
     (writes xmm(reg))
     (dest=xmm(reg))
     (param=xmm(rm))
-    (code 0x66 0x0F 0x6F mrm fpu);
+    (code 0x66 0x0F 0x6F mrm sse2);
 
   opcode "MOVDQA"
     (reads xmm(reg))
     (writes xmm(rm))
     (dest=xmm(rm))
     (param=xmm(reg))
-    (code 0x66 0x0F 0x7F mrm fpu);
+    (code 0x66 0x0F 0x7F mrm sse2);
 
   opcode "MOVDQU"
     (reads xmm(rm))
     (writes xmm(reg))
     (dest=xmm(reg))
     (param=xmm(rm))
-    (code 0xF3 0x0F 0x6F mrm fpu);
+    (code 0xF3 0x0F 0x6F mrm sse2);
 
   opcode "MOVDQU"
     (reads xmm(reg))
     (writes xmm(rm))
     (dest=xmm(rm))
     (param=xmm(reg))
-    (code 0xF3 0x0F 0x7F mrm fpu);
+    (code 0xF3 0x0F 0x7F mrm sse2);
 
   opcode "MOVQ2DQ"
     (reads mm(reg))
     (writes xmm(rm))
     (dest=xmm(rm))
     (param=mm(reg))
-    (code 0xF3 0x0F 0xD6 mrm mod(3) fpu);
+    (code 0xF3 0x0F 0xD6 mrm mod(3) sse2);
 
   opcode "MOVNTDQ"
     (reads xmm(reg))
@@ -5959,26 +5959,26 @@ if ((value("sse2") > 0) or (value("everything") > 0)) {;
     (writes xmm(reg))
     (dest=xmm(reg))
     (param=i)
-    (code 0x66 0x0F 0x73 mrm i=immediate(b) reg(7) fpu);
+    (code 0x66 0x0F 0x73 mrm i=immediate(b) reg(7) sse2);
 
   opcode "PSRLDQ"
     (writes xmm(reg))
     (dest=xmm(reg))
     (param=i)
-    (code 0x66 0x0F 0x73 mrm i=immediate(b) reg(3) fpu);
+    (code 0x66 0x0F 0x73 mrm i=immediate(b) reg(3) sse2);
 
   opcode "PUNPCKHQDQ"
     (reads xmm(rm))
     (writes xmm(reg))
     (dest=xmm(reg))
     (param=xmm(rm))
-    (code 0x66 0x0F 0x6D mrm fpu);
+    (code 0x66 0x0F 0x6D mrm sse2);
 
   opcode "PUNPCKLQDQ"
     (reads xmm(rm))
     (writes xmm(reg))
     (dest=xmm(reg))
     (param=xmm(rm))
-    (code 0x66 0x0F 0x6c mrm fpu);
+    (code 0x66 0x0F 0x6c mrm sse2);
 } if;
 
