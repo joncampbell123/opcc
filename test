@@ -5925,10 +5925,10 @@ if ((value("sse2") > 0) or (value("everything") > 0)) {;
     (code 0xF3 0x0F 0xD6 mrm mod(3) fpu);
 
   opcode "MOVNTDQ"
-    (reads mm(reg))
-    (writes mm(rm))
-    (dest=mm(rm))
-    (param=mm(reg))
+    (reads xmm(reg))
+    (writes xmm(rm))
+    (dest=xmm(rm))
+    (param=xmm(reg))
     (code 0x66 0x0F 0xE7 mrm mod(!3));
 } if;
 
