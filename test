@@ -5982,3 +5982,19 @@ if ((value("sse2") > 0) or (value("everything") > 0)) {;
     (code 0x66 0x0F 0x6c mrm sse2);
 } if;
 
+if ((value("sse3") > 0) or (value("everything") > 0)) {;
+  opcode "MONITOR"
+    (comment "0x0F 0x01 0xC8")
+    (reads eax, ecx, edx)
+    (param(0)=eax)
+    (param(1)=ecx)
+    (param(2)=edx)
+    (code 0x0F 0x01 mrm mod(3) reg(1) rm(0));
+
+  opcode "MWAIT"
+    (comment "0x0F 0x01 0xC9")
+    (reads eax, ecx)
+    (param(0)=eax)
+    (param(1)=ecx)
+    (code 0x0F 0x01 mrm mod(3) reg(1) rm(1));
+} if;
