@@ -6018,4 +6018,67 @@ if ((value("sse3") > 0) or (value("everything") > 0)) {;
     (dest=rm(sqw))
     (param=st(0))
     (code 0xDD mrm mod(!3) reg(1) fpu);
+
+  opcode "ADDSUBPS"
+    (reads xmm(rm))
+    (writes xmm(reg))
+    (dest=xmm(reg))
+    (param=xmm(rm))
+    (code 0xF2 0x0F 0xD0 mrm);
+
+  opcode "ADDSUBPD"
+    (reads xmm(rm))
+    (writes xmm(reg))
+    (dest=xmm(reg))
+    (param=xmm(rm))
+    (code 0x66 0x0F 0xD0 mrm);
+
+  opcode "MOVDDUP"
+    (reads xmm(rm))
+    (writes xmm(reg))
+    (dest=xmm(reg))
+    (param=xmm(rm))
+    (code 0xF2 0x0F 0x12 mrm);
+
+  opcode "MOVSLDUP"
+    (reads xmm(rm))
+    (writes xmm(reg))
+    (dest=xmm(reg))
+    (param=xmm(rm))
+    (code 0xF3 0x0F 0x12 mrm);
+
+  opcode "MOVSHDUP"
+    (reads xmm(rm))
+    (writes xmm(reg))
+    (dest=xmm(reg))
+    (param=xmm(rm))
+    (code 0xF3 0x0F 0x16 mrm);
+
+  opcode "HADDPS"
+    (reads xmm(rm))
+    (writes xmm(reg))
+    (dest=xmm(reg))
+    (param=xmm(rm))
+    (code 0xF2 0x0F 0x7C mrm);
+
+  opcode "HADDPD"
+    (reads xmm(rm))
+    (writes xmm(reg))
+    (dest=xmm(reg))
+    (param=xmm(rm))
+    (code 0x66 0x0F 0x7C mrm);
+
+  opcode "HSUBPS"
+    (reads xmm(rm))
+    (writes xmm(reg))
+    (dest=xmm(reg))
+    (param=xmm(rm))
+    (code 0xF2 0x0F 0x7D mrm);
+
+  opcode "HSUBPD"
+    (reads xmm(rm))
+    (writes xmm(reg))
+    (dest=xmm(reg))
+    (param=xmm(rm))
+    (code 0x66 0x0F 0x7D mrm);
 } if;
