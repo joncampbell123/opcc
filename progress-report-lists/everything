@@ -25,9 +25,11 @@ Opcodes by byte:
         SIDT r/m(u48)                                                    ; 0f 01 /1=m
         LGDT r/m(u48)                                                    ; 0f 01 /2=m
         LIDT r/m(u48)                                                    ; 0f 01 /3=m
+      INVLPG r/m(uv)                                                     ; 0f 01 /7=m
+     MONITOR EAX, ECX, EDX                                               ; 0f 01 c8
+       MWAIT EAX, ECX                                                    ; 0f 01 c9
         SMSW r/m(uv)                                                     ; 0f 01 /4
         LMSW r/m(uv)                                                     ; 0f 01 /6
-      INVLPG r/m(uv)                                                     ; 0f 01 /7=m
          LAR reg(uv), r/m(uv)                                            ; 0f 02 /r
          LSL reg(uv), r/m(uv)                                            ; 0f 03 /r
      SYSCALL                                                             ; 0f 05
@@ -1198,6 +1200,7 @@ Opcodes by name:
        MINPS xmm(reg), xmm(rm)                                           ; 0f 5d /r; sse
        MINSD xmm(reg), xmm(rm)                                           ; f2 0f 5d /r; sse2
        MINSS xmm(reg), xmm(rm)                                           ; f3 0f 5d /r; sse
+     MONITOR EAX, ECX, EDX                                               ; 0f 01 c8
          MOV r/m(u32), cr(reg)                                           ; 0f 20 /r!m
          MOV r/m(u32), dr(reg)                                           ; 0f 21 /r!m
          MOV cr(reg), r/m(u32)                                           ; 0f 22 /r!m
@@ -1269,6 +1272,7 @@ Opcodes by name:
        MULPS xmm(reg), xmm(rm)                                           ; 0f 59 /r; sse
        MULSD xmm(reg), xmm(rm)                                           ; f2 0f 59 /r; sse2
        MULSS xmm(reg), xmm(rm)                                           ; f3 0f 59 /r; sse
+       MWAIT EAX, ECX                                                    ; 0f 01 c9
          NEG r/m(u8)                                                     ; f6 /3
          NEG r/m(uv)                                                     ; f7 /3
          NOP                                                             ; 0f 1f /0
@@ -3377,7 +3381,7 @@ P = prefix
     0 1 2 3 4 5 6 7  rm with mod==3
    ----------------
  c0|                 reg=0
- c8|                 reg=1
+ c8|X X              reg=1
  d0|                 reg=2
  d8|                 reg=3
  e0|X X X X X X X X  reg=4
