@@ -5449,3 +5449,35 @@ if ((value("sse2") > 0) or (value("everything") > 0)) {;
     (code 0xF2 0x0F 0x2C mrm sse2);
 } if;
 
+if ((value("sse2") > 0) or (value("everything") > 0)) {;
+  comment "sse2 versions of mmx";
+
+  opcode "MOVD"
+    (reads rm(dw))
+    (writes xmm(reg))
+    (dest=xmm(reg))
+    (param=rm(dw))
+    (code 0x66 0x0F 0x6E mrm fpu);
+
+  opcode "MOVD"
+    (writes rm(dw))
+    (reads xmm(reg))
+    (param=xmm(reg))
+    (dest=rm(dw))
+    (code 0x66 0x0F 0x7E mrm fpu);
+
+  opcode "MOVQ"
+    (reads xmm(rm))
+    (writes xmm(reg))
+    (dest=xmm(reg))
+    (param=xmm(rm))
+    (code 0xF3 0x0F 0x7E mrm fpu);
+
+  opcode "MOVQ"
+    (reads xmm(reg))
+    (writes xmm(rm))
+    (dest=xmm(rm))
+    (param=xmm(reg))
+    (code 0x66 0x0F 0xD6 mrm fpu);
+} if;
+
