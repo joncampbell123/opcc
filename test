@@ -6081,4 +6081,11 @@ if ((value("sse3") > 0) or (value("everything") > 0)) {;
     (dest=xmm(reg))
     (param=xmm(rm))
     (code 0x66 0x0F 0x7D mrm);
+
+  opcode "LDDQU"
+    (reads xmm(rm))
+    (writes xmm(reg))
+    (dest=xmm(reg))
+    (param=xmm(rm))
+    (code 0xF2 0x0F 0xF0 mrm mod(!3));
 } if;
