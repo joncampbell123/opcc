@@ -5764,7 +5764,7 @@ int main(int argc,char **argv) {
         return 1;
 
     if (march.empty())
-        march = "8086";
+        march = "everything";
 
     if (march == "8086") {
         if (fpuarch.empty())
