@@ -5825,5 +5825,12 @@ if ((value("sse2") > 0) or (value("everything") > 0)) {;
     (dest=xmm(reg))
     (param=xmm(rm))
     (code 0x66 0x0F 0xD9 mrm fpu);
+
+  opcode "PMADDWD"
+    (reads xmm(rm))
+    (writes xmm(reg))
+    (dest=xmm(reg))
+    (param=xmm(rm))
+    (code 0x66 0x0F 0xF5 mrm fpu);
 } if;
 
