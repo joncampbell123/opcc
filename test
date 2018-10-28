@@ -5157,5 +5157,19 @@ if ((value("sse2") > 0) or (value("everything") > 0)) {;
     (dest=xmm(rm))
     (param=xmm(reg))
     (code 0xF2 0x0F 0x11 mrm sse2);
+
+  opcode "ADDPD"
+    (reads xmm(rm))
+    (writes xmm(reg))
+    (dest=xmm(reg))
+    (param=xmm(rm))
+    (code 0x66 0x0F 0x58 mrm sse2);
+
+  opcode "ADDSD"
+    (reads xmm(rm))
+    (writes xmm(reg))
+    (dest=xmm(reg))
+    (param=xmm(rm))
+    (code 0xF2 0x0F 0x58 mrm sse2);
 } if;
 
