@@ -18,5 +18,5 @@
 [x] SSE2
 
 Also todo:
-- Add to "fpu", "sse" tags by adding "mmx", "emmi", "3dnow", and "3dnow+" tags.
-- Have opcode list show the "fpu", "sse" tags alongside the opcode for reference.
+[x] Add to "fpu", "sse" tags by adding "mmx", "emmi", "3dnow", and "3dnow+" tags.
+[x] Have opcode list show the "fpu", "sse" tags alongside the opcode for reference.
