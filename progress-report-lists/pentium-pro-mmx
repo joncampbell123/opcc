@@ -60,34 +60,34 @@ Opcodes by byte:
       CMOVNL reg(uv), r/m(uv)                                            ; 0f 4d /r
       CMOVNG reg(uv), r/m(uv)                                            ; 0f 4e /r
        CMOVG reg(uv), r/m(uv)                                            ; 0f 4f /r
-   PUNPCKLBW mm(reg), mm(rm)                                             ; 0f 60 /r
-   PUNPCKLWD mm(reg), mm(rm)                                             ; 0f 61 /r
-   PUNPCKLDQ mm(reg), mm(rm)                                             ; 0f 62 /r
-    PACKSSWB mm(reg), mm(rm)                                             ; 0f 63 /r
-     PCMPGTB mm(reg), mm(rm)                                             ; 0f 64 /r
-     PCMPGTW mm(reg), mm(rm)                                             ; 0f 65 /r
-     PCMPGTD mm(reg), mm(rm)                                             ; 0f 66 /r
-    PACKUSWB mm(reg), mm(rm)                                             ; 0f 67 /r
-   PUNPCKHBW mm(reg), mm(rm)                                             ; 0f 68 /r
-   PUNPCKHWD mm(reg), mm(rm)                                             ; 0f 69 /r
-   PUNPCKHDQ mm(reg), mm(rm)                                             ; 0f 6a /r
-    PACKSSDW mm(reg), mm(rm)                                             ; 0f 6b /r
-        MOVD mm(reg), r/m(u32)                                           ; 0f 6e /r
-        MOVQ mm(reg), r/m(u64)                                           ; 0f 6f /r
-       PSRLW mm(reg), I                                                  ; 0f 71 /2 I=imm(u8)
-       PSRAW mm(reg), I                                                  ; 0f 71 /4 I=imm(u8)
-       PSLLW mm(reg), I                                                  ; 0f 71 /6 I=imm(u8)
-       PSRLD mm(reg), I                                                  ; 0f 72 /2 I=imm(u8)
-       PSRAD mm(reg), I                                                  ; 0f 72 /4 I=imm(u8)
-       PSLLD mm(reg), I                                                  ; 0f 72 /6 I=imm(u8)
-       PSRLQ mm(reg), I                                                  ; 0f 73 /2 I=imm(u8)
-       PSLLQ mm(reg), I                                                  ; 0f 73 /6 I=imm(u8)
-     PCMPEQB mm(reg), mm(rm)                                             ; 0f 74 /r
-     PCMPEQW mm(reg), mm(rm)                                             ; 0f 75 /r
-     PCMPEQD mm(reg), mm(rm)                                             ; 0f 76 /r
-        EMMS                                                             ; 0f 77
-        MOVD r/m(u32), mm(reg)                                           ; 0f 7e /r
-        MOVQ r/m(u64), mm(reg)                                           ; 0f 7f /r
+   PUNPCKLBW mm(reg), mm(rm)                                             ; 0f 60 /r; fpu
+   PUNPCKLWD mm(reg), mm(rm)                                             ; 0f 61 /r; fpu
+   PUNPCKLDQ mm(reg), mm(rm)                                             ; 0f 62 /r; fpu
+    PACKSSWB mm(reg), mm(rm)                                             ; 0f 63 /r; fpu
+     PCMPGTB mm(reg), mm(rm)                                             ; 0f 64 /r; fpu
+     PCMPGTW mm(reg), mm(rm)                                             ; 0f 65 /r; fpu
+     PCMPGTD mm(reg), mm(rm)                                             ; 0f 66 /r; fpu
+    PACKUSWB mm(reg), mm(rm)                                             ; 0f 67 /r; fpu
+   PUNPCKHBW mm(reg), mm(rm)                                             ; 0f 68 /r; fpu
+   PUNPCKHWD mm(reg), mm(rm)                                             ; 0f 69 /r; fpu
+   PUNPCKHDQ mm(reg), mm(rm)                                             ; 0f 6a /r; fpu
+    PACKSSDW mm(reg), mm(rm)                                             ; 0f 6b /r; fpu
+        MOVD mm(reg), r/m(u32)                                           ; 0f 6e /r; fpu
+        MOVQ mm(reg), r/m(u64)                                           ; 0f 6f /r; fpu
+       PSRLW mm(reg), I                                                  ; 0f 71 /2 I=imm(u8); fpu
+       PSRAW mm(reg), I                                                  ; 0f 71 /4 I=imm(u8); fpu
+       PSLLW mm(reg), I                                                  ; 0f 71 /6 I=imm(u8); fpu
+       PSRLD mm(reg), I                                                  ; 0f 72 /2 I=imm(u8); fpu
+       PSRAD mm(reg), I                                                  ; 0f 72 /4 I=imm(u8); fpu
+       PSLLD mm(reg), I                                                  ; 0f 72 /6 I=imm(u8); fpu
+       PSRLQ mm(reg), I                                                  ; 0f 73 /2 I=imm(u8); fpu
+       PSLLQ mm(reg), I                                                  ; 0f 73 /6 I=imm(u8); fpu
+     PCMPEQB mm(reg), mm(rm)                                             ; 0f 74 /r; fpu
+     PCMPEQW mm(reg), mm(rm)                                             ; 0f 75 /r; fpu
+     PCMPEQD mm(reg), mm(rm)                                             ; 0f 76 /r; fpu
+        EMMS                                                             ; 0f 77; fpu
+        MOVD r/m(u32), mm(reg)                                           ; 0f 7e /r; fpu
+        MOVQ r/m(u64), mm(reg)                                           ; 0f 7f /r; fpu
           JO N                                                           ; 0f 80 P=imm(iv); N=(IPV+P)
          JNO N                                                           ; 0f 81 P=imm(iv); N=(IPV+P)
           JC N                                                           ; 0f 82 P=imm(iv); N=(IPV+P)
@@ -139,36 +139,36 @@ Opcodes by byte:
         XADD r/m(uv), reg(uv)                                            ; 0f c1 /r
    CMPXCHG8B r/m(u64)                                                    ; 0f c7 /1=m
        BSWAP reg(uv), reg(uv)                                            ; 0f c8+reg; reg=0-7
-       PSRLW mm(reg), mm(rm)                                             ; 0f d1 /r
-       PSRLD mm(reg), mm(rm)                                             ; 0f d2 /r
-       PSRLQ mm(reg), mm(rm)                                             ; 0f d3 /r
-       PADDQ mm(reg), mm(rm)                                             ; 0f d4 /r
-      PMULLW mm(reg), mm(rm)                                             ; 0f d5 /r
-     PSUBUSB mm(reg), mm(rm)                                             ; 0f d8 /r
-     PSUBUSW mm(reg), mm(rm)                                             ; 0f d9 /r
-        PAND mm(reg), mm(rm)                                             ; 0f db /r
-     PADDUSB mm(reg), mm(rm)                                             ; 0f dc /r
-     PADDUSW mm(reg), mm(rm)                                             ; 0f dd /r
-       PANDN mm(reg), mm(rm)                                             ; 0f df /r
-       PSRAW mm(reg), mm(rm)                                             ; 0f e1 /r
-       PSRAD mm(reg), mm(rm)                                             ; 0f e2 /r
-      PMULHW mm(reg), mm(rm)                                             ; 0f e5 /r
-      PSUBSB mm(reg), mm(rm)                                             ; 0f e8 /r
-      PSUBSW mm(reg), mm(rm)                                             ; 0f e9 /r
-         POR mm(reg), mm(rm)                                             ; 0f eb /r
-      PADDSB mm(reg), mm(rm)                                             ; 0f ec /r
-      PADDSW mm(reg), mm(rm)                                             ; 0f ed /r
-        PXOR mm(reg), mm(rm)                                             ; 0f ef /r
-       PSLLW mm(reg), mm(rm)                                             ; 0f f1 /r
-       PSLLD mm(reg), mm(rm)                                             ; 0f f2 /r
-       PSLLQ mm(reg), mm(rm)                                             ; 0f f3 /r
-     PMADDWD mm(reg), mm(rm)                                             ; 0f f5 /r
-       PSUBB mm(reg), mm(rm)                                             ; 0f f8 /r
-       PSUBW mm(reg), mm(rm)                                             ; 0f f9 /r
-       PSUBD mm(reg), mm(rm)                                             ; 0f fa /r
-       PADDB mm(reg), mm(rm)                                             ; 0f fc /r
-       PADDW mm(reg), mm(rm)                                             ; 0f fd /r
-       PADDD mm(reg), mm(rm)                                             ; 0f fe /r
+       PSRLW mm(reg), mm(rm)                                             ; 0f d1 /r; fpu
+       PSRLD mm(reg), mm(rm)                                             ; 0f d2 /r; fpu
+       PSRLQ mm(reg), mm(rm)                                             ; 0f d3 /r; fpu
+       PADDQ mm(reg), mm(rm)                                             ; 0f d4 /r; fpu
+      PMULLW mm(reg), mm(rm)                                             ; 0f d5 /r; fpu
+     PSUBUSB mm(reg), mm(rm)                                             ; 0f d8 /r; fpu
+     PSUBUSW mm(reg), mm(rm)                                             ; 0f d9 /r; fpu
+        PAND mm(reg), mm(rm)                                             ; 0f db /r; fpu
+     PADDUSB mm(reg), mm(rm)                                             ; 0f dc /r; fpu
+     PADDUSW mm(reg), mm(rm)                                             ; 0f dd /r; fpu
+       PANDN mm(reg), mm(rm)                                             ; 0f df /r; fpu
+       PSRAW mm(reg), mm(rm)                                             ; 0f e1 /r; fpu
+       PSRAD mm(reg), mm(rm)                                             ; 0f e2 /r; fpu
+      PMULHW mm(reg), mm(rm)                                             ; 0f e5 /r; fpu
+      PSUBSB mm(reg), mm(rm)                                             ; 0f e8 /r; fpu
+      PSUBSW mm(reg), mm(rm)                                             ; 0f e9 /r; fpu
+         POR mm(reg), mm(rm)                                             ; 0f eb /r; fpu
+      PADDSB mm(reg), mm(rm)                                             ; 0f ec /r; fpu
+      PADDSW mm(reg), mm(rm)                                             ; 0f ed /r; fpu
+        PXOR mm(reg), mm(rm)                                             ; 0f ef /r; fpu
+       PSLLW mm(reg), mm(rm)                                             ; 0f f1 /r; fpu
+       PSLLD mm(reg), mm(rm)                                             ; 0f f2 /r; fpu
+       PSLLQ mm(reg), mm(rm)                                             ; 0f f3 /r; fpu
+     PMADDWD mm(reg), mm(rm)                                             ; 0f f5 /r; fpu
+       PSUBB mm(reg), mm(rm)                                             ; 0f f8 /r; fpu
+       PSUBW mm(reg), mm(rm)                                             ; 0f f9 /r; fpu
+       PSUBD mm(reg), mm(rm)                                             ; 0f fa /r; fpu
+       PADDB mm(reg), mm(rm)                                             ; 0f fc /r; fpu
+       PADDW mm(reg), mm(rm)                                             ; 0f fd /r; fpu
+       PADDD mm(reg), mm(rm)                                             ; 0f fe /r; fpu
          ADC r/m(u8), reg(u8)                                            ; 10 /r
          ADC r/m(uv), reg(uv)                                            ; 11 /r
          ADC reg(u8), r/m(u8)                                            ; 12 /r
@@ -303,8 +303,8 @@ Opcodes by byte:
          CWD                                                             ; 99
         CALL P                                                           ; 9a P=imm(farptr)
         WAIT                                                    ; prefix ; 9b
-       FCLEX                                                             ; 9b db e2
-       FINIT                                                             ; 9b db e3
+       FCLEX                                                             ; 9b db e2; fpu
+       FINIT                                                             ; 9b db e3; fpu
        PUSHF                                                             ; 9c
         POPF                                                             ; 9d
         SAHF                                                             ; 9e
@@ -387,137 +387,137 @@ Opcodes by byte:
          AAD D                                                           ; d5 D=imm(u8)
         SALC                                                             ; d6
         XLAT                                                             ; d7
-        FADD st(0), r/m(f32)                                             ; d8 /0=m
-        FMUL st(0), r/m(f32)                                             ; d8 /1=m
-        FCOM st(0), r/m(f32)                                             ; d8 /2=m
-       FCOMP st(0), r/m(f32)                                             ; d8 /3=m
-        FSUB st(0), r/m(f32)                                             ; d8 /4=m
-       FSUBR st(0), r/m(f32)                                             ; d8 /5=m
-        FDIV st(0), r/m(f32)                                             ; d8 /6=m
-       FDIVR st(0), r/m(f32)                                             ; d8 /7=m
-        FADD st(0), st(i)                                                ; d8 c0+i; i=0-7
-        FMUL st(0), st(i)                                                ; d8 c8+i; i=0-7
-        FCOM st(0), st(i)                                                ; d8 d0+i; i=0-7
-       FCOMP st(0), st(i)                                                ; d8 d8+i; i=0-7
-        FSUB st(0), st(i)                                                ; d8 e0+i; i=0-7
-       FSUBR st(0), st(i)                                                ; d8 e8+i; i=0-7
-        FDIV st(0), st(i)                                                ; d8 f0+i; i=0-7
-       FDIVR st(0), st(i)                                                ; d8 f8+i; i=0-7
-         FLD st(0), r/m(f32)                                             ; d9 /0=m
-         FST r/m(f32), st(0)                                             ; d9 /2=m
-        FSTP r/m(f32), st(0)                                             ; d9 /3=m
-      FLDENV r/m(f87env)                                                 ; d9 /4=m
-       FLDCW r/m(u16)                                                    ; d9 /5=m
-      FSTENV r/m(f87env)                                                 ; d9 /6=m
-       FSTCW r/m(u16)                                                    ; d9 /7=m
-         FLD st(0), st(i)                                                ; d9 c0+i; i=0-7
-        FXCH st(0), st(i)                                                ; d9 c8+i; i=0-7
-        FNOP                                                             ; d9 d0
-        FCHS st(0), st(0)                                                ; d9 e0
-        FABS st(0), st(0)                                                ; d9 e1
-        FTST st(0)                                                       ; d9 e4
-        FXAM st(0)                                                       ; d9 e5
-        FLD1 st(0), 1                                                    ; d9 e8
-      FLDL2T st(0), const("log2(10)")                                    ; d9 e9
-      FLDL2E st(0), const("log2(e)")                                     ; d9 ea
-       FLDPI st(0), const("pi")                                          ; d9 eb
-      FLDLG2 st(0), const("log10(2)")                                    ; d9 ec
-      FLDLN2 st(0), const("loge(2)")                                     ; d9 ed
-        FLDZ st(0), 0                                                    ; d9 ee
-       F2XM1 st(0), st(0)                                                ; d9 f0
-       FYL2X st(0), st(0), st(1)                                         ; d9 f1
-       FPTAN st(0), st(0)                                                ; d9 f2
-      FPATAN st(1), st(0), st(1)                                         ; d9 f3
-     FXTRACT st(0), st(0), st(1)                                         ; d9 f4
-      FPREM1 st(0), st(0), st(1)                                         ; d9 f5
-     FDECSTP                                                             ; d9 f6
-     FINCSTP                                                             ; d9 f7
-       FPREM st(0), st(0), st(1)                                         ; d9 f8
-     FYL2XP1 st(0), st(0), st(1)                                         ; d9 f9
-       FSQRT st(0), st(0)                                                ; d9 fa
+        FADD st(0), r/m(f32)                                             ; d8 /0=m; fpu
+        FMUL st(0), r/m(f32)                                             ; d8 /1=m; fpu
+        FCOM st(0), r/m(f32)                                             ; d8 /2=m; fpu
+       FCOMP st(0), r/m(f32)                                             ; d8 /3=m; fpu
+        FSUB st(0), r/m(f32)                                             ; d8 /4=m; fpu
+       FSUBR st(0), r/m(f32)                                             ; d8 /5=m; fpu
+        FDIV st(0), r/m(f32)                                             ; d8 /6=m; fpu
+       FDIVR st(0), r/m(f32)                                             ; d8 /7=m; fpu
+        FADD st(0), st(i)                                                ; d8 c0+i; i=0-7 fpu
+        FMUL st(0), st(i)                                                ; d8 c8+i; i=0-7 fpu
+        FCOM st(0), st(i)                                                ; d8 d0+i; i=0-7 fpu
+       FCOMP st(0), st(i)                                                ; d8 d8+i; i=0-7 fpu
+        FSUB st(0), st(i)                                                ; d8 e0+i; i=0-7 fpu
+       FSUBR st(0), st(i)                                                ; d8 e8+i; i=0-7 fpu
+        FDIV st(0), st(i)                                                ; d8 f0+i; i=0-7 fpu
+       FDIVR st(0), st(i)                                                ; d8 f8+i; i=0-7 fpu
+         FLD st(0), r/m(f32)                                             ; d9 /0=m; fpu
+         FST r/m(f32), st(0)                                             ; d9 /2=m; fpu
+        FSTP r/m(f32), st(0)                                             ; d9 /3=m; fpu
+      FLDENV r/m(f87env)                                                 ; d9 /4=m; fpu
+       FLDCW r/m(u16)                                                    ; d9 /5=m; fpu
+      FSTENV r/m(f87env)                                                 ; d9 /6=m; fpu
+       FSTCW r/m(u16)                                                    ; d9 /7=m; fpu
+         FLD st(0), st(i)                                                ; d9 c0+i; i=0-7 fpu
+        FXCH st(0), st(i)                                                ; d9 c8+i; i=0-7 fpu
+        FNOP                                                             ; d9 d0; fpu
+        FCHS st(0), st(0)                                                ; d9 e0; fpu
+        FABS st(0), st(0)                                                ; d9 e1; fpu
+        FTST st(0)                                                       ; d9 e4; fpu
+        FXAM st(0)                                                       ; d9 e5; fpu
+        FLD1 st(0), 1                                                    ; d9 e8; fpu
+      FLDL2T st(0), const("log2(10)")                                    ; d9 e9; fpu
+      FLDL2E st(0), const("log2(e)")                                     ; d9 ea; fpu
+       FLDPI st(0), const("pi")                                          ; d9 eb; fpu
+      FLDLG2 st(0), const("log10(2)")                                    ; d9 ec; fpu
+      FLDLN2 st(0), const("loge(2)")                                     ; d9 ed; fpu
+        FLDZ st(0), 0                                                    ; d9 ee; fpu
+       F2XM1 st(0), st(0)                                                ; d9 f0; fpu
+       FYL2X st(0), st(0), st(1)                                         ; d9 f1; fpu
+       FPTAN st(0), st(0)                                                ; d9 f2; fpu
+      FPATAN st(1), st(0), st(1)                                         ; d9 f3; fpu
+     FXTRACT st(0), st(0), st(1)                                         ; d9 f4; fpu
+      FPREM1 st(0), st(0), st(1)                                         ; d9 f5; fpu
+     FDECSTP                                                             ; d9 f6; fpu
+     FINCSTP                                                             ; d9 f7; fpu
+       FPREM st(0), st(0), st(1)                                         ; d9 f8; fpu
+     FYL2XP1 st(0), st(0), st(1)                                         ; d9 f9; fpu
+       FSQRT st(0), st(0)                                                ; d9 fa; fpu
      FSINCOS st(0), st(0)                                                ; d9 fb
-     FRNDINT st(0), st(0)                                                ; d9 fc
-      FSCALE st(0), st(0), st(1)                                         ; d9 fd
+     FRNDINT st(0), st(0)                                                ; d9 fc; fpu
+      FSCALE st(0), st(0), st(1)                                         ; d9 fd; fpu
         FSIN st(0), st(0)                                                ; d9 fe
         FCOS st(0), st(0)                                                ; d9 ff
-       FIADD st(0), r/m(i32)                                             ; da /0=m
-       FIMUL st(0), r/m(i32)                                             ; da /1=m
-       FICOM st(0), r/m(i32)                                             ; da /2=m
-      FICOMP st(0), r/m(i32)                                             ; da /3=m
-       FISUB st(0), r/m(i32)                                             ; da /4=m
-      FISUBR st(0), r/m(i32)                                             ; da /5=m
-       FIDIV st(0), r/m(i32)                                             ; da /6=m
-      FIDIVR st(0), r/m(i32)                                             ; da /7=m
-      FCMOVB st(0), st(i)                                                ; da c0+i; i=0-7
-      FCMOVE st(0), st(i)                                                ; da c8+i; i=0-7
-     FCMOVBE st(0), st(i)                                                ; da d0+i; i=0-7
-      FCMOVU st(0), st(i)                                                ; da d8+i; i=0-7
-     FUCOMPP st(0), st(1)                                                ; da e9
-        FILD st(0), r/m(i32)                                             ; db /0=m
-        FIST r/m(i32), st(0)                                             ; db /2=m
-       FISTP r/m(i32), st(0)                                             ; db /3=m
-         FLD st(0), r/m(f80)                                             ; db /5=m
-        FSTP r/m(f80), st(0)                                             ; db /7=m
-     FCMOVNB st(0), st(i)                                                ; db c0+i; i=0-7
-     FCMOVNE st(0), st(i)                                                ; db c8+i; i=0-7
-    FCMOVNBE st(0), st(i)                                                ; db d0+i; i=0-7
-     FCMOVNU st(0), st(i)                                                ; db d8+i; i=0-7
-        FENI                                                             ; db e0
-       FDISI                                                             ; db e1
-      FNCLEX                                                             ; db e2
-      FNINIT                                                             ; db e3
+       FIADD st(0), r/m(i32)                                             ; da /0=m; fpu
+       FIMUL st(0), r/m(i32)                                             ; da /1=m; fpu
+       FICOM st(0), r/m(i32)                                             ; da /2=m; fpu
+      FICOMP st(0), r/m(i32)                                             ; da /3=m; fpu
+       FISUB st(0), r/m(i32)                                             ; da /4=m; fpu
+      FISUBR st(0), r/m(i32)                                             ; da /5=m; fpu
+       FIDIV st(0), r/m(i32)                                             ; da /6=m; fpu
+      FIDIVR st(0), r/m(i32)                                             ; da /7=m; fpu
+      FCMOVB st(0), st(i)                                                ; da c0+i; i=0-7 fpu
+      FCMOVE st(0), st(i)                                                ; da c8+i; i=0-7 fpu
+     FCMOVBE st(0), st(i)                                                ; da d0+i; i=0-7 fpu
+      FCMOVU st(0), st(i)                                                ; da d8+i; i=0-7 fpu
+     FUCOMPP st(0), st(1)                                                ; da e9; fpu
+        FILD st(0), r/m(i32)                                             ; db /0=m; fpu
+        FIST r/m(i32), st(0)                                             ; db /2=m; fpu
+       FISTP r/m(i32), st(0)                                             ; db /3=m; fpu
+         FLD st(0), r/m(f80)                                             ; db /5=m; fpu
+        FSTP r/m(f80), st(0)                                             ; db /7=m; fpu
+     FCMOVNB st(0), st(i)                                                ; db c0+i; i=0-7 fpu
+     FCMOVNE st(0), st(i)                                                ; db c8+i; i=0-7 fpu
+    FCMOVNBE st(0), st(i)                                                ; db d0+i; i=0-7 fpu
+     FCMOVNU st(0), st(i)                                                ; db d8+i; i=0-7 fpu
+        FENI                                                             ; db e0; fpu
+       FDISI                                                             ; db e1; fpu
+      FNCLEX                                                             ; db e2; fpu
+      FNINIT                                                             ; db e3; fpu
       FSETPM                                                             ; db e4
-      FUCOMI st(0), st(i)                                                ; db e8+i; i=0-7
-       FCOMI st(0), st(i)                                                ; db f0+i; i=0-7
-        FADD st(0), r/m(f64)                                             ; dc /0=m
-        FMUL st(0), r/m(f64)                                             ; dc /1=m
-        FCOM st(0), r/m(f64)                                             ; dc /2=m
-       FCOMP st(0), r/m(f64)                                             ; dc /3=m
-        FSUB st(0), r/m(f64)                                             ; dc /4=m
-       FSUBR st(0), r/m(f64)                                             ; dc /5=m
-        FDIV st(0), r/m(f64)                                             ; dc /6=m
-       FDIVR st(0), r/m(f64)                                             ; dc /7=m
-        FADD st(i), st(0)                                                ; dc c0+i; i=0-7
-        FMUL st(i), st(0)                                                ; dc c8+i; i=0-7
-        FSUB st(i), st(0)                                                ; dc e0+i; i=0-7
-       FSUBR st(i), st(0)                                                ; dc e8+i; i=0-7
-        FDIV st(i), st(0)                                                ; dc f0+i; i=0-7
-       FDIVR st(i), st(0)                                                ; dc f8+i; i=0-7
-         FLD st(0), r/m(f64)                                             ; dd /0=m
-         FST r/m(f64), st(0)                                             ; dd /2=m
-        FSTP r/m(f64), st(0)                                             ; dd /3=m
-      FRSTOR r/m(f87state)                                               ; dd /4=m
-       FSAVE r/m(f87state)                                               ; dd /6=m
-       FSTSW r/m(u16)                                                    ; dd /7=m
-       FFREE st(i)                                                       ; dd c0+i; i=0-7
-         FST st(i), st(0)                                                ; dd d0+i; i=0-7
-        FSTP st(i), st(0)                                                ; dd d8+i; i=0-7
-       FUCOM st(0), st(i)                                                ; dd e0+rm
-      FUCOMP st(0), st(i)                                                ; dd e8+rm
-       FIADD st(0), r/m(i16)                                             ; de /0=m
-       FIMUL st(0), r/m(i16)                                             ; de /1=m
-       FICOM st(0), r/m(i16)                                             ; de /2=m
-      FICOMP st(0), r/m(i16)                                             ; de /3=m
-       FISUB st(0), r/m(i16)                                             ; de /4=m
-      FISUBR st(0), r/m(i16)                                             ; de /5=m
-       FIDIV st(0), r/m(i16)                                             ; de /6=m
-      FIDIVR st(0), r/m(i16)                                             ; de /7=m
-        FADD st(i), st(0)                                                ; de c0+i; i=0-7
-        FMUL st(i), st(0)                                                ; de c8+i; i=0-7
-      FCOMPP st(0), st(1)                                                ; de d9
-        FSUB st(i), st(0)                                                ; de e0+i; i=0-7
-       FSUBR st(i), st(0)                                                ; de e8+i; i=0-7
-        FDIV st(i), st(0)                                                ; de f0+i; i=0-7
-       FDIVR st(i), st(0)                                                ; de f8+i; i=0-7
-        FILD st(0), r/m(i16)                                             ; df /0=m
-        FIST r/m(i16), st(0)                                             ; df /2=m
-       FISTP r/m(i16), st(0)                                             ; df /3=m
-        FBLD st(0), r/m(fbcd)                                            ; df /4=m
-        FILD st(0), r/m(i64)                                             ; df /5=m
-       FBSTP r/m(fbcd), st(0)                                            ; df /6=m
-       FISTP r/m(i64), st(0)                                             ; df /7=m
-     FUCOMIP st(0), st(i)                                                ; df e8+i; i=0-7
-      FCOMIP st(0), st(i)                                                ; df f0+i; i=0-7
+      FUCOMI st(0), st(i)                                                ; db e8+i; i=0-7 fpu
+       FCOMI st(0), st(i)                                                ; db f0+i; i=0-7 fpu
+        FADD st(0), r/m(f64)                                             ; dc /0=m; fpu
+        FMUL st(0), r/m(f64)                                             ; dc /1=m; fpu
+        FCOM st(0), r/m(f64)                                             ; dc /2=m; fpu
+       FCOMP st(0), r/m(f64)                                             ; dc /3=m; fpu
+        FSUB st(0), r/m(f64)                                             ; dc /4=m; fpu
+       FSUBR st(0), r/m(f64)                                             ; dc /5=m; fpu
+        FDIV st(0), r/m(f64)                                             ; dc /6=m; fpu
+       FDIVR st(0), r/m(f64)                                             ; dc /7=m; fpu
+        FADD st(i), st(0)                                                ; dc c0+i; i=0-7 fpu
+        FMUL st(i), st(0)                                                ; dc c8+i; i=0-7 fpu
+        FSUB st(i), st(0)                                                ; dc e0+i; i=0-7 fpu
+       FSUBR st(i), st(0)                                                ; dc e8+i; i=0-7 fpu
+        FDIV st(i), st(0)                                                ; dc f0+i; i=0-7 fpu
+       FDIVR st(i), st(0)                                                ; dc f8+i; i=0-7 fpu
+         FLD st(0), r/m(f64)                                             ; dd /0=m; fpu
+         FST r/m(f64), st(0)                                             ; dd /2=m; fpu
+        FSTP r/m(f64), st(0)                                             ; dd /3=m; fpu
+      FRSTOR r/m(f87state)                                               ; dd /4=m; fpu
+       FSAVE r/m(f87state)                                               ; dd /6=m; fpu
+       FSTSW r/m(u16)                                                    ; dd /7=m; fpu
+       FFREE st(i)                                                       ; dd c0+i; i=0-7 fpu
+         FST st(i), st(0)                                                ; dd d0+i; i=0-7 fpu
+        FSTP st(i), st(0)                                                ; dd d8+i; i=0-7 fpu
+       FUCOM st(0), st(i)                                                ; dd e0+rm; fpu
+      FUCOMP st(0), st(i)                                                ; dd e8+rm; fpu
+       FIADD st(0), r/m(i16)                                             ; de /0=m; fpu
+       FIMUL st(0), r/m(i16)                                             ; de /1=m; fpu
+       FICOM st(0), r/m(i16)                                             ; de /2=m; fpu
+      FICOMP st(0), r/m(i16)                                             ; de /3=m; fpu
+       FISUB st(0), r/m(i16)                                             ; de /4=m; fpu
+      FISUBR st(0), r/m(i16)                                             ; de /5=m; fpu
+       FIDIV st(0), r/m(i16)                                             ; de /6=m; fpu
+      FIDIVR st(0), r/m(i16)                                             ; de /7=m; fpu
+        FADD st(i), st(0)                                                ; de c0+i; i=0-7 fpu
+        FMUL st(i), st(0)                                                ; de c8+i; i=0-7 fpu
+      FCOMPP st(0), st(1)                                                ; de d9; fpu
+        FSUB st(i), st(0)                                                ; de e0+i; i=0-7 fpu
+       FSUBR st(i), st(0)                                                ; de e8+i; i=0-7 fpu
+        FDIV st(i), st(0)                                                ; de f0+i; i=0-7 fpu
+       FDIVR st(i), st(0)                                                ; de f8+i; i=0-7 fpu
+        FILD st(0), r/m(i16)                                             ; df /0=m; fpu
+        FIST r/m(i16), st(0)                                             ; df /2=m; fpu
+       FISTP r/m(i16), st(0)                                             ; df /3=m; fpu
+        FBLD st(0), r/m(fbcd)                                            ; df /4=m; fpu
+        FILD st(0), r/m(i64)                                             ; df /5=m; fpu
+       FBSTP r/m(fbcd), st(0)                                            ; df /6=m; fpu
+       FISTP r/m(i64), st(0)                                             ; df /7=m; fpu
+     FUCOMIP st(0), st(i)                                                ; df e8+i; i=0-7 fpu
+      FCOMIP st(0), st(i)                                                ; df f0+i; i=0-7 fpu
       LOOPNZ N                                                           ; e0 P=imm(i8); N=(IPV+P)
        LOOPZ N                                                           ; e1 P=imm(i8); N=(IPV+P)
         LOOP N                                                           ; e2 P=imm(i8); N=(IPV+P)
@@ -672,143 +672,143 @@ Opcodes by name:
          DIV r/m(u8)                                                     ; f6 /6
          DIV r/m(uv)                                                     ; f7 /6
          DS:                                                    ; prefix ; 3e
-        EMMS                                                             ; 0f 77
+        EMMS                                                             ; 0f 77; fpu
        ENTER A, L                                                        ; c8 A=imm(u16) L=imm(u8)
          ES:                                                    ; prefix ; 26
-       F2XM1 st(0), st(0)                                                ; d9 f0
-        FABS st(0), st(0)                                                ; d9 e1
-        FADD st(0), r/m(f32)                                             ; d8 /0=m
-        FADD st(0), st(i)                                                ; d8 c0+i; i=0-7
-        FADD st(0), r/m(f64)                                             ; dc /0=m
-        FADD st(i), st(0)                                                ; dc c0+i; i=0-7
-        FADD st(i), st(0)                                                ; de c0+i; i=0-7
-        FBLD st(0), r/m(fbcd)                                            ; df /4=m
-       FBSTP r/m(fbcd), st(0)                                            ; df /6=m
-        FCHS st(0), st(0)                                                ; d9 e0
-       FCLEX                                                             ; 9b db e2
-      FCMOVB st(0), st(i)                                                ; da c0+i; i=0-7
-     FCMOVBE st(0), st(i)                                                ; da d0+i; i=0-7
-      FCMOVE st(0), st(i)                                                ; da c8+i; i=0-7
-     FCMOVNB st(0), st(i)                                                ; db c0+i; i=0-7
-    FCMOVNBE st(0), st(i)                                                ; db d0+i; i=0-7
-     FCMOVNE st(0), st(i)                                                ; db c8+i; i=0-7
-     FCMOVNU st(0), st(i)                                                ; db d8+i; i=0-7
-      FCMOVU st(0), st(i)                                                ; da d8+i; i=0-7
-        FCOM st(0), r/m(f32)                                             ; d8 /2=m
-        FCOM st(0), st(i)                                                ; d8 d0+i; i=0-7
-        FCOM st(0), r/m(f64)                                             ; dc /2=m
-       FCOMI st(0), st(i)                                                ; db f0+i; i=0-7
-      FCOMIP st(0), st(i)                                                ; df f0+i; i=0-7
-       FCOMP st(0), r/m(f32)                                             ; d8 /3=m
-       FCOMP st(0), st(i)                                                ; d8 d8+i; i=0-7
-       FCOMP st(0), r/m(f64)                                             ; dc /3=m
-      FCOMPP st(0), st(1)                                                ; de d9
+       F2XM1 st(0), st(0)                                                ; d9 f0; fpu
+        FABS st(0), st(0)                                                ; d9 e1; fpu
+        FADD st(0), r/m(f32)                                             ; d8 /0=m; fpu
+        FADD st(0), st(i)                                                ; d8 c0+i; i=0-7 fpu
+        FADD st(0), r/m(f64)                                             ; dc /0=m; fpu
+        FADD st(i), st(0)                                                ; dc c0+i; i=0-7 fpu
+        FADD st(i), st(0)                                                ; de c0+i; i=0-7 fpu
+        FBLD st(0), r/m(fbcd)                                            ; df /4=m; fpu
+       FBSTP r/m(fbcd), st(0)                                            ; df /6=m; fpu
+        FCHS st(0), st(0)                                                ; d9 e0; fpu
+       FCLEX                                                             ; 9b db e2; fpu
+      FCMOVB st(0), st(i)                                                ; da c0+i; i=0-7 fpu
+     FCMOVBE st(0), st(i)                                                ; da d0+i; i=0-7 fpu
+      FCMOVE st(0), st(i)                                                ; da c8+i; i=0-7 fpu
+     FCMOVNB st(0), st(i)                                                ; db c0+i; i=0-7 fpu
+    FCMOVNBE st(0), st(i)                                                ; db d0+i; i=0-7 fpu
+     FCMOVNE st(0), st(i)                                                ; db c8+i; i=0-7 fpu
+     FCMOVNU st(0), st(i)                                                ; db d8+i; i=0-7 fpu
+      FCMOVU st(0), st(i)                                                ; da d8+i; i=0-7 fpu
+        FCOM st(0), r/m(f32)                                             ; d8 /2=m; fpu
+        FCOM st(0), st(i)                                                ; d8 d0+i; i=0-7 fpu
+        FCOM st(0), r/m(f64)                                             ; dc /2=m; fpu
+       FCOMI st(0), st(i)                                                ; db f0+i; i=0-7 fpu
+      FCOMIP st(0), st(i)                                                ; df f0+i; i=0-7 fpu
+       FCOMP st(0), r/m(f32)                                             ; d8 /3=m; fpu
+       FCOMP st(0), st(i)                                                ; d8 d8+i; i=0-7 fpu
+       FCOMP st(0), r/m(f64)                                             ; dc /3=m; fpu
+      FCOMPP st(0), st(1)                                                ; de d9; fpu
         FCOS st(0), st(0)                                                ; d9 ff
-     FDECSTP                                                             ; d9 f6
-       FDISI                                                             ; db e1
-        FDIV st(0), r/m(f32)                                             ; d8 /6=m
-        FDIV st(0), st(i)                                                ; d8 f0+i; i=0-7
-        FDIV st(0), r/m(f64)                                             ; dc /6=m
-        FDIV st(i), st(0)                                                ; dc f0+i; i=0-7
-        FDIV st(i), st(0)                                                ; de f0+i; i=0-7
-       FDIVR st(0), r/m(f32)                                             ; d8 /7=m
-       FDIVR st(0), st(i)                                                ; d8 f8+i; i=0-7
-       FDIVR st(0), r/m(f64)                                             ; dc /7=m
-       FDIVR st(i), st(0)                                                ; dc f8+i; i=0-7
-       FDIVR st(i), st(0)                                                ; de f8+i; i=0-7
-        FENI                                                             ; db e0
-       FFREE st(i)                                                       ; dd c0+i; i=0-7
-       FIADD st(0), r/m(i32)                                             ; da /0=m
-       FIADD st(0), r/m(i16)                                             ; de /0=m
-       FICOM st(0), r/m(i32)                                             ; da /2=m
-       FICOM st(0), r/m(i16)                                             ; de /2=m
-      FICOMP st(0), r/m(i32)                                             ; da /3=m
-      FICOMP st(0), r/m(i16)                                             ; de /3=m
-       FIDIV st(0), r/m(i32)                                             ; da /6=m
-       FIDIV st(0), r/m(i16)                                             ; de /6=m
-      FIDIVR st(0), r/m(i32)                                             ; da /7=m
-      FIDIVR st(0), r/m(i16)                                             ; de /7=m
-        FILD st(0), r/m(i32)                                             ; db /0=m
-        FILD st(0), r/m(i16)                                             ; df /0=m
-        FILD st(0), r/m(i64)                                             ; df /5=m
-       FIMUL st(0), r/m(i32)                                             ; da /1=m
-       FIMUL st(0), r/m(i16)                                             ; de /1=m
-     FINCSTP                                                             ; d9 f7
-       FINIT                                                             ; 9b db e3
-        FIST r/m(i32), st(0)                                             ; db /2=m
-        FIST r/m(i16), st(0)                                             ; df /2=m
-       FISTP r/m(i32), st(0)                                             ; db /3=m
-       FISTP r/m(i16), st(0)                                             ; df /3=m
-       FISTP r/m(i64), st(0)                                             ; df /7=m
-       FISUB st(0), r/m(i32)                                             ; da /4=m
-       FISUB st(0), r/m(i16)                                             ; de /4=m
-      FISUBR st(0), r/m(i32)                                             ; da /5=m
-      FISUBR st(0), r/m(i16)                                             ; de /5=m
-         FLD st(0), r/m(f32)                                             ; d9 /0=m
-         FLD st(0), st(i)                                                ; d9 c0+i; i=0-7
-         FLD st(0), r/m(f80)                                             ; db /5=m
-         FLD st(0), r/m(f64)                                             ; dd /0=m
-        FLD1 st(0), 1                                                    ; d9 e8
-       FLDCW r/m(u16)                                                    ; d9 /5=m
-      FLDENV r/m(f87env)                                                 ; d9 /4=m
-      FLDL2E st(0), const("log2(e)")                                     ; d9 ea
-      FLDL2T st(0), const("log2(10)")                                    ; d9 e9
-      FLDLG2 st(0), const("log10(2)")                                    ; d9 ec
-      FLDLN2 st(0), const("loge(2)")                                     ; d9 ed
-       FLDPI st(0), const("pi")                                          ; d9 eb
-        FLDZ st(0), 0                                                    ; d9 ee
-        FMUL st(0), r/m(f32)                                             ; d8 /1=m
-        FMUL st(0), st(i)                                                ; d8 c8+i; i=0-7
-        FMUL st(0), r/m(f64)                                             ; dc /1=m
-        FMUL st(i), st(0)                                                ; dc c8+i; i=0-7
-        FMUL st(i), st(0)                                                ; de c8+i; i=0-7
-      FNCLEX                                                             ; db e2
-      FNINIT                                                             ; db e3
-        FNOP                                                             ; d9 d0
-      FPATAN st(1), st(0), st(1)                                         ; d9 f3
-       FPREM st(0), st(0), st(1)                                         ; d9 f8
-      FPREM1 st(0), st(0), st(1)                                         ; d9 f5
-       FPTAN st(0), st(0)                                                ; d9 f2
-     FRNDINT st(0), st(0)                                                ; d9 fc
-      FRSTOR r/m(f87state)                                               ; dd /4=m
+     FDECSTP                                                             ; d9 f6; fpu
+       FDISI                                                             ; db e1; fpu
+        FDIV st(0), r/m(f32)                                             ; d8 /6=m; fpu
+        FDIV st(0), st(i)                                                ; d8 f0+i; i=0-7 fpu
+        FDIV st(0), r/m(f64)                                             ; dc /6=m; fpu
+        FDIV st(i), st(0)                                                ; dc f0+i; i=0-7 fpu
+        FDIV st(i), st(0)                                                ; de f0+i; i=0-7 fpu
+       FDIVR st(0), r/m(f32)                                             ; d8 /7=m; fpu
+       FDIVR st(0), st(i)                                                ; d8 f8+i; i=0-7 fpu
+       FDIVR st(0), r/m(f64)                                             ; dc /7=m; fpu
+       FDIVR st(i), st(0)                                                ; dc f8+i; i=0-7 fpu
+       FDIVR st(i), st(0)                                                ; de f8+i; i=0-7 fpu
+        FENI                                                             ; db e0; fpu
+       FFREE st(i)                                                       ; dd c0+i; i=0-7 fpu
+       FIADD st(0), r/m(i32)                                             ; da /0=m; fpu
+       FIADD st(0), r/m(i16)                                             ; de /0=m; fpu
+       FICOM st(0), r/m(i32)                                             ; da /2=m; fpu
+       FICOM st(0), r/m(i16)                                             ; de /2=m; fpu
+      FICOMP st(0), r/m(i32)                                             ; da /3=m; fpu
+      FICOMP st(0), r/m(i16)                                             ; de /3=m; fpu
+       FIDIV st(0), r/m(i32)                                             ; da /6=m; fpu
+       FIDIV st(0), r/m(i16)                                             ; de /6=m; fpu
+      FIDIVR st(0), r/m(i32)                                             ; da /7=m; fpu
+      FIDIVR st(0), r/m(i16)                                             ; de /7=m; fpu
+        FILD st(0), r/m(i32)                                             ; db /0=m; fpu
+        FILD st(0), r/m(i16)                                             ; df /0=m; fpu
+        FILD st(0), r/m(i64)                                             ; df /5=m; fpu
+       FIMUL st(0), r/m(i32)                                             ; da /1=m; fpu
+       FIMUL st(0), r/m(i16)                                             ; de /1=m; fpu
+     FINCSTP                                                             ; d9 f7; fpu
+       FINIT                                                             ; 9b db e3; fpu
+        FIST r/m(i32), st(0)                                             ; db /2=m; fpu
+        FIST r/m(i16), st(0)                                             ; df /2=m; fpu
+       FISTP r/m(i32), st(0)                                             ; db /3=m; fpu
+       FISTP r/m(i16), st(0)                                             ; df /3=m; fpu
+       FISTP r/m(i64), st(0)                                             ; df /7=m; fpu
+       FISUB st(0), r/m(i32)                                             ; da /4=m; fpu
+       FISUB st(0), r/m(i16)                                             ; de /4=m; fpu
+      FISUBR st(0), r/m(i32)                                             ; da /5=m; fpu
+      FISUBR st(0), r/m(i16)                                             ; de /5=m; fpu
+         FLD st(0), r/m(f32)                                             ; d9 /0=m; fpu
+         FLD st(0), st(i)                                                ; d9 c0+i; i=0-7 fpu
+         FLD st(0), r/m(f80)                                             ; db /5=m; fpu
+         FLD st(0), r/m(f64)                                             ; dd /0=m; fpu
+        FLD1 st(0), 1                                                    ; d9 e8; fpu
+       FLDCW r/m(u16)                                                    ; d9 /5=m; fpu
+      FLDENV r/m(f87env)                                                 ; d9 /4=m; fpu
+      FLDL2E st(0), const("log2(e)")                                     ; d9 ea; fpu
+      FLDL2T st(0), const("log2(10)")                                    ; d9 e9; fpu
+      FLDLG2 st(0), const("log10(2)")                                    ; d9 ec; fpu
+      FLDLN2 st(0), const("loge(2)")                                     ; d9 ed; fpu
+       FLDPI st(0), const("pi")                                          ; d9 eb; fpu
+        FLDZ st(0), 0                                                    ; d9 ee; fpu
+        FMUL st(0), r/m(f32)                                             ; d8 /1=m; fpu
+        FMUL st(0), st(i)                                                ; d8 c8+i; i=0-7 fpu
+        FMUL st(0), r/m(f64)                                             ; dc /1=m; fpu
+        FMUL st(i), st(0)                                                ; dc c8+i; i=0-7 fpu
+        FMUL st(i), st(0)                                                ; de c8+i; i=0-7 fpu
+      FNCLEX                                                             ; db e2; fpu
+      FNINIT                                                             ; db e3; fpu
+        FNOP                                                             ; d9 d0; fpu
+      FPATAN st(1), st(0), st(1)                                         ; d9 f3; fpu
+       FPREM st(0), st(0), st(1)                                         ; d9 f8; fpu
+      FPREM1 st(0), st(0), st(1)                                         ; d9 f5; fpu
+       FPTAN st(0), st(0)                                                ; d9 f2; fpu
+     FRNDINT st(0), st(0)                                                ; d9 fc; fpu
+      FRSTOR r/m(f87state)                                               ; dd /4=m; fpu
          FS:                                                    ; prefix ; 64
-       FSAVE r/m(f87state)                                               ; dd /6=m
-      FSCALE st(0), st(0), st(1)                                         ; d9 fd
+       FSAVE r/m(f87state)                                               ; dd /6=m; fpu
+      FSCALE st(0), st(0), st(1)                                         ; d9 fd; fpu
       FSETPM                                                             ; db e4
         FSIN st(0), st(0)                                                ; d9 fe
      FSINCOS st(0), st(0)                                                ; d9 fb
-       FSQRT st(0), st(0)                                                ; d9 fa
-         FST r/m(f32), st(0)                                             ; d9 /2=m
-         FST r/m(f64), st(0)                                             ; dd /2=m
-         FST st(i), st(0)                                                ; dd d0+i; i=0-7
-       FSTCW r/m(u16)                                                    ; d9 /7=m
-      FSTENV r/m(f87env)                                                 ; d9 /6=m
-        FSTP r/m(f32), st(0)                                             ; d9 /3=m
-        FSTP r/m(f80), st(0)                                             ; db /7=m
-        FSTP r/m(f64), st(0)                                             ; dd /3=m
-        FSTP st(i), st(0)                                                ; dd d8+i; i=0-7
-       FSTSW r/m(u16)                                                    ; dd /7=m
-        FSUB st(0), r/m(f32)                                             ; d8 /4=m
-        FSUB st(0), st(i)                                                ; d8 e0+i; i=0-7
-        FSUB st(0), r/m(f64)                                             ; dc /4=m
-        FSUB st(i), st(0)                                                ; dc e0+i; i=0-7
-        FSUB st(i), st(0)                                                ; de e0+i; i=0-7
-       FSUBR st(0), r/m(f32)                                             ; d8 /5=m
-       FSUBR st(0), st(i)                                                ; d8 e8+i; i=0-7
-       FSUBR st(0), r/m(f64)                                             ; dc /5=m
-       FSUBR st(i), st(0)                                                ; dc e8+i; i=0-7
-       FSUBR st(i), st(0)                                                ; de e8+i; i=0-7
-        FTST st(0)                                                       ; d9 e4
-       FUCOM st(0), st(i)                                                ; dd e0+rm
-      FUCOMI st(0), st(i)                                                ; db e8+i; i=0-7
-     FUCOMIP st(0), st(i)                                                ; df e8+i; i=0-7
-      FUCOMP st(0), st(i)                                                ; dd e8+rm
-     FUCOMPP st(0), st(1)                                                ; da e9
-        FXAM st(0)                                                       ; d9 e5
-        FXCH st(0), st(i)                                                ; d9 c8+i; i=0-7
-     FXTRACT st(0), st(0), st(1)                                         ; d9 f4
-       FYL2X st(0), st(0), st(1)                                         ; d9 f1
-     FYL2XP1 st(0), st(0), st(1)                                         ; d9 f9
+       FSQRT st(0), st(0)                                                ; d9 fa; fpu
+         FST r/m(f32), st(0)                                             ; d9 /2=m; fpu
+         FST r/m(f64), st(0)                                             ; dd /2=m; fpu
+         FST st(i), st(0)                                                ; dd d0+i; i=0-7 fpu
+       FSTCW r/m(u16)                                                    ; d9 /7=m; fpu
+      FSTENV r/m(f87env)                                                 ; d9 /6=m; fpu
+        FSTP r/m(f32), st(0)                                             ; d9 /3=m; fpu
+        FSTP r/m(f80), st(0)                                             ; db /7=m; fpu
+        FSTP r/m(f64), st(0)                                             ; dd /3=m; fpu
+        FSTP st(i), st(0)                                                ; dd d8+i; i=0-7 fpu
+       FSTSW r/m(u16)                                                    ; dd /7=m; fpu
+        FSUB st(0), r/m(f32)                                             ; d8 /4=m; fpu
+        FSUB st(0), st(i)                                                ; d8 e0+i; i=0-7 fpu
+        FSUB st(0), r/m(f64)                                             ; dc /4=m; fpu
+        FSUB st(i), st(0)                                                ; dc e0+i; i=0-7 fpu
+        FSUB st(i), st(0)                                                ; de e0+i; i=0-7 fpu
+       FSUBR st(0), r/m(f32)                                             ; d8 /5=m; fpu
+       FSUBR st(0), st(i)                                                ; d8 e8+i; i=0-7 fpu
+       FSUBR st(0), r/m(f64)                                             ; dc /5=m; fpu
+       FSUBR st(i), st(0)                                                ; dc e8+i; i=0-7 fpu
+       FSUBR st(i), st(0)                                                ; de e8+i; i=0-7 fpu
+        FTST st(0)                                                       ; d9 e4; fpu
+       FUCOM st(0), st(i)                                                ; dd e0+rm; fpu
+      FUCOMI st(0), st(i)                                                ; db e8+i; i=0-7 fpu
+     FUCOMIP st(0), st(i)                                                ; df e8+i; i=0-7 fpu
+      FUCOMP st(0), st(i)                                                ; dd e8+rm; fpu
+     FUCOMPP st(0), st(1)                                                ; da e9; fpu
+        FXAM st(0)                                                       ; d9 e5; fpu
+        FXCH st(0), st(i)                                                ; d9 c8+i; i=0-7 fpu
+     FXTRACT st(0), st(0), st(1)                                         ; d9 f4; fpu
+       FYL2X st(0), st(0), st(1)                                         ; d9 f1; fpu
+     FYL2XP1 st(0), st(0), st(1)                                         ; d9 f9; fpu
          GS:                                                    ; prefix ; 65
          HLT                                                             ; f4
         IDIV r/m(u8)                                                     ; f6 /7
@@ -909,10 +909,10 @@ Opcodes by name:
          MOV reg(uv), I                                                  ; b8+reg; reg=0-7
          MOV r/m(u8), I                                                  ; c6 /0 I=imm(u8)
          MOV r/m(uv), I                                                  ; c7 /0 I=imm(uv)
-        MOVD mm(reg), r/m(u32)                                           ; 0f 6e /r
-        MOVD r/m(u32), mm(reg)                                           ; 0f 7e /r
-        MOVQ mm(reg), r/m(u64)                                           ; 0f 6f /r
-        MOVQ r/m(u64), mm(reg)                                           ; 0f 7f /r
+        MOVD mm(reg), r/m(u32)                                           ; 0f 6e /r; fpu
+        MOVD r/m(u32), mm(reg)                                           ; 0f 7e /r; fpu
+        MOVQ mm(reg), r/m(u64)                                           ; 0f 6f /r; fpu
+        MOVQ r/m(u64), mm(reg)                                           ; 0f 7f /r; fpu
         MOVS u8 ES:[DIV], u8 [SIV]                                       ; a4
         MOVS uv ES:[DIV], uv [SIV]                                       ; a5
          MUL r/m(u8)                                                     ; f6 /4
@@ -939,28 +939,28 @@ Opcodes by name:
          OUT DX, Av                                                      ; ef
         OUTS u8 ES:[DIV], AL                                             ; 6e
         OUTS uv ES:[DIV], Av                                             ; 6f
-    PACKSSDW mm(reg), mm(rm)                                             ; 0f 6b /r
-    PACKSSWB mm(reg), mm(rm)                                             ; 0f 63 /r
-    PACKUSWB mm(reg), mm(rm)                                             ; 0f 67 /r
-       PADDB mm(reg), mm(rm)                                             ; 0f fc /r
-       PADDD mm(reg), mm(rm)                                             ; 0f fe /r
-       PADDQ mm(reg), mm(rm)                                             ; 0f d4 /r
-      PADDSB mm(reg), mm(rm)                                             ; 0f ec /r
-      PADDSW mm(reg), mm(rm)                                             ; 0f ed /r
-     PADDUSB mm(reg), mm(rm)                                             ; 0f dc /r
-     PADDUSW mm(reg), mm(rm)                                             ; 0f dd /r
-       PADDW mm(reg), mm(rm)                                             ; 0f fd /r
-        PAND mm(reg), mm(rm)                                             ; 0f db /r
-       PANDN mm(reg), mm(rm)                                             ; 0f df /r
-     PCMPEQB mm(reg), mm(rm)                                             ; 0f 74 /r
-     PCMPEQD mm(reg), mm(rm)                                             ; 0f 76 /r
-     PCMPEQW mm(reg), mm(rm)                                             ; 0f 75 /r
-     PCMPGTB mm(reg), mm(rm)                                             ; 0f 64 /r
-     PCMPGTD mm(reg), mm(rm)                                             ; 0f 66 /r
-     PCMPGTW mm(reg), mm(rm)                                             ; 0f 65 /r
-     PMADDWD mm(reg), mm(rm)                                             ; 0f f5 /r
-      PMULHW mm(reg), mm(rm)                                             ; 0f e5 /r
-      PMULLW mm(reg), mm(rm)                                             ; 0f d5 /r
+    PACKSSDW mm(reg), mm(rm)                                             ; 0f 6b /r; fpu
+    PACKSSWB mm(reg), mm(rm)                                             ; 0f 63 /r; fpu
+    PACKUSWB mm(reg), mm(rm)                                             ; 0f 67 /r; fpu
+       PADDB mm(reg), mm(rm)                                             ; 0f fc /r; fpu
+       PADDD mm(reg), mm(rm)                                             ; 0f fe /r; fpu
+       PADDQ mm(reg), mm(rm)                                             ; 0f d4 /r; fpu
+      PADDSB mm(reg), mm(rm)                                             ; 0f ec /r; fpu
+      PADDSW mm(reg), mm(rm)                                             ; 0f ed /r; fpu
+     PADDUSB mm(reg), mm(rm)                                             ; 0f dc /r; fpu
+     PADDUSW mm(reg), mm(rm)                                             ; 0f dd /r; fpu
+       PADDW mm(reg), mm(rm)                                             ; 0f fd /r; fpu
+        PAND mm(reg), mm(rm)                                             ; 0f db /r; fpu
+       PANDN mm(reg), mm(rm)                                             ; 0f df /r; fpu
+     PCMPEQB mm(reg), mm(rm)                                             ; 0f 74 /r; fpu
+     PCMPEQD mm(reg), mm(rm)                                             ; 0f 76 /r; fpu
+     PCMPEQW mm(reg), mm(rm)                                             ; 0f 75 /r; fpu
+     PCMPGTB mm(reg), mm(rm)                                             ; 0f 64 /r; fpu
+     PCMPGTD mm(reg), mm(rm)                                             ; 0f 66 /r; fpu
+     PCMPGTW mm(reg), mm(rm)                                             ; 0f 65 /r; fpu
+     PMADDWD mm(reg), mm(rm)                                             ; 0f f5 /r; fpu
+      PMULHW mm(reg), mm(rm)                                             ; 0f e5 /r; fpu
+      PMULLW mm(reg), mm(rm)                                             ; 0f d5 /r; fpu
          POP ES                                                          ; 07
          POP SS                                                          ; 17
          POP DS                                                          ; 1f
@@ -968,36 +968,36 @@ Opcodes by name:
          POP r/m(uv)                                                     ; 8f /0
         POPA                                                             ; 61 /r
         POPF                                                             ; 9d
-         POR mm(reg), mm(rm)                                             ; 0f eb /r
-       PSLLD mm(reg), I                                                  ; 0f 72 /6 I=imm(u8)
-       PSLLD mm(reg), mm(rm)                                             ; 0f f2 /r
-       PSLLQ mm(reg), I                                                  ; 0f 73 /6 I=imm(u8)
-       PSLLQ mm(reg), mm(rm)                                             ; 0f f3 /r
-       PSLLW mm(reg), I                                                  ; 0f 71 /6 I=imm(u8)
-       PSLLW mm(reg), mm(rm)                                             ; 0f f1 /r
-       PSRAD mm(reg), I                                                  ; 0f 72 /4 I=imm(u8)
-       PSRAD mm(reg), mm(rm)                                             ; 0f e2 /r
-       PSRAW mm(reg), I                                                  ; 0f 71 /4 I=imm(u8)
-       PSRAW mm(reg), mm(rm)                                             ; 0f e1 /r
-       PSRLD mm(reg), I                                                  ; 0f 72 /2 I=imm(u8)
-       PSRLD mm(reg), mm(rm)                                             ; 0f d2 /r
-       PSRLQ mm(reg), I                                                  ; 0f 73 /2 I=imm(u8)
-       PSRLQ mm(reg), mm(rm)                                             ; 0f d3 /r
-       PSRLW mm(reg), I                                                  ; 0f 71 /2 I=imm(u8)
-       PSRLW mm(reg), mm(rm)                                             ; 0f d1 /r
-       PSUBB mm(reg), mm(rm)                                             ; 0f f8 /r
-       PSUBD mm(reg), mm(rm)                                             ; 0f fa /r
-      PSUBSB mm(reg), mm(rm)                                             ; 0f e8 /r
-      PSUBSW mm(reg), mm(rm)                                             ; 0f e9 /r
-     PSUBUSB mm(reg), mm(rm)                                             ; 0f d8 /r
-     PSUBUSW mm(reg), mm(rm)                                             ; 0f d9 /r
-       PSUBW mm(reg), mm(rm)                                             ; 0f f9 /r
-   PUNPCKHBW mm(reg), mm(rm)                                             ; 0f 68 /r
-   PUNPCKHDQ mm(reg), mm(rm)                                             ; 0f 6a /r
-   PUNPCKHWD mm(reg), mm(rm)                                             ; 0f 69 /r
-   PUNPCKLBW mm(reg), mm(rm)                                             ; 0f 60 /r
-   PUNPCKLDQ mm(reg), mm(rm)                                             ; 0f 62 /r
-   PUNPCKLWD mm(reg), mm(rm)                                             ; 0f 61 /r
+         POR mm(reg), mm(rm)                                             ; 0f eb /r; fpu
+       PSLLD mm(reg), I                                                  ; 0f 72 /6 I=imm(u8); fpu
+       PSLLD mm(reg), mm(rm)                                             ; 0f f2 /r; fpu
+       PSLLQ mm(reg), I                                                  ; 0f 73 /6 I=imm(u8); fpu
+       PSLLQ mm(reg), mm(rm)                                             ; 0f f3 /r; fpu
+       PSLLW mm(reg), I                                                  ; 0f 71 /6 I=imm(u8); fpu
+       PSLLW mm(reg), mm(rm)                                             ; 0f f1 /r; fpu
+       PSRAD mm(reg), I                                                  ; 0f 72 /4 I=imm(u8); fpu
+       PSRAD mm(reg), mm(rm)                                             ; 0f e2 /r; fpu
+       PSRAW mm(reg), I                                                  ; 0f 71 /4 I=imm(u8); fpu
+       PSRAW mm(reg), mm(rm)                                             ; 0f e1 /r; fpu
+       PSRLD mm(reg), I                                                  ; 0f 72 /2 I=imm(u8); fpu
+       PSRLD mm(reg), mm(rm)                                             ; 0f d2 /r; fpu
+       PSRLQ mm(reg), I                                                  ; 0f 73 /2 I=imm(u8); fpu
+       PSRLQ mm(reg), mm(rm)                                             ; 0f d3 /r; fpu
+       PSRLW mm(reg), I                                                  ; 0f 71 /2 I=imm(u8); fpu
+       PSRLW mm(reg), mm(rm)                                             ; 0f d1 /r; fpu
+       PSUBB mm(reg), mm(rm)                                             ; 0f f8 /r; fpu
+       PSUBD mm(reg), mm(rm)                                             ; 0f fa /r; fpu
+      PSUBSB mm(reg), mm(rm)                                             ; 0f e8 /r; fpu
+      PSUBSW mm(reg), mm(rm)                                             ; 0f e9 /r; fpu
+     PSUBUSB mm(reg), mm(rm)                                             ; 0f d8 /r; fpu
+     PSUBUSW mm(reg), mm(rm)                                             ; 0f d9 /r; fpu
+       PSUBW mm(reg), mm(rm)                                             ; 0f f9 /r; fpu
+   PUNPCKHBW mm(reg), mm(rm)                                             ; 0f 68 /r; fpu
+   PUNPCKHDQ mm(reg), mm(rm)                                             ; 0f 6a /r; fpu
+   PUNPCKHWD mm(reg), mm(rm)                                             ; 0f 69 /r; fpu
+   PUNPCKLBW mm(reg), mm(rm)                                             ; 0f 60 /r; fpu
+   PUNPCKLDQ mm(reg), mm(rm)                                             ; 0f 62 /r; fpu
+   PUNPCKLWD mm(reg), mm(rm)                                             ; 0f 61 /r; fpu
         PUSH ES                                                          ; 06
         PUSH CS                                                          ; 0e
         PUSH SS                                                          ; 16
@@ -1008,7 +1008,7 @@ Opcodes by name:
         PUSH r/m(uv)                                                     ; ff /6
        PUSHA                                                             ; 60 /r
        PUSHF                                                             ; 9c
-        PXOR mm(reg), mm(rm)                                             ; 0f ef /r
+        PXOR mm(reg), mm(rm)                                             ; 0f ef /r; fpu
          RCL r/m(u8), I                                                  ; c0 /2 I=imm(u8)
          RCL r/m(uv), I                                                  ; c1 /2 I=imm(uv)
          RCL r/m(u8), 1                                                  ; d0 /2

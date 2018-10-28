@@ -2549,6 +2549,43 @@ std::string OpcodeSpec::pretty_string(void) {
         byte_strvas += "i=0-7";
     }
 
+    if (fpu) {
+        if (!byte_strvas.empty())
+            byte_strvas += " ";
+
+        byte_strvas += "fpu";
+    }
+    if (sse) {
+        if (!byte_strvas.empty())
+            byte_strvas += " ";
+
+        byte_strvas += "sse";
+    }
+    if (sse2) {
+        if (!byte_strvas.empty())
+            byte_strvas += " ";
+
+        byte_strvas += "sse2";
+    }
+    if (emmi) {
+        if (!byte_strvas.empty())
+            byte_strvas += " ";
+
+        byte_strvas += "emmi";
+    }
+    if (amd3dnow) {
+        if (!byte_strvas.empty())
+            byte_strvas += " ";
+
+        byte_strvas += "3dnow";
+    }
+    if (amd3dnowplus) {
+        if (!byte_strvas.empty())
+            byte_strvas += " ";
+
+        byte_strvas += "3dnow+";
+    }
+
     res += params;
     res += "; ";
     res += byte_str;

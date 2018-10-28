@@ -39,43 +39,43 @@ Opcodes by byte:
     PREFETCH r/m(u8)                                                     ; 0f 0d /0
    PREFETCHW r/m(u8)                                                     ; 0f 0d /1
  PREFETCHWT1 r/m(u8)                                                     ; 0f 0d /2
-       FEMMS                                                             ; 0f 0e
-       PI2FW mm(reg), mm(rm)                                             ; 0f 0f /r 0c
-       PI2FD mm(reg), mm(rm)                                             ; 0f 0f /r 0d
-       PF2IW mm(reg), mm(rm)                                             ; 0f 0f /r 1c
-       PF2ID mm(reg), mm(rm)                                             ; 0f 0f /r 1d
-      PFRCPV mm(reg), mm(rm)                                             ; 0f 0f /r 86
-    PFRSQRTV mm(reg), mm(rm)                                             ; 0f 0f /r 87
-      PFNACC mm(reg), mm(rm)                                             ; 0f 0f /r 8a
-     PFPNACC mm(reg), mm(rm)                                             ; 0f 0f /r 8e
-     PFCMPGE mm(reg), mm(rm)                                             ; 0f 0f /r 90
-       PFMIN mm(reg), mm(rm)                                             ; 0f 0f /r 94
-       PFRCP mm(reg), mm(rm)                                             ; 0f 0f /r 96
-     PFRSQRT mm(reg), mm(rm)                                             ; 0f 0f /r 97
-       PFSUB mm(reg), mm(rm)                                             ; 0f 0f /r 9a
-       PFADD mm(reg), mm(rm)                                             ; 0f 0f /r 9e
-     PFCMPGT mm(reg), mm(rm)                                             ; 0f 0f /r a0
-       PFMAX mm(reg), mm(rm)                                             ; 0f 0f /r a4
-    PFRCPIT1 mm(reg), mm(rm)                                             ; 0f 0f /r a6
-    PFRSQIT1 mm(reg), mm(rm)                                             ; 0f 0f /r a7
-      PFSUBR mm(reg), mm(rm)                                             ; 0f 0f /r aa
-       PFACC mm(reg), mm(rm)                                             ; 0f 0f /r ae
-     PFCMPEQ mm(reg), mm(rm)                                             ; 0f 0f /r b0
-       PFMUL mm(reg), mm(rm)                                             ; 0f 0f /r b4
-    PFRCPIT2 mm(reg), mm(rm)                                             ; 0f 0f /r b6
-     PMULHRW mm(reg), mm(rm)                                             ; 0f 0f /r b7
-      PSWAPD mm(reg), mm(rm)                                             ; 0f 0f /r bb
-     PAVGUSB mm(reg), mm(rm)                                             ; 0f 0f /r bf
-      MOVUPS xmm(reg), xmm(rm)                                           ; 0f 10 /r
-      MOVUPS xmm(rm), xmm(reg)                                           ; 0f 11 /r
-      MOVLPS xmm(reg), mm(rm)                                            ; 0f 12 /r=m
-     MOVHLPS xmm(reg), xmm(rm)                                           ; 0f 12 /r!m
-      MOVLPS mm(rm), xmm(reg)                                            ; 0f 13 /r=m
-    UNPCKLPS xmm(reg), xmm(rm)                                           ; 0f 14 /r
-    UNPCKHPS xmm(reg), xmm(rm)                                           ; 0f 15 /r
-      MOVHPS xmm(reg), mm(rm)                                            ; 0f 16 /r=m
-     MOVLHPS xmm(reg), xmm(rm)                                           ; 0f 16 /r!m
-      MOVHPS mm(rm), xmm(reg)                                            ; 0f 17 /r=m
+       FEMMS                                                             ; 0f 0e; 3dnow
+       PI2FW mm(reg), mm(rm)                                             ; 0f 0f /r 0c; 3dnow+
+       PI2FD mm(reg), mm(rm)                                             ; 0f 0f /r 0d; 3dnow
+       PF2IW mm(reg), mm(rm)                                             ; 0f 0f /r 1c; 3dnow+
+       PF2ID mm(reg), mm(rm)                                             ; 0f 0f /r 1d; 3dnow
+      PFRCPV mm(reg), mm(rm)                                             ; 0f 0f /r 86; 3dnow+
+    PFRSQRTV mm(reg), mm(rm)                                             ; 0f 0f /r 87; 3dnow+
+      PFNACC mm(reg), mm(rm)                                             ; 0f 0f /r 8a; 3dnow+
+     PFPNACC mm(reg), mm(rm)                                             ; 0f 0f /r 8e; 3dnow+
+     PFCMPGE mm(reg), mm(rm)                                             ; 0f 0f /r 90; 3dnow
+       PFMIN mm(reg), mm(rm)                                             ; 0f 0f /r 94; 3dnow
+       PFRCP mm(reg), mm(rm)                                             ; 0f 0f /r 96; 3dnow
+     PFRSQRT mm(reg), mm(rm)                                             ; 0f 0f /r 97; 3dnow
+       PFSUB mm(reg), mm(rm)                                             ; 0f 0f /r 9a; 3dnow
+       PFADD mm(reg), mm(rm)                                             ; 0f 0f /r 9e; 3dnow
+     PFCMPGT mm(reg), mm(rm)                                             ; 0f 0f /r a0; 3dnow
+       PFMAX mm(reg), mm(rm)                                             ; 0f 0f /r a4; 3dnow
+    PFRCPIT1 mm(reg), mm(rm)                                             ; 0f 0f /r a6; 3dnow
+    PFRSQIT1 mm(reg), mm(rm)                                             ; 0f 0f /r a7; 3dnow
+      PFSUBR mm(reg), mm(rm)                                             ; 0f 0f /r aa; 3dnow
+       PFACC mm(reg), mm(rm)                                             ; 0f 0f /r ae; 3dnow
+     PFCMPEQ mm(reg), mm(rm)                                             ; 0f 0f /r b0; 3dnow
+       PFMUL mm(reg), mm(rm)                                             ; 0f 0f /r b4; 3dnow
+    PFRCPIT2 mm(reg), mm(rm)                                             ; 0f 0f /r b6; 3dnow
+     PMULHRW mm(reg), mm(rm)                                             ; 0f 0f /r b7; 3dnow
+      PSWAPD mm(reg), mm(rm)                                             ; 0f 0f /r bb; 3dnow+
+     PAVGUSB mm(reg), mm(rm)                                             ; 0f 0f /r bf; 3dnow
+      MOVUPS xmm(reg), xmm(rm)                                           ; 0f 10 /r; sse
+      MOVUPS xmm(rm), xmm(reg)                                           ; 0f 11 /r; sse
+      MOVLPS xmm(reg), mm(rm)                                            ; 0f 12 /r=m; sse
+     MOVHLPS xmm(reg), xmm(rm)                                           ; 0f 12 /r!m; sse
+      MOVLPS mm(rm), xmm(reg)                                            ; 0f 13 /r=m; sse
+    UNPCKLPS xmm(reg), xmm(rm)                                           ; 0f 14 /r; sse
+    UNPCKHPS xmm(reg), xmm(rm)                                           ; 0f 15 /r; sse
+      MOVHPS xmm(reg), mm(rm)                                            ; 0f 16 /r=m; sse
+     MOVLHPS xmm(reg), xmm(rm)                                           ; 0f 16 /r!m; sse
+      MOVHPS mm(rm), xmm(reg)                                            ; 0f 17 /r=m; sse
  PREFETCHNTA mm(rm)                                                      ; 0f 18 /0=m
   PREFETCHT0 mm(rm)                                                      ; 0f 18 /1=m
   PREFETCHT1 mm(rm)                                                      ; 0f 18 /2=m
@@ -87,14 +87,14 @@ Opcodes by byte:
          MOV dr(reg), r/m(u32)                                           ; 0f 23 /r!m
          MOV r/m(u32), tr(reg)                                           ; 0f 24 /r!m
          MOV tr(reg), r/m(u32)                                           ; 0f 26 /r!m
-      MOVAPS xmm(reg), xmm(rm)                                           ; 0f 28 /r
-      MOVAPS xmm(rm), xmm(reg)                                           ; 0f 29 /r
-    CVTPI2PS xmm(reg), mm(rm)                                            ; 0f 2a /r
-     MOVNTPS xmm(rm), xmm(reg)                                           ; 0f 2b /r=m
-   CVTTPS2PI mm(reg), xmm(rm)                                            ; 0f 2c /r
-    CVTPS2PI mm(reg), xmm(rm)                                            ; 0f 2d /r
-     UCOMISS xmm(reg), xmm(rm)                                           ; 0f 2e /r
-      COMISS xmm(reg), xmm(rm)                                           ; 0f 2f /r
+      MOVAPS xmm(reg), xmm(rm)                                           ; 0f 28 /r; sse
+      MOVAPS xmm(rm), xmm(reg)                                           ; 0f 29 /r; sse
+    CVTPI2PS xmm(reg), mm(rm)                                            ; 0f 2a /r; sse
+     MOVNTPS xmm(rm), xmm(reg)                                           ; 0f 2b /r=m; sse
+   CVTTPS2PI mm(reg), xmm(rm)                                            ; 0f 2c /r; sse
+    CVTPS2PI mm(reg), xmm(rm)                                            ; 0f 2d /r; sse
+     UCOMISS xmm(reg), xmm(rm)                                           ; 0f 2e /r; sse
+      COMISS xmm(reg), xmm(rm)                                           ; 0f 2f /r; sse
        WRMSR                                                             ; 0f 30
        RDTSC                                                             ; 0f 31
        RDMSR                                                             ; 0f 32
@@ -117,51 +117,51 @@ Opcodes by byte:
       CMOVNL reg(uv), r/m(uv)                                            ; 0f 4d /r
       CMOVNG reg(uv), r/m(uv)                                            ; 0f 4e /r
        CMOVG reg(uv), r/m(uv)                                            ; 0f 4f /r
-    MOVMSKPS r/m(uv), xmm(reg)                                           ; 0f 50 /r
-      SQRTPS xmm(reg), xmm(rm)                                           ; 0f 51 /r
-     RSQRTPS xmm(reg), xmm(rm)                                           ; 0f 52 /r
-       RCPPS xmm(reg), xmm(rm)                                           ; 0f 53 /r
-       ANDPS xmm(reg), xmm(rm)                                           ; 0f 54 /r
-      ANDNPS xmm(reg), xmm(rm)                                           ; 0f 55 /r
-        ORPS xmm(reg), xmm(rm)                                           ; 0f 56 /r
-       XORPS xmm(reg), xmm(rm)                                           ; 0f 57 /r
-       ADDPS xmm(reg), xmm(rm)                                           ; 0f 58 /r
-       MULPS xmm(reg), xmm(rm)                                           ; 0f 59 /r
-    CVTPS2PD xmm(reg), xmm(rm)                                           ; 0f 5a /r
-    CVTDQ2PS xmm(reg), xmm(rm)                                           ; 0f 5b /r
-       SUBPS xmm(reg), xmm(rm)                                           ; 0f 5c /r
-       MINPS xmm(reg), xmm(rm)                                           ; 0f 5d /r
-       DIVPS xmm(reg), xmm(rm)                                           ; 0f 5e /r
-       MAXPS xmm(reg), xmm(rm)                                           ; 0f 5f /r
-   PUNPCKLBW mm(reg), mm(rm)                                             ; 0f 60 /r
-   PUNPCKLWD mm(reg), mm(rm)                                             ; 0f 61 /r
-   PUNPCKLDQ mm(reg), mm(rm)                                             ; 0f 62 /r
-    PACKSSWB mm(reg), mm(rm)                                             ; 0f 63 /r
-     PCMPGTB mm(reg), mm(rm)                                             ; 0f 64 /r
-     PCMPGTW mm(reg), mm(rm)                                             ; 0f 65 /r
-     PCMPGTD mm(reg), mm(rm)                                             ; 0f 66 /r
-    PACKUSWB mm(reg), mm(rm)                                             ; 0f 67 /r
-   PUNPCKHBW mm(reg), mm(rm)                                             ; 0f 68 /r
-   PUNPCKHWD mm(reg), mm(rm)                                             ; 0f 69 /r
-   PUNPCKHDQ mm(reg), mm(rm)                                             ; 0f 6a /r
-    PACKSSDW mm(reg), mm(rm)                                             ; 0f 6b /r
-        MOVD mm(reg), r/m(u32)                                           ; 0f 6e /r
-        MOVQ mm(reg), r/m(u64)                                           ; 0f 6f /r
+    MOVMSKPS r/m(uv), xmm(reg)                                           ; 0f 50 /r; sse
+      SQRTPS xmm(reg), xmm(rm)                                           ; 0f 51 /r; sse
+     RSQRTPS xmm(reg), xmm(rm)                                           ; 0f 52 /r; sse
+       RCPPS xmm(reg), xmm(rm)                                           ; 0f 53 /r; sse
+       ANDPS xmm(reg), xmm(rm)                                           ; 0f 54 /r; sse
+      ANDNPS xmm(reg), xmm(rm)                                           ; 0f 55 /r; sse
+        ORPS xmm(reg), xmm(rm)                                           ; 0f 56 /r; sse
+       XORPS xmm(reg), xmm(rm)                                           ; 0f 57 /r; sse
+       ADDPS xmm(reg), xmm(rm)                                           ; 0f 58 /r; sse
+       MULPS xmm(reg), xmm(rm)                                           ; 0f 59 /r; sse
+    CVTPS2PD xmm(reg), xmm(rm)                                           ; 0f 5a /r; sse2
+    CVTDQ2PS xmm(reg), xmm(rm)                                           ; 0f 5b /r; sse2
+       SUBPS xmm(reg), xmm(rm)                                           ; 0f 5c /r; sse
+       MINPS xmm(reg), xmm(rm)                                           ; 0f 5d /r; sse
+       DIVPS xmm(reg), xmm(rm)                                           ; 0f 5e /r; sse
+       MAXPS xmm(reg), xmm(rm)                                           ; 0f 5f /r; sse
+   PUNPCKLBW mm(reg), mm(rm)                                             ; 0f 60 /r; fpu
+   PUNPCKLWD mm(reg), mm(rm)                                             ; 0f 61 /r; fpu
+   PUNPCKLDQ mm(reg), mm(rm)                                             ; 0f 62 /r; fpu
+    PACKSSWB mm(reg), mm(rm)                                             ; 0f 63 /r; fpu
+     PCMPGTB mm(reg), mm(rm)                                             ; 0f 64 /r; fpu
+     PCMPGTW mm(reg), mm(rm)                                             ; 0f 65 /r; fpu
+     PCMPGTD mm(reg), mm(rm)                                             ; 0f 66 /r; fpu
+    PACKUSWB mm(reg), mm(rm)                                             ; 0f 67 /r; fpu
+   PUNPCKHBW mm(reg), mm(rm)                                             ; 0f 68 /r; fpu
+   PUNPCKHWD mm(reg), mm(rm)                                             ; 0f 69 /r; fpu
+   PUNPCKHDQ mm(reg), mm(rm)                                             ; 0f 6a /r; fpu
+    PACKSSDW mm(reg), mm(rm)                                             ; 0f 6b /r; fpu
+        MOVD mm(reg), r/m(u32)                                           ; 0f 6e /r; fpu
+        MOVQ mm(reg), r/m(u64)                                           ; 0f 6f /r; fpu
       PSHUFW mm(reg), mm(rm), I                                          ; 0f 70 /r I=imm(u8)
-       PSRLW mm(reg), I                                                  ; 0f 71 /2 I=imm(u8)
-       PSRAW mm(reg), I                                                  ; 0f 71 /4 I=imm(u8)
-       PSLLW mm(reg), I                                                  ; 0f 71 /6 I=imm(u8)
-       PSRLD mm(reg), I                                                  ; 0f 72 /2 I=imm(u8)
-       PSRAD mm(reg), I                                                  ; 0f 72 /4 I=imm(u8)
-       PSLLD mm(reg), I                                                  ; 0f 72 /6 I=imm(u8)
-       PSRLQ mm(reg), I                                                  ; 0f 73 /2 I=imm(u8)
-       PSLLQ mm(reg), I                                                  ; 0f 73 /6 I=imm(u8)
-     PCMPEQB mm(reg), mm(rm)                                             ; 0f 74 /r
-     PCMPEQW mm(reg), mm(rm)                                             ; 0f 75 /r
-     PCMPEQD mm(reg), mm(rm)                                             ; 0f 76 /r
-        EMMS                                                             ; 0f 77
-        MOVD r/m(u32), mm(reg)                                           ; 0f 7e /r
-        MOVQ r/m(u64), mm(reg)                                           ; 0f 7f /r
+       PSRLW mm(reg), I                                                  ; 0f 71 /2 I=imm(u8); fpu
+       PSRAW mm(reg), I                                                  ; 0f 71 /4 I=imm(u8); fpu
+       PSLLW mm(reg), I                                                  ; 0f 71 /6 I=imm(u8); fpu
+       PSRLD mm(reg), I                                                  ; 0f 72 /2 I=imm(u8); fpu
+       PSRAD mm(reg), I                                                  ; 0f 72 /4 I=imm(u8); fpu
+       PSLLD mm(reg), I                                                  ; 0f 72 /6 I=imm(u8); fpu
+       PSRLQ mm(reg), I                                                  ; 0f 73 /2 I=imm(u8); fpu
+       PSLLQ mm(reg), I                                                  ; 0f 73 /6 I=imm(u8); fpu
+     PCMPEQB mm(reg), mm(rm)                                             ; 0f 74 /r; fpu
+     PCMPEQW mm(reg), mm(rm)                                             ; 0f 75 /r; fpu
+     PCMPEQD mm(reg), mm(rm)                                             ; 0f 76 /r; fpu
+        EMMS                                                             ; 0f 77; fpu
+        MOVD r/m(u32), mm(reg)                                           ; 0f 7e /r; fpu
+        MOVQ r/m(u64), mm(reg)                                           ; 0f 7f /r; fpu
           JO N                                                           ; 0f 80 P=imm(iv); N=(IPV+P)
          JNO N                                                           ; 0f 81 P=imm(iv); N=(IPV+P)
           JC N                                                           ; 0f 82 P=imm(iv); N=(IPV+P)
@@ -219,56 +219,56 @@ Opcodes by byte:
          BSR reg(uv), r/m(uv)                                            ; 0f bd /r
         XADD r/m(u8), reg(u8)                                            ; 0f c0 /r
         XADD r/m(uv), reg(uv)                                            ; 0f c1 /r
-       CMPPS xmm(reg), xmm(rm), I                                        ; 0f c2 /r I=imm(u8)
+       CMPPS xmm(reg), xmm(rm), I                                        ; 0f c2 /r I=imm(u8); sse
       MOVNTI r/m(u32), reg(u32)                                          ; 0f c3 /r=m
       PINSRW mm(reg), r/m(u16), I                                        ; 0f c4 /r I=imm(u8)
       PEXTRW reg(u32), mm(rm), I                                         ; 0f c5 /r!m I=imm(u8)
-      SHUFPS xmm(reg), xmm(rm), I                                        ; 0f c6 /r I=imm(u8)
+      SHUFPS xmm(reg), xmm(rm), I                                        ; 0f c6 /r I=imm(u8); sse
    CMPXCHG8B r/m(u64)                                                    ; 0f c7 /1=m
        BSWAP reg(uv), reg(uv)                                            ; 0f c8+reg; reg=0-7
-       PSRLW mm(reg), mm(rm)                                             ; 0f d1 /r
-       PSRLD mm(reg), mm(rm)                                             ; 0f d2 /r
-       PSRLQ mm(reg), mm(rm)                                             ; 0f d3 /r
-       PADDQ mm(reg), mm(rm)                                             ; 0f d4 /r
-      PMULLW mm(reg), mm(rm)                                             ; 0f d5 /r
+       PSRLW mm(reg), mm(rm)                                             ; 0f d1 /r; fpu
+       PSRLD mm(reg), mm(rm)                                             ; 0f d2 /r; fpu
+       PSRLQ mm(reg), mm(rm)                                             ; 0f d3 /r; fpu
+       PADDQ mm(reg), mm(rm)                                             ; 0f d4 /r; fpu
+      PMULLW mm(reg), mm(rm)                                             ; 0f d5 /r; fpu
     PMOVMSKB reg(u32), mm(rm)                                            ; 0f d7 /r!m
-     PSUBUSB mm(reg), mm(rm)                                             ; 0f d8 /r
-     PSUBUSW mm(reg), mm(rm)                                             ; 0f d9 /r
+     PSUBUSB mm(reg), mm(rm)                                             ; 0f d8 /r; fpu
+     PSUBUSW mm(reg), mm(rm)                                             ; 0f d9 /r; fpu
       PMINUB mm(reg), mm(rm)                                             ; 0f da /r
-        PAND mm(reg), mm(rm)                                             ; 0f db /r
-     PADDUSB mm(reg), mm(rm)                                             ; 0f dc /r
-     PADDUSW mm(reg), mm(rm)                                             ; 0f dd /r
+        PAND mm(reg), mm(rm)                                             ; 0f db /r; fpu
+     PADDUSB mm(reg), mm(rm)                                             ; 0f dc /r; fpu
+     PADDUSW mm(reg), mm(rm)                                             ; 0f dd /r; fpu
       PMAXUB mm(reg), mm(rm)                                             ; 0f de /r
-       PANDN mm(reg), mm(rm)                                             ; 0f df /r
+       PANDN mm(reg), mm(rm)                                             ; 0f df /r; fpu
        PAVGB mm(reg), mm(rm)                                             ; 0f e0 /r
-       PSRAW mm(reg), mm(rm)                                             ; 0f e1 /r
-       PSRAD mm(reg), mm(rm)                                             ; 0f e2 /r
+       PSRAW mm(reg), mm(rm)                                             ; 0f e1 /r; fpu
+       PSRAD mm(reg), mm(rm)                                             ; 0f e2 /r; fpu
        PAVGW mm(reg), mm(rm)                                             ; 0f e3 /r
      PMULHUW mm(reg), mm(rm)                                             ; 0f e4 /r
-      PMULHW mm(reg), mm(rm)                                             ; 0f e5 /r
+      PMULHW mm(reg), mm(rm)                                             ; 0f e5 /r; fpu
       MOVNTQ mm(rm), mm(reg)                                             ; 0f e7 /r=m
-      PSUBSB mm(reg), mm(rm)                                             ; 0f e8 /r
-      PSUBSW mm(reg), mm(rm)                                             ; 0f e9 /r
+      PSUBSB mm(reg), mm(rm)                                             ; 0f e8 /r; fpu
+      PSUBSW mm(reg), mm(rm)                                             ; 0f e9 /r; fpu
       PMINSW mm(reg), mm(rm)                                             ; 0f ea /r
-         POR mm(reg), mm(rm)                                             ; 0f eb /r
-      PADDSB mm(reg), mm(rm)                                             ; 0f ec /r
-      PADDSW mm(reg), mm(rm)                                             ; 0f ed /r
+         POR mm(reg), mm(rm)                                             ; 0f eb /r; fpu
+      PADDSB mm(reg), mm(rm)                                             ; 0f ec /r; fpu
+      PADDSW mm(reg), mm(rm)                                             ; 0f ed /r; fpu
       PMAXSW mm(reg), mm(rm)                                             ; 0f ee /r
-        PXOR mm(reg), mm(rm)                                             ; 0f ef /r
-       PSLLW mm(reg), mm(rm)                                             ; 0f f1 /r
-       PSLLD mm(reg), mm(rm)                                             ; 0f f2 /r
-       PSLLQ mm(reg), mm(rm)                                             ; 0f f3 /r
-     PMULUDQ mm(reg), mm(rm)                                             ; 0f f4 /r
-     PMADDWD mm(reg), mm(rm)                                             ; 0f f5 /r
+        PXOR mm(reg), mm(rm)                                             ; 0f ef /r; fpu
+       PSLLW mm(reg), mm(rm)                                             ; 0f f1 /r; fpu
+       PSLLD mm(reg), mm(rm)                                             ; 0f f2 /r; fpu
+       PSLLQ mm(reg), mm(rm)                                             ; 0f f3 /r; fpu
+     PMULUDQ mm(reg), mm(rm)                                             ; 0f f4 /r; sse2
+     PMADDWD mm(reg), mm(rm)                                             ; 0f f5 /r; fpu
       PSADBW mm(reg), mm(rm)                                             ; 0f f6 /r
     MASKMOVQ u64 [DIV], mm(reg), mm(rm)                                  ; 0f f7 /r
-       PSUBB mm(reg), mm(rm)                                             ; 0f f8 /r
-       PSUBW mm(reg), mm(rm)                                             ; 0f f9 /r
-       PSUBD mm(reg), mm(rm)                                             ; 0f fa /r
-       PSUBQ mm(reg), mm(rm)                                             ; 0f fb /r
-       PADDB mm(reg), mm(rm)                                             ; 0f fc /r
-       PADDW mm(reg), mm(rm)                                             ; 0f fd /r
-       PADDD mm(reg), mm(rm)                                             ; 0f fe /r
+       PSUBB mm(reg), mm(rm)                                             ; 0f f8 /r; fpu
+       PSUBW mm(reg), mm(rm)                                             ; 0f f9 /r; fpu
+       PSUBD mm(reg), mm(rm)                                             ; 0f fa /r; fpu
+       PSUBQ mm(reg), mm(rm)                                             ; 0f fb /r; sse2
+       PADDB mm(reg), mm(rm)                                             ; 0f fc /r; fpu
+       PADDW mm(reg), mm(rm)                                             ; 0f fd /r; fpu
+       PADDD mm(reg), mm(rm)                                             ; 0f fe /r; fpu
          ADC r/m(u8), reg(u8)                                            ; 10 /r
          ADC r/m(uv), reg(uv)                                            ; 11 /r
          ADC reg(u8), r/m(u8)                                            ; 12 /r
@@ -328,117 +328,117 @@ Opcodes by byte:
          FS:                                                    ; prefix ; 64
          GS:                                                    ; prefix ; 65
         OPSZ                                                    ; prefix ; 66
-      MOVUPD xmm(reg), xmm(rm)                                           ; 66 0f 10 /r
-      MOVUPD xmm(rm), xmm(reg)                                           ; 66 0f 11 /r
-      MOVLPD xmm(reg), xmm(rm)                                           ; 66 0f 12 /r=m
-      MOVLPD xmm(rm), xmm(reg)                                           ; 66 0f 13 /r=m
-    UNPCKLPD xmm(reg), xmm(rm)                                           ; 66 0f 14 /r
-    UNPCKHPD xmm(reg), xmm(rm)                                           ; 66 0f 15 /r
-      MOVHPD xmm(reg), xmm(rm)                                           ; 66 0f 16 /r=m
-      MOVHPD xmm(rm), xmm(reg)                                           ; 66 0f 17 /r=m
-      MOVAPD xmm(reg), xmm(rm)                                           ; 66 0f 28 /r
-      MOVAPD xmm(rm), xmm(reg)                                           ; 66 0f 29 /r
-    CVTPI2PD xmm(reg), mm(rm)                                            ; 66 0f 2a /r
-     MOVNTPD xmm(rm), xmm(reg)                                           ; 66 0f 2b /r=m
-   CVTTPD2PI mm(reg), xmm(rm)                                            ; 66 0f 2c /r
-    CVTPD2PI mm(reg), xmm(rm)                                            ; 66 0f 2d /r
-     UCOMISD xmm(reg), xmm(rm)                                           ; 66 0f 2e /r
-      COMISD xmm(reg), xmm(rm)                                           ; 66 0f 2f /r
-    MOVMSKPD r/m(u32), xmm(reg)                                          ; 66 0f 50 /r!m
-      SQRTPD xmm(reg), xmm(rm)                                           ; 66 0f 51 /r
-       ANDPD xmm(reg), xmm(rm)                                           ; 66 0f 54 /r
-      ANDNPD xmm(reg), xmm(rm)                                           ; 66 0f 55 /r
-        ORPD xmm(reg), xmm(rm)                                           ; 66 0f 56 /r
-       XORPD xmm(reg), xmm(rm)                                           ; 66 0f 57 /r
-       ADDPD xmm(reg), xmm(rm)                                           ; 66 0f 58 /r
-       MULPD xmm(reg), xmm(rm)                                           ; 66 0f 59 /r
-    CVTPD2PS xmm(reg), xmm(rm)                                           ; 66 0f 5a /r
-    CVTPS2DQ xmm(reg), xmm(rm)                                           ; 66 0f 5b /r
-       SUBPD xmm(reg), xmm(rm)                                           ; 66 0f 5c /r
-       MINPD xmm(reg), xmm(rm)                                           ; 66 0f 5d /r
-       DIVPD xmm(reg), xmm(rm)                                           ; 66 0f 5e /r
-       MAXPD xmm(reg), xmm(rm)                                           ; 66 0f 5f /r
-   PUNPCKLBW xmm(reg), xmm(rm)                                           ; 66 0f 60 /r
-   PUNPCKLWD xmm(reg), xmm(rm)                                           ; 66 0f 61 /r
-   PUNPCKLDQ xmm(reg), xmm(rm)                                           ; 66 0f 62 /r
-    PACKSSWB xmm(reg), xmm(rm)                                           ; 66 0f 63 /r
-     PCMPGTB xmm(reg), xmm(rm)                                           ; 66 0f 64 /r
-     PCMPGTW xmm(reg), xmm(rm)                                           ; 66 0f 65 /r
-     PCMPGTD xmm(reg), xmm(rm)                                           ; 66 0f 66 /r
-    PACKUSWB xmm(reg), xmm(rm)                                           ; 66 0f 67 /r
-   PUNPCKHBW xmm(reg), xmm(rm)                                           ; 66 0f 68 /r
-   PUNPCKHWD xmm(reg), xmm(rm)                                           ; 66 0f 69 /r
-   PUNPCKHDQ xmm(reg), xmm(rm)                                           ; 66 0f 6a /r
-    PACKSSDW xmm(reg), xmm(rm)                                           ; 66 0f 6b /r
-  PUNPCKLQDQ xmm(reg), xmm(rm)                                           ; 66 0f 6c /r
-  PUNPCKHQDQ xmm(reg), xmm(rm)                                           ; 66 0f 6d /r
-        MOVD xmm(reg), r/m(u32)                                          ; 66 0f 6e /r
-      MOVDQA xmm(reg), xmm(rm)                                           ; 66 0f 6f /r
+      MOVUPD xmm(reg), xmm(rm)                                           ; 66 0f 10 /r; sse2
+      MOVUPD xmm(rm), xmm(reg)                                           ; 66 0f 11 /r; sse2
+      MOVLPD xmm(reg), xmm(rm)                                           ; 66 0f 12 /r=m; sse2
+      MOVLPD xmm(rm), xmm(reg)                                           ; 66 0f 13 /r=m; sse2
+    UNPCKLPD xmm(reg), xmm(rm)                                           ; 66 0f 14 /r; sse2
+    UNPCKHPD xmm(reg), xmm(rm)                                           ; 66 0f 15 /r; sse2
+      MOVHPD xmm(reg), xmm(rm)                                           ; 66 0f 16 /r=m; sse2
+      MOVHPD xmm(rm), xmm(reg)                                           ; 66 0f 17 /r=m; sse2
+      MOVAPD xmm(reg), xmm(rm)                                           ; 66 0f 28 /r; sse2
+      MOVAPD xmm(rm), xmm(reg)                                           ; 66 0f 29 /r; sse2
+    CVTPI2PD xmm(reg), mm(rm)                                            ; 66 0f 2a /r; sse2
+     MOVNTPD xmm(rm), xmm(reg)                                           ; 66 0f 2b /r=m; sse2
+   CVTTPD2PI mm(reg), xmm(rm)                                            ; 66 0f 2c /r; sse2
+    CVTPD2PI mm(reg), xmm(rm)                                            ; 66 0f 2d /r; sse2
+     UCOMISD xmm(reg), xmm(rm)                                           ; 66 0f 2e /r; sse2
+      COMISD xmm(reg), xmm(rm)                                           ; 66 0f 2f /r; sse2
+    MOVMSKPD r/m(u32), xmm(reg)                                          ; 66 0f 50 /r!m; sse2
+      SQRTPD xmm(reg), xmm(rm)                                           ; 66 0f 51 /r; sse2
+       ANDPD xmm(reg), xmm(rm)                                           ; 66 0f 54 /r; sse2
+      ANDNPD xmm(reg), xmm(rm)                                           ; 66 0f 55 /r; sse2
+        ORPD xmm(reg), xmm(rm)                                           ; 66 0f 56 /r; sse2
+       XORPD xmm(reg), xmm(rm)                                           ; 66 0f 57 /r; sse2
+       ADDPD xmm(reg), xmm(rm)                                           ; 66 0f 58 /r; sse2
+       MULPD xmm(reg), xmm(rm)                                           ; 66 0f 59 /r; sse2
+    CVTPD2PS xmm(reg), xmm(rm)                                           ; 66 0f 5a /r; sse2
+    CVTPS2DQ xmm(reg), xmm(rm)                                           ; 66 0f 5b /r; sse2
+       SUBPD xmm(reg), xmm(rm)                                           ; 66 0f 5c /r; sse2
+       MINPD xmm(reg), xmm(rm)                                           ; 66 0f 5d /r; sse2
+       DIVPD xmm(reg), xmm(rm)                                           ; 66 0f 5e /r; sse2
+       MAXPD xmm(reg), xmm(rm)                                           ; 66 0f 5f /r; sse2
+   PUNPCKLBW xmm(reg), xmm(rm)                                           ; 66 0f 60 /r; sse2
+   PUNPCKLWD xmm(reg), xmm(rm)                                           ; 66 0f 61 /r; sse2
+   PUNPCKLDQ xmm(reg), xmm(rm)                                           ; 66 0f 62 /r; sse2
+    PACKSSWB xmm(reg), xmm(rm)                                           ; 66 0f 63 /r; sse2
+     PCMPGTB xmm(reg), xmm(rm)                                           ; 66 0f 64 /r; sse2
+     PCMPGTW xmm(reg), xmm(rm)                                           ; 66 0f 65 /r; sse2
+     PCMPGTD xmm(reg), xmm(rm)                                           ; 66 0f 66 /r; sse2
+    PACKUSWB xmm(reg), xmm(rm)                                           ; 66 0f 67 /r; sse2
+   PUNPCKHBW xmm(reg), xmm(rm)                                           ; 66 0f 68 /r; sse2
+   PUNPCKHWD xmm(reg), xmm(rm)                                           ; 66 0f 69 /r; sse2
+   PUNPCKHDQ xmm(reg), xmm(rm)                                           ; 66 0f 6a /r; sse2
+    PACKSSDW xmm(reg), xmm(rm)                                           ; 66 0f 6b /r; sse2
+  PUNPCKLQDQ xmm(reg), xmm(rm)                                           ; 66 0f 6c /r; sse2
+  PUNPCKHQDQ xmm(reg), xmm(rm)                                           ; 66 0f 6d /r; sse2
+        MOVD xmm(reg), r/m(u32)                                          ; 66 0f 6e /r; sse2
+      MOVDQA xmm(reg), xmm(rm)                                           ; 66 0f 6f /r; sse2
       PSHUFD xmm(reg), xmm(rm), I                                        ; 66 0f 70 /r I=imm(u8)
-       PSRLW xmm(reg), I                                                 ; 66 0f 71 /2 I=imm(u8)
-       PSRAW xmm(reg), I                                                 ; 66 0f 71 /4 I=imm(u8)
-       PSLLW xmm(reg), I                                                 ; 66 0f 71 /6 I=imm(u8)
-       PSRLD xmm(reg), I                                                 ; 66 0f 72 /2 I=imm(u8)
-       PSRAD xmm(reg), I                                                 ; 66 0f 72 /4 I=imm(u8)
-       PSLLD xmm(reg), I                                                 ; 66 0f 72 /6 I=imm(u8)
-       PSRLQ xmm(reg), I                                                 ; 66 0f 73 /2 I=imm(u8)
-      PSRLDQ xmm(reg), I                                                 ; 66 0f 73 /3 I=imm(u8)
-       PSLLQ xmm(reg), I                                                 ; 66 0f 73 /6 I=imm(u8)
-      PSLLDQ xmm(reg), I                                                 ; 66 0f 73 /7 I=imm(u8)
-     PCMPEQB xmm(reg), xmm(rm)                                           ; 66 0f 74 /r
-     PCMPEQW xmm(reg), xmm(rm)                                           ; 66 0f 75 /r
-     PCMPEQD xmm(reg), xmm(rm)                                           ; 66 0f 76 /r
-        MOVD r/m(u32), xmm(reg)                                          ; 66 0f 7e /r
-      MOVDQA xmm(rm), xmm(reg)                                           ; 66 0f 7f /r
-       CMPPD xmm(reg), xmm(rm), I                                        ; 66 0f c2 /r I=imm(u8)
-      PINSRW xmm(reg), r/m(u16), I                                       ; 66 0f c4 /r I=imm(u8)
-      PEXTRW reg(u32), xmm(rm), I                                        ; 66 0f c5 /r!m I=imm(u8)
-      SHUFPD xmm(reg), xmm(rm), I                                        ; 66 0f c6 /r I=imm(u8)
-       PSRLW xmm(reg), xmm(rm)                                           ; 66 0f d1 /r
-       PSRLD xmm(reg), xmm(rm)                                           ; 66 0f d2 /r
-       PSRLQ xmm(reg), xmm(rm)                                           ; 66 0f d3 /r
-       PADDQ xmm(reg), xmm(rm)                                           ; 66 0f d4 /r
-      PMULLW xmm(reg), xmm(rm)                                           ; 66 0f d5 /r
-        MOVQ xmm(rm), xmm(reg)                                           ; 66 0f d6 /r
-    PMOVMSKB reg(u32), xmm(rm)                                           ; 66 0f d7 /r!m
-     PSUBUSB xmm(reg), xmm(rm)                                           ; 66 0f d8 /r
-     PSUBUSW xmm(reg), xmm(rm)                                           ; 66 0f d9 /r
-      PMINUB xmm(reg), xmm(rm)                                           ; 66 0f da /r
-        PAND xmm(reg), xmm(rm)                                           ; 66 0f db /r
-     PADDUSB xmm(reg), xmm(rm)                                           ; 66 0f dc /r
-     PADDUSW xmm(reg), xmm(rm)                                           ; 66 0f dd /r
-      PMAXUB xmm(reg), xmm(rm)                                           ; 66 0f de /r
-       PANDN xmm(reg), xmm(rm)                                           ; 66 0f df /r
-       PAVGB xmm(reg), xmm(rm)                                           ; 66 0f e0 /r
-       PSRAW xmm(reg), xmm(rm)                                           ; 66 0f e1 /r
-       PSRAD xmm(reg), xmm(rm)                                           ; 66 0f e2 /r
-       PAVGW xmm(reg), xmm(rm)                                           ; 66 0f e3 /r
-     PMULHUW xmm(reg), xmm(rm)                                           ; 66 0f e4 /r
-      PMULHW xmm(reg), xmm(rm)                                           ; 66 0f e5 /r
-   CVTTPD2DQ xmm(reg), xmm(rm)                                           ; 66 0f e6 /r
+       PSRLW xmm(reg), I                                                 ; 66 0f 71 /2 I=imm(u8); sse2
+       PSRAW xmm(reg), I                                                 ; 66 0f 71 /4 I=imm(u8); sse2
+       PSLLW xmm(reg), I                                                 ; 66 0f 71 /6 I=imm(u8); sse2
+       PSRLD xmm(reg), I                                                 ; 66 0f 72 /2 I=imm(u8); sse2
+       PSRAD xmm(reg), I                                                 ; 66 0f 72 /4 I=imm(u8); sse2
+       PSLLD xmm(reg), I                                                 ; 66 0f 72 /6 I=imm(u8); sse2
+       PSRLQ xmm(reg), I                                                 ; 66 0f 73 /2 I=imm(u8); sse2
+      PSRLDQ xmm(reg), I                                                 ; 66 0f 73 /3 I=imm(u8); sse2
+       PSLLQ xmm(reg), I                                                 ; 66 0f 73 /6 I=imm(u8); sse2
+      PSLLDQ xmm(reg), I                                                 ; 66 0f 73 /7 I=imm(u8); sse2
+     PCMPEQB xmm(reg), xmm(rm)                                           ; 66 0f 74 /r; sse2
+     PCMPEQW xmm(reg), xmm(rm)                                           ; 66 0f 75 /r; sse2
+     PCMPEQD xmm(reg), xmm(rm)                                           ; 66 0f 76 /r; sse2
+        MOVD r/m(u32), xmm(reg)                                          ; 66 0f 7e /r; sse2
+      MOVDQA xmm(rm), xmm(reg)                                           ; 66 0f 7f /r; sse2
+       CMPPD xmm(reg), xmm(rm), I                                        ; 66 0f c2 /r I=imm(u8); sse2
+      PINSRW xmm(reg), r/m(u16), I                                       ; 66 0f c4 /r I=imm(u8); sse
+      PEXTRW reg(u32), xmm(rm), I                                        ; 66 0f c5 /r!m I=imm(u8); sse
+      SHUFPD xmm(reg), xmm(rm), I                                        ; 66 0f c6 /r I=imm(u8); sse2
+       PSRLW xmm(reg), xmm(rm)                                           ; 66 0f d1 /r; sse2
+       PSRLD xmm(reg), xmm(rm)                                           ; 66 0f d2 /r; sse2
+       PSRLQ xmm(reg), xmm(rm)                                           ; 66 0f d3 /r; sse2
+       PADDQ xmm(reg), xmm(rm)                                           ; 66 0f d4 /r; sse2
+      PMULLW xmm(reg), xmm(rm)                                           ; 66 0f d5 /r; sse2
+        MOVQ xmm(rm), xmm(reg)                                           ; 66 0f d6 /r; sse2
+    PMOVMSKB reg(u32), xmm(rm)                                           ; 66 0f d7 /r!m; sse
+     PSUBUSB xmm(reg), xmm(rm)                                           ; 66 0f d8 /r; sse2
+     PSUBUSW xmm(reg), xmm(rm)                                           ; 66 0f d9 /r; sse2
+      PMINUB xmm(reg), xmm(rm)                                           ; 66 0f da /r; sse
+        PAND xmm(reg), xmm(rm)                                           ; 66 0f db /r; sse2
+     PADDUSB xmm(reg), xmm(rm)                                           ; 66 0f dc /r; sse2
+     PADDUSW xmm(reg), xmm(rm)                                           ; 66 0f dd /r; sse2
+      PMAXUB xmm(reg), xmm(rm)                                           ; 66 0f de /r; sse
+       PANDN xmm(reg), xmm(rm)                                           ; 66 0f df /r; sse2
+       PAVGB xmm(reg), xmm(rm)                                           ; 66 0f e0 /r; sse
+       PSRAW xmm(reg), xmm(rm)                                           ; 66 0f e1 /r; sse2
+       PSRAD xmm(reg), xmm(rm)                                           ; 66 0f e2 /r; sse2
+       PAVGW xmm(reg), xmm(rm)                                           ; 66 0f e3 /r; sse
+     PMULHUW xmm(reg), xmm(rm)                                           ; 66 0f e4 /r; sse
+      PMULHW xmm(reg), xmm(rm)                                           ; 66 0f e5 /r; sse2
+   CVTTPD2DQ xmm(reg), xmm(rm)                                           ; 66 0f e6 /r; sse2
      MOVNTDQ xmm(rm), xmm(reg)                                           ; 66 0f e7 /r=m
-      PSUBSB xmm(reg), xmm(rm)                                           ; 66 0f e8 /r
-      PSUBSW xmm(reg), xmm(rm)                                           ; 66 0f e9 /r
-      PMINSW xmm(reg), xmm(rm)                                           ; 66 0f ea /r
-         POR xmm(reg), xmm(rm)                                           ; 66 0f eb /r
-      PADDSB xmm(reg), xmm(rm)                                           ; 66 0f ec /r
-      PADDSW xmm(reg), xmm(rm)                                           ; 66 0f ed /r
-      PMAXSW xmm(reg), xmm(rm)                                           ; 66 0f ee /r
-        PXOR xmm(reg), xmm(rm)                                           ; 66 0f ef /r
-       PSLLW xmm(reg), xmm(rm)                                           ; 66 0f f1 /r
-       PSLLD xmm(reg), xmm(rm)                                           ; 66 0f f2 /r
-       PSLLQ xmm(reg), xmm(rm)                                           ; 66 0f f3 /r
-     PMULUDQ xmm(reg), xmm(rm)                                           ; 66 0f f4 /r
-     PMADDWD xmm(reg), xmm(rm)                                           ; 66 0f f5 /r
-      PSADBW xmm(reg), xmm(rm)                                           ; 66 0f f6 /r
-  MASKMOVDQU xmm(rm), xmm(reg)                                           ; 66 0f f7 /r
-       PSUBB xmm(reg), xmm(rm)                                           ; 66 0f f8 /r
-       PSUBW xmm(reg), xmm(rm)                                           ; 66 0f f9 /r
-       PSUBD xmm(reg), xmm(rm)                                           ; 66 0f fa /r
-       PSUBQ xmm(reg), xmm(rm)                                           ; 66 0f fb /r
-       PADDB xmm(reg), xmm(rm)                                           ; 66 0f fc /r
-       PADDW xmm(reg), xmm(rm)                                           ; 66 0f fd /r
-       PADDD xmm(reg), xmm(rm)                                           ; 66 0f fe /r
+      PSUBSB xmm(reg), xmm(rm)                                           ; 66 0f e8 /r; sse2
+      PSUBSW xmm(reg), xmm(rm)                                           ; 66 0f e9 /r; sse2
+      PMINSW xmm(reg), xmm(rm)                                           ; 66 0f ea /r; sse
+         POR xmm(reg), xmm(rm)                                           ; 66 0f eb /r; sse2
+      PADDSB xmm(reg), xmm(rm)                                           ; 66 0f ec /r; sse2
+      PADDSW xmm(reg), xmm(rm)                                           ; 66 0f ed /r; sse2
+      PMAXSW xmm(reg), xmm(rm)                                           ; 66 0f ee /r; sse
+        PXOR xmm(reg), xmm(rm)                                           ; 66 0f ef /r; sse2
+       PSLLW xmm(reg), xmm(rm)                                           ; 66 0f f1 /r; sse2
+       PSLLD xmm(reg), xmm(rm)                                           ; 66 0f f2 /r; sse2
+       PSLLQ xmm(reg), xmm(rm)                                           ; 66 0f f3 /r; sse2
+     PMULUDQ xmm(reg), xmm(rm)                                           ; 66 0f f4 /r; sse2
+     PMADDWD xmm(reg), xmm(rm)                                           ; 66 0f f5 /r; sse2
+      PSADBW xmm(reg), xmm(rm)                                           ; 66 0f f6 /r; sse
+  MASKMOVDQU xmm(rm), xmm(reg)                                           ; 66 0f f7 /r; sse2
+       PSUBB xmm(reg), xmm(rm)                                           ; 66 0f f8 /r; sse2
+       PSUBW xmm(reg), xmm(rm)                                           ; 66 0f f9 /r; sse2
+       PSUBD xmm(reg), xmm(rm)                                           ; 66 0f fa /r; sse2
+       PSUBQ xmm(reg), xmm(rm)                                           ; 66 0f fb /r; sse2
+       PADDB xmm(reg), xmm(rm)                                           ; 66 0f fc /r; sse2
+       PADDW xmm(reg), xmm(rm)                                           ; 66 0f fd /r; sse2
+       PADDD xmm(reg), xmm(rm)                                           ; 66 0f fe /r; sse2
         ADSZ                                                    ; prefix ; 67
         PUSH I                                                           ; 68 I=imm(uv)
         IMUL reg(uv), r/m(uv), I                                         ; 69 /r I=imm(iv)
@@ -514,8 +514,8 @@ Opcodes by byte:
          CWD                                                             ; 99
         CALL P                                                           ; 9a P=imm(farptr)
         WAIT                                                    ; prefix ; 9b
-       FCLEX                                                             ; 9b db e2
-       FINIT                                                             ; 9b db e3
+       FCLEX                                                             ; 9b db e2; fpu
+       FINIT                                                             ; 9b db e3; fpu
        PUSHF                                                             ; 9c
         POPF                                                             ; 9d
         SAHF                                                             ; 9e
@@ -598,137 +598,137 @@ Opcodes by byte:
          AAD D                                                           ; d5 D=imm(u8)
         SALC                                                             ; d6
         XLAT                                                             ; d7
-        FADD st(0), r/m(f32)                                             ; d8 /0=m
-        FMUL st(0), r/m(f32)                                             ; d8 /1=m
-        FCOM st(0), r/m(f32)                                             ; d8 /2=m
-       FCOMP st(0), r/m(f32)                                             ; d8 /3=m
-        FSUB st(0), r/m(f32)                                             ; d8 /4=m
-       FSUBR st(0), r/m(f32)                                             ; d8 /5=m
-        FDIV st(0), r/m(f32)                                             ; d8 /6=m
-       FDIVR st(0), r/m(f32)                                             ; d8 /7=m
-        FADD st(0), st(i)                                                ; d8 c0+i; i=0-7
-        FMUL st(0), st(i)                                                ; d8 c8+i; i=0-7
-        FCOM st(0), st(i)                                                ; d8 d0+i; i=0-7
-       FCOMP st(0), st(i)                                                ; d8 d8+i; i=0-7
-        FSUB st(0), st(i)                                                ; d8 e0+i; i=0-7
-       FSUBR st(0), st(i)                                                ; d8 e8+i; i=0-7
-        FDIV st(0), st(i)                                                ; d8 f0+i; i=0-7
-       FDIVR st(0), st(i)                                                ; d8 f8+i; i=0-7
-         FLD st(0), r/m(f32)                                             ; d9 /0=m
-         FST r/m(f32), st(0)                                             ; d9 /2=m
-        FSTP r/m(f32), st(0)                                             ; d9 /3=m
-      FLDENV r/m(f87env)                                                 ; d9 /4=m
-       FLDCW r/m(u16)                                                    ; d9 /5=m
-      FSTENV r/m(f87env)                                                 ; d9 /6=m
-       FSTCW r/m(u16)                                                    ; d9 /7=m
-         FLD st(0), st(i)                                                ; d9 c0+i; i=0-7
-        FXCH st(0), st(i)                                                ; d9 c8+i; i=0-7
-        FNOP                                                             ; d9 d0
-        FCHS st(0), st(0)                                                ; d9 e0
-        FABS st(0), st(0)                                                ; d9 e1
-        FTST st(0)                                                       ; d9 e4
-        FXAM st(0)                                                       ; d9 e5
-        FLD1 st(0), 1                                                    ; d9 e8
-      FLDL2T st(0), const("log2(10)")                                    ; d9 e9
-      FLDL2E st(0), const("log2(e)")                                     ; d9 ea
-       FLDPI st(0), const("pi")                                          ; d9 eb
-      FLDLG2 st(0), const("log10(2)")                                    ; d9 ec
-      FLDLN2 st(0), const("loge(2)")                                     ; d9 ed
-        FLDZ st(0), 0                                                    ; d9 ee
-       F2XM1 st(0), st(0)                                                ; d9 f0
-       FYL2X st(0), st(0), st(1)                                         ; d9 f1
-       FPTAN st(0), st(0)                                                ; d9 f2
-      FPATAN st(1), st(0), st(1)                                         ; d9 f3
-     FXTRACT st(0), st(0), st(1)                                         ; d9 f4
-      FPREM1 st(0), st(0), st(1)                                         ; d9 f5
-     FDECSTP                                                             ; d9 f6
-     FINCSTP                                                             ; d9 f7
-       FPREM st(0), st(0), st(1)                                         ; d9 f8
-     FYL2XP1 st(0), st(0), st(1)                                         ; d9 f9
-       FSQRT st(0), st(0)                                                ; d9 fa
+        FADD st(0), r/m(f32)                                             ; d8 /0=m; fpu
+        FMUL st(0), r/m(f32)                                             ; d8 /1=m; fpu
+        FCOM st(0), r/m(f32)                                             ; d8 /2=m; fpu
+       FCOMP st(0), r/m(f32)                                             ; d8 /3=m; fpu
+        FSUB st(0), r/m(f32)                                             ; d8 /4=m; fpu
+       FSUBR st(0), r/m(f32)                                             ; d8 /5=m; fpu
+        FDIV st(0), r/m(f32)                                             ; d8 /6=m; fpu
+       FDIVR st(0), r/m(f32)                                             ; d8 /7=m; fpu
+        FADD st(0), st(i)                                                ; d8 c0+i; i=0-7 fpu
+        FMUL st(0), st(i)                                                ; d8 c8+i; i=0-7 fpu
+        FCOM st(0), st(i)                                                ; d8 d0+i; i=0-7 fpu
+       FCOMP st(0), st(i)                                                ; d8 d8+i; i=0-7 fpu
+        FSUB st(0), st(i)                                                ; d8 e0+i; i=0-7 fpu
+       FSUBR st(0), st(i)                                                ; d8 e8+i; i=0-7 fpu
+        FDIV st(0), st(i)                                                ; d8 f0+i; i=0-7 fpu
+       FDIVR st(0), st(i)                                                ; d8 f8+i; i=0-7 fpu
+         FLD st(0), r/m(f32)                                             ; d9 /0=m; fpu
+         FST r/m(f32), st(0)                                             ; d9 /2=m; fpu
+        FSTP r/m(f32), st(0)                                             ; d9 /3=m; fpu
+      FLDENV r/m(f87env)                                                 ; d9 /4=m; fpu
+       FLDCW r/m(u16)                                                    ; d9 /5=m; fpu
+      FSTENV r/m(f87env)                                                 ; d9 /6=m; fpu
+       FSTCW r/m(u16)                                                    ; d9 /7=m; fpu
+         FLD st(0), st(i)                                                ; d9 c0+i; i=0-7 fpu
+        FXCH st(0), st(i)                                                ; d9 c8+i; i=0-7 fpu
+        FNOP                                                             ; d9 d0; fpu
+        FCHS st(0), st(0)                                                ; d9 e0; fpu
+        FABS st(0), st(0)                                                ; d9 e1; fpu
+        FTST st(0)                                                       ; d9 e4; fpu
+        FXAM st(0)                                                       ; d9 e5; fpu
+        FLD1 st(0), 1                                                    ; d9 e8; fpu
+      FLDL2T st(0), const("log2(10)")                                    ; d9 e9; fpu
+      FLDL2E st(0), const("log2(e)")                                     ; d9 ea; fpu
+       FLDPI st(0), const("pi")                                          ; d9 eb; fpu
+      FLDLG2 st(0), const("log10(2)")                                    ; d9 ec; fpu
+      FLDLN2 st(0), const("loge(2)")                                     ; d9 ed; fpu
+        FLDZ st(0), 0                                                    ; d9 ee; fpu
+       F2XM1 st(0), st(0)                                                ; d9 f0; fpu
+       FYL2X st(0), st(0), st(1)                                         ; d9 f1; fpu
+       FPTAN st(0), st(0)                                                ; d9 f2; fpu
+      FPATAN st(1), st(0), st(1)                                         ; d9 f3; fpu
+     FXTRACT st(0), st(0), st(1)                                         ; d9 f4; fpu
+      FPREM1 st(0), st(0), st(1)                                         ; d9 f5; fpu
+     FDECSTP                                                             ; d9 f6; fpu
+     FINCSTP                                                             ; d9 f7; fpu
+       FPREM st(0), st(0), st(1)                                         ; d9 f8; fpu
+     FYL2XP1 st(0), st(0), st(1)                                         ; d9 f9; fpu
+       FSQRT st(0), st(0)                                                ; d9 fa; fpu
      FSINCOS st(0), st(0)                                                ; d9 fb
-     FRNDINT st(0), st(0)                                                ; d9 fc
-      FSCALE st(0), st(0), st(1)                                         ; d9 fd
+     FRNDINT st(0), st(0)                                                ; d9 fc; fpu
+      FSCALE st(0), st(0), st(1)                                         ; d9 fd; fpu
         FSIN st(0), st(0)                                                ; d9 fe
         FCOS st(0), st(0)                                                ; d9 ff
-       FIADD st(0), r/m(i32)                                             ; da /0=m
-       FIMUL st(0), r/m(i32)                                             ; da /1=m
-       FICOM st(0), r/m(i32)                                             ; da /2=m
-      FICOMP st(0), r/m(i32)                                             ; da /3=m
-       FISUB st(0), r/m(i32)                                             ; da /4=m
-      FISUBR st(0), r/m(i32)                                             ; da /5=m
-       FIDIV st(0), r/m(i32)                                             ; da /6=m
-      FIDIVR st(0), r/m(i32)                                             ; da /7=m
-      FCMOVB st(0), st(i)                                                ; da c0+i; i=0-7
-      FCMOVE st(0), st(i)                                                ; da c8+i; i=0-7
-     FCMOVBE st(0), st(i)                                                ; da d0+i; i=0-7
-      FCMOVU st(0), st(i)                                                ; da d8+i; i=0-7
-     FUCOMPP st(0), st(1)                                                ; da e9
-        FILD st(0), r/m(i32)                                             ; db /0=m
-        FIST r/m(i32), st(0)                                             ; db /2=m
-       FISTP r/m(i32), st(0)                                             ; db /3=m
-         FLD st(0), r/m(f80)                                             ; db /5=m
-        FSTP r/m(f80), st(0)                                             ; db /7=m
-     FCMOVNB st(0), st(i)                                                ; db c0+i; i=0-7
-     FCMOVNE st(0), st(i)                                                ; db c8+i; i=0-7
-    FCMOVNBE st(0), st(i)                                                ; db d0+i; i=0-7
-     FCMOVNU st(0), st(i)                                                ; db d8+i; i=0-7
-        FENI                                                             ; db e0
-       FDISI                                                             ; db e1
-      FNCLEX                                                             ; db e2
-      FNINIT                                                             ; db e3
+       FIADD st(0), r/m(i32)                                             ; da /0=m; fpu
+       FIMUL st(0), r/m(i32)                                             ; da /1=m; fpu
+       FICOM st(0), r/m(i32)                                             ; da /2=m; fpu
+      FICOMP st(0), r/m(i32)                                             ; da /3=m; fpu
+       FISUB st(0), r/m(i32)                                             ; da /4=m; fpu
+      FISUBR st(0), r/m(i32)                                             ; da /5=m; fpu
+       FIDIV st(0), r/m(i32)                                             ; da /6=m; fpu
+      FIDIVR st(0), r/m(i32)                                             ; da /7=m; fpu
+      FCMOVB st(0), st(i)                                                ; da c0+i; i=0-7 fpu
+      FCMOVE st(0), st(i)                                                ; da c8+i; i=0-7 fpu
+     FCMOVBE st(0), st(i)                                                ; da d0+i; i=0-7 fpu
+      FCMOVU st(0), st(i)                                                ; da d8+i; i=0-7 fpu
+     FUCOMPP st(0), st(1)                                                ; da e9; fpu
+        FILD st(0), r/m(i32)                                             ; db /0=m; fpu
+        FIST r/m(i32), st(0)                                             ; db /2=m; fpu
+       FISTP r/m(i32), st(0)                                             ; db /3=m; fpu
+         FLD st(0), r/m(f80)                                             ; db /5=m; fpu
+        FSTP r/m(f80), st(0)                                             ; db /7=m; fpu
+     FCMOVNB st(0), st(i)                                                ; db c0+i; i=0-7 fpu
+     FCMOVNE st(0), st(i)                                                ; db c8+i; i=0-7 fpu
+    FCMOVNBE st(0), st(i)                                                ; db d0+i; i=0-7 fpu
+     FCMOVNU st(0), st(i)                                                ; db d8+i; i=0-7 fpu
+        FENI                                                             ; db e0; fpu
+       FDISI                                                             ; db e1; fpu
+      FNCLEX                                                             ; db e2; fpu
+      FNINIT                                                             ; db e3; fpu
       FSETPM                                                             ; db e4
-      FUCOMI st(0), st(i)                                                ; db e8+i; i=0-7
-       FCOMI st(0), st(i)                                                ; db f0+i; i=0-7
-        FADD st(0), r/m(f64)                                             ; dc /0=m
-        FMUL st(0), r/m(f64)                                             ; dc /1=m
-        FCOM st(0), r/m(f64)                                             ; dc /2=m
-       FCOMP st(0), r/m(f64)                                             ; dc /3=m
-        FSUB st(0), r/m(f64)                                             ; dc /4=m
-       FSUBR st(0), r/m(f64)                                             ; dc /5=m
-        FDIV st(0), r/m(f64)                                             ; dc /6=m
-       FDIVR st(0), r/m(f64)                                             ; dc /7=m
-        FADD st(i), st(0)                                                ; dc c0+i; i=0-7
-        FMUL st(i), st(0)                                                ; dc c8+i; i=0-7
-        FSUB st(i), st(0)                                                ; dc e0+i; i=0-7
-       FSUBR st(i), st(0)                                                ; dc e8+i; i=0-7
-        FDIV st(i), st(0)                                                ; dc f0+i; i=0-7
-       FDIVR st(i), st(0)                                                ; dc f8+i; i=0-7
-         FLD st(0), r/m(f64)                                             ; dd /0=m
-         FST r/m(f64), st(0)                                             ; dd /2=m
-        FSTP r/m(f64), st(0)                                             ; dd /3=m
-      FRSTOR r/m(f87state)                                               ; dd /4=m
-       FSAVE r/m(f87state)                                               ; dd /6=m
-       FSTSW r/m(u16)                                                    ; dd /7=m
-       FFREE st(i)                                                       ; dd c0+i; i=0-7
-         FST st(i), st(0)                                                ; dd d0+i; i=0-7
-        FSTP st(i), st(0)                                                ; dd d8+i; i=0-7
-       FUCOM st(0), st(i)                                                ; dd e0+rm
-      FUCOMP st(0), st(i)                                                ; dd e8+rm
-       FIADD st(0), r/m(i16)                                             ; de /0=m
-       FIMUL st(0), r/m(i16)                                             ; de /1=m
-       FICOM st(0), r/m(i16)                                             ; de /2=m
-      FICOMP st(0), r/m(i16)                                             ; de /3=m
-       FISUB st(0), r/m(i16)                                             ; de /4=m
-      FISUBR st(0), r/m(i16)                                             ; de /5=m
-       FIDIV st(0), r/m(i16)                                             ; de /6=m
-      FIDIVR st(0), r/m(i16)                                             ; de /7=m
-        FADD st(i), st(0)                                                ; de c0+i; i=0-7
-        FMUL st(i), st(0)                                                ; de c8+i; i=0-7
-      FCOMPP st(0), st(1)                                                ; de d9
-        FSUB st(i), st(0)                                                ; de e0+i; i=0-7
-       FSUBR st(i), st(0)                                                ; de e8+i; i=0-7
-        FDIV st(i), st(0)                                                ; de f0+i; i=0-7
-       FDIVR st(i), st(0)                                                ; de f8+i; i=0-7
-        FILD st(0), r/m(i16)                                             ; df /0=m
-        FIST r/m(i16), st(0)                                             ; df /2=m
-       FISTP r/m(i16), st(0)                                             ; df /3=m
-        FBLD st(0), r/m(fbcd)                                            ; df /4=m
-        FILD st(0), r/m(i64)                                             ; df /5=m
-       FBSTP r/m(fbcd), st(0)                                            ; df /6=m
-       FISTP r/m(i64), st(0)                                             ; df /7=m
-     FUCOMIP st(0), st(i)                                                ; df e8+i; i=0-7
-      FCOMIP st(0), st(i)                                                ; df f0+i; i=0-7
+      FUCOMI st(0), st(i)                                                ; db e8+i; i=0-7 fpu
+       FCOMI st(0), st(i)                                                ; db f0+i; i=0-7 fpu
+        FADD st(0), r/m(f64)                                             ; dc /0=m; fpu
+        FMUL st(0), r/m(f64)                                             ; dc /1=m; fpu
+        FCOM st(0), r/m(f64)                                             ; dc /2=m; fpu
+       FCOMP st(0), r/m(f64)                                             ; dc /3=m; fpu
+        FSUB st(0), r/m(f64)                                             ; dc /4=m; fpu
+       FSUBR st(0), r/m(f64)                                             ; dc /5=m; fpu
+        FDIV st(0), r/m(f64)                                             ; dc /6=m; fpu
+       FDIVR st(0), r/m(f64)                                             ; dc /7=m; fpu
+        FADD st(i), st(0)                                                ; dc c0+i; i=0-7 fpu
+        FMUL st(i), st(0)                                                ; dc c8+i; i=0-7 fpu
+        FSUB st(i), st(0)                                                ; dc e0+i; i=0-7 fpu
+       FSUBR st(i), st(0)                                                ; dc e8+i; i=0-7 fpu
+        FDIV st(i), st(0)                                                ; dc f0+i; i=0-7 fpu
+       FDIVR st(i), st(0)                                                ; dc f8+i; i=0-7 fpu
+         FLD st(0), r/m(f64)                                             ; dd /0=m; fpu
+         FST r/m(f64), st(0)                                             ; dd /2=m; fpu
+        FSTP r/m(f64), st(0)                                             ; dd /3=m; fpu
+      FRSTOR r/m(f87state)                                               ; dd /4=m; fpu
+       FSAVE r/m(f87state)                                               ; dd /6=m; fpu
+       FSTSW r/m(u16)                                                    ; dd /7=m; fpu
+       FFREE st(i)                                                       ; dd c0+i; i=0-7 fpu
+         FST st(i), st(0)                                                ; dd d0+i; i=0-7 fpu
+        FSTP st(i), st(0)                                                ; dd d8+i; i=0-7 fpu
+       FUCOM st(0), st(i)                                                ; dd e0+rm; fpu
+      FUCOMP st(0), st(i)                                                ; dd e8+rm; fpu
+       FIADD st(0), r/m(i16)                                             ; de /0=m; fpu
+       FIMUL st(0), r/m(i16)                                             ; de /1=m; fpu
+       FICOM st(0), r/m(i16)                                             ; de /2=m; fpu
+      FICOMP st(0), r/m(i16)                                             ; de /3=m; fpu
+       FISUB st(0), r/m(i16)                                             ; de /4=m; fpu
+      FISUBR st(0), r/m(i16)                                             ; de /5=m; fpu
+       FIDIV st(0), r/m(i16)                                             ; de /6=m; fpu
+      FIDIVR st(0), r/m(i16)                                             ; de /7=m; fpu
+        FADD st(i), st(0)                                                ; de c0+i; i=0-7 fpu
+        FMUL st(i), st(0)                                                ; de c8+i; i=0-7 fpu
+      FCOMPP st(0), st(1)                                                ; de d9; fpu
+        FSUB st(i), st(0)                                                ; de e0+i; i=0-7 fpu
+       FSUBR st(i), st(0)                                                ; de e8+i; i=0-7 fpu
+        FDIV st(i), st(0)                                                ; de f0+i; i=0-7 fpu
+       FDIVR st(i), st(0)                                                ; de f8+i; i=0-7 fpu
+        FILD st(0), r/m(i16)                                             ; df /0=m; fpu
+        FIST r/m(i16), st(0)                                             ; df /2=m; fpu
+       FISTP r/m(i16), st(0)                                             ; df /3=m; fpu
+        FBLD st(0), r/m(fbcd)                                            ; df /4=m; fpu
+        FILD st(0), r/m(i64)                                             ; df /5=m; fpu
+       FBSTP r/m(fbcd), st(0)                                            ; df /6=m; fpu
+       FISTP r/m(i64), st(0)                                             ; df /7=m; fpu
+     FUCOMIP st(0), st(i)                                                ; df e8+i; i=0-7 fpu
+      FCOMIP st(0), st(i)                                                ; df f0+i; i=0-7 fpu
       LOOPNZ N                                                           ; e0 P=imm(i8); N=(IPV+P)
        LOOPZ N                                                           ; e1 P=imm(i8); N=(IPV+P)
         LOOP N                                                           ; e2 P=imm(i8); N=(IPV+P)
@@ -748,47 +748,47 @@ Opcodes by byte:
         LOCK                                                    ; prefix ; f0
          INT 1                                                           ; f1
        REPNZ                                                    ; prefix ; f2
-       MOVSD xmm(reg), xmm(rm)                                           ; f2 0f 10 /r
-       MOVSD xmm(rm), xmm(reg)                                           ; f2 0f 11 /r
-    CVTSI2SD xmm(reg), r/m(u32)                                          ; f2 0f 2a /r
-   CVTTSD2SI reg(u32), xmm(rm)                                           ; f2 0f 2c /r
-    CVTSD2SI reg(u32), xmm(rm)                                           ; f2 0f 2d /r
-      SQRTSD xmm(reg), xmm(rm)                                           ; f2 0f 51 /r
-       ADDSD xmm(reg), xmm(rm)                                           ; f2 0f 58 /r
-       MULSD xmm(reg), xmm(rm)                                           ; f2 0f 59 /r
-    CVTSD2SS xmm(reg), xmm(rm)                                           ; f2 0f 5a /r
-       SUBSD xmm(reg), xmm(rm)                                           ; f2 0f 5c /r
-       MINSD xmm(reg), xmm(rm)                                           ; f2 0f 5d /r
-       DIVSD xmm(reg), xmm(rm)                                           ; f2 0f 5e /r
-       MAXSD xmm(reg), xmm(rm)                                           ; f2 0f 5f /r
+       MOVSD xmm(reg), xmm(rm)                                           ; f2 0f 10 /r; sse2
+       MOVSD xmm(rm), xmm(reg)                                           ; f2 0f 11 /r; sse2
+    CVTSI2SD xmm(reg), r/m(u32)                                          ; f2 0f 2a /r; sse2
+   CVTTSD2SI reg(u32), xmm(rm)                                           ; f2 0f 2c /r; sse2
+    CVTSD2SI reg(u32), xmm(rm)                                           ; f2 0f 2d /r; sse2
+      SQRTSD xmm(reg), xmm(rm)                                           ; f2 0f 51 /r; sse2
+       ADDSD xmm(reg), xmm(rm)                                           ; f2 0f 58 /r; sse2
+       MULSD xmm(reg), xmm(rm)                                           ; f2 0f 59 /r; sse2
+    CVTSD2SS xmm(reg), xmm(rm)                                           ; f2 0f 5a /r; sse2
+       SUBSD xmm(reg), xmm(rm)                                           ; f2 0f 5c /r; sse2
+       MINSD xmm(reg), xmm(rm)                                           ; f2 0f 5d /r; sse2
+       DIVSD xmm(reg), xmm(rm)                                           ; f2 0f 5e /r; sse2
+       MAXSD xmm(reg), xmm(rm)                                           ; f2 0f 5f /r; sse2
      PSHUFLW xmm(reg), xmm(rm), I                                        ; f2 0f 70 /r I=imm(u8)
-       CMPSD xmm(reg), xmm(rm), I                                        ; f2 0f c2 /r I=imm(u8)
-     MOVDQ2Q mm(rm), xmm(reg)                                            ; f2 0f d6 /r!m
-    CVTPD2DQ xmm(reg), xmm(rm)                                           ; f2 0f e6 /r
+       CMPSD xmm(reg), xmm(rm), I                                        ; f2 0f c2 /r I=imm(u8); sse2
+     MOVDQ2Q mm(rm), xmm(reg)                                            ; f2 0f d6 /r!m; sse2
+    CVTPD2DQ xmm(reg), xmm(rm)                                           ; f2 0f e6 /r; sse2
         REPZ                                                    ; prefix ; f3
-       MOVSS xmm(reg), xmm(rm)                                           ; f3 0f 10 /r
-       MOVSS xmm(rm), xmm(reg)                                           ; f3 0f 11 /r
-    CVTPI2SS xmm(reg), r/m(u32)                                          ; f3 0f 2a /r
-   CVTTSS2SI reg(u32), xmm(rm)                                           ; f3 0f 2c /r
-    CVTSS2SI reg(u32), xmm(rm)                                           ; f3 0f 2d /r
-      SQRTSS xmm(reg), xmm(rm)                                           ; f3 0f 51 /r
-     RSQRTSS xmm(reg), xmm(rm)                                           ; f3 0f 52 /r
-       RCPSS xmm(reg), xmm(rm)                                           ; f3 0f 53 /r
-       ADDSS xmm(reg), xmm(rm)                                           ; f3 0f 58 /r
-       MULSS xmm(reg), xmm(rm)                                           ; f3 0f 59 /r
-    CVTSS2SD xmm(reg), xmm(rm)                                           ; f3 0f 5a /r
-   CVTTPS2DQ xmm(reg), xmm(rm)                                           ; f3 0f 5b /r
-       SUBSS xmm(reg), xmm(rm)                                           ; f3 0f 5c /r
-       MINSS xmm(reg), xmm(rm)                                           ; f3 0f 5d /r
-       DIVSS xmm(reg), xmm(rm)                                           ; f3 0f 5e /r
-       MAXSS xmm(reg), xmm(rm)                                           ; f3 0f 5f /r
-      MOVDQU xmm(reg), xmm(rm)                                           ; f3 0f 6f /r
+       MOVSS xmm(reg), xmm(rm)                                           ; f3 0f 10 /r; sse
+       MOVSS xmm(rm), xmm(reg)                                           ; f3 0f 11 /r; sse
+    CVTPI2SS xmm(reg), r/m(u32)                                          ; f3 0f 2a /r; sse
+   CVTTSS2SI reg(u32), xmm(rm)                                           ; f3 0f 2c /r; sse
+    CVTSS2SI reg(u32), xmm(rm)                                           ; f3 0f 2d /r; sse
+      SQRTSS xmm(reg), xmm(rm)                                           ; f3 0f 51 /r; sse
+     RSQRTSS xmm(reg), xmm(rm)                                           ; f3 0f 52 /r; sse
+       RCPSS xmm(reg), xmm(rm)                                           ; f3 0f 53 /r; sse
+       ADDSS xmm(reg), xmm(rm)                                           ; f3 0f 58 /r; sse
+       MULSS xmm(reg), xmm(rm)                                           ; f3 0f 59 /r; sse
+    CVTSS2SD xmm(reg), xmm(rm)                                           ; f3 0f 5a /r; sse2
+   CVTTPS2DQ xmm(reg), xmm(rm)                                           ; f3 0f 5b /r; sse2
+       SUBSS xmm(reg), xmm(rm)                                           ; f3 0f 5c /r; sse
+       MINSS xmm(reg), xmm(rm)                                           ; f3 0f 5d /r; sse
+       DIVSS xmm(reg), xmm(rm)                                           ; f3 0f 5e /r; sse
+       MAXSS xmm(reg), xmm(rm)                                           ; f3 0f 5f /r; sse
+      MOVDQU xmm(reg), xmm(rm)                                           ; f3 0f 6f /r; sse2
      PSHUFHW xmm(reg), xmm(rm), I                                        ; f3 0f 70 /r I=imm(u8)
-        MOVQ xmm(reg), xmm(rm)                                           ; f3 0f 7e /r
-      MOVDQU xmm(rm), xmm(reg)                                           ; f3 0f 7f /r
-       CMPSS xmm(reg), xmm(rm), I                                        ; f3 0f c2 /r I=imm(u8)
-     MOVQ2DQ xmm(rm), mm(reg)                                            ; f3 0f d6 /r!m
-    CVTDQ2PD xmm(reg), xmm(rm)                                           ; f3 0f e6 /r
+        MOVQ xmm(reg), xmm(rm)                                           ; f3 0f 7e /r; sse2
+      MOVDQU xmm(rm), xmm(reg)                                           ; f3 0f 7f /r; sse2
+       CMPSS xmm(reg), xmm(rm), I                                        ; f3 0f c2 /r I=imm(u8); sse
+     MOVQ2DQ xmm(rm), mm(reg)                                            ; f3 0f d6 /r!m; sse2
+    CVTDQ2PD xmm(reg), xmm(rm)                                           ; f3 0f e6 /r; sse2
        PAUSE                                                             ; f3 90
          HLT                                                             ; f4
          CMC                                                             ; f5
@@ -848,10 +848,10 @@ Opcodes by name:
          ADD r/m(uv), I                                                  ; 81 /0 I=imm(uv)
          ADD r/m(u8), I                                                  ; 82 /0 I=imm(u8)
          ADD r/m(uv), I                                                  ; 83 /0 I=imm(i8)
-       ADDPD xmm(reg), xmm(rm)                                           ; 66 0f 58 /r
-       ADDPS xmm(reg), xmm(rm)                                           ; 0f 58 /r
-       ADDSD xmm(reg), xmm(rm)                                           ; f2 0f 58 /r
-       ADDSS xmm(reg), xmm(rm)                                           ; f3 0f 58 /r
+       ADDPD xmm(reg), xmm(rm)                                           ; 66 0f 58 /r; sse2
+       ADDPS xmm(reg), xmm(rm)                                           ; 0f 58 /r; sse
+       ADDSD xmm(reg), xmm(rm)                                           ; f2 0f 58 /r; sse2
+       ADDSS xmm(reg), xmm(rm)                                           ; f3 0f 58 /r; sse
         ADSZ                                                    ; prefix ; 67
          AND r/m(u8), reg(u8)                                            ; 20 /r
          AND r/m(uv), reg(uv)                                            ; 21 /r
@@ -863,10 +863,10 @@ Opcodes by name:
          AND r/m(uv), I                                                  ; 81 /4 I=imm(uv)
          AND r/m(u8), I                                                  ; 82 /4 I=imm(u8)
          AND r/m(uv), I                                                  ; 83 /4 I=imm(i8)
-      ANDNPD xmm(reg), xmm(rm)                                           ; 66 0f 55 /r
-      ANDNPS xmm(reg), xmm(rm)                                           ; 0f 55 /r
-       ANDPD xmm(reg), xmm(rm)                                           ; 66 0f 54 /r
-       ANDPS xmm(reg), xmm(rm)                                           ; 0f 54 /r
+      ANDNPD xmm(reg), xmm(rm)                                           ; 66 0f 55 /r; sse2
+      ANDNPS xmm(reg), xmm(rm)                                           ; 0f 55 /r; sse
+       ANDPD xmm(reg), xmm(rm)                                           ; 66 0f 54 /r; sse2
+       ANDPS xmm(reg), xmm(rm)                                           ; 0f 54 /r; sse
         ARPL r/m(uv), reg(uv)                                            ; 63 /r
        BOUND reg(uv), r/m(uv)                                            ; 62 /r
          BSF reg(uv), r/m(uv)                                            ; 0f bc /r
@@ -917,41 +917,41 @@ Opcodes by name:
          CMP r/m(uv), I                                                  ; 81 /7 I=imm(uv)
          CMP r/m(u8), I                                                  ; 82 /7 I=imm(u8)
          CMP r/m(uv), I                                                  ; 83 /7 I=imm(i8)
-       CMPPD xmm(reg), xmm(rm), I                                        ; 66 0f c2 /r I=imm(u8)
-       CMPPS xmm(reg), xmm(rm), I                                        ; 0f c2 /r I=imm(u8)
+       CMPPD xmm(reg), xmm(rm), I                                        ; 66 0f c2 /r I=imm(u8); sse2
+       CMPPS xmm(reg), xmm(rm), I                                        ; 0f c2 /r I=imm(u8); sse
         CMPS u8 ES:[DIV], u8 [SIV]                                       ; a6
         CMPS uv ES:[DIV], uv [SIV]                                       ; a7
-       CMPSD xmm(reg), xmm(rm), I                                        ; f2 0f c2 /r I=imm(u8)
-       CMPSS xmm(reg), xmm(rm), I                                        ; f3 0f c2 /r I=imm(u8)
+       CMPSD xmm(reg), xmm(rm), I                                        ; f2 0f c2 /r I=imm(u8); sse2
+       CMPSS xmm(reg), xmm(rm), I                                        ; f3 0f c2 /r I=imm(u8); sse
      CMPXCHG r/m(u8), reg(u8)                                            ; 0f b0 /r
      CMPXCHG r/m(uv), reg(uv)                                            ; 0f b1 /r
    CMPXCHG8B r/m(u64)                                                    ; 0f c7 /1=m
-      COMISD xmm(reg), xmm(rm)                                           ; 66 0f 2f /r
-      COMISS xmm(reg), xmm(rm)                                           ; 0f 2f /r
+      COMISD xmm(reg), xmm(rm)                                           ; 66 0f 2f /r; sse2
+      COMISS xmm(reg), xmm(rm)                                           ; 0f 2f /r; sse
        CPUID                                                             ; 0f a2
          CS:                                                    ; prefix ; 2e
-    CVTDQ2PD xmm(reg), xmm(rm)                                           ; f3 0f e6 /r
-    CVTDQ2PS xmm(reg), xmm(rm)                                           ; 0f 5b /r
-    CVTPD2DQ xmm(reg), xmm(rm)                                           ; f2 0f e6 /r
-    CVTPD2PI mm(reg), xmm(rm)                                            ; 66 0f 2d /r
-    CVTPD2PS xmm(reg), xmm(rm)                                           ; 66 0f 5a /r
-    CVTPI2PD xmm(reg), mm(rm)                                            ; 66 0f 2a /r
-    CVTPI2PS xmm(reg), mm(rm)                                            ; 0f 2a /r
-    CVTPI2SS xmm(reg), r/m(u32)                                          ; f3 0f 2a /r
-    CVTPS2DQ xmm(reg), xmm(rm)                                           ; 66 0f 5b /r
-    CVTPS2PD xmm(reg), xmm(rm)                                           ; 0f 5a /r
-    CVTPS2PI mm(reg), xmm(rm)                                            ; 0f 2d /r
-    CVTSD2SI reg(u32), xmm(rm)                                           ; f2 0f 2d /r
-    CVTSD2SS xmm(reg), xmm(rm)                                           ; f2 0f 5a /r
-    CVTSI2SD xmm(reg), r/m(u32)                                          ; f2 0f 2a /r
-    CVTSS2SD xmm(reg), xmm(rm)                                           ; f3 0f 5a /r
-    CVTSS2SI reg(u32), xmm(rm)                                           ; f3 0f 2d /r
-   CVTTPD2DQ xmm(reg), xmm(rm)                                           ; 66 0f e6 /r
-   CVTTPD2PI mm(reg), xmm(rm)                                            ; 66 0f 2c /r
-   CVTTPS2DQ xmm(reg), xmm(rm)                                           ; f3 0f 5b /r
-   CVTTPS2PI mm(reg), xmm(rm)                                            ; 0f 2c /r
-   CVTTSD2SI reg(u32), xmm(rm)                                           ; f2 0f 2c /r
-   CVTTSS2SI reg(u32), xmm(rm)                                           ; f3 0f 2c /r
+    CVTDQ2PD xmm(reg), xmm(rm)                                           ; f3 0f e6 /r; sse2
+    CVTDQ2PS xmm(reg), xmm(rm)                                           ; 0f 5b /r; sse2
+    CVTPD2DQ xmm(reg), xmm(rm)                                           ; f2 0f e6 /r; sse2
+    CVTPD2PI mm(reg), xmm(rm)                                            ; 66 0f 2d /r; sse2
+    CVTPD2PS xmm(reg), xmm(rm)                                           ; 66 0f 5a /r; sse2
+    CVTPI2PD xmm(reg), mm(rm)                                            ; 66 0f 2a /r; sse2
+    CVTPI2PS xmm(reg), mm(rm)                                            ; 0f 2a /r; sse
+    CVTPI2SS xmm(reg), r/m(u32)                                          ; f3 0f 2a /r; sse
+    CVTPS2DQ xmm(reg), xmm(rm)                                           ; 66 0f 5b /r; sse2
+    CVTPS2PD xmm(reg), xmm(rm)                                           ; 0f 5a /r; sse2
+    CVTPS2PI mm(reg), xmm(rm)                                            ; 0f 2d /r; sse
+    CVTSD2SI reg(u32), xmm(rm)                                           ; f2 0f 2d /r; sse2
+    CVTSD2SS xmm(reg), xmm(rm)                                           ; f2 0f 5a /r; sse2
+    CVTSI2SD xmm(reg), r/m(u32)                                          ; f2 0f 2a /r; sse2
+    CVTSS2SD xmm(reg), xmm(rm)                                           ; f3 0f 5a /r; sse2
+    CVTSS2SI reg(u32), xmm(rm)                                           ; f3 0f 2d /r; sse
+   CVTTPD2DQ xmm(reg), xmm(rm)                                           ; 66 0f e6 /r; sse2
+   CVTTPD2PI mm(reg), xmm(rm)                                            ; 66 0f 2c /r; sse2
+   CVTTPS2DQ xmm(reg), xmm(rm)                                           ; f3 0f 5b /r; sse2
+   CVTTPS2PI mm(reg), xmm(rm)                                            ; 0f 2c /r; sse
+   CVTTSD2SI reg(u32), xmm(rm)                                           ; f2 0f 2c /r; sse2
+   CVTTSS2SI reg(u32), xmm(rm)                                           ; f3 0f 2c /r; sse
          CWD                                                             ; 99
          DAA                                                             ; 27
          DAS                                                             ; 2f
@@ -960,151 +960,151 @@ Opcodes by name:
          DEC r/m(uv)                                                     ; ff /1
          DIV r/m(u8)                                                     ; f6 /6
          DIV r/m(uv)                                                     ; f7 /6
-       DIVPD xmm(reg), xmm(rm)                                           ; 66 0f 5e /r
-       DIVPS xmm(reg), xmm(rm)                                           ; 0f 5e /r
-       DIVSD xmm(reg), xmm(rm)                                           ; f2 0f 5e /r
-       DIVSS xmm(reg), xmm(rm)                                           ; f3 0f 5e /r
+       DIVPD xmm(reg), xmm(rm)                                           ; 66 0f 5e /r; sse2
+       DIVPS xmm(reg), xmm(rm)                                           ; 0f 5e /r; sse
+       DIVSD xmm(reg), xmm(rm)                                           ; f2 0f 5e /r; sse2
+       DIVSS xmm(reg), xmm(rm)                                           ; f3 0f 5e /r; sse
          DS:                                                    ; prefix ; 3e
-        EMMS                                                             ; 0f 77
+        EMMS                                                             ; 0f 77; fpu
        ENTER A, L                                                        ; c8 A=imm(u16) L=imm(u8)
          ES:                                                    ; prefix ; 26
-       F2XM1 st(0), st(0)                                                ; d9 f0
-        FABS st(0), st(0)                                                ; d9 e1
-        FADD st(0), r/m(f32)                                             ; d8 /0=m
-        FADD st(0), st(i)                                                ; d8 c0+i; i=0-7
-        FADD st(0), r/m(f64)                                             ; dc /0=m
-        FADD st(i), st(0)                                                ; dc c0+i; i=0-7
-        FADD st(i), st(0)                                                ; de c0+i; i=0-7
-        FBLD st(0), r/m(fbcd)                                            ; df /4=m
-       FBSTP r/m(fbcd), st(0)                                            ; df /6=m
-        FCHS st(0), st(0)                                                ; d9 e0
-       FCLEX                                                             ; 9b db e2
-      FCMOVB st(0), st(i)                                                ; da c0+i; i=0-7
-     FCMOVBE st(0), st(i)                                                ; da d0+i; i=0-7
-      FCMOVE st(0), st(i)                                                ; da c8+i; i=0-7
-     FCMOVNB st(0), st(i)                                                ; db c0+i; i=0-7
-    FCMOVNBE st(0), st(i)                                                ; db d0+i; i=0-7
-     FCMOVNE st(0), st(i)                                                ; db c8+i; i=0-7
-     FCMOVNU st(0), st(i)                                                ; db d8+i; i=0-7
-      FCMOVU st(0), st(i)                                                ; da d8+i; i=0-7
-        FCOM st(0), r/m(f32)                                             ; d8 /2=m
-        FCOM st(0), st(i)                                                ; d8 d0+i; i=0-7
-        FCOM st(0), r/m(f64)                                             ; dc /2=m
-       FCOMI st(0), st(i)                                                ; db f0+i; i=0-7
-      FCOMIP st(0), st(i)                                                ; df f0+i; i=0-7
-       FCOMP st(0), r/m(f32)                                             ; d8 /3=m
-       FCOMP st(0), st(i)                                                ; d8 d8+i; i=0-7
-       FCOMP st(0), r/m(f64)                                             ; dc /3=m
-      FCOMPP st(0), st(1)                                                ; de d9
+       F2XM1 st(0), st(0)                                                ; d9 f0; fpu
+        FABS st(0), st(0)                                                ; d9 e1; fpu
+        FADD st(0), r/m(f32)                                             ; d8 /0=m; fpu
+        FADD st(0), st(i)                                                ; d8 c0+i; i=0-7 fpu
+        FADD st(0), r/m(f64)                                             ; dc /0=m; fpu
+        FADD st(i), st(0)                                                ; dc c0+i; i=0-7 fpu
+        FADD st(i), st(0)                                                ; de c0+i; i=0-7 fpu
+        FBLD st(0), r/m(fbcd)                                            ; df /4=m; fpu
+       FBSTP r/m(fbcd), st(0)                                            ; df /6=m; fpu
+        FCHS st(0), st(0)                                                ; d9 e0; fpu
+       FCLEX                                                             ; 9b db e2; fpu
+      FCMOVB st(0), st(i)                                                ; da c0+i; i=0-7 fpu
+     FCMOVBE st(0), st(i)                                                ; da d0+i; i=0-7 fpu
+      FCMOVE st(0), st(i)                                                ; da c8+i; i=0-7 fpu
+     FCMOVNB st(0), st(i)                                                ; db c0+i; i=0-7 fpu
+    FCMOVNBE st(0), st(i)                                                ; db d0+i; i=0-7 fpu
+     FCMOVNE st(0), st(i)                                                ; db c8+i; i=0-7 fpu
+     FCMOVNU st(0), st(i)                                                ; db d8+i; i=0-7 fpu
+      FCMOVU st(0), st(i)                                                ; da d8+i; i=0-7 fpu
+        FCOM st(0), r/m(f32)                                             ; d8 /2=m; fpu
+        FCOM st(0), st(i)                                                ; d8 d0+i; i=0-7 fpu
+        FCOM st(0), r/m(f64)                                             ; dc /2=m; fpu
+       FCOMI st(0), st(i)                                                ; db f0+i; i=0-7 fpu
+      FCOMIP st(0), st(i)                                                ; df f0+i; i=0-7 fpu
+       FCOMP st(0), r/m(f32)                                             ; d8 /3=m; fpu
+       FCOMP st(0), st(i)                                                ; d8 d8+i; i=0-7 fpu
+       FCOMP st(0), r/m(f64)                                             ; dc /3=m; fpu
+      FCOMPP st(0), st(1)                                                ; de d9; fpu
         FCOS st(0), st(0)                                                ; d9 ff
-     FDECSTP                                                             ; d9 f6
-       FDISI                                                             ; db e1
-        FDIV st(0), r/m(f32)                                             ; d8 /6=m
-        FDIV st(0), st(i)                                                ; d8 f0+i; i=0-7
-        FDIV st(0), r/m(f64)                                             ; dc /6=m
-        FDIV st(i), st(0)                                                ; dc f0+i; i=0-7
-        FDIV st(i), st(0)                                                ; de f0+i; i=0-7
-       FDIVR st(0), r/m(f32)                                             ; d8 /7=m
-       FDIVR st(0), st(i)                                                ; d8 f8+i; i=0-7
-       FDIVR st(0), r/m(f64)                                             ; dc /7=m
-       FDIVR st(i), st(0)                                                ; dc f8+i; i=0-7
-       FDIVR st(i), st(0)                                                ; de f8+i; i=0-7
-       FEMMS                                                             ; 0f 0e
-        FENI                                                             ; db e0
-       FFREE st(i)                                                       ; dd c0+i; i=0-7
-       FIADD st(0), r/m(i32)                                             ; da /0=m
-       FIADD st(0), r/m(i16)                                             ; de /0=m
-       FICOM st(0), r/m(i32)                                             ; da /2=m
-       FICOM st(0), r/m(i16)                                             ; de /2=m
-      FICOMP st(0), r/m(i32)                                             ; da /3=m
-      FICOMP st(0), r/m(i16)                                             ; de /3=m
-       FIDIV st(0), r/m(i32)                                             ; da /6=m
-       FIDIV st(0), r/m(i16)                                             ; de /6=m
-      FIDIVR st(0), r/m(i32)                                             ; da /7=m
-      FIDIVR st(0), r/m(i16)                                             ; de /7=m
-        FILD st(0), r/m(i32)                                             ; db /0=m
-        FILD st(0), r/m(i16)                                             ; df /0=m
-        FILD st(0), r/m(i64)                                             ; df /5=m
-       FIMUL st(0), r/m(i32)                                             ; da /1=m
-       FIMUL st(0), r/m(i16)                                             ; de /1=m
-     FINCSTP                                                             ; d9 f7
-       FINIT                                                             ; 9b db e3
-        FIST r/m(i32), st(0)                                             ; db /2=m
-        FIST r/m(i16), st(0)                                             ; df /2=m
-       FISTP r/m(i32), st(0)                                             ; db /3=m
-       FISTP r/m(i16), st(0)                                             ; df /3=m
-       FISTP r/m(i64), st(0)                                             ; df /7=m
-       FISUB st(0), r/m(i32)                                             ; da /4=m
-       FISUB st(0), r/m(i16)                                             ; de /4=m
-      FISUBR st(0), r/m(i32)                                             ; da /5=m
-      FISUBR st(0), r/m(i16)                                             ; de /5=m
-         FLD st(0), r/m(f32)                                             ; d9 /0=m
-         FLD st(0), st(i)                                                ; d9 c0+i; i=0-7
-         FLD st(0), r/m(f80)                                             ; db /5=m
-         FLD st(0), r/m(f64)                                             ; dd /0=m
-        FLD1 st(0), 1                                                    ; d9 e8
-       FLDCW r/m(u16)                                                    ; d9 /5=m
-      FLDENV r/m(f87env)                                                 ; d9 /4=m
-      FLDL2E st(0), const("log2(e)")                                     ; d9 ea
-      FLDL2T st(0), const("log2(10)")                                    ; d9 e9
-      FLDLG2 st(0), const("log10(2)")                                    ; d9 ec
-      FLDLN2 st(0), const("loge(2)")                                     ; d9 ed
-       FLDPI st(0), const("pi")                                          ; d9 eb
-        FLDZ st(0), 0                                                    ; d9 ee
-        FMUL st(0), r/m(f32)                                             ; d8 /1=m
-        FMUL st(0), st(i)                                                ; d8 c8+i; i=0-7
-        FMUL st(0), r/m(f64)                                             ; dc /1=m
-        FMUL st(i), st(0)                                                ; dc c8+i; i=0-7
-        FMUL st(i), st(0)                                                ; de c8+i; i=0-7
-      FNCLEX                                                             ; db e2
-      FNINIT                                                             ; db e3
-        FNOP                                                             ; d9 d0
-      FPATAN st(1), st(0), st(1)                                         ; d9 f3
-       FPREM st(0), st(0), st(1)                                         ; d9 f8
-      FPREM1 st(0), st(0), st(1)                                         ; d9 f5
-       FPTAN st(0), st(0)                                                ; d9 f2
-     FRNDINT st(0), st(0)                                                ; d9 fc
-      FRSTOR r/m(f87state)                                               ; dd /4=m
+     FDECSTP                                                             ; d9 f6; fpu
+       FDISI                                                             ; db e1; fpu
+        FDIV st(0), r/m(f32)                                             ; d8 /6=m; fpu
+        FDIV st(0), st(i)                                                ; d8 f0+i; i=0-7 fpu
+        FDIV st(0), r/m(f64)                                             ; dc /6=m; fpu
+        FDIV st(i), st(0)                                                ; dc f0+i; i=0-7 fpu
+        FDIV st(i), st(0)                                                ; de f0+i; i=0-7 fpu
+       FDIVR st(0), r/m(f32)                                             ; d8 /7=m; fpu
+       FDIVR st(0), st(i)                                                ; d8 f8+i; i=0-7 fpu
+       FDIVR st(0), r/m(f64)                                             ; dc /7=m; fpu
+       FDIVR st(i), st(0)                                                ; dc f8+i; i=0-7 fpu
+       FDIVR st(i), st(0)                                                ; de f8+i; i=0-7 fpu
+       FEMMS                                                             ; 0f 0e; 3dnow
+        FENI                                                             ; db e0; fpu
+       FFREE st(i)                                                       ; dd c0+i; i=0-7 fpu
+       FIADD st(0), r/m(i32)                                             ; da /0=m; fpu
+       FIADD st(0), r/m(i16)                                             ; de /0=m; fpu
+       FICOM st(0), r/m(i32)                                             ; da /2=m; fpu
+       FICOM st(0), r/m(i16)                                             ; de /2=m; fpu
+      FICOMP st(0), r/m(i32)                                             ; da /3=m; fpu
+      FICOMP st(0), r/m(i16)                                             ; de /3=m; fpu
+       FIDIV st(0), r/m(i32)                                             ; da /6=m; fpu
+       FIDIV st(0), r/m(i16)                                             ; de /6=m; fpu
+      FIDIVR st(0), r/m(i32)                                             ; da /7=m; fpu
+      FIDIVR st(0), r/m(i16)                                             ; de /7=m; fpu
+        FILD st(0), r/m(i32)                                             ; db /0=m; fpu
+        FILD st(0), r/m(i16)                                             ; df /0=m; fpu
+        FILD st(0), r/m(i64)                                             ; df /5=m; fpu
+       FIMUL st(0), r/m(i32)                                             ; da /1=m; fpu
+       FIMUL st(0), r/m(i16)                                             ; de /1=m; fpu
+     FINCSTP                                                             ; d9 f7; fpu
+       FINIT                                                             ; 9b db e3; fpu
+        FIST r/m(i32), st(0)                                             ; db /2=m; fpu
+        FIST r/m(i16), st(0)                                             ; df /2=m; fpu
+       FISTP r/m(i32), st(0)                                             ; db /3=m; fpu
+       FISTP r/m(i16), st(0)                                             ; df /3=m; fpu
+       FISTP r/m(i64), st(0)                                             ; df /7=m; fpu
+       FISUB st(0), r/m(i32)                                             ; da /4=m; fpu
+       FISUB st(0), r/m(i16)                                             ; de /4=m; fpu
+      FISUBR st(0), r/m(i32)                                             ; da /5=m; fpu
+      FISUBR st(0), r/m(i16)                                             ; de /5=m; fpu
+         FLD st(0), r/m(f32)                                             ; d9 /0=m; fpu
+         FLD st(0), st(i)                                                ; d9 c0+i; i=0-7 fpu
+         FLD st(0), r/m(f80)                                             ; db /5=m; fpu
+         FLD st(0), r/m(f64)                                             ; dd /0=m; fpu
+        FLD1 st(0), 1                                                    ; d9 e8; fpu
+       FLDCW r/m(u16)                                                    ; d9 /5=m; fpu
+      FLDENV r/m(f87env)                                                 ; d9 /4=m; fpu
+      FLDL2E st(0), const("log2(e)")                                     ; d9 ea; fpu
+      FLDL2T st(0), const("log2(10)")                                    ; d9 e9; fpu
+      FLDLG2 st(0), const("log10(2)")                                    ; d9 ec; fpu
+      FLDLN2 st(0), const("loge(2)")                                     ; d9 ed; fpu
+       FLDPI st(0), const("pi")                                          ; d9 eb; fpu
+        FLDZ st(0), 0                                                    ; d9 ee; fpu
+        FMUL st(0), r/m(f32)                                             ; d8 /1=m; fpu
+        FMUL st(0), st(i)                                                ; d8 c8+i; i=0-7 fpu
+        FMUL st(0), r/m(f64)                                             ; dc /1=m; fpu
+        FMUL st(i), st(0)                                                ; dc c8+i; i=0-7 fpu
+        FMUL st(i), st(0)                                                ; de c8+i; i=0-7 fpu
+      FNCLEX                                                             ; db e2; fpu
+      FNINIT                                                             ; db e3; fpu
+        FNOP                                                             ; d9 d0; fpu
+      FPATAN st(1), st(0), st(1)                                         ; d9 f3; fpu
+       FPREM st(0), st(0), st(1)                                         ; d9 f8; fpu
+      FPREM1 st(0), st(0), st(1)                                         ; d9 f5; fpu
+       FPTAN st(0), st(0)                                                ; d9 f2; fpu
+     FRNDINT st(0), st(0)                                                ; d9 fc; fpu
+      FRSTOR r/m(f87state)                                               ; dd /4=m; fpu
          FS:                                                    ; prefix ; 64
-       FSAVE r/m(f87state)                                               ; dd /6=m
-      FSCALE st(0), st(0), st(1)                                         ; d9 fd
+       FSAVE r/m(f87state)                                               ; dd /6=m; fpu
+      FSCALE st(0), st(0), st(1)                                         ; d9 fd; fpu
       FSETPM                                                             ; db e4
         FSIN st(0), st(0)                                                ; d9 fe
      FSINCOS st(0), st(0)                                                ; d9 fb
-       FSQRT st(0), st(0)                                                ; d9 fa
-         FST r/m(f32), st(0)                                             ; d9 /2=m
-         FST r/m(f64), st(0)                                             ; dd /2=m
-         FST st(i), st(0)                                                ; dd d0+i; i=0-7
-       FSTCW r/m(u16)                                                    ; d9 /7=m
-      FSTENV r/m(f87env)                                                 ; d9 /6=m
-        FSTP r/m(f32), st(0)                                             ; d9 /3=m
-        FSTP r/m(f80), st(0)                                             ; db /7=m
-        FSTP r/m(f64), st(0)                                             ; dd /3=m
-        FSTP st(i), st(0)                                                ; dd d8+i; i=0-7
-       FSTSW r/m(u16)                                                    ; dd /7=m
-        FSUB st(0), r/m(f32)                                             ; d8 /4=m
-        FSUB st(0), st(i)                                                ; d8 e0+i; i=0-7
-        FSUB st(0), r/m(f64)                                             ; dc /4=m
-        FSUB st(i), st(0)                                                ; dc e0+i; i=0-7
-        FSUB st(i), st(0)                                                ; de e0+i; i=0-7
-       FSUBR st(0), r/m(f32)                                             ; d8 /5=m
-       FSUBR st(0), st(i)                                                ; d8 e8+i; i=0-7
-       FSUBR st(0), r/m(f64)                                             ; dc /5=m
-       FSUBR st(i), st(0)                                                ; dc e8+i; i=0-7
-       FSUBR st(i), st(0)                                                ; de e8+i; i=0-7
-        FTST st(0)                                                       ; d9 e4
-       FUCOM st(0), st(i)                                                ; dd e0+rm
-      FUCOMI st(0), st(i)                                                ; db e8+i; i=0-7
-     FUCOMIP st(0), st(i)                                                ; df e8+i; i=0-7
-      FUCOMP st(0), st(i)                                                ; dd e8+rm
-     FUCOMPP st(0), st(1)                                                ; da e9
-        FXAM st(0)                                                       ; d9 e5
-        FXCH st(0), st(i)                                                ; d9 c8+i; i=0-7
+       FSQRT st(0), st(0)                                                ; d9 fa; fpu
+         FST r/m(f32), st(0)                                             ; d9 /2=m; fpu
+         FST r/m(f64), st(0)                                             ; dd /2=m; fpu
+         FST st(i), st(0)                                                ; dd d0+i; i=0-7 fpu
+       FSTCW r/m(u16)                                                    ; d9 /7=m; fpu
+      FSTENV r/m(f87env)                                                 ; d9 /6=m; fpu
+        FSTP r/m(f32), st(0)                                             ; d9 /3=m; fpu
+        FSTP r/m(f80), st(0)                                             ; db /7=m; fpu
+        FSTP r/m(f64), st(0)                                             ; dd /3=m; fpu
+        FSTP st(i), st(0)                                                ; dd d8+i; i=0-7 fpu
+       FSTSW r/m(u16)                                                    ; dd /7=m; fpu
+        FSUB st(0), r/m(f32)                                             ; d8 /4=m; fpu
+        FSUB st(0), st(i)                                                ; d8 e0+i; i=0-7 fpu
+        FSUB st(0), r/m(f64)                                             ; dc /4=m; fpu
+        FSUB st(i), st(0)                                                ; dc e0+i; i=0-7 fpu
+        FSUB st(i), st(0)                                                ; de e0+i; i=0-7 fpu
+       FSUBR st(0), r/m(f32)                                             ; d8 /5=m; fpu
+       FSUBR st(0), st(i)                                                ; d8 e8+i; i=0-7 fpu
+       FSUBR st(0), r/m(f64)                                             ; dc /5=m; fpu
+       FSUBR st(i), st(0)                                                ; dc e8+i; i=0-7 fpu
+       FSUBR st(i), st(0)                                                ; de e8+i; i=0-7 fpu
+        FTST st(0)                                                       ; d9 e4; fpu
+       FUCOM st(0), st(i)                                                ; dd e0+rm; fpu
+      FUCOMI st(0), st(i)                                                ; db e8+i; i=0-7 fpu
+     FUCOMIP st(0), st(i)                                                ; df e8+i; i=0-7 fpu
+      FUCOMP st(0), st(i)                                                ; dd e8+rm; fpu
+     FUCOMPP st(0), st(1)                                                ; da e9; fpu
+        FXAM st(0)                                                       ; d9 e5; fpu
+        FXCH st(0), st(i)                                                ; d9 c8+i; i=0-7 fpu
      FXRSTOR r/m(f87state)                                               ; 0f ae /1=m
       FXSAVE r/m(f87state)                                               ; 0f ae /0=m
-     FXTRACT st(0), st(0), st(1)                                         ; d9 f4
-       FYL2X st(0), st(0), st(1)                                         ; d9 f1
-     FYL2XP1 st(0), st(0), st(1)                                         ; d9 f9
+     FXTRACT st(0), st(0), st(1)                                         ; d9 f4; fpu
+       FYL2X st(0), st(0), st(1)                                         ; d9 f1; fpu
+     FYL2XP1 st(0), st(0), st(1)                                         ; d9 f9; fpu
          GS:                                                    ; prefix ; 65
          HLT                                                             ; f4
         IDIV r/m(u8)                                                     ; f6 /7
@@ -1187,17 +1187,17 @@ Opcodes by name:
        LOOPZ N                                                           ; e1 P=imm(i8); N=(IPV+P)
          LSL reg(uv), r/m(uv)                                            ; 0f 03 /r
          LTR r/m(uv)                                                     ; 0f 00 /3
-  MASKMOVDQU xmm(rm), xmm(reg)                                           ; 66 0f f7 /r
+  MASKMOVDQU xmm(rm), xmm(reg)                                           ; 66 0f f7 /r; sse2
     MASKMOVQ u64 [DIV], mm(reg), mm(rm)                                  ; 0f f7 /r
-       MAXPD xmm(reg), xmm(rm)                                           ; 66 0f 5f /r
-       MAXPS xmm(reg), xmm(rm)                                           ; 0f 5f /r
-       MAXSD xmm(reg), xmm(rm)                                           ; f2 0f 5f /r
-       MAXSS xmm(reg), xmm(rm)                                           ; f3 0f 5f /r
+       MAXPD xmm(reg), xmm(rm)                                           ; 66 0f 5f /r; sse2
+       MAXPS xmm(reg), xmm(rm)                                           ; 0f 5f /r; sse
+       MAXSD xmm(reg), xmm(rm)                                           ; f2 0f 5f /r; sse2
+       MAXSS xmm(reg), xmm(rm)                                           ; f3 0f 5f /r; sse
       MFENCE                                                             ; 0f ae f0
-       MINPD xmm(reg), xmm(rm)                                           ; 66 0f 5d /r
-       MINPS xmm(reg), xmm(rm)                                           ; 0f 5d /r
-       MINSD xmm(reg), xmm(rm)                                           ; f2 0f 5d /r
-       MINSS xmm(reg), xmm(rm)                                           ; f3 0f 5d /r
+       MINPD xmm(reg), xmm(rm)                                           ; 66 0f 5d /r; sse2
+       MINPS xmm(reg), xmm(rm)                                           ; 0f 5d /r; sse
+       MINSD xmm(reg), xmm(rm)                                           ; f2 0f 5d /r; sse2
+       MINSS xmm(reg), xmm(rm)                                           ; f3 0f 5d /r; sse
          MOV r/m(u32), cr(reg)                                           ; 0f 20 /r!m
          MOV r/m(u32), dr(reg)                                           ; 0f 21 /r!m
          MOV cr(reg), r/m(u32)                                           ; 0f 22 /r!m
@@ -1218,57 +1218,57 @@ Opcodes by name:
          MOV reg(uv), I                                                  ; b8+reg; reg=0-7
          MOV r/m(u8), I                                                  ; c6 /0 I=imm(u8)
          MOV r/m(uv), I                                                  ; c7 /0 I=imm(uv)
-      MOVAPD xmm(reg), xmm(rm)                                           ; 66 0f 28 /r
-      MOVAPD xmm(rm), xmm(reg)                                           ; 66 0f 29 /r
-      MOVAPS xmm(reg), xmm(rm)                                           ; 0f 28 /r
-      MOVAPS xmm(rm), xmm(reg)                                           ; 0f 29 /r
-        MOVD mm(reg), r/m(u32)                                           ; 0f 6e /r
-        MOVD r/m(u32), mm(reg)                                           ; 0f 7e /r
-        MOVD xmm(reg), r/m(u32)                                          ; 66 0f 6e /r
-        MOVD r/m(u32), xmm(reg)                                          ; 66 0f 7e /r
-     MOVDQ2Q mm(rm), xmm(reg)                                            ; f2 0f d6 /r!m
-      MOVDQA xmm(reg), xmm(rm)                                           ; 66 0f 6f /r
-      MOVDQA xmm(rm), xmm(reg)                                           ; 66 0f 7f /r
-      MOVDQU xmm(reg), xmm(rm)                                           ; f3 0f 6f /r
-      MOVDQU xmm(rm), xmm(reg)                                           ; f3 0f 7f /r
-     MOVHLPS xmm(reg), xmm(rm)                                           ; 0f 12 /r!m
-      MOVHPD xmm(reg), xmm(rm)                                           ; 66 0f 16 /r=m
-      MOVHPD xmm(rm), xmm(reg)                                           ; 66 0f 17 /r=m
-      MOVHPS xmm(reg), mm(rm)                                            ; 0f 16 /r=m
-      MOVHPS mm(rm), xmm(reg)                                            ; 0f 17 /r=m
-     MOVLHPS xmm(reg), xmm(rm)                                           ; 0f 16 /r!m
-      MOVLPD xmm(reg), xmm(rm)                                           ; 66 0f 12 /r=m
-      MOVLPD xmm(rm), xmm(reg)                                           ; 66 0f 13 /r=m
-      MOVLPS xmm(reg), mm(rm)                                            ; 0f 12 /r=m
-      MOVLPS mm(rm), xmm(reg)                                            ; 0f 13 /r=m
-    MOVMSKPD r/m(u32), xmm(reg)                                          ; 66 0f 50 /r!m
-    MOVMSKPS r/m(uv), xmm(reg)                                           ; 0f 50 /r
+      MOVAPD xmm(reg), xmm(rm)                                           ; 66 0f 28 /r; sse2
+      MOVAPD xmm(rm), xmm(reg)                                           ; 66 0f 29 /r; sse2
+      MOVAPS xmm(reg), xmm(rm)                                           ; 0f 28 /r; sse
+      MOVAPS xmm(rm), xmm(reg)                                           ; 0f 29 /r; sse
+        MOVD mm(reg), r/m(u32)                                           ; 0f 6e /r; fpu
+        MOVD r/m(u32), mm(reg)                                           ; 0f 7e /r; fpu
+        MOVD xmm(reg), r/m(u32)                                          ; 66 0f 6e /r; sse2
+        MOVD r/m(u32), xmm(reg)                                          ; 66 0f 7e /r; sse2
+     MOVDQ2Q mm(rm), xmm(reg)                                            ; f2 0f d6 /r!m; sse2
+      MOVDQA xmm(reg), xmm(rm)                                           ; 66 0f 6f /r; sse2
+      MOVDQA xmm(rm), xmm(reg)                                           ; 66 0f 7f /r; sse2
+      MOVDQU xmm(reg), xmm(rm)                                           ; f3 0f 6f /r; sse2
+      MOVDQU xmm(rm), xmm(reg)                                           ; f3 0f 7f /r; sse2
+     MOVHLPS xmm(reg), xmm(rm)                                           ; 0f 12 /r!m; sse
+      MOVHPD xmm(reg), xmm(rm)                                           ; 66 0f 16 /r=m; sse2
+      MOVHPD xmm(rm), xmm(reg)                                           ; 66 0f 17 /r=m; sse2
+      MOVHPS xmm(reg), mm(rm)                                            ; 0f 16 /r=m; sse
+      MOVHPS mm(rm), xmm(reg)                                            ; 0f 17 /r=m; sse
+     MOVLHPS xmm(reg), xmm(rm)                                           ; 0f 16 /r!m; sse
+      MOVLPD xmm(reg), xmm(rm)                                           ; 66 0f 12 /r=m; sse2
+      MOVLPD xmm(rm), xmm(reg)                                           ; 66 0f 13 /r=m; sse2
+      MOVLPS xmm(reg), mm(rm)                                            ; 0f 12 /r=m; sse
+      MOVLPS mm(rm), xmm(reg)                                            ; 0f 13 /r=m; sse
+    MOVMSKPD r/m(u32), xmm(reg)                                          ; 66 0f 50 /r!m; sse2
+    MOVMSKPS r/m(uv), xmm(reg)                                           ; 0f 50 /r; sse
      MOVNTDQ xmm(rm), xmm(reg)                                           ; 66 0f e7 /r=m
       MOVNTI r/m(u32), reg(u32)                                          ; 0f c3 /r=m
-     MOVNTPD xmm(rm), xmm(reg)                                           ; 66 0f 2b /r=m
-     MOVNTPS xmm(rm), xmm(reg)                                           ; 0f 2b /r=m
+     MOVNTPD xmm(rm), xmm(reg)                                           ; 66 0f 2b /r=m; sse2
+     MOVNTPS xmm(rm), xmm(reg)                                           ; 0f 2b /r=m; sse
       MOVNTQ mm(rm), mm(reg)                                             ; 0f e7 /r=m
-        MOVQ mm(reg), r/m(u64)                                           ; 0f 6f /r
-        MOVQ r/m(u64), mm(reg)                                           ; 0f 7f /r
-        MOVQ xmm(rm), xmm(reg)                                           ; 66 0f d6 /r
-        MOVQ xmm(reg), xmm(rm)                                           ; f3 0f 7e /r
-     MOVQ2DQ xmm(rm), mm(reg)                                            ; f3 0f d6 /r!m
+        MOVQ mm(reg), r/m(u64)                                           ; 0f 6f /r; fpu
+        MOVQ r/m(u64), mm(reg)                                           ; 0f 7f /r; fpu
+        MOVQ xmm(rm), xmm(reg)                                           ; 66 0f d6 /r; sse2
+        MOVQ xmm(reg), xmm(rm)                                           ; f3 0f 7e /r; sse2
+     MOVQ2DQ xmm(rm), mm(reg)                                            ; f3 0f d6 /r!m; sse2
         MOVS u8 ES:[DIV], u8 [SIV]                                       ; a4
         MOVS uv ES:[DIV], uv [SIV]                                       ; a5
-       MOVSD xmm(reg), xmm(rm)                                           ; f2 0f 10 /r
-       MOVSD xmm(rm), xmm(reg)                                           ; f2 0f 11 /r
-       MOVSS xmm(reg), xmm(rm)                                           ; f3 0f 10 /r
-       MOVSS xmm(rm), xmm(reg)                                           ; f3 0f 11 /r
-      MOVUPD xmm(reg), xmm(rm)                                           ; 66 0f 10 /r
-      MOVUPD xmm(rm), xmm(reg)                                           ; 66 0f 11 /r
-      MOVUPS xmm(reg), xmm(rm)                                           ; 0f 10 /r
-      MOVUPS xmm(rm), xmm(reg)                                           ; 0f 11 /r
+       MOVSD xmm(reg), xmm(rm)                                           ; f2 0f 10 /r; sse2
+       MOVSD xmm(rm), xmm(reg)                                           ; f2 0f 11 /r; sse2
+       MOVSS xmm(reg), xmm(rm)                                           ; f3 0f 10 /r; sse
+       MOVSS xmm(rm), xmm(reg)                                           ; f3 0f 11 /r; sse
+      MOVUPD xmm(reg), xmm(rm)                                           ; 66 0f 10 /r; sse2
+      MOVUPD xmm(rm), xmm(reg)                                           ; 66 0f 11 /r; sse2
+      MOVUPS xmm(reg), xmm(rm)                                           ; 0f 10 /r; sse
+      MOVUPS xmm(rm), xmm(reg)                                           ; 0f 11 /r; sse
          MUL r/m(u8)                                                     ; f6 /4
          MUL r/m(uv)                                                     ; f7 /4
-       MULPD xmm(reg), xmm(rm)                                           ; 66 0f 59 /r
-       MULPS xmm(reg), xmm(rm)                                           ; 0f 59 /r
-       MULSD xmm(reg), xmm(rm)                                           ; f2 0f 59 /r
-       MULSS xmm(reg), xmm(rm)                                           ; f3 0f 59 /r
+       MULPD xmm(reg), xmm(rm)                                           ; 66 0f 59 /r; sse2
+       MULPS xmm(reg), xmm(rm)                                           ; 0f 59 /r; sse
+       MULSD xmm(reg), xmm(rm)                                           ; f2 0f 59 /r; sse2
+       MULSS xmm(reg), xmm(rm)                                           ; f3 0f 59 /r; sse
          NEG r/m(u8)                                                     ; f6 /3
          NEG r/m(uv)                                                     ; f7 /3
          NOP                                                             ; 0f 1f /0
@@ -1286,106 +1286,106 @@ Opcodes by name:
           OR r/m(uv), I                                                  ; 81 /1 I=imm(uv)
           OR r/m(u8), I                                                  ; 82 /1 I=imm(u8)
           OR r/m(uv), I                                                  ; 83 /1 I=imm(i8)
-        ORPD xmm(reg), xmm(rm)                                           ; 66 0f 56 /r
-        ORPS xmm(reg), xmm(rm)                                           ; 0f 56 /r
+        ORPD xmm(reg), xmm(rm)                                           ; 66 0f 56 /r; sse2
+        ORPS xmm(reg), xmm(rm)                                           ; 0f 56 /r; sse
          OUT P, AL                                                       ; e6 P=imm(u8)
          OUT P, Av                                                       ; e7 P=imm(u8)
          OUT DX, AL                                                      ; ee
          OUT DX, Av                                                      ; ef
         OUTS u8 ES:[DIV], AL                                             ; 6e
         OUTS uv ES:[DIV], Av                                             ; 6f
-    PACKSSDW mm(reg), mm(rm)                                             ; 0f 6b /r
-    PACKSSDW xmm(reg), xmm(rm)                                           ; 66 0f 6b /r
-    PACKSSWB mm(reg), mm(rm)                                             ; 0f 63 /r
-    PACKSSWB xmm(reg), xmm(rm)                                           ; 66 0f 63 /r
-    PACKUSWB mm(reg), mm(rm)                                             ; 0f 67 /r
-    PACKUSWB xmm(reg), xmm(rm)                                           ; 66 0f 67 /r
-       PADDB mm(reg), mm(rm)                                             ; 0f fc /r
-       PADDB xmm(reg), xmm(rm)                                           ; 66 0f fc /r
-       PADDD mm(reg), mm(rm)                                             ; 0f fe /r
-       PADDD xmm(reg), xmm(rm)                                           ; 66 0f fe /r
-       PADDQ mm(reg), mm(rm)                                             ; 0f d4 /r
-       PADDQ xmm(reg), xmm(rm)                                           ; 66 0f d4 /r
-      PADDSB mm(reg), mm(rm)                                             ; 0f ec /r
-      PADDSB xmm(reg), xmm(rm)                                           ; 66 0f ec /r
-      PADDSW mm(reg), mm(rm)                                             ; 0f ed /r
-      PADDSW xmm(reg), xmm(rm)                                           ; 66 0f ed /r
-     PADDUSB mm(reg), mm(rm)                                             ; 0f dc /r
-     PADDUSB xmm(reg), xmm(rm)                                           ; 66 0f dc /r
-     PADDUSW mm(reg), mm(rm)                                             ; 0f dd /r
-     PADDUSW xmm(reg), xmm(rm)                                           ; 66 0f dd /r
-       PADDW mm(reg), mm(rm)                                             ; 0f fd /r
-       PADDW xmm(reg), xmm(rm)                                           ; 66 0f fd /r
-        PAND mm(reg), mm(rm)                                             ; 0f db /r
-        PAND xmm(reg), xmm(rm)                                           ; 66 0f db /r
-       PANDN mm(reg), mm(rm)                                             ; 0f df /r
-       PANDN xmm(reg), xmm(rm)                                           ; 66 0f df /r
+    PACKSSDW mm(reg), mm(rm)                                             ; 0f 6b /r; fpu
+    PACKSSDW xmm(reg), xmm(rm)                                           ; 66 0f 6b /r; sse2
+    PACKSSWB mm(reg), mm(rm)                                             ; 0f 63 /r; fpu
+    PACKSSWB xmm(reg), xmm(rm)                                           ; 66 0f 63 /r; sse2
+    PACKUSWB mm(reg), mm(rm)                                             ; 0f 67 /r; fpu
+    PACKUSWB xmm(reg), xmm(rm)                                           ; 66 0f 67 /r; sse2
+       PADDB mm(reg), mm(rm)                                             ; 0f fc /r; fpu
+       PADDB xmm(reg), xmm(rm)                                           ; 66 0f fc /r; sse2
+       PADDD mm(reg), mm(rm)                                             ; 0f fe /r; fpu
+       PADDD xmm(reg), xmm(rm)                                           ; 66 0f fe /r; sse2
+       PADDQ mm(reg), mm(rm)                                             ; 0f d4 /r; fpu
+       PADDQ xmm(reg), xmm(rm)                                           ; 66 0f d4 /r; sse2
+      PADDSB mm(reg), mm(rm)                                             ; 0f ec /r; fpu
+      PADDSB xmm(reg), xmm(rm)                                           ; 66 0f ec /r; sse2
+      PADDSW mm(reg), mm(rm)                                             ; 0f ed /r; fpu
+      PADDSW xmm(reg), xmm(rm)                                           ; 66 0f ed /r; sse2
+     PADDUSB mm(reg), mm(rm)                                             ; 0f dc /r; fpu
+     PADDUSB xmm(reg), xmm(rm)                                           ; 66 0f dc /r; sse2
+     PADDUSW mm(reg), mm(rm)                                             ; 0f dd /r; fpu
+     PADDUSW xmm(reg), xmm(rm)                                           ; 66 0f dd /r; sse2
+       PADDW mm(reg), mm(rm)                                             ; 0f fd /r; fpu
+       PADDW xmm(reg), xmm(rm)                                           ; 66 0f fd /r; sse2
+        PAND mm(reg), mm(rm)                                             ; 0f db /r; fpu
+        PAND xmm(reg), xmm(rm)                                           ; 66 0f db /r; sse2
+       PANDN mm(reg), mm(rm)                                             ; 0f df /r; fpu
+       PANDN xmm(reg), xmm(rm)                                           ; 66 0f df /r; sse2
        PAUSE                                                             ; f3 90
        PAVGB mm(reg), mm(rm)                                             ; 0f e0 /r
-       PAVGB xmm(reg), xmm(rm)                                           ; 66 0f e0 /r
-     PAVGUSB mm(reg), mm(rm)                                             ; 0f 0f /r bf
+       PAVGB xmm(reg), xmm(rm)                                           ; 66 0f e0 /r; sse
+     PAVGUSB mm(reg), mm(rm)                                             ; 0f 0f /r bf; 3dnow
        PAVGW mm(reg), mm(rm)                                             ; 0f e3 /r
-       PAVGW xmm(reg), xmm(rm)                                           ; 66 0f e3 /r
-     PCMPEQB mm(reg), mm(rm)                                             ; 0f 74 /r
-     PCMPEQB xmm(reg), xmm(rm)                                           ; 66 0f 74 /r
-     PCMPEQD mm(reg), mm(rm)                                             ; 0f 76 /r
-     PCMPEQD xmm(reg), xmm(rm)                                           ; 66 0f 76 /r
-     PCMPEQW mm(reg), mm(rm)                                             ; 0f 75 /r
-     PCMPEQW xmm(reg), xmm(rm)                                           ; 66 0f 75 /r
-     PCMPGTB mm(reg), mm(rm)                                             ; 0f 64 /r
-     PCMPGTB xmm(reg), xmm(rm)                                           ; 66 0f 64 /r
-     PCMPGTD mm(reg), mm(rm)                                             ; 0f 66 /r
-     PCMPGTD xmm(reg), xmm(rm)                                           ; 66 0f 66 /r
-     PCMPGTW mm(reg), mm(rm)                                             ; 0f 65 /r
-     PCMPGTW xmm(reg), xmm(rm)                                           ; 66 0f 65 /r
+       PAVGW xmm(reg), xmm(rm)                                           ; 66 0f e3 /r; sse
+     PCMPEQB mm(reg), mm(rm)                                             ; 0f 74 /r; fpu
+     PCMPEQB xmm(reg), xmm(rm)                                           ; 66 0f 74 /r; sse2
+     PCMPEQD mm(reg), mm(rm)                                             ; 0f 76 /r; fpu
+     PCMPEQD xmm(reg), xmm(rm)                                           ; 66 0f 76 /r; sse2
+     PCMPEQW mm(reg), mm(rm)                                             ; 0f 75 /r; fpu
+     PCMPEQW xmm(reg), xmm(rm)                                           ; 66 0f 75 /r; sse2
+     PCMPGTB mm(reg), mm(rm)                                             ; 0f 64 /r; fpu
+     PCMPGTB xmm(reg), xmm(rm)                                           ; 66 0f 64 /r; sse2
+     PCMPGTD mm(reg), mm(rm)                                             ; 0f 66 /r; fpu
+     PCMPGTD xmm(reg), xmm(rm)                                           ; 66 0f 66 /r; sse2
+     PCMPGTW mm(reg), mm(rm)                                             ; 0f 65 /r; fpu
+     PCMPGTW xmm(reg), xmm(rm)                                           ; 66 0f 65 /r; sse2
       PEXTRW reg(u32), mm(rm), I                                         ; 0f c5 /r!m I=imm(u8)
-      PEXTRW reg(u32), xmm(rm), I                                        ; 66 0f c5 /r!m I=imm(u8)
-       PF2ID mm(reg), mm(rm)                                             ; 0f 0f /r 1d
-       PF2IW mm(reg), mm(rm)                                             ; 0f 0f /r 1c
-       PFACC mm(reg), mm(rm)                                             ; 0f 0f /r ae
-       PFADD mm(reg), mm(rm)                                             ; 0f 0f /r 9e
-     PFCMPEQ mm(reg), mm(rm)                                             ; 0f 0f /r b0
-     PFCMPGE mm(reg), mm(rm)                                             ; 0f 0f /r 90
-     PFCMPGT mm(reg), mm(rm)                                             ; 0f 0f /r a0
-       PFMAX mm(reg), mm(rm)                                             ; 0f 0f /r a4
-       PFMIN mm(reg), mm(rm)                                             ; 0f 0f /r 94
-       PFMUL mm(reg), mm(rm)                                             ; 0f 0f /r b4
-      PFNACC mm(reg), mm(rm)                                             ; 0f 0f /r 8a
-     PFPNACC mm(reg), mm(rm)                                             ; 0f 0f /r 8e
-       PFRCP mm(reg), mm(rm)                                             ; 0f 0f /r 96
-    PFRCPIT1 mm(reg), mm(rm)                                             ; 0f 0f /r a6
-    PFRCPIT2 mm(reg), mm(rm)                                             ; 0f 0f /r b6
-      PFRCPV mm(reg), mm(rm)                                             ; 0f 0f /r 86
-    PFRSQIT1 mm(reg), mm(rm)                                             ; 0f 0f /r a7
-     PFRSQRT mm(reg), mm(rm)                                             ; 0f 0f /r 97
-    PFRSQRTV mm(reg), mm(rm)                                             ; 0f 0f /r 87
-       PFSUB mm(reg), mm(rm)                                             ; 0f 0f /r 9a
-      PFSUBR mm(reg), mm(rm)                                             ; 0f 0f /r aa
-       PI2FD mm(reg), mm(rm)                                             ; 0f 0f /r 0d
-       PI2FW mm(reg), mm(rm)                                             ; 0f 0f /r 0c
+      PEXTRW reg(u32), xmm(rm), I                                        ; 66 0f c5 /r!m I=imm(u8); sse
+       PF2ID mm(reg), mm(rm)                                             ; 0f 0f /r 1d; 3dnow
+       PF2IW mm(reg), mm(rm)                                             ; 0f 0f /r 1c; 3dnow+
+       PFACC mm(reg), mm(rm)                                             ; 0f 0f /r ae; 3dnow
+       PFADD mm(reg), mm(rm)                                             ; 0f 0f /r 9e; 3dnow
+     PFCMPEQ mm(reg), mm(rm)                                             ; 0f 0f /r b0; 3dnow
+     PFCMPGE mm(reg), mm(rm)                                             ; 0f 0f /r 90; 3dnow
+     PFCMPGT mm(reg), mm(rm)                                             ; 0f 0f /r a0; 3dnow
+       PFMAX mm(reg), mm(rm)                                             ; 0f 0f /r a4; 3dnow
+       PFMIN mm(reg), mm(rm)                                             ; 0f 0f /r 94; 3dnow
+       PFMUL mm(reg), mm(rm)                                             ; 0f 0f /r b4; 3dnow
+      PFNACC mm(reg), mm(rm)                                             ; 0f 0f /r 8a; 3dnow+
+     PFPNACC mm(reg), mm(rm)                                             ; 0f 0f /r 8e; 3dnow+
+       PFRCP mm(reg), mm(rm)                                             ; 0f 0f /r 96; 3dnow
+    PFRCPIT1 mm(reg), mm(rm)                                             ; 0f 0f /r a6; 3dnow
+    PFRCPIT2 mm(reg), mm(rm)                                             ; 0f 0f /r b6; 3dnow
+      PFRCPV mm(reg), mm(rm)                                             ; 0f 0f /r 86; 3dnow+
+    PFRSQIT1 mm(reg), mm(rm)                                             ; 0f 0f /r a7; 3dnow
+     PFRSQRT mm(reg), mm(rm)                                             ; 0f 0f /r 97; 3dnow
+    PFRSQRTV mm(reg), mm(rm)                                             ; 0f 0f /r 87; 3dnow+
+       PFSUB mm(reg), mm(rm)                                             ; 0f 0f /r 9a; 3dnow
+      PFSUBR mm(reg), mm(rm)                                             ; 0f 0f /r aa; 3dnow
+       PI2FD mm(reg), mm(rm)                                             ; 0f 0f /r 0d; 3dnow
+       PI2FW mm(reg), mm(rm)                                             ; 0f 0f /r 0c; 3dnow+
       PINSRW mm(reg), r/m(u16), I                                        ; 0f c4 /r I=imm(u8)
-      PINSRW xmm(reg), r/m(u16), I                                       ; 66 0f c4 /r I=imm(u8)
-     PMADDWD mm(reg), mm(rm)                                             ; 0f f5 /r
-     PMADDWD xmm(reg), xmm(rm)                                           ; 66 0f f5 /r
+      PINSRW xmm(reg), r/m(u16), I                                       ; 66 0f c4 /r I=imm(u8); sse
+     PMADDWD mm(reg), mm(rm)                                             ; 0f f5 /r; fpu
+     PMADDWD xmm(reg), xmm(rm)                                           ; 66 0f f5 /r; sse2
       PMAXSW mm(reg), mm(rm)                                             ; 0f ee /r
-      PMAXSW xmm(reg), xmm(rm)                                           ; 66 0f ee /r
+      PMAXSW xmm(reg), xmm(rm)                                           ; 66 0f ee /r; sse
       PMAXUB mm(reg), mm(rm)                                             ; 0f de /r
-      PMAXUB xmm(reg), xmm(rm)                                           ; 66 0f de /r
+      PMAXUB xmm(reg), xmm(rm)                                           ; 66 0f de /r; sse
       PMINSW mm(reg), mm(rm)                                             ; 0f ea /r
-      PMINSW xmm(reg), xmm(rm)                                           ; 66 0f ea /r
+      PMINSW xmm(reg), xmm(rm)                                           ; 66 0f ea /r; sse
       PMINUB mm(reg), mm(rm)                                             ; 0f da /r
-      PMINUB xmm(reg), xmm(rm)                                           ; 66 0f da /r
+      PMINUB xmm(reg), xmm(rm)                                           ; 66 0f da /r; sse
     PMOVMSKB reg(u32), mm(rm)                                            ; 0f d7 /r!m
-    PMOVMSKB reg(u32), xmm(rm)                                           ; 66 0f d7 /r!m
-     PMULHRW mm(reg), mm(rm)                                             ; 0f 0f /r b7
+    PMOVMSKB reg(u32), xmm(rm)                                           ; 66 0f d7 /r!m; sse
+     PMULHRW mm(reg), mm(rm)                                             ; 0f 0f /r b7; 3dnow
      PMULHUW mm(reg), mm(rm)                                             ; 0f e4 /r
-     PMULHUW xmm(reg), xmm(rm)                                           ; 66 0f e4 /r
-      PMULHW mm(reg), mm(rm)                                             ; 0f e5 /r
-      PMULHW xmm(reg), xmm(rm)                                           ; 66 0f e5 /r
-      PMULLW mm(reg), mm(rm)                                             ; 0f d5 /r
-      PMULLW xmm(reg), xmm(rm)                                           ; 66 0f d5 /r
-     PMULUDQ mm(reg), mm(rm)                                             ; 0f f4 /r
-     PMULUDQ xmm(reg), xmm(rm)                                           ; 66 0f f4 /r
+     PMULHUW xmm(reg), xmm(rm)                                           ; 66 0f e4 /r; sse
+      PMULHW mm(reg), mm(rm)                                             ; 0f e5 /r; fpu
+      PMULHW xmm(reg), xmm(rm)                                           ; 66 0f e5 /r; sse2
+      PMULLW mm(reg), mm(rm)                                             ; 0f d5 /r; fpu
+      PMULLW xmm(reg), xmm(rm)                                           ; 66 0f d5 /r; sse2
+     PMULUDQ mm(reg), mm(rm)                                             ; 0f f4 /r; sse2
+     PMULUDQ xmm(reg), xmm(rm)                                           ; 66 0f f4 /r; sse2
          POP ES                                                          ; 07
          POP SS                                                          ; 17
          POP DS                                                          ; 1f
@@ -1393,8 +1393,8 @@ Opcodes by name:
          POP r/m(uv)                                                     ; 8f /0
         POPA                                                             ; 61 /r
         POPF                                                             ; 9d
-         POR mm(reg), mm(rm)                                             ; 0f eb /r
-         POR xmm(reg), xmm(rm)                                           ; 66 0f eb /r
+         POR mm(reg), mm(rm)                                             ; 0f eb /r; fpu
+         POR xmm(reg), xmm(rm)                                           ; 66 0f eb /r; sse2
     PREFETCH r/m(u8)                                                     ; 0f 0d /0
  PREFETCHNTA mm(rm)                                                      ; 0f 18 /0=m
   PREFETCHT0 mm(rm)                                                      ; 0f 18 /1=m
@@ -1403,76 +1403,76 @@ Opcodes by name:
    PREFETCHW r/m(u8)                                                     ; 0f 0d /1
  PREFETCHWT1 r/m(u8)                                                     ; 0f 0d /2
       PSADBW mm(reg), mm(rm)                                             ; 0f f6 /r
-      PSADBW xmm(reg), xmm(rm)                                           ; 66 0f f6 /r
+      PSADBW xmm(reg), xmm(rm)                                           ; 66 0f f6 /r; sse
       PSHUFD xmm(reg), xmm(rm), I                                        ; 66 0f 70 /r I=imm(u8)
      PSHUFHW xmm(reg), xmm(rm), I                                        ; f3 0f 70 /r I=imm(u8)
      PSHUFLW xmm(reg), xmm(rm), I                                        ; f2 0f 70 /r I=imm(u8)
       PSHUFW mm(reg), mm(rm), I                                          ; 0f 70 /r I=imm(u8)
-       PSLLD mm(reg), I                                                  ; 0f 72 /6 I=imm(u8)
-       PSLLD mm(reg), mm(rm)                                             ; 0f f2 /r
-       PSLLD xmm(reg), I                                                 ; 66 0f 72 /6 I=imm(u8)
-       PSLLD xmm(reg), xmm(rm)                                           ; 66 0f f2 /r
-      PSLLDQ xmm(reg), I                                                 ; 66 0f 73 /7 I=imm(u8)
-       PSLLQ mm(reg), I                                                  ; 0f 73 /6 I=imm(u8)
-       PSLLQ mm(reg), mm(rm)                                             ; 0f f3 /r
-       PSLLQ xmm(reg), I                                                 ; 66 0f 73 /6 I=imm(u8)
-       PSLLQ xmm(reg), xmm(rm)                                           ; 66 0f f3 /r
-       PSLLW mm(reg), I                                                  ; 0f 71 /6 I=imm(u8)
-       PSLLW mm(reg), mm(rm)                                             ; 0f f1 /r
-       PSLLW xmm(reg), I                                                 ; 66 0f 71 /6 I=imm(u8)
-       PSLLW xmm(reg), xmm(rm)                                           ; 66 0f f1 /r
-       PSRAD mm(reg), I                                                  ; 0f 72 /4 I=imm(u8)
-       PSRAD mm(reg), mm(rm)                                             ; 0f e2 /r
-       PSRAD xmm(reg), I                                                 ; 66 0f 72 /4 I=imm(u8)
-       PSRAD xmm(reg), xmm(rm)                                           ; 66 0f e2 /r
-       PSRAW mm(reg), I                                                  ; 0f 71 /4 I=imm(u8)
-       PSRAW mm(reg), mm(rm)                                             ; 0f e1 /r
-       PSRAW xmm(reg), I                                                 ; 66 0f 71 /4 I=imm(u8)
-       PSRAW xmm(reg), xmm(rm)                                           ; 66 0f e1 /r
-       PSRLD mm(reg), I                                                  ; 0f 72 /2 I=imm(u8)
-       PSRLD mm(reg), mm(rm)                                             ; 0f d2 /r
-       PSRLD xmm(reg), I                                                 ; 66 0f 72 /2 I=imm(u8)
-       PSRLD xmm(reg), xmm(rm)                                           ; 66 0f d2 /r
-      PSRLDQ xmm(reg), I                                                 ; 66 0f 73 /3 I=imm(u8)
-       PSRLQ mm(reg), I                                                  ; 0f 73 /2 I=imm(u8)
-       PSRLQ mm(reg), mm(rm)                                             ; 0f d3 /r
-       PSRLQ xmm(reg), I                                                 ; 66 0f 73 /2 I=imm(u8)
-       PSRLQ xmm(reg), xmm(rm)                                           ; 66 0f d3 /r
-       PSRLW mm(reg), I                                                  ; 0f 71 /2 I=imm(u8)
-       PSRLW mm(reg), mm(rm)                                             ; 0f d1 /r
-       PSRLW xmm(reg), I                                                 ; 66 0f 71 /2 I=imm(u8)
-       PSRLW xmm(reg), xmm(rm)                                           ; 66 0f d1 /r
-       PSUBB mm(reg), mm(rm)                                             ; 0f f8 /r
-       PSUBB xmm(reg), xmm(rm)                                           ; 66 0f f8 /r
-       PSUBD mm(reg), mm(rm)                                             ; 0f fa /r
-       PSUBD xmm(reg), xmm(rm)                                           ; 66 0f fa /r
-       PSUBQ mm(reg), mm(rm)                                             ; 0f fb /r
-       PSUBQ xmm(reg), xmm(rm)                                           ; 66 0f fb /r
-      PSUBSB mm(reg), mm(rm)                                             ; 0f e8 /r
-      PSUBSB xmm(reg), xmm(rm)                                           ; 66 0f e8 /r
-      PSUBSW mm(reg), mm(rm)                                             ; 0f e9 /r
-      PSUBSW xmm(reg), xmm(rm)                                           ; 66 0f e9 /r
-     PSUBUSB mm(reg), mm(rm)                                             ; 0f d8 /r
-     PSUBUSB xmm(reg), xmm(rm)                                           ; 66 0f d8 /r
-     PSUBUSW mm(reg), mm(rm)                                             ; 0f d9 /r
-     PSUBUSW xmm(reg), xmm(rm)                                           ; 66 0f d9 /r
-       PSUBW mm(reg), mm(rm)                                             ; 0f f9 /r
-       PSUBW xmm(reg), xmm(rm)                                           ; 66 0f f9 /r
-      PSWAPD mm(reg), mm(rm)                                             ; 0f 0f /r bb
-   PUNPCKHBW mm(reg), mm(rm)                                             ; 0f 68 /r
-   PUNPCKHBW xmm(reg), xmm(rm)                                           ; 66 0f 68 /r
-   PUNPCKHDQ mm(reg), mm(rm)                                             ; 0f 6a /r
-   PUNPCKHDQ xmm(reg), xmm(rm)                                           ; 66 0f 6a /r
-  PUNPCKHQDQ xmm(reg), xmm(rm)                                           ; 66 0f 6d /r
-   PUNPCKHWD mm(reg), mm(rm)                                             ; 0f 69 /r
-   PUNPCKHWD xmm(reg), xmm(rm)                                           ; 66 0f 69 /r
-   PUNPCKLBW mm(reg), mm(rm)                                             ; 0f 60 /r
-   PUNPCKLBW xmm(reg), xmm(rm)                                           ; 66 0f 60 /r
-   PUNPCKLDQ mm(reg), mm(rm)                                             ; 0f 62 /r
-   PUNPCKLDQ xmm(reg), xmm(rm)                                           ; 66 0f 62 /r
-  PUNPCKLQDQ xmm(reg), xmm(rm)                                           ; 66 0f 6c /r
-   PUNPCKLWD mm(reg), mm(rm)                                             ; 0f 61 /r
-   PUNPCKLWD xmm(reg), xmm(rm)                                           ; 66 0f 61 /r
+       PSLLD mm(reg), I                                                  ; 0f 72 /6 I=imm(u8); fpu
+       PSLLD mm(reg), mm(rm)                                             ; 0f f2 /r; fpu
+       PSLLD xmm(reg), I                                                 ; 66 0f 72 /6 I=imm(u8); sse2
+       PSLLD xmm(reg), xmm(rm)                                           ; 66 0f f2 /r; sse2
+      PSLLDQ xmm(reg), I                                                 ; 66 0f 73 /7 I=imm(u8); sse2
+       PSLLQ mm(reg), I                                                  ; 0f 73 /6 I=imm(u8); fpu
+       PSLLQ mm(reg), mm(rm)                                             ; 0f f3 /r; fpu
+       PSLLQ xmm(reg), I                                                 ; 66 0f 73 /6 I=imm(u8); sse2
+       PSLLQ xmm(reg), xmm(rm)                                           ; 66 0f f3 /r; sse2
+       PSLLW mm(reg), I                                                  ; 0f 71 /6 I=imm(u8); fpu
+       PSLLW mm(reg), mm(rm)                                             ; 0f f1 /r; fpu
+       PSLLW xmm(reg), I                                                 ; 66 0f 71 /6 I=imm(u8); sse2
+       PSLLW xmm(reg), xmm(rm)                                           ; 66 0f f1 /r; sse2
+       PSRAD mm(reg), I                                                  ; 0f 72 /4 I=imm(u8); fpu
+       PSRAD mm(reg), mm(rm)                                             ; 0f e2 /r; fpu
+       PSRAD xmm(reg), I                                                 ; 66 0f 72 /4 I=imm(u8); sse2
+       PSRAD xmm(reg), xmm(rm)                                           ; 66 0f e2 /r; sse2
+       PSRAW mm(reg), I                                                  ; 0f 71 /4 I=imm(u8); fpu
+       PSRAW mm(reg), mm(rm)                                             ; 0f e1 /r; fpu
+       PSRAW xmm(reg), I                                                 ; 66 0f 71 /4 I=imm(u8); sse2
+       PSRAW xmm(reg), xmm(rm)                                           ; 66 0f e1 /r; sse2
+       PSRLD mm(reg), I                                                  ; 0f 72 /2 I=imm(u8); fpu
+       PSRLD mm(reg), mm(rm)                                             ; 0f d2 /r; fpu
+       PSRLD xmm(reg), I                                                 ; 66 0f 72 /2 I=imm(u8); sse2
+       PSRLD xmm(reg), xmm(rm)                                           ; 66 0f d2 /r; sse2
+      PSRLDQ xmm(reg), I                                                 ; 66 0f 73 /3 I=imm(u8); sse2
+       PSRLQ mm(reg), I                                                  ; 0f 73 /2 I=imm(u8); fpu
+       PSRLQ mm(reg), mm(rm)                                             ; 0f d3 /r; fpu
+       PSRLQ xmm(reg), I                                                 ; 66 0f 73 /2 I=imm(u8); sse2
+       PSRLQ xmm(reg), xmm(rm)                                           ; 66 0f d3 /r; sse2
+       PSRLW mm(reg), I                                                  ; 0f 71 /2 I=imm(u8); fpu
+       PSRLW mm(reg), mm(rm)                                             ; 0f d1 /r; fpu
+       PSRLW xmm(reg), I                                                 ; 66 0f 71 /2 I=imm(u8); sse2
+       PSRLW xmm(reg), xmm(rm)                                           ; 66 0f d1 /r; sse2
+       PSUBB mm(reg), mm(rm)                                             ; 0f f8 /r; fpu
+       PSUBB xmm(reg), xmm(rm)                                           ; 66 0f f8 /r; sse2
+       PSUBD mm(reg), mm(rm)                                             ; 0f fa /r; fpu
+       PSUBD xmm(reg), xmm(rm)                                           ; 66 0f fa /r; sse2
+       PSUBQ mm(reg), mm(rm)                                             ; 0f fb /r; sse2
+       PSUBQ xmm(reg), xmm(rm)                                           ; 66 0f fb /r; sse2
+      PSUBSB mm(reg), mm(rm)                                             ; 0f e8 /r; fpu
+      PSUBSB xmm(reg), xmm(rm)                                           ; 66 0f e8 /r; sse2
+      PSUBSW mm(reg), mm(rm)                                             ; 0f e9 /r; fpu
+      PSUBSW xmm(reg), xmm(rm)                                           ; 66 0f e9 /r; sse2
+     PSUBUSB mm(reg), mm(rm)                                             ; 0f d8 /r; fpu
+     PSUBUSB xmm(reg), xmm(rm)                                           ; 66 0f d8 /r; sse2
+     PSUBUSW mm(reg), mm(rm)                                             ; 0f d9 /r; fpu
+     PSUBUSW xmm(reg), xmm(rm)                                           ; 66 0f d9 /r; sse2
+       PSUBW mm(reg), mm(rm)                                             ; 0f f9 /r; fpu
+       PSUBW xmm(reg), xmm(rm)                                           ; 66 0f f9 /r; sse2
+      PSWAPD mm(reg), mm(rm)                                             ; 0f 0f /r bb; 3dnow+
+   PUNPCKHBW mm(reg), mm(rm)                                             ; 0f 68 /r; fpu
+   PUNPCKHBW xmm(reg), xmm(rm)                                           ; 66 0f 68 /r; sse2
+   PUNPCKHDQ mm(reg), mm(rm)                                             ; 0f 6a /r; fpu
+   PUNPCKHDQ xmm(reg), xmm(rm)                                           ; 66 0f 6a /r; sse2
+  PUNPCKHQDQ xmm(reg), xmm(rm)                                           ; 66 0f 6d /r; sse2
+   PUNPCKHWD mm(reg), mm(rm)                                             ; 0f 69 /r; fpu
+   PUNPCKHWD xmm(reg), xmm(rm)                                           ; 66 0f 69 /r; sse2
+   PUNPCKLBW mm(reg), mm(rm)                                             ; 0f 60 /r; fpu
+   PUNPCKLBW xmm(reg), xmm(rm)                                           ; 66 0f 60 /r; sse2
+   PUNPCKLDQ mm(reg), mm(rm)                                             ; 0f 62 /r; fpu
+   PUNPCKLDQ xmm(reg), xmm(rm)                                           ; 66 0f 62 /r; sse2
+  PUNPCKLQDQ xmm(reg), xmm(rm)                                           ; 66 0f 6c /r; sse2
+   PUNPCKLWD mm(reg), mm(rm)                                             ; 0f 61 /r; fpu
+   PUNPCKLWD xmm(reg), xmm(rm)                                           ; 66 0f 61 /r; sse2
         PUSH ES                                                          ; 06
         PUSH CS                                                          ; 0e
         PUSH SS                                                          ; 16
@@ -1483,16 +1483,16 @@ Opcodes by name:
         PUSH r/m(uv)                                                     ; ff /6
        PUSHA                                                             ; 60 /r
        PUSHF                                                             ; 9c
-        PXOR mm(reg), mm(rm)                                             ; 0f ef /r
-        PXOR xmm(reg), xmm(rm)                                           ; 66 0f ef /r
+        PXOR mm(reg), mm(rm)                                             ; 0f ef /r; fpu
+        PXOR xmm(reg), xmm(rm)                                           ; 66 0f ef /r; sse2
          RCL r/m(u8), I                                                  ; c0 /2 I=imm(u8)
          RCL r/m(uv), I                                                  ; c1 /2 I=imm(uv)
          RCL r/m(u8), 1                                                  ; d0 /2
          RCL r/m(uv), 1                                                  ; d1 /2
          RCL r/m(u8), CL                                                 ; d2 /2
          RCL r/m(uv), CL                                                 ; d3 /2
-       RCPPS xmm(reg), xmm(rm)                                           ; 0f 53 /r
-       RCPSS xmm(reg), xmm(rm)                                           ; f3 0f 53 /r
+       RCPPS xmm(reg), xmm(rm)                                           ; 0f 53 /r; sse
+       RCPSS xmm(reg), xmm(rm)                                           ; f3 0f 53 /r; sse
          RCR r/m(u8), I                                                  ; c0 /3 I=imm(u8)
          RCR r/m(uv), I                                                  ; c1 /3 I=imm(uv)
          RCR r/m(u8), 1                                                  ; d0 /3
@@ -1521,8 +1521,8 @@ Opcodes by name:
          ROR r/m(u8), CL                                                 ; d2 /1
          ROR r/m(uv), CL                                                 ; d3 /1
          RSM                                                             ; 0f aa
-     RSQRTPS xmm(reg), xmm(rm)                                           ; 0f 52 /r
-     RSQRTSS xmm(reg), xmm(rm)                                           ; f3 0f 52 /r
+     RSQRTPS xmm(reg), xmm(rm)                                           ; 0f 52 /r; sse
+     RSQRTSS xmm(reg), xmm(rm)                                           ; f3 0f 52 /r; sse
         SAHF                                                             ; 9e
         SALC                                                             ; d6
          SAR r/m(u8), I                                                  ; c0 /7 I=imm(u8)
@@ -1573,15 +1573,15 @@ Opcodes by name:
          SHR r/m(uv), 1                                                  ; d1 /5
          SHR r/m(u8), CL                                                 ; d2 /5
          SHR r/m(uv), CL                                                 ; d3 /5
-      SHUFPD xmm(reg), xmm(rm), I                                        ; 66 0f c6 /r I=imm(u8)
-      SHUFPS xmm(reg), xmm(rm), I                                        ; 0f c6 /r I=imm(u8)
+      SHUFPD xmm(reg), xmm(rm), I                                        ; 66 0f c6 /r I=imm(u8); sse2
+      SHUFPS xmm(reg), xmm(rm), I                                        ; 0f c6 /r I=imm(u8); sse
         SIDT r/m(u48)                                                    ; 0f 01 /1=m
         SLDT r/m(uv)                                                     ; 0f 00 /0
         SMSW r/m(uv)                                                     ; 0f 01 /4
-      SQRTPD xmm(reg), xmm(rm)                                           ; 66 0f 51 /r
-      SQRTPS xmm(reg), xmm(rm)                                           ; 0f 51 /r
-      SQRTSD xmm(reg), xmm(rm)                                           ; f2 0f 51 /r
-      SQRTSS xmm(reg), xmm(rm)                                           ; f3 0f 51 /r
+      SQRTPD xmm(reg), xmm(rm)                                           ; 66 0f 51 /r; sse2
+      SQRTPS xmm(reg), xmm(rm)                                           ; 0f 51 /r; sse
+      SQRTSD xmm(reg), xmm(rm)                                           ; f2 0f 51 /r; sse2
+      SQRTSS xmm(reg), xmm(rm)                                           ; f3 0f 51 /r; sse
          SS:                                                    ; prefix ; 36
          STC                                                             ; f9
          STD                                                             ; fd
@@ -1600,10 +1600,10 @@ Opcodes by name:
          SUB r/m(uv), I                                                  ; 81 /5 I=imm(uv)
          SUB r/m(u8), I                                                  ; 82 /5 I=imm(u8)
          SUB r/m(uv), I                                                  ; 83 /5 I=imm(i8)
-       SUBPD xmm(reg), xmm(rm)                                           ; 66 0f 5c /r
-       SUBPS xmm(reg), xmm(rm)                                           ; 0f 5c /r
-       SUBSD xmm(reg), xmm(rm)                                           ; f2 0f 5c /r
-       SUBSS xmm(reg), xmm(rm)                                           ; f3 0f 5c /r
+       SUBPD xmm(reg), xmm(rm)                                           ; 66 0f 5c /r; sse2
+       SUBPS xmm(reg), xmm(rm)                                           ; 0f 5c /r; sse
+       SUBSD xmm(reg), xmm(rm)                                           ; f2 0f 5c /r; sse2
+       SUBSS xmm(reg), xmm(rm)                                           ; f3 0f 5c /r; sse
      SYSCALL                                                             ; 0f 05
     SYSENTER                                                             ; 0f 34
      SYSEXIT                                                             ; 0f 35
@@ -1614,14 +1614,14 @@ Opcodes by name:
         TEST Av, I                                                       ; a9 I=imm(uv)
         TEST r/m(u8), I                                                  ; f6 /0 I=imm(u8)
         TEST r/m(uv), I                                                  ; f7 /0 I=imm(uv)
-     UCOMISD xmm(reg), xmm(rm)                                           ; 66 0f 2e /r
-     UCOMISS xmm(reg), xmm(rm)                                           ; 0f 2e /r
+     UCOMISD xmm(reg), xmm(rm)                                           ; 66 0f 2e /r; sse2
+     UCOMISS xmm(reg), xmm(rm)                                           ; 0f 2e /r; sse
          UD2                                                             ; 0f 0b
          UD2                                                             ; 0f b9
-    UNPCKHPD xmm(reg), xmm(rm)                                           ; 66 0f 15 /r
-    UNPCKHPS xmm(reg), xmm(rm)                                           ; 0f 15 /r
-    UNPCKLPD xmm(reg), xmm(rm)                                           ; 66 0f 14 /r
-    UNPCKLPS xmm(reg), xmm(rm)                                           ; 0f 14 /r
+    UNPCKHPD xmm(reg), xmm(rm)                                           ; 66 0f 15 /r; sse2
+    UNPCKHPS xmm(reg), xmm(rm)                                           ; 0f 15 /r; sse
+    UNPCKLPD xmm(reg), xmm(rm)                                           ; 66 0f 14 /r; sse2
+    UNPCKLPS xmm(reg), xmm(rm)                                           ; 0f 14 /r; sse
         VERR r/m(uv)                                                     ; 0f 00 /4
         VERW r/m(uv)                                                     ; 0f 00 /5
         WAIT                                                    ; prefix ; 9b
@@ -1643,8 +1643,8 @@ Opcodes by name:
          XOR r/m(uv), I                                                  ; 81 /6 I=imm(uv)
          XOR r/m(u8), I                                                  ; 82 /6 I=imm(u8)
          XOR r/m(uv), I                                                  ; 83 /6 I=imm(i8)
-       XORPD xmm(reg), xmm(rm)                                           ; 66 0f 57 /r
-       XORPS xmm(reg), xmm(rm)                                           ; 0f 57 /r
+       XORPD xmm(reg), xmm(rm)                                           ; 66 0f 57 /r; sse2
+       XORPS xmm(reg), xmm(rm)                                           ; 0f 57 /r; sse
 
 Opcode coverage (single opcode):
 ------------------------------
