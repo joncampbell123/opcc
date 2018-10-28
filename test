@@ -5946,5 +5946,13 @@ if ((value("sse2") > 0) or (value("everything") > 0)) {;
     (param(0)=xmm(rm))
     (param(1)=i)
     (code 0xF2 0x0F 0x70 mrm i=immediate(b));
+
+  opcode "PSHUFD"
+    (reads xmm(rm))
+    (writes xmm(reg))
+    (dest=xmm(reg))
+    (param(0)=xmm(rm))
+    (param(1)=i)
+    (code 0x66 0x0F 0x70 mrm i=immediate(b));
 } if;
 
