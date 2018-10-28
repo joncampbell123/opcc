@@ -4063,7 +4063,7 @@ if ((value("cpulevel") >= 586) and (value("sysenter") > 0)) {;
 
 if value("3dnow") > 0
 opcode "FEMMS"
-  (code 0x0F 0x0E);
+  (code 0x0F 0x0E amd3dnow);
 
 if ((value("3dnow") > 0) or ((value("vendor") == "amd") and (value("cpulevel") >= 686))) {;
   opcode "PREFETCH"
@@ -4086,7 +4086,7 @@ if value("3dnow") > 0 {;
     (writes mm(reg))
     (dest=mm(reg))
     (param=mm(rm))
-    (code 0x0F 0x0F mrm 0xBF);
+    (code 0x0F 0x0F mrm 0xBF amd3dnow);
 
   opcode "PF2ID"
     (reads mm(reg),mm(rm))
@@ -4094,7 +4094,7 @@ if value("3dnow") > 0 {;
     (writes mm(reg))
     (dest=mm(reg))
     (param=mm(rm))
-    (code 0x0F 0x0F mrm 0x1D);
+    (code 0x0F 0x0F mrm 0x1D amd3dnow);
 
   opcode "PFACC"
     (reads mm(reg),mm(rm))
@@ -4102,7 +4102,7 @@ if value("3dnow") > 0 {;
     (writes mm(reg))
     (dest=mm(reg))
     (param=mm(rm))
-    (code 0x0F 0x0F mrm 0xAE);
+    (code 0x0F 0x0F mrm 0xAE amd3dnow);
 
   opcode "PFADD"
     (reads mm(reg),mm(rm))
@@ -4110,7 +4110,7 @@ if value("3dnow") > 0 {;
     (writes mm(reg))
     (dest=mm(reg))
     (param=mm(rm))
-    (code 0x0F 0x0F mrm 0x9E);
+    (code 0x0F 0x0F mrm 0x9E amd3dnow);
 
   opcode "PFCMPEQ"
     (reads mm(reg),mm(rm))
@@ -4118,7 +4118,7 @@ if value("3dnow") > 0 {;
     (writes mm(reg))
     (dest=mm(reg))
     (param=mm(rm))
-    (code 0x0F 0x0F mrm 0xB0);
+    (code 0x0F 0x0F mrm 0xB0 amd3dnow);
 
   opcode "PFCMPGE"
     (reads mm(reg),mm(rm))
@@ -4126,7 +4126,7 @@ if value("3dnow") > 0 {;
     (writes mm(reg))
     (dest=mm(reg))
     (param=mm(rm))
-    (code 0x0F 0x0F mrm 0x90);
+    (code 0x0F 0x0F mrm 0x90 amd3dnow);
 
   opcode "PFCMPGT"
     (reads mm(reg),mm(rm))
@@ -4134,7 +4134,7 @@ if value("3dnow") > 0 {;
     (writes mm(reg))
     (dest=mm(reg))
     (param=mm(rm))
-    (code 0x0F 0x0F mrm 0xA0);
+    (code 0x0F 0x0F mrm 0xA0 amd3dnow);
 
   opcode "PFMAX"
     (reads mm(reg),mm(rm))
@@ -4142,7 +4142,7 @@ if value("3dnow") > 0 {;
     (writes mm(reg))
     (dest=mm(reg))
     (param=mm(rm))
-    (code 0x0F 0x0F mrm 0xA4);
+    (code 0x0F 0x0F mrm 0xA4 amd3dnow);
 
   opcode "PFMIN"
     (reads mm(reg),mm(rm))
@@ -4150,7 +4150,7 @@ if value("3dnow") > 0 {;
     (writes mm(reg))
     (dest=mm(reg))
     (param=mm(rm))
-    (code 0x0F 0x0F mrm 0x94);
+    (code 0x0F 0x0F mrm 0x94 amd3dnow);
 
   opcode "PFMUL"
     (reads mm(reg),mm(rm))
@@ -4158,7 +4158,7 @@ if value("3dnow") > 0 {;
     (writes mm(reg))
     (dest=mm(reg))
     (param=mm(rm))
-    (code 0x0F 0x0F mrm 0xB4);
+    (code 0x0F 0x0F mrm 0xB4 amd3dnow);
 
   opcode "PFRCP"
     (reads mm(reg),mm(rm))
@@ -4166,7 +4166,7 @@ if value("3dnow") > 0 {;
     (writes mm(reg))
     (dest=mm(reg))
     (param=mm(rm))
-    (code 0x0F 0x0F mrm 0x96);
+    (code 0x0F 0x0F mrm 0x96 amd3dnow);
 
   opcode "PFRCPIT1"
     (reads mm(reg),mm(rm))
@@ -4174,7 +4174,7 @@ if value("3dnow") > 0 {;
     (writes mm(reg))
     (dest=mm(reg))
     (param=mm(rm))
-    (code 0x0F 0x0F mrm 0xA6);
+    (code 0x0F 0x0F mrm 0xA6 amd3dnow);
 
   opcode "PFRCPIT2"
     (reads mm(reg),mm(rm))
@@ -4182,7 +4182,7 @@ if value("3dnow") > 0 {;
     (writes mm(reg))
     (dest=mm(reg))
     (param=mm(rm))
-    (code 0x0F 0x0F mrm 0xB6);
+    (code 0x0F 0x0F mrm 0xB6 amd3dnow);
 
   opcode "PFRSQIT1"
     (reads mm(reg),mm(rm))
@@ -4190,7 +4190,7 @@ if value("3dnow") > 0 {;
     (writes mm(reg))
     (dest=mm(reg))
     (param=mm(rm))
-    (code 0x0F 0x0F mrm 0xA7);
+    (code 0x0F 0x0F mrm 0xA7 amd3dnow);
 
   opcode "PFRSQRT"
     (reads mm(reg),mm(rm))
@@ -4198,7 +4198,7 @@ if value("3dnow") > 0 {;
     (writes mm(reg))
     (dest=mm(reg))
     (param=mm(rm))
-    (code 0x0F 0x0F mrm 0x97);
+    (code 0x0F 0x0F mrm 0x97 amd3dnow);
 
   opcode "PFSUB"
     (reads mm(reg),mm(rm))
@@ -4206,7 +4206,7 @@ if value("3dnow") > 0 {;
     (writes mm(reg))
     (dest=mm(reg))
     (param=mm(rm))
-    (code 0x0F 0x0F mrm 0x9A);
+    (code 0x0F 0x0F mrm 0x9A amd3dnow);
 
   opcode "PFSUBR"
     (reads mm(reg),mm(rm))
@@ -4214,7 +4214,7 @@ if value("3dnow") > 0 {;
     (writes mm(reg))
     (dest=mm(reg))
     (param=mm(rm))
-    (code 0x0F 0x0F mrm 0xAA);
+    (code 0x0F 0x0F mrm 0xAA amd3dnow);
 
   opcode "PI2FD"
     (reads mm(reg),mm(rm))
@@ -4222,7 +4222,7 @@ if value("3dnow") > 0 {;
     (writes mm(reg))
     (dest=mm(reg))
     (param=mm(rm))
-    (code 0x0F 0x0F mrm 0x0D);
+    (code 0x0F 0x0F mrm 0x0D amd3dnow);
 
   opcode "PMULHRW"
     (reads mm(reg),mm(rm))
@@ -4230,7 +4230,7 @@ if value("3dnow") > 0 {;
     (writes mm(reg))
     (dest=mm(reg))
     (param=mm(rm))
-    (code 0x0F 0x0F mrm 0xB7);
+    (code 0x0F 0x0F mrm 0xB7 amd3dnow);
 } if;
 
 if value("3dnow+") > 0 {;

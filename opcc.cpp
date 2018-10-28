@@ -218,6 +218,7 @@ enum tokentype_t {
     TOK_DQW,
     TOK_SSE,
     TOK_SSE2,
+    TOK_AMD3DNOW,
 
     TOK_MAX
 };
@@ -421,7 +422,8 @@ const char *tokentype_str[TOK_MAX] = {
     "XMM",                      // 195
     "DQW",
     "SSE",
-    "SSE2"
+    "SSE2",
+    "AMD3DNOW"
 };
 
 bool list_op = false;
@@ -1775,6 +1777,10 @@ bool toke(tokenstate_t &tok) {
             tok.type = TOK_SSE2;
             return true;
         }
+        if (tok.string == "AMD3DNOW") {
+            tok.type = TOK_AMD3DNOW;
+            return true;
+        }
     }
 
     tok.type = TOK_ERROR;
@@ -1898,6 +1904,7 @@ public:
     bool                        fpu = false;
     bool                        sse = false;
     bool                        sse2 = false;
+    bool                        amd3dnow = false;
     std::vector<SingleByteSpec> fpu_stack_ops;              // push or pop
     unsigned int                fpu_stack_op_dir = 0;       // TOK_PUSH or TOK_POP
 public:
@@ -4515,6 +4522,11 @@ bool read_opcode_spec_opcode_parens(tokenlist &parent_tokens,OpcodeSpec &spec) {
                 tokens.discard();
 
                 spec.sse2 = true;
+            }
+            else if (tokens.peek().type == TOK_AMD3DNOW) {
+                tokens.discard();
+
+                spec.amd3dnow = true;
             }
             else if (tokens.peek().type == TOK_MRM) {
                 tokens.discard();
