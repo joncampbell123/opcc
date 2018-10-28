@@ -5313,5 +5313,27 @@ if ((value("sse2") > 0) or (value("everything") > 0)) {;
     (dest=xmm(reg))
     (param=xmm(rm))
     (code 0x66 0x0F 0x2E mrm sse2);
+
+  opcode "SHUFPD"
+    (reads xmm(rm))
+    (writes xmm(reg))
+    (dest=xmm(reg))
+    (param(0)=xmm(rm))
+    (param(1)=i)
+    (code 0x66 0x0F 0xC6 mrm i=immediate(b) sse2);
+
+  opcode "UNPCKHPD"
+    (reads xmm(rm))
+    (writes xmm(reg))
+    (dest=xmm(reg))
+    (param=xmm(rm))
+    (code 0x66 0x0F 0x15 mrm sse2);
+
+  opcode "UNPCKLPD"
+    (reads xmm(rm))
+    (writes xmm(reg))
+    (dest=xmm(reg))
+    (param=xmm(rm))
+    (code 0x66 0x0F 0x14 mrm sse2);
 } if;
 
