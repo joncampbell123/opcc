@@ -5997,4 +5997,25 @@ if ((value("sse3") > 0) or (value("everything") > 0)) {;
     (param(0)=eax)
     (param(1)=ecx)
     (code 0x0F 0x01 mrm mod(3) reg(1) rm(1));
+
+  opcode "FISTTP"
+    (reads st(0))
+    (writes rm(sw))
+    (dest=rm(sw))
+    (param=st(0))
+    (code 0xDF mrm mod(!3) reg(1) fpu);
+
+  opcode "FISTTP"
+    (reads st(0))
+    (writes rm(sdw))
+    (dest=rm(sdw))
+    (param=st(0))
+    (code 0xDB mrm mod(!3) reg(1) fpu);
+
+  opcode "FISTTP"
+    (reads st(0))
+    (writes rm(sqw))
+    (dest=rm(sqw))
+    (param=st(0))
+    (code 0xDD mrm mod(!3) reg(1) fpu);
 } if;
