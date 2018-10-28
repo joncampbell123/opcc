@@ -5479,5 +5479,26 @@ if ((value("sse2") > 0) or (value("everything") > 0)) {;
     (dest=xmm(rm))
     (param=xmm(reg))
     (code 0x66 0x0F 0xD6 mrm fpu);
+
+  opcode "PACKSSDW"
+    (reads xmm(rm))
+    (writes xmm(reg))
+    (dest=xmm(reg))
+    (param=xmm(rm))
+    (code 0x66 0x0F 0x6B mrm fpu);
+
+  opcode "PACKSSWB"
+    (reads xmm(rm))
+    (writes xmm(reg))
+    (dest=xmm(reg))
+    (param=xmm(rm))
+    (code 0x66 0x0F 0x63 mrm fpu);
+
+  opcode "PACKUSWB"
+    (reads xmm(rm))
+    (writes xmm(reg))
+    (dest=xmm(reg))
+    (param=xmm(rm))
+    (code 0x66 0x0F 0x67 mrm fpu);
 } if;
 
