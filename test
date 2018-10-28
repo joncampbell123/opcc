@@ -5874,5 +5874,54 @@ if ((value("sse2") > 0) or (value("everything") > 0)) {;
     (dest=xmm(reg))
     (param=xmm(rm))
     (code 0x66 0x0F 0x62 mrm fpu);
+
+  opcode "MASKMOVDQU"
+    (reads xmm(reg))
+    (writes xmm(rm))
+    (dest=xmm(rm))
+    (param=xmm(reg))
+    (code 0x66 0x0F 0xF7 mrm fpu);
+
+  opcode "MOVDQ2Q"
+    (reads xmm(reg))
+    (writes mm(rm))
+    (dest=mm(rm))
+    (param=xmm(reg))
+    (code 0xF2 0x0F 0xD6 mrm mod(3) fpu);
+
+  opcode "MOVDQA"
+    (reads xmm(rm))
+    (writes xmm(reg))
+    (dest=xmm(reg))
+    (param=xmm(rm))
+    (code 0x66 0x0F 0x6F mrm fpu);
+
+  opcode "MOVDQA"
+    (reads xmm(reg))
+    (writes xmm(rm))
+    (dest=xmm(rm))
+    (param=xmm(reg))
+    (code 0x66 0x0F 0x7F mrm fpu);
+
+  opcode "MOVDQU"
+    (reads xmm(rm))
+    (writes xmm(reg))
+    (dest=xmm(reg))
+    (param=xmm(rm))
+    (code 0xF3 0x0F 0x6F mrm fpu);
+
+  opcode "MOVDQU"
+    (reads xmm(reg))
+    (writes xmm(rm))
+    (dest=xmm(rm))
+    (param=xmm(reg))
+    (code 0xF3 0x0F 0x7F mrm fpu);
+
+  opcode "MOVQ2DQ"
+    (reads mm(reg))
+    (writes xmm(rm))
+    (dest=xmm(rm))
+    (param=mm(reg))
+    (code 0xF3 0x0F 0xD6 mrm mod(3) fpu);
 } if;
 
