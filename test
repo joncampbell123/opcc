@@ -5642,6 +5642,14 @@ if ((value("sse2") > 0) or (value("everything") > 0)) {;
     (code 0x66 0x0F 0xD5 mrm fpu);
 
   opcode "PMULUDQ"
+    (reads mm(rm))
+    (modifies mm(reg))
+    (writes mm(reg))
+    (dest=mm(reg))
+    (param=mm(rm))
+    (code 0x0F 0xF4 mrm sse);
+
+  opcode "PMULUDQ"
     (reads xmm(rm))
     (modifies xmm(reg))
     (writes xmm(reg))
