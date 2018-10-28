@@ -258,12 +258,14 @@ Opcodes by byte:
        PSLLW mm(reg), mm(rm)                                             ; 0f f1 /r
        PSLLD mm(reg), mm(rm)                                             ; 0f f2 /r
        PSLLQ mm(reg), mm(rm)                                             ; 0f f3 /r
+     PMULUDQ mm(reg), mm(rm)                                             ; 0f f4 /r
      PMADDWD mm(reg), mm(rm)                                             ; 0f f5 /r
       PSADBW mm(reg), mm(rm)                                             ; 0f f6 /r
     MASKMOVQ u64 [DIV], mm(reg), mm(rm)                                  ; 0f f7 /r
        PSUBB mm(reg), mm(rm)                                             ; 0f f8 /r
        PSUBW mm(reg), mm(rm)                                             ; 0f f9 /r
        PSUBD mm(reg), mm(rm)                                             ; 0f fa /r
+       PSUBQ mm(reg), mm(rm)                                             ; 0f fb /r
        PADDB mm(reg), mm(rm)                                             ; 0f fc /r
        PADDW mm(reg), mm(rm)                                             ; 0f fd /r
        PADDD mm(reg), mm(rm)                                             ; 0f fe /r
@@ -356,20 +358,78 @@ Opcodes by byte:
        MINPD xmm(reg), xmm(rm)                                           ; 66 0f 5d /r
        DIVPD xmm(reg), xmm(rm)                                           ; 66 0f 5e /r
        MAXPD xmm(reg), xmm(rm)                                           ; 66 0f 5f /r
+   PUNPCKLBW xmm(reg), xmm(rm)                                           ; 66 0f 60 /r
+   PUNPCKLWD xmm(reg), xmm(rm)                                           ; 66 0f 61 /r
+   PUNPCKLDQ xmm(reg), xmm(rm)                                           ; 66 0f 62 /r
+    PACKSSWB xmm(reg), xmm(rm)                                           ; 66 0f 63 /r
+     PCMPGTB xmm(reg), xmm(rm)                                           ; 66 0f 64 /r
+     PCMPGTW xmm(reg), xmm(rm)                                           ; 66 0f 65 /r
+     PCMPGTD xmm(reg), xmm(rm)                                           ; 66 0f 66 /r
+    PACKUSWB xmm(reg), xmm(rm)                                           ; 66 0f 67 /r
+   PUNPCKHBW xmm(reg), xmm(rm)                                           ; 66 0f 68 /r
+   PUNPCKHWD xmm(reg), xmm(rm)                                           ; 66 0f 69 /r
+   PUNPCKHDQ xmm(reg), xmm(rm)                                           ; 66 0f 6a /r
+    PACKSSDW xmm(reg), xmm(rm)                                           ; 66 0f 6b /r
+        MOVD xmm(reg), r/m(u32)                                          ; 66 0f 6e /r
+       PSRLW xmm(reg), I                                                 ; 66 0f 71 /2 I=imm(u8)
+       PSRAW xmm(reg), I                                                 ; 66 0f 71 /4 I=imm(u8)
+       PSLLW xmm(reg), I                                                 ; 66 0f 71 /6 I=imm(u8)
+       PSRLD xmm(reg), I                                                 ; 66 0f 72 /2 I=imm(u8)
+       PSRAD xmm(reg), I                                                 ; 66 0f 72 /4 I=imm(u8)
+       PSLLD xmm(reg), I                                                 ; 66 0f 72 /6 I=imm(u8)
+       PSRLQ xmm(reg), I                                                 ; 66 0f 73 /2 I=imm(u8)
+       PSLLQ xmm(reg), I                                                 ; 66 0f 73 /6 I=imm(u8)
+     PCMPEQB xmm(reg), xmm(rm)                                           ; 66 0f 74 /r
+     PCMPEQW xmm(reg), xmm(rm)                                           ; 66 0f 75 /r
+     PCMPEQD xmm(reg), xmm(rm)                                           ; 66 0f 76 /r
+        MOVD r/m(u32), xmm(reg)                                          ; 66 0f 7e /r
        CMPPD xmm(reg), xmm(rm), I                                        ; 66 0f c2 /r I=imm(u8)
       PINSRW xmm(reg), r/m(u16), I                                       ; 66 0f c4 /r I=imm(u8)
       PEXTRW reg(u32), xmm(rm), I                                        ; 66 0f c5 /r!m I=imm(u8)
       SHUFPD xmm(reg), xmm(rm), I                                        ; 66 0f c6 /r I=imm(u8)
+       PSRLW xmm(reg), xmm(rm)                                           ; 66 0f d1 /r
+       PSRLD xmm(reg), xmm(rm)                                           ; 66 0f d2 /r
+       PSRLQ xmm(reg), xmm(rm)                                           ; 66 0f d3 /r
+       PADDQ xmm(reg), xmm(rm)                                           ; 66 0f d4 /r
+      PMULLW xmm(reg), xmm(rm)                                           ; 66 0f d5 /r
+        MOVQ xmm(rm), xmm(reg)                                           ; 66 0f d6 /r
     PMOVMSKB reg(u32), xmm(rm)                                           ; 66 0f d7 /r!m
+     PSUBUSB xmm(reg), xmm(rm)                                           ; 66 0f d8 /r
+     PSUBUSW xmm(reg), xmm(rm)                                           ; 66 0f d9 /r
       PMINUB xmm(reg), xmm(rm)                                           ; 66 0f da /r
+        PAND xmm(reg), xmm(rm)                                           ; 66 0f db /r
+     PADDUSB xmm(reg), xmm(rm)                                           ; 66 0f dc /r
+     PADDUSW xmm(reg), xmm(rm)                                           ; 66 0f dd /r
       PMAXUB xmm(reg), xmm(rm)                                           ; 66 0f de /r
+       PANDN xmm(reg), xmm(rm)                                           ; 66 0f df /r
        PAVGB xmm(reg), xmm(rm)                                           ; 66 0f e0 /r
+       PSRAW xmm(reg), xmm(rm)                                           ; 66 0f e1 /r
+       PSRAD xmm(reg), xmm(rm)                                           ; 66 0f e2 /r
        PAVGW xmm(reg), xmm(rm)                                           ; 66 0f e3 /r
      PMULHUW xmm(reg), xmm(rm)                                           ; 66 0f e4 /r
+      PMULHW xmm(reg), xmm(rm)                                           ; 66 0f e5 /r
    CVTTPD2DQ xmm(reg), xmm(rm)                                           ; 66 0f e6 /r
+      PSUBSB xmm(reg), xmm(rm)                                           ; 66 0f e8 /r
+      PSUBSW xmm(reg), xmm(rm)                                           ; 66 0f e9 /r
       PMINSW xmm(reg), xmm(rm)                                           ; 66 0f ea /r
+         POR xmm(reg), xmm(rm)                                           ; 66 0f eb /r
+      PADDSB xmm(reg), xmm(rm)                                           ; 66 0f ec /r
+      PADDSW xmm(reg), xmm(rm)                                           ; 66 0f ed /r
       PMAXSW xmm(reg), xmm(rm)                                           ; 66 0f ee /r
+        PXOR xmm(reg), xmm(rm)                                           ; 66 0f ef /r
+       PSLLW xmm(reg), xmm(rm)                                           ; 66 0f f1 /r
+       PSLLD xmm(reg), xmm(rm)                                           ; 66 0f f2 /r
+       PSLLQ xmm(reg), xmm(rm)                                           ; 66 0f f3 /r
+     PMULUDQ xmm(reg), xmm(rm)                                           ; 66 0f f4 /r
+     PMADDWD xmm(reg), xmm(rm)                                           ; 66 0f f5 /r
       PSADBW xmm(reg), xmm(rm)                                           ; 66 0f f6 /r
+       PSUBB xmm(reg), xmm(rm)                                           ; 66 0f f8 /r
+       PSUBW xmm(reg), xmm(rm)                                           ; 66 0f f9 /r
+       PSUBD xmm(reg), xmm(rm)                                           ; 66 0f fa /r
+       PSUBQ xmm(reg), xmm(rm)                                           ; 66 0f fb /r
+       PADDB xmm(reg), xmm(rm)                                           ; 66 0f fc /r
+       PADDW xmm(reg), xmm(rm)                                           ; 66 0f fd /r
+       PADDD xmm(reg), xmm(rm)                                           ; 66 0f fe /r
         ADSZ                                                    ; prefix ; 67
         PUSH I                                                           ; 68 I=imm(uv)
         IMUL reg(uv), r/m(uv), I                                         ; 69 /r I=imm(iv)
@@ -711,6 +771,7 @@ Opcodes by byte:
        MINSS xmm(reg), xmm(rm)                                           ; f3 0f 5d /r
        DIVSS xmm(reg), xmm(rm)                                           ; f3 0f 5e /r
        MAXSS xmm(reg), xmm(rm)                                           ; f3 0f 5f /r
+        MOVQ xmm(reg), xmm(rm)                                           ; f3 0f 7e /r
        CMPSS xmm(reg), xmm(rm), I                                        ; f3 0f c2 /r I=imm(u8)
     CVTDQ2PD xmm(reg), xmm(rm)                                           ; f3 0f e6 /r
        PAUSE                                                             ; f3 90
@@ -1147,6 +1208,8 @@ Opcodes by name:
       MOVAPS xmm(rm), xmm(reg)                                           ; 0f 29 /r
         MOVD mm(reg), r/m(u32)                                           ; 0f 6e /r
         MOVD r/m(u32), mm(reg)                                           ; 0f 7e /r
+        MOVD xmm(reg), r/m(u32)                                          ; 66 0f 6e /r
+        MOVD r/m(u32), xmm(reg)                                          ; 66 0f 7e /r
      MOVHLPS xmm(reg), xmm(rm)                                           ; 0f 12 /r!m
       MOVHPD xmm(reg), xmm(rm)                                           ; 66 0f 16 /r=m
       MOVHPD xmm(rm), xmm(reg)                                           ; 66 0f 17 /r=m
@@ -1165,6 +1228,8 @@ Opcodes by name:
       MOVNTQ mm(rm), mm(reg)                                             ; 0f e7 /r=m
         MOVQ mm(reg), r/m(u64)                                           ; 0f 6f /r
         MOVQ r/m(u64), mm(reg)                                           ; 0f 7f /r
+        MOVQ xmm(rm), xmm(reg)                                           ; 66 0f d6 /r
+        MOVQ xmm(reg), xmm(rm)                                           ; f3 0f 7e /r
         MOVS u8 ES:[DIV], u8 [SIV]                                       ; a4
         MOVS uv ES:[DIV], uv [SIV]                                       ; a5
        MOVSD xmm(reg), xmm(rm)                                           ; f2 0f 10 /r
@@ -1207,18 +1272,31 @@ Opcodes by name:
         OUTS u8 ES:[DIV], AL                                             ; 6e
         OUTS uv ES:[DIV], Av                                             ; 6f
     PACKSSDW mm(reg), mm(rm)                                             ; 0f 6b /r
+    PACKSSDW xmm(reg), xmm(rm)                                           ; 66 0f 6b /r
     PACKSSWB mm(reg), mm(rm)                                             ; 0f 63 /r
+    PACKSSWB xmm(reg), xmm(rm)                                           ; 66 0f 63 /r
     PACKUSWB mm(reg), mm(rm)                                             ; 0f 67 /r
+    PACKUSWB xmm(reg), xmm(rm)                                           ; 66 0f 67 /r
        PADDB mm(reg), mm(rm)                                             ; 0f fc /r
+       PADDB xmm(reg), xmm(rm)                                           ; 66 0f fc /r
        PADDD mm(reg), mm(rm)                                             ; 0f fe /r
+       PADDD xmm(reg), xmm(rm)                                           ; 66 0f fe /r
        PADDQ mm(reg), mm(rm)                                             ; 0f d4 /r
+       PADDQ xmm(reg), xmm(rm)                                           ; 66 0f d4 /r
       PADDSB mm(reg), mm(rm)                                             ; 0f ec /r
+      PADDSB xmm(reg), xmm(rm)                                           ; 66 0f ec /r
       PADDSW mm(reg), mm(rm)                                             ; 0f ed /r
+      PADDSW xmm(reg), xmm(rm)                                           ; 66 0f ed /r
      PADDUSB mm(reg), mm(rm)                                             ; 0f dc /r
+     PADDUSB xmm(reg), xmm(rm)                                           ; 66 0f dc /r
      PADDUSW mm(reg), mm(rm)                                             ; 0f dd /r
+     PADDUSW xmm(reg), xmm(rm)                                           ; 66 0f dd /r
        PADDW mm(reg), mm(rm)                                             ; 0f fd /r
+       PADDW xmm(reg), xmm(rm)                                           ; 66 0f fd /r
         PAND mm(reg), mm(rm)                                             ; 0f db /r
+        PAND xmm(reg), xmm(rm)                                           ; 66 0f db /r
        PANDN mm(reg), mm(rm)                                             ; 0f df /r
+       PANDN xmm(reg), xmm(rm)                                           ; 66 0f df /r
        PAUSE                                                             ; f3 90
        PAVGB mm(reg), mm(rm)                                             ; 0f e0 /r
        PAVGB xmm(reg), xmm(rm)                                           ; 66 0f e0 /r
@@ -1226,11 +1304,17 @@ Opcodes by name:
        PAVGW mm(reg), mm(rm)                                             ; 0f e3 /r
        PAVGW xmm(reg), xmm(rm)                                           ; 66 0f e3 /r
      PCMPEQB mm(reg), mm(rm)                                             ; 0f 74 /r
+     PCMPEQB xmm(reg), xmm(rm)                                           ; 66 0f 74 /r
      PCMPEQD mm(reg), mm(rm)                                             ; 0f 76 /r
+     PCMPEQD xmm(reg), xmm(rm)                                           ; 66 0f 76 /r
      PCMPEQW mm(reg), mm(rm)                                             ; 0f 75 /r
+     PCMPEQW xmm(reg), xmm(rm)                                           ; 66 0f 75 /r
      PCMPGTB mm(reg), mm(rm)                                             ; 0f 64 /r
+     PCMPGTB xmm(reg), xmm(rm)                                           ; 66 0f 64 /r
      PCMPGTD mm(reg), mm(rm)                                             ; 0f 66 /r
+     PCMPGTD xmm(reg), xmm(rm)                                           ; 66 0f 66 /r
      PCMPGTW mm(reg), mm(rm)                                             ; 0f 65 /r
+     PCMPGTW xmm(reg), xmm(rm)                                           ; 66 0f 65 /r
       PEXTRW reg(u32), mm(rm), I                                         ; 0f c5 /r!m I=imm(u8)
       PEXTRW reg(u32), xmm(rm), I                                        ; 66 0f c5 /r!m I=imm(u8)
        PF2ID mm(reg), mm(rm)                                             ; 0f 0f /r 1d
@@ -1259,6 +1343,7 @@ Opcodes by name:
       PINSRW mm(reg), r/m(u16), I                                        ; 0f c4 /r I=imm(u8)
       PINSRW xmm(reg), r/m(u16), I                                       ; 66 0f c4 /r I=imm(u8)
      PMADDWD mm(reg), mm(rm)                                             ; 0f f5 /r
+     PMADDWD xmm(reg), xmm(rm)                                           ; 66 0f f5 /r
       PMAXSW mm(reg), mm(rm)                                             ; 0f ee /r
       PMAXSW xmm(reg), xmm(rm)                                           ; 66 0f ee /r
       PMAXUB mm(reg), mm(rm)                                             ; 0f de /r
@@ -1273,7 +1358,11 @@ Opcodes by name:
      PMULHUW mm(reg), mm(rm)                                             ; 0f e4 /r
      PMULHUW xmm(reg), xmm(rm)                                           ; 66 0f e4 /r
       PMULHW mm(reg), mm(rm)                                             ; 0f e5 /r
+      PMULHW xmm(reg), xmm(rm)                                           ; 66 0f e5 /r
       PMULLW mm(reg), mm(rm)                                             ; 0f d5 /r
+      PMULLW xmm(reg), xmm(rm)                                           ; 66 0f d5 /r
+     PMULUDQ mm(reg), mm(rm)                                             ; 0f f4 /r
+     PMULUDQ xmm(reg), xmm(rm)                                           ; 66 0f f4 /r
          POP ES                                                          ; 07
          POP SS                                                          ; 17
          POP DS                                                          ; 1f
@@ -1282,6 +1371,7 @@ Opcodes by name:
         POPA                                                             ; 61 /r
         POPF                                                             ; 9d
          POR mm(reg), mm(rm)                                             ; 0f eb /r
+         POR xmm(reg), xmm(rm)                                           ; 66 0f eb /r
     PREFETCH r/m(u8)                                                     ; 0f 0d /0
  PREFETCHNTA mm(rm)                                                      ; 0f 18 /0=m
   PREFETCHT0 mm(rm)                                                      ; 0f 18 /1=m
@@ -1294,34 +1384,65 @@ Opcodes by name:
       PSHUFW mm(reg), mm(rm), I                                          ; 0f 70 /r I=imm(u8)
        PSLLD mm(reg), I                                                  ; 0f 72 /6 I=imm(u8)
        PSLLD mm(reg), mm(rm)                                             ; 0f f2 /r
+       PSLLD xmm(reg), I                                                 ; 66 0f 72 /6 I=imm(u8)
+       PSLLD xmm(reg), xmm(rm)                                           ; 66 0f f2 /r
        PSLLQ mm(reg), I                                                  ; 0f 73 /6 I=imm(u8)
        PSLLQ mm(reg), mm(rm)                                             ; 0f f3 /r
+       PSLLQ xmm(reg), I                                                 ; 66 0f 73 /6 I=imm(u8)
+       PSLLQ xmm(reg), xmm(rm)                                           ; 66 0f f3 /r
        PSLLW mm(reg), I                                                  ; 0f 71 /6 I=imm(u8)
        PSLLW mm(reg), mm(rm)                                             ; 0f f1 /r
+       PSLLW xmm(reg), I                                                 ; 66 0f 71 /6 I=imm(u8)
+       PSLLW xmm(reg), xmm(rm)                                           ; 66 0f f1 /r
        PSRAD mm(reg), I                                                  ; 0f 72 /4 I=imm(u8)
        PSRAD mm(reg), mm(rm)                                             ; 0f e2 /r
+       PSRAD xmm(reg), I                                                 ; 66 0f 72 /4 I=imm(u8)
+       PSRAD xmm(reg), xmm(rm)                                           ; 66 0f e2 /r
        PSRAW mm(reg), I                                                  ; 0f 71 /4 I=imm(u8)
        PSRAW mm(reg), mm(rm)                                             ; 0f e1 /r
+       PSRAW xmm(reg), I                                                 ; 66 0f 71 /4 I=imm(u8)
+       PSRAW xmm(reg), xmm(rm)                                           ; 66 0f e1 /r
        PSRLD mm(reg), I                                                  ; 0f 72 /2 I=imm(u8)
        PSRLD mm(reg), mm(rm)                                             ; 0f d2 /r
+       PSRLD xmm(reg), I                                                 ; 66 0f 72 /2 I=imm(u8)
+       PSRLD xmm(reg), xmm(rm)                                           ; 66 0f d2 /r
        PSRLQ mm(reg), I                                                  ; 0f 73 /2 I=imm(u8)
        PSRLQ mm(reg), mm(rm)                                             ; 0f d3 /r
+       PSRLQ xmm(reg), I                                                 ; 66 0f 73 /2 I=imm(u8)
+       PSRLQ xmm(reg), xmm(rm)                                           ; 66 0f d3 /r
        PSRLW mm(reg), I                                                  ; 0f 71 /2 I=imm(u8)
        PSRLW mm(reg), mm(rm)                                             ; 0f d1 /r
+       PSRLW xmm(reg), I                                                 ; 66 0f 71 /2 I=imm(u8)
+       PSRLW xmm(reg), xmm(rm)                                           ; 66 0f d1 /r
        PSUBB mm(reg), mm(rm)                                             ; 0f f8 /r
+       PSUBB xmm(reg), xmm(rm)                                           ; 66 0f f8 /r
        PSUBD mm(reg), mm(rm)                                             ; 0f fa /r
+       PSUBD xmm(reg), xmm(rm)                                           ; 66 0f fa /r
+       PSUBQ mm(reg), mm(rm)                                             ; 0f fb /r
+       PSUBQ xmm(reg), xmm(rm)                                           ; 66 0f fb /r
       PSUBSB mm(reg), mm(rm)                                             ; 0f e8 /r
+      PSUBSB xmm(reg), xmm(rm)                                           ; 66 0f e8 /r
       PSUBSW mm(reg), mm(rm)                                             ; 0f e9 /r
+      PSUBSW xmm(reg), xmm(rm)                                           ; 66 0f e9 /r
      PSUBUSB mm(reg), mm(rm)                                             ; 0f d8 /r
+     PSUBUSB xmm(reg), xmm(rm)                                           ; 66 0f d8 /r
      PSUBUSW mm(reg), mm(rm)                                             ; 0f d9 /r
+     PSUBUSW xmm(reg), xmm(rm)                                           ; 66 0f d9 /r
        PSUBW mm(reg), mm(rm)                                             ; 0f f9 /r
+       PSUBW xmm(reg), xmm(rm)                                           ; 66 0f f9 /r
       PSWAPD mm(reg), mm(rm)                                             ; 0f 0f /r bb
    PUNPCKHBW mm(reg), mm(rm)                                             ; 0f 68 /r
+   PUNPCKHBW xmm(reg), xmm(rm)                                           ; 66 0f 68 /r
    PUNPCKHDQ mm(reg), mm(rm)                                             ; 0f 6a /r
+   PUNPCKHDQ xmm(reg), xmm(rm)                                           ; 66 0f 6a /r
    PUNPCKHWD mm(reg), mm(rm)                                             ; 0f 69 /r
+   PUNPCKHWD xmm(reg), xmm(rm)                                           ; 66 0f 69 /r
    PUNPCKLBW mm(reg), mm(rm)                                             ; 0f 60 /r
+   PUNPCKLBW xmm(reg), xmm(rm)                                           ; 66 0f 60 /r
    PUNPCKLDQ mm(reg), mm(rm)                                             ; 0f 62 /r
+   PUNPCKLDQ xmm(reg), xmm(rm)                                           ; 66 0f 62 /r
    PUNPCKLWD mm(reg), mm(rm)                                             ; 0f 61 /r
+   PUNPCKLWD xmm(reg), xmm(rm)                                           ; 66 0f 61 /r
         PUSH ES                                                          ; 06
         PUSH CS                                                          ; 0e
         PUSH SS                                                          ; 16
@@ -1333,6 +1454,7 @@ Opcodes by name:
        PUSHA                                                             ; 60 /r
        PUSHF                                                             ; 9c
         PXOR mm(reg), mm(rm)                                             ; 0f ef /r
+        PXOR xmm(reg), xmm(rm)                                           ; 66 0f ef /r
          RCL r/m(u8), I                                                  ; c0 /2 I=imm(u8)
          RCL r/m(uv), I                                                  ; c1 /2 I=imm(uv)
          RCL r/m(u8), 1                                                  ; d0 /2
@@ -1540,7 +1662,7 @@ P = prefix    Pm = mandatory prefix (modifies opcodes)
   c|X X X R X R X R X X X X X X X X 
   d|  X X X X X   R X X X X X X X X 
   e|X X X X X X   R X X X X X X X X 
-  f|  X X X   X X X X X X   X X X   
+  f|  X X X X X X X X X X X X X X   
 
 Opcode coverage (66 ... mandatory prefix):
 ------------------------------
@@ -1675,16 +1797,16 @@ P = prefix    Pm = mandatory prefix (modifies opcodes)
   3|                                
   4|                                
   5|R X     X X X X X X X X X X X X 
-  6|                                
-  7|                                
+  6|X X X X X X X X X X X X     X   
+  7|  R R R X X X               X   
   8|                                
   9|                                
   a|                                
   b|                                
   c|    X   X R X                   
-  d|              R     X       X   
-  e|X     X X   X       X       X   
-  f|            X                   
+  d|  X X X X X X R X X X X X X X X 
+  e|X X X X X X X   X X X X X X X X 
+  f|  X X X X X X   X X X X X X X   
 
 Opcode coverage (f2 0f ...):
 ------------------------------
@@ -1724,7 +1846,7 @@ P = prefix    Pm = mandatory prefix (modifies opcodes)
   4|                                
   5|  X X X         X X X X X X X X 
   6|                                
-  7|                                
+  7|                            X   
   8|                                
   9|                                
   a|                                
@@ -5582,6 +5704,156 @@ P = prefix
  e8|X X X X X X X X  reg=5
  f0|X X X X X X X X  reg=6
  f8|X X X X X X X X  reg=7
+
+
+Opcode coverage mod/reg/rm (66 0f 71 ...):
+------------------------------
+X = coverage  O = overlap(!)  M = multi-byte  R = group by mod/reg/rm
+P = prefix
+
+    0 1 2 3 4 5 6 7  rm with mod==0
+   ----------------
+ 00|                 reg=0
+ 08|                 reg=1
+ 10|X X X X X X X X  reg=2
+ 18|                 reg=3
+ 20|X X X X X X X X  reg=4
+ 28|                 reg=5
+ 30|X X X X X X X X  reg=6
+ 38|                 reg=7
+
+    0 1 2 3 4 5 6 7  rm with mod==1
+   ----------------
+ 40|                 reg=0
+ 48|                 reg=1
+ 50|X X X X X X X X  reg=2
+ 58|                 reg=3
+ 60|X X X X X X X X  reg=4
+ 68|                 reg=5
+ 70|X X X X X X X X  reg=6
+ 78|                 reg=7
+
+    0 1 2 3 4 5 6 7  rm with mod==2
+   ----------------
+ 80|                 reg=0
+ 88|                 reg=1
+ 90|X X X X X X X X  reg=2
+ 98|                 reg=3
+ a0|X X X X X X X X  reg=4
+ a8|                 reg=5
+ b0|X X X X X X X X  reg=6
+ b8|                 reg=7
+
+    0 1 2 3 4 5 6 7  rm with mod==3
+   ----------------
+ c0|                 reg=0
+ c8|                 reg=1
+ d0|X X X X X X X X  reg=2
+ d8|                 reg=3
+ e0|X X X X X X X X  reg=4
+ e8|                 reg=5
+ f0|X X X X X X X X  reg=6
+ f8|                 reg=7
+
+
+Opcode coverage mod/reg/rm (66 0f 72 ...):
+------------------------------
+X = coverage  O = overlap(!)  M = multi-byte  R = group by mod/reg/rm
+P = prefix
+
+    0 1 2 3 4 5 6 7  rm with mod==0
+   ----------------
+ 00|                 reg=0
+ 08|                 reg=1
+ 10|X X X X X X X X  reg=2
+ 18|                 reg=3
+ 20|X X X X X X X X  reg=4
+ 28|                 reg=5
+ 30|X X X X X X X X  reg=6
+ 38|                 reg=7
+
+    0 1 2 3 4 5 6 7  rm with mod==1
+   ----------------
+ 40|                 reg=0
+ 48|                 reg=1
+ 50|X X X X X X X X  reg=2
+ 58|                 reg=3
+ 60|X X X X X X X X  reg=4
+ 68|                 reg=5
+ 70|X X X X X X X X  reg=6
+ 78|                 reg=7
+
+    0 1 2 3 4 5 6 7  rm with mod==2
+   ----------------
+ 80|                 reg=0
+ 88|                 reg=1
+ 90|X X X X X X X X  reg=2
+ 98|                 reg=3
+ a0|X X X X X X X X  reg=4
+ a8|                 reg=5
+ b0|X X X X X X X X  reg=6
+ b8|                 reg=7
+
+    0 1 2 3 4 5 6 7  rm with mod==3
+   ----------------
+ c0|                 reg=0
+ c8|                 reg=1
+ d0|X X X X X X X X  reg=2
+ d8|                 reg=3
+ e0|X X X X X X X X  reg=4
+ e8|                 reg=5
+ f0|X X X X X X X X  reg=6
+ f8|                 reg=7
+
+
+Opcode coverage mod/reg/rm (66 0f 73 ...):
+------------------------------
+X = coverage  O = overlap(!)  M = multi-byte  R = group by mod/reg/rm
+P = prefix
+
+    0 1 2 3 4 5 6 7  rm with mod==0
+   ----------------
+ 00|                 reg=0
+ 08|                 reg=1
+ 10|X X X X X X X X  reg=2
+ 18|                 reg=3
+ 20|                 reg=4
+ 28|                 reg=5
+ 30|X X X X X X X X  reg=6
+ 38|                 reg=7
+
+    0 1 2 3 4 5 6 7  rm with mod==1
+   ----------------
+ 40|                 reg=0
+ 48|                 reg=1
+ 50|X X X X X X X X  reg=2
+ 58|                 reg=3
+ 60|                 reg=4
+ 68|                 reg=5
+ 70|X X X X X X X X  reg=6
+ 78|                 reg=7
+
+    0 1 2 3 4 5 6 7  rm with mod==2
+   ----------------
+ 80|                 reg=0
+ 88|                 reg=1
+ 90|X X X X X X X X  reg=2
+ 98|                 reg=3
+ a0|                 reg=4
+ a8|                 reg=5
+ b0|X X X X X X X X  reg=6
+ b8|                 reg=7
+
+    0 1 2 3 4 5 6 7  rm with mod==3
+   ----------------
+ c0|                 reg=0
+ c8|                 reg=1
+ d0|X X X X X X X X  reg=2
+ d8|                 reg=3
+ e0|                 reg=4
+ e8|                 reg=5
+ f0|X X X X X X X X  reg=6
+ f8|                 reg=7
 
 
 Opcode coverage mod/reg/rm (66 0f c5 ...):
