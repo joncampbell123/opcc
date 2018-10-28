@@ -5440,5 +5440,12 @@ if ((value("sse2") > 0) or (value("everything") > 0)) {;
     (dest=xmm(reg))
     (param=xmm(rm))
     (code 0xF3 0x0F 0x5B mrm sse2);
+
+  opcode "CVTTSD2SI"
+    (reads xmm(rm))
+    (writes reg(dw))
+    (dest=reg(dw))
+    (param=xmm(rm))
+    (code 0xF2 0x0F 0x2C mrm sse2);
 } if;
 
