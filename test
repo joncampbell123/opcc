@@ -5626,5 +5626,19 @@ if ((value("sse2") > 0) or (value("everything") > 0)) {;
     (dest=xmm(reg))
     (param=xmm(rm))
     (code 0x66 0x0F 0x66 mrm fpu);
+
+  opcode "PMULHW"
+    (reads xmm(rm))
+    (writes xmm(reg))
+    (dest=xmm(reg))
+    (param=xmm(rm))
+    (code 0x66 0x0F 0xE5 mrm fpu);
+
+  opcode "PMULLW"
+    (reads xmm(rm))
+    (writes xmm(reg))
+    (dest=xmm(reg))
+    (param=xmm(rm))
+    (code 0x66 0x0F 0xD5 mrm fpu);
 } if;
 
