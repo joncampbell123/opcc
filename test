@@ -6254,5 +6254,37 @@ if ((value("sss41") > 0) or (value("everything") > 0)) {;
     (param(1)=xmm(0))
     (code 0x66 0x0F 0x38 0x15 mrm);
 
+  opcode "ROUNDPS"
+    (reads xmm(rm))
+    (writes xmm(reg))
+    (dest=xmm(reg))
+    (param=xmm(rm))
+    (param(1)=i)
+    (code 0x66 0x0F 0x3A 0x08 mrm i=immediate(b));
+
+  opcode "ROUNDSS"
+    (reads xmm(rm))
+    (writes xmm(reg))
+    (dest=xmm(reg))
+    (param=xmm(rm))
+    (param(1)=i)
+    (code 0x66 0x0F 0x3A 0x0A mrm i=immediate(b));
+
+  opcode "ROUNDPD"
+    (reads xmm(rm))
+    (writes xmm(reg))
+    (dest=xmm(reg))
+    (param=xmm(rm))
+    (param(1)=i)
+    (code 0x66 0x0F 0x3A 0x09 mrm i=immediate(b));
+
+  opcode "ROUNDSD"
+    (reads xmm(rm))
+    (writes xmm(reg))
+    (dest=xmm(reg))
+    (param=xmm(rm))
+    (param(1)=i)
+    (code 0x66 0x0F 0x3A 0x0B mrm i=immediate(b));
+
 } if;
 
