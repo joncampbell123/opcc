@@ -6317,5 +6317,19 @@ if ((value("sss41") > 0) or (value("everything") > 0)) {;
     (param=xmm(rm))
     (code 0x66 0x0F 0x38 0x41 mrm);
 
+  opcode "PMULLD"
+    (reads xmm(rm))
+    (writes xmm(reg))
+    (dest=xmm(reg))
+    (param=xmm(rm))
+    (code 0x66 0x0F 0x38 0x40 mrm);
+
+  opcode "PMULDQ"
+    (reads xmm(rm))
+    (writes xmm(reg))
+    (dest=xmm(reg))
+    (param=xmm(rm))
+    (code 0x66 0x0F 0x38 0x28 mrm);
+
 } if;
 
