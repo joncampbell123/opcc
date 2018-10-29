@@ -6286,5 +6286,21 @@ if ((value("sss41") > 0) or (value("everything") > 0)) {;
     (param(1)=i)
     (code 0x66 0x0F 0x3A 0x0B mrm i=immediate(b));
 
+  opcode "INSERTPS"
+    (reads xmm(rm))
+    (writes xmm(reg))
+    (dest=xmm(reg))
+    (param=xmm(rm))
+    (param(1)=i)
+    (code 0x66 0x0F 0x3A 0x21 mrm i=immediate(b));
+
+  opcode "EXTRACTPS"
+    (reads xmm(reg))
+    (writes xmm(rm))
+    (dest=xmm(rm))
+    (param=xmm(reg))
+    (param(1)=i)
+    (code 0x66 0x0F 0x3A 0x17 mrm i=immediate(b));
+
 } if;
 
