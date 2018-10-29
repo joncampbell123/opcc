@@ -6112,5 +6112,96 @@ if ((value("ssse3") > 0) or (value("everything") > 0)) {;
     (param=xmm(rm))
     (code 0x66 0x0F 0x38 0x0A mrm);
 
+  opcode "PSHUFB"
+    (reads xmm(rm))
+    (writes xmm(reg))
+    (dest=xmm(reg))
+    (param=xmm(rm))
+    (code 0x66 0x0F 0x38 0x00 mrm);
+
+  opcode "PMULHRSW"
+    (reads xmm(rm))
+    (writes xmm(reg))
+    (dest=xmm(reg))
+    (param=xmm(rm))
+    (code 0x66 0x0F 0x38 0x0B mrm);
+
+  opcode "PMADDUBSW"
+    (reads xmm(rm))
+    (writes xmm(reg))
+    (dest=xmm(reg))
+    (param=xmm(rm))
+    (code 0x66 0x0F 0x38 0x04 mrm);
+
+  opcode "PHSUBW"
+    (reads xmm(rm))
+    (writes xmm(reg))
+    (dest=xmm(reg))
+    (param=xmm(rm))
+    (code 0x66 0x0F 0x38 0x05 mrm);
+
+  opcode "PHSUBSW"
+    (reads xmm(rm))
+    (writes xmm(reg))
+    (dest=xmm(reg))
+    (param=xmm(rm))
+    (code 0x66 0x0F 0x38 0x07 mrm);
+
+  opcode "PHSUBD"
+    (reads xmm(rm))
+    (writes xmm(reg))
+    (dest=xmm(reg))
+    (param=xmm(rm))
+    (code 0x66 0x0F 0x38 0x06 mrm);
+
+  opcode "PHADDSW"
+    (reads xmm(rm))
+    (writes xmm(reg))
+    (dest=xmm(reg))
+    (param=xmm(rm))
+    (code 0x66 0x0F 0x38 0x03 mrm);
+
+  opcode "PHADDW"
+    (reads xmm(rm))
+    (writes xmm(reg))
+    (dest=xmm(reg))
+    (param=xmm(rm))
+    (code 0x66 0x0F 0x38 0x01 mrm);
+
+  opcode "PHADDD"
+    (reads xmm(rm))
+    (writes xmm(reg))
+    (dest=xmm(reg))
+    (param=xmm(rm))
+    (code 0x66 0x0F 0x38 0x02 mrm);
+
+  opcode "PALIGNR"
+    (reads xmm(rm))
+    (writes xmm(reg))
+    (dest=xmm(reg))
+    (param=xmm(rm))
+    (param(1)=i)
+    (code 0x66 0x0F 0x3A 0x0F mrm i=immediate(b));
+
+  opcode "PABSB"
+    (reads xmm(rm))
+    (writes xmm(reg))
+    (dest=xmm(reg))
+    (param=xmm(rm))
+    (code 0x66 0x0F 0x38 0x1C mrm);
+
+  opcode "PABSW"
+    (reads xmm(rm))
+    (writes xmm(reg))
+    (dest=xmm(reg))
+    (param=xmm(rm))
+    (code 0x66 0x0F 0x38 0x1D mrm);
+
+  opcode "PABSD"
+    (reads xmm(rm))
+    (writes xmm(reg))
+    (dest=xmm(reg))
+    (param=xmm(rm))
+    (code 0x66 0x0F 0x38 0x1E mrm);
 } if;
 
