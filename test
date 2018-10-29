@@ -6089,3 +6089,28 @@ if ((value("sse3") > 0) or (value("everything") > 0)) {;
     (param=xmm(rm))
     (code 0xF2 0x0F 0xF0 mrm mod(!3));
 } if;
+
+if ((value("ssse3") > 0) or (value("everything") > 0)) {;
+  opcode "PSIGNB"
+    (reads xmm(rm))
+    (writes xmm(reg))
+    (dest=xmm(reg))
+    (param=xmm(rm))
+    (code 0x66 0x0F 0x38 0x08 mrm);
+
+  opcode "PSIGNW"
+    (reads xmm(rm))
+    (writes xmm(reg))
+    (dest=xmm(reg))
+    (param=xmm(rm))
+    (code 0x66 0x0F 0x38 0x09 mrm);
+
+  opcode "PSIGND"
+    (reads xmm(rm))
+    (writes xmm(reg))
+    (dest=xmm(reg))
+    (param=xmm(rm))
+    (code 0x66 0x0F 0x38 0x0A mrm);
+
+} if;
+
