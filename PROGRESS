@@ -17,6 +17,7 @@
 [x] SSE
 [x] SSE2
 [x] SSE3
+[x] SSSE3
 
 Also todo:
 [x] Add to "fpu", "sse" tags by adding "mmx", "emmi", "3dnow", and "3dnow+" tags.
