@@ -6205,3 +6205,54 @@ if ((value("ssse3") > 0) or (value("everything") > 0)) {;
     (code 0x66 0x0F 0x38 0x1E mrm);
 } if;
 
+if ((value("sss41") > 0) or (value("everything") > 0)) {;
+  opcode "DPPS"
+    (reads xmm(rm))
+    (writes xmm(reg))
+    (dest=xmm(reg))
+    (param=xmm(rm))
+    (param(1)=i)
+    (code 0x66 0x0F 0x3A 0x40 mrm i=immediate(b));
+
+  opcode "DPPD"
+    (reads xmm(rm))
+    (writes xmm(reg))
+    (dest=xmm(reg))
+    (param=xmm(rm))
+    (param(1)=i)
+    (code 0x66 0x0F 0x3A 0x41 mrm i=immediate(b));
+
+  opcode "BLENDPS"
+    (reads xmm(rm))
+    (writes xmm(reg))
+    (dest=xmm(reg))
+    (param=xmm(rm))
+    (param(1)=i)
+    (code 0x66 0x0F 0x3A 0x0C mrm i=immediate(b));
+
+  opcode "BLENDVPS"
+    (reads xmm(rm))
+    (writes xmm(reg))
+    (dest=xmm(reg))
+    (param=xmm(rm))
+    (param(1)=xmm(0))
+    (code 0x66 0x0F 0x38 0x14 mrm);
+
+  opcode "BLENDPD"
+    (reads xmm(rm))
+    (writes xmm(reg))
+    (dest=xmm(reg))
+    (param=xmm(rm))
+    (param(1)=i)
+    (code 0x66 0x0F 0x3A 0x0D mrm i=immediate(b));
+
+  opcode "BLENDVPD"
+    (reads xmm(rm))
+    (writes xmm(reg))
+    (dest=xmm(reg))
+    (param=xmm(rm))
+    (param(1)=xmm(0))
+    (code 0x66 0x0F 0x38 0x15 mrm);
+
+} if;
+
