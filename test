@@ -6302,5 +6302,20 @@ if ((value("sss41") > 0) or (value("everything") > 0)) {;
     (param(1)=i)
     (code 0x66 0x0F 0x3A 0x17 mrm i=immediate(b));
 
+  opcode "MPSADBW"
+    (reads xmm(rm))
+    (writes xmm(reg))
+    (dest=xmm(reg))
+    (param=xmm(rm))
+    (param(1)=i)
+    (code 0x66 0x0F 0x3A 0x42 mrm i=immediate(b));
+
+  opcode "PHMINPOSUW"
+    (reads xmm(rm))
+    (writes xmm(reg))
+    (dest=xmm(reg))
+    (param=xmm(rm))
+    (code 0x66 0x0F 0x38 0x41 mrm);
+
 } if;
 
