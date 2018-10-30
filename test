@@ -6701,10 +6701,6 @@ if ((value("everything") > 0)) {;
     (param=rm(qw))
     (code 0x66 0x0F 0xC7 mrm mod(!3) reg(6));
 
-  opcode "VXMON"
-    (param=rm(qw))
-    (code 0xF3 0x0F 0xC7 mrm mod(!3) reg(6));
-
   opcode "VMPTRST"
     (param=rm(qw))
     (code 0x0F 0xC7 mrm mod(!3) reg(7));
@@ -6719,5 +6715,20 @@ if ((value("everything") > 0)) {;
     (param=rm(dw))
     (code 0x0F 0x79 mrm);
 
+  opcode "VMCALL"
+    (code 0x0F 0x01 mrm mod(3) reg(0) rm(1));
+
+  opcode "VMLAUNCH"
+    (code 0x0F 0x01 mrm mod(3) reg(0) rm(2));
+
+  opcode "VMRESUME"
+    (code 0x0F 0x01 mrm mod(3) reg(0) rm(3));
+
+  opcode "VMXOFF"
+    (code 0x0F 0x01 mrm mod(3) reg(0) rm(4));
+
+  opcode "VMXON"
+    (param=reg(qw))
+    (code 0xF3 0x0F 0xC7 mrm mod(!3) reg(6));
 } if;
 
