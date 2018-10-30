@@ -2855,14 +2855,12 @@ bool opcode_sort_func(const OpcodeSpec &a,const OpcodeSpec &b) {
         std::vector<ByteSpec> ab = bytes_only_bytes(a.bytes);
         std::vector<ByteSpec> bb = bytes_only_bytes(b.bytes);
 
-             if (ab                 < bb)                       return true;
-        else if (ab                 > bb)                       return false;
+         if (ab                     < bb)                       return true;
+    else if (ab                     > bb)                       return false;
     }
 
-    if (a.mod3 != 0 && b.mod3 != 0) {
-             if (a.mod3             < b.mod3)                   return true;
-        else if (a.mod3             > b.mod3)                   return false;
-    }
+         if (a.mod3                 < b.mod3)                   return true;
+    else if (a.mod3                 > b.mod3)                   return false;
 
          if (a.reg_constraint       < b.reg_constraint)         return true;
     else if (a.reg_constraint       > b.reg_constraint)         return false;
