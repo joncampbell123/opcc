@@ -22,6 +22,7 @@
 [x] SSE4a
 [x] SSE4.2
 [x] AMD-V
+[x] Intel VT-x
 [ ] SSE5        TODO find datasheets
 [ ] XOP         TODO find datasheets
 [ ] F16C        TODO find datasheets

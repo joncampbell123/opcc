@@ -26,6 +26,10 @@ Opcodes by byte:
         LGDT r/m(u48)                                                    ; 0f 01 /2=m
         LIDT r/m(u48)                                                    ; 0f 01 /3=m
       INVLPG r/m(uv)                                                     ; 0f 01 /7=m
+      VMCALL                                                             ; 0f 01 c1
+    VMLAUNCH                                                             ; 0f 01 c2
+    VMRESUME                                                             ; 0f 01 c3
+      VMXOFF                                                             ; 0f 01 c4
      MONITOR EAX, ECX, EDX                                               ; 0f 01 c8
        MWAIT EAX, ECX                                                    ; 0f 01 c9
        VMRUN                                                             ; 0f 01 d8
@@ -172,6 +176,8 @@ Opcodes by byte:
      PCMPEQW mm(reg), mm(rm)                                             ; 0f 75 /r; fpu
      PCMPEQD mm(reg), mm(rm)                                             ; 0f 76 /r; fpu
         EMMS                                                             ; 0f 77; fpu
+      VMREAD r/m(u32), reg(u32)                                          ; 0f 78 /r
+     VMWRITE reg(u32), r/m(u32)                                          ; 0f 79 /r
         MOVD r/m(u32), mm(reg)                                           ; 0f 7e /r; fpu
         MOVQ r/m(u64), mm(reg)                                           ; 0f 7f /r; fpu
           JO N                                                           ; 0f 80 P=imm(iv); N=(IPV+P)
@@ -237,6 +243,8 @@ Opcodes by byte:
       PEXTRW reg(u32), mm(rm), I                                         ; 0f c5 /r!m I=imm(u8)
       SHUFPS xmm(reg), xmm(rm), I                                        ; 0f c6 /r I=imm(u8); sse
    CMPXCHG8B r/m(u64)                                                    ; 0f c7 /1=m
+     VMPTRLD r/m(u64)                                                    ; 0f c7 /6=m
+     VMPTRST r/m(u64)                                                    ; 0f c7 /7=m
        BSWAP reg(uv), reg(uv)                                            ; 0f c8+reg; reg=0-7
        PSRLW mm(reg), mm(rm)                                             ; 0f d1 /r; fpu
        PSRLD mm(reg), mm(rm)                                             ; 0f d2 /r; fpu
@@ -478,6 +486,7 @@ Opcodes by byte:
       PINSRW xmm(reg), r/m(u16), I                                       ; 66 0f c4 /r I=imm(u8); sse
       PEXTRW reg(u32), xmm(rm), I                                        ; 66 0f c5 /r!m I=imm(u8); sse
       SHUFPD xmm(reg), xmm(rm), I                                        ; 66 0f c6 /r I=imm(u8); sse2
+     VMCLEAR r/m(u64)                                                    ; 66 0f c7 /6=m
     ADDSUBPD xmm(reg), xmm(rm)                                           ; 66 0f d0 /r
        PSRLW xmm(reg), xmm(rm)                                           ; 66 0f d1 /r; sse2
        PSRLD xmm(reg), xmm(rm)                                           ; 66 0f d2 /r; sse2
@@ -888,6 +897,7 @@ Opcodes by byte:
         MOVQ xmm(reg), xmm(rm)                                           ; f3 0f 7e /r; sse2
       MOVDQU xmm(rm), xmm(reg)                                           ; f3 0f 7f /r; sse2
        CMPSS xmm(reg), xmm(rm), I                                        ; f3 0f c2 /r I=imm(u8); sse
+       VMXON reg(u64)                                                    ; f3 0f c7 /6=m
      MOVQ2DQ xmm(rm), mm(reg)                                            ; f3 0f d6 /r!m; sse2
     CVTDQ2PD xmm(reg), xmm(rm)                                           ; f3 0f e6 /r; sse2
        PAUSE                                                             ; f3 90
@@ -1822,10 +1832,20 @@ Opcodes by name:
     UNPCKLPS xmm(reg), xmm(rm)                                           ; 0f 14 /r; sse
         VERR r/m(uv)                                                     ; 0f 00 /4
         VERW r/m(uv)                                                     ; 0f 00 /5
+      VMCALL                                                             ; 0f 01 c1
+     VMCLEAR r/m(u64)                                                    ; 66 0f c7 /6=m
+    VMLAUNCH                                                             ; 0f 01 c2
       VMLOAD                                                             ; 0f 01 da
      VMMCALL                                                             ; 0f 01 d9
+     VMPTRLD r/m(u64)                                                    ; 0f c7 /6=m
+     VMPTRST r/m(u64)                                                    ; 0f c7 /7=m
+      VMREAD r/m(u32), reg(u32)                                          ; 0f 78 /r
+    VMRESUME                                                             ; 0f 01 c3
        VMRUN                                                             ; 0f 01 d8
       VMSAVE                                                             ; 0f 01 db
+     VMWRITE reg(u32), r/m(u32)                                          ; 0f 79 /r
+      VMXOFF                                                             ; 0f 01 c4
+       VMXON reg(u64)                                                    ; f3 0f c7 /6=m
         WAIT                                                    ; prefix ; 9b
       WBINVD                                                             ; 0f 09
        WRMSR                                                             ; 0f 30
@@ -1886,7 +1906,7 @@ P = prefix    Pm = mandatory prefix (modifies opcodes)
   4|X X X X X X X X X X X X X X X X 
   5|X X X X X X X X X X X X X X X X 
   6|X X X X X X X X X X X X     X X 
-  7|X R R R X X X X             X X 
+  7|X R R R X X X X X X         X X 
   8|X X X X X X X X X X X X X X X X 
   9|R R R R R R R R R R R R R R R R 
   a|    X X             X X     R   
@@ -2035,7 +2055,7 @@ P = prefix    Pm = mandatory prefix (modifies opcodes)
   9|                                
   a|                                
   b|                                
-  c|    X   X R X                   
+  c|    X   X R X R                 
   d|X X X X X X X R X X X X X X X X 
   e|X X X X X X X R X X X X X X X X 
   f|  X X X X X X X X X X X X X X   
@@ -2083,7 +2103,7 @@ P = prefix    Pm = mandatory prefix (modifies opcodes)
   9|                                
   a|                                
   b|                                
-  c|    X                           
+  c|    X         R                 
   d|            R                   
   e|            X                   
   f|                                
@@ -3650,7 +3670,7 @@ P = prefix
 
     0 1 2 3 4 5 6 7  rm with mod==3
    ----------------
- c0|                 reg=0
+ c0|  X X X X        reg=0
  c8|X X              reg=1
  d0|                 reg=2
  d8|X X X X X X X X  reg=3
@@ -5523,8 +5543,8 @@ P = prefix
  18|                 reg=3
  20|                 reg=4
  28|                 reg=5
- 30|                 reg=6
- 38|                 reg=7
+ 30|X X X X X X X X  reg=6
+ 38|X X X X X X X X  reg=7
 
     0 1 2 3 4 5 6 7  rm with mod==1
    ----------------
@@ -5534,8 +5554,8 @@ P = prefix
  58|                 reg=3
  60|                 reg=4
  68|                 reg=5
- 70|                 reg=6
- 78|                 reg=7
+ 70|X X X X X X X X  reg=6
+ 78|X X X X X X X X  reg=7
 
     0 1 2 3 4 5 6 7  rm with mod==2
    ----------------
@@ -5545,8 +5565,8 @@ P = prefix
  98|                 reg=3
  a0|                 reg=4
  a8|                 reg=5
- b0|                 reg=6
- b8|                 reg=7
+ b0|X X X X X X X X  reg=6
+ b8|X X X X X X X X  reg=7
 
     0 1 2 3 4 5 6 7  rm with mod==3
    ----------------
@@ -6310,6 +6330,56 @@ P = prefix
  f8|X X X X X X X X  reg=7
 
 
+Opcode coverage mod/reg/rm (66 0f c7 ...):
+------------------------------
+X = coverage  O = overlap(!)  M = multi-byte  R = group by mod/reg/rm
+P = prefix
+
+    0 1 2 3 4 5 6 7  rm with mod==0
+   ----------------
+ 00|                 reg=0
+ 08|                 reg=1
+ 10|                 reg=2
+ 18|                 reg=3
+ 20|                 reg=4
+ 28|                 reg=5
+ 30|X X X X X X X X  reg=6
+ 38|                 reg=7
+
+    0 1 2 3 4 5 6 7  rm with mod==1
+   ----------------
+ 40|                 reg=0
+ 48|                 reg=1
+ 50|                 reg=2
+ 58|                 reg=3
+ 60|                 reg=4
+ 68|                 reg=5
+ 70|X X X X X X X X  reg=6
+ 78|                 reg=7
+
+    0 1 2 3 4 5 6 7  rm with mod==2
+   ----------------
+ 80|                 reg=0
+ 88|                 reg=1
+ 90|                 reg=2
+ 98|                 reg=3
+ a0|                 reg=4
+ a8|                 reg=5
+ b0|X X X X X X X X  reg=6
+ b8|                 reg=7
+
+    0 1 2 3 4 5 6 7  rm with mod==3
+   ----------------
+ c0|                 reg=0
+ c8|                 reg=1
+ d0|                 reg=2
+ d8|                 reg=3
+ e0|                 reg=4
+ e8|                 reg=5
+ f0|                 reg=6
+ f8|                 reg=7
+
+
 Opcode coverage mod/reg/rm (66 0f d7 ...):
 ------------------------------
 X = coverage  O = overlap(!)  M = multi-byte  R = group by mod/reg/rm
@@ -6697,6 +6767,56 @@ P = prefix
  a8|X X X X X X X X  reg=5
  b0|X X X X X X X X  reg=6
  b8|X X X X X X X X  reg=7
+
+    0 1 2 3 4 5 6 7  rm with mod==3
+   ----------------
+ c0|                 reg=0
+ c8|                 reg=1
+ d0|                 reg=2
+ d8|                 reg=3
+ e0|                 reg=4
+ e8|                 reg=5
+ f0|                 reg=6
+ f8|                 reg=7
+
+
+Opcode coverage mod/reg/rm (f3 0f c7 ...):
+------------------------------
+X = coverage  O = overlap(!)  M = multi-byte  R = group by mod/reg/rm
+P = prefix
+
+    0 1 2 3 4 5 6 7  rm with mod==0
+   ----------------
+ 00|                 reg=0
+ 08|                 reg=1
+ 10|                 reg=2
+ 18|                 reg=3
+ 20|                 reg=4
+ 28|                 reg=5
+ 30|X X X X X X X X  reg=6
+ 38|                 reg=7
+
+    0 1 2 3 4 5 6 7  rm with mod==1
+   ----------------
+ 40|                 reg=0
+ 48|                 reg=1
+ 50|                 reg=2
+ 58|                 reg=3
+ 60|                 reg=4
+ 68|                 reg=5
+ 70|X X X X X X X X  reg=6
+ 78|                 reg=7
+
+    0 1 2 3 4 5 6 7  rm with mod==2
+   ----------------
+ 80|                 reg=0
+ 88|                 reg=1
+ 90|                 reg=2
+ 98|                 reg=3
+ a0|                 reg=4
+ a8|                 reg=5
+ b0|X X X X X X X X  reg=6
+ b8|                 reg=7
 
     0 1 2 3 4 5 6 7  rm with mod==3
    ----------------
