@@ -6404,41 +6404,41 @@ if ((value("sss41") > 0) or (value("everything") > 0)) {;
     (code 0x66 0x0F 0x38 0x3F mrm);
 
   opcode "PINSRB"
-    (reads xmm(rm))
+    (reads rm(dw))
     (writes xmm(reg))
     (dest=xmm(reg))
-    (param=xmm(rm))
+    (param=rm(dw))
     (param(1)=i)
     (code 0x66 0x0F 0x3A 0x20 mrm i=immediate(b));
 
   opcode "PINSRD"
-    (reads xmm(rm))
+    (reads rm(dw))
     (writes xmm(reg))
     (dest=xmm(reg))
-    (param=xmm(rm))
+    (param=rm(dw))
     (param(1)=i)
     (code 0x66 0x0F 0x3A 0x22 mrm i=immediate(b));
 
   opcode "PEXTRB"
     (reads xmm(reg))
-    (writes xmm(rm))
-    (dest=xmm(rm))
+    (writes rm(dw))
+    (dest=rm(dw))
     (param=xmm(reg))
     (param(1)=i)
     (code 0x66 0x0F 0x3A 0x14 mrm i=immediate(b));
 
   opcode "PEXTRW"
     (reads xmm(reg))
-    (writes xmm(rm))
-    (dest=xmm(rm))
+    (writes rm(dw))
+    (dest=rm(dw))
     (param=xmm(reg))
     (param(1)=i)
     (code 0x66 0x0F 0x3A 0x15 mrm i=immediate(b));
 
   opcode "PEXTRD"
     (reads xmm(reg))
-    (writes xmm(rm))
-    (dest=xmm(rm))
+    (writes rm(dw))
+    (dest=rm(dw))
     (param=xmm(reg))
     (param(1)=i)
     (code 0x66 0x0F 0x3A 0x16 mrm i=immediate(b));
