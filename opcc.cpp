@@ -5663,6 +5663,7 @@ public:
     };
     enum mapping_type maptype = NONE;
 public:
+    bool                        vex = false;
     bool                        overlap_error = false;
     size_t                      opcode_index = 0;
 public:
@@ -5700,8 +5701,10 @@ bool enter_opcode_byte_spec(const OpcodeSpec &opcode,size_t opcode_index,std::sh
             auto &gs = *groups;
 
             if (opcode.type == TOK_PREFIX) {
-                if (gs.maptype == OpcodeGroupBlock::NONE)
+                if (gs.maptype == OpcodeGroupBlock::NONE) {
                     gs.maptype = OpcodeGroupBlock::PREFIX;
+                    gs.vex = opcode.vex;
+                }
                 else/* if (gs.maptype != OpcodeGroupBlock::PREFIX)*/ {
                     gs.overlap_error = true;
                     fprintf(stderr,"map overlap error for opcode '%s'\n",opcode.name.c_str());
@@ -5709,8 +5712,10 @@ bool enter_opcode_byte_spec(const OpcodeSpec &opcode,size_t opcode_index,std::sh
                 }
             }
             else {
-                if (gs.maptype == OpcodeGroupBlock::NONE)
+                if (gs.maptype == OpcodeGroupBlock::NONE) {
                     gs.maptype = OpcodeGroupBlock::LEAF;
+                    gs.vex = opcode.vex;
+                }
                 else/*if (gs.maptype != OpcodeGroupBlock::LEAF)*/ {
                     gs.overlap_error = true;
                     fprintf(stderr,"map overlap error for opcode '%s'\n",opcode.name.c_str());
@@ -5719,6 +5724,11 @@ bool enter_opcode_byte_spec(const OpcodeSpec &opcode,size_t opcode_index,std::sh
 
                     return false;
                 }
+            }
+
+            if (gs.vex != opcode.vex) {
+                fprintf(stderr,"map overlap error for opcode '%s', vex conflict\n",opcode.name.c_str());
+                return false;
             }
 
             gs.opcode_index = opcode_index;
@@ -5734,8 +5744,10 @@ bool enter_opcode_byte_spec(const OpcodeSpec &opcode,size_t opcode_index,std::sh
         {
             auto &gs = *groups;
 
-            if (gs.maptype == OpcodeGroupBlock::NONE)
+            if (gs.maptype == OpcodeGroupBlock::NONE) {
                 gs.maptype = OpcodeGroupBlock::LINEAR;
+                gs.vex = opcode.vex;
+            }
             else if (gs.maptype == OpcodeGroupBlock::PREFIX) {
                 /* mandatory prefix (i.e. to turn MMX instructions into SSE) */
                 /* it's ok */
@@ -5743,6 +5755,11 @@ bool enter_opcode_byte_spec(const OpcodeSpec &opcode,size_t opcode_index,std::sh
             else if (gs.maptype != OpcodeGroupBlock::LINEAR) {
                 gs.overlap_error = true;
                 fprintf(stderr,"map overlap error for opcode '%s'\n",opcode.name.c_str());
+                return false;
+            }
+
+            if (gs.vex != opcode.vex) {
+                fprintf(stderr,"map overlap error for opcode '%s', vex conflict\n",opcode.name.c_str());
                 return false;
             }
         }
@@ -6331,6 +6348,7 @@ int main(int argc,char **argv) {
         //      use a list instead because the iterator is a pointer to a node in a linked list which
         //      does not invalidate when extending the list.
         std::list< std::pair< std::vector<uint8_t>, std::shared_ptr<OpcodeGroupBlock> > > subl;
+        std::list< std::pair< std::vector<uint8_t>, std::shared_ptr<OpcodeGroupBlock> > > sublv;
         std::list< std::pair< std::vector<uint8_t>, std::shared_ptr<OpcodeGroupBlock> > > submrm;
 
         {
@@ -6452,7 +6470,7 @@ int main(int argc,char **argv) {
             printf("):\n");
             printf("------------------------------\n");
             printf("X = coverage  O = overlap(!)  M = multi-byte  R = group by mod/reg/rm\n");
-            printf("P = prefix\n");
+            printf("P = prefix    Mv = m/b vex\n");
             printf("\n");
 
             for (unsigned int mod=0;mod < 4;mod++) {
@@ -6475,8 +6493,21 @@ int main(int argc,char **argv) {
                             const auto &gs = *gsr;
 
                             if (gs.maptype == OpcodeGroupBlock::LINEAR) {
-                                c = 'M';
-                                c2 = '!';
+                                if (gs.vex) {
+                                    c = 'M';
+                                    c2 = 'v';
+
+                                    std::pair< std::vector<uint8_t>, std::shared_ptr<OpcodeGroupBlock> > p;
+                                    p.first = (*si).first;
+                                    p.first.push_back((mod*64)+(y*8)+x);
+                                    p.second = gsr;
+                                    assert(p.second.get() != nullptr);
+                                    sublv.push_back(p);
+                                }
+                                else {
+                                    c = 'M';
+                                    c2 = '!';
+                                }
                             }
                             else if (gs.maptype == OpcodeGroupBlock::MODREGRM) {
                                 c = 'R';
@@ -6504,6 +6535,102 @@ int main(int argc,char **argv) {
                 }
 
                 printf("\n");
+            }
+
+            printf("\n");
+        }
+
+        for (auto si=sublv.begin();si!=sublv.end();si++) {
+            assert((*si).second.get() != nullptr);
+            auto sgroup = (*si).second;
+
+            printf("Opcode coverage, VEX (");
+            if ((*si).first.empty()) {
+                printf("single opcode");
+            }
+            else {
+                for (auto bi=(*si).first.begin();bi!=(*si).first.end();bi++)
+                    printf("%02x ",*bi);
+
+                printf("...");
+
+                if ((*sgroup).maptype == OpcodeGroupBlock::MRMLINEAR)
+                    printf(" with mod/reg/rm before last byte");
+                else if ((*sgroup).maptype == OpcodeGroupBlock::PREFIX)
+                    printf(" mandatory prefix");
+            }
+            printf("):\n");
+            printf("------------------------------\n");
+            printf("X = coverage  O = overlap(!)  M = multi-byte  R = group by mod/reg/rm\n");
+            printf("P = prefix    Pm = mandatory prefix (modifies opcodes)\n");
+            printf("\n");
+
+            {
+                printf("    ");
+                for (unsigned int x=0;x < 16;x++) printf("%x ",x);
+                printf("\n");
+
+                printf("   ");
+                for (unsigned int x=0;x < 16;x++) printf("--");
+                printf("\n");
+
+                for (unsigned int y=0;y < 16;y++) {
+                    printf("  %x|",y);
+                    for (unsigned int x=0;x < 16;x++) {
+                        unsigned char c = ' ';
+                        unsigned char c2 = ' ';
+
+                        auto gsr = (*sgroup).map_get((y*16)+x);
+                        if (gsr.get() != nullptr) {
+                            const auto &gs = *gsr;
+
+                            if (gs.maptype == OpcodeGroupBlock::LINEAR ||
+                                gs.maptype == OpcodeGroupBlock::MRMLINEAR ||
+                                (gs.maptype == OpcodeGroupBlock::PREFIX && !gs.map.empty())) {
+
+                                if (gs.maptype == OpcodeGroupBlock::PREFIX) {
+                                    c = 'P';
+                                    c2 = 'm';
+                                }
+                                else {
+                                    c = 'M';
+                                }
+
+                                std::pair< std::vector<uint8_t>, std::shared_ptr<OpcodeGroupBlock> > p;
+                                p.first = (*si).first;
+                                p.first.push_back((y*16)+x);
+                                p.second = gsr;
+                                assert(p.second.get() != nullptr);
+                                sublv.push_back(p);
+                            }
+                            else if (gs.maptype == OpcodeGroupBlock::MODREGRM) {
+                                c = 'R';
+
+                                std::pair< std::vector<uint8_t>, std::shared_ptr<OpcodeGroupBlock> > p;
+                                p.first = (*si).first;
+                                p.first.push_back((y*16)+x);
+                                p.second = gsr;
+                                assert(p.second.get() != nullptr);
+                                submrm.push_back(p);
+                            }
+                            else if (gs.maptype == OpcodeGroupBlock::LEAF) {
+                                c = 'X';
+                            }
+                            else if (gs.maptype == OpcodeGroupBlock::PREFIX) {
+                                c = 'P';
+                            }
+                            else {
+                                c = '?';
+                            }
+                        }
+                        else {
+                            c = ' ';
+                        }
+
+                        printf("%c%c",(char)c,(char)c2);
+                    }
+                    printf("\n");
+                }
             }
 
             printf("\n");
