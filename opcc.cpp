@@ -6122,51 +6122,77 @@ int main(int argc,char **argv) {
             continue;
         }
 
-        /* bytes[0] must be actual bytes */
-        /* VEX instructions are the only exception to the rule.
+        /* VEX instructions must start with the VEX prefix.
          * It's like a compressed prefix, in a way, that Intel can extend in the future as well. */
         if (opcode.vex) {
-            // TODO
-            fprintf(stderr,"WARNING: opcode '%s' ignored, VEX instructions not yet supported\n",opcode.name.c_str());
-            continue;
-        }
+            /* NTS: Intel officially documents that adding other prefixes before VEX that VEX already encodes,
+             *      as well as REX, is an undefined opcode.
+             *
+             *      You can't encode 0x66 VEX because VEX already provides a way to encode the 0x66 wtithin itself.
+             *
+             *      The option to use REX VEX in the future to extend the opcode space is left open by Intel. */
 
-        if (opcode.bytes[0].meaning != 0) {
-            fprintf(stderr,"ERROR: opcode '%s' first entry not a byte value\n",opcode.name.c_str());
-            continue;
-        }
-        {
-            auto i = opcode.bytes.begin();
-
-            /* must be <byte-range> [<byte-range>] [mrm] [immediate]
-             * exception: AMD 3DNow! 0x0F 0x0F mrm <byte-range> */
-            while (i != opcode.bytes.end() && (*i).meaning == 0) i++;
-            if ((i+0) != opcode.bytes.end() &&
-                (i+1) != opcode.bytes.end() &&
-                (*(i+0)).meaning == TOK_MRM &&      // mrm
-                opcode.mod3 == 0 &&                 // no constraints on mrm
-                opcode.reg_constraint == 0 &&
-                opcode.rm_constraint == 0 &&
-                (*(i+1)).meaning == 0) {            // then byte
-                /* allow */
-                assert((i+0) != opcode.bytes.end());
-                assert((i+1) != opcode.bytes.end());
-                i += 2;
-            }
-            else {
-                if (i != opcode.bytes.end() && (*i).meaning == TOK_MRM) i++;
-                while (i != opcode.bytes.end() && (*i).meaning == TOK_IMMEDIATE) i++;
-            }
-
-            if (i != opcode.bytes.end()) {
-                fprintf(stderr,"ERROR: opcode '%s' unexpected byte entries\n",opcode.name.c_str());
+            /* bytes[0] must be VEX */
+            if (opcode.bytes[0].meaning != TOK_VEX) {
+                fprintf(stderr,"ERROR: opcode '%s' is a VEX instruction, first entry not vex()\n",opcode.name.c_str());
                 continue;
             }
-        }
+            {
+                auto i = opcode.bytes.begin();
 
-        if (!enter_opcode_bytes(opcode,(size_t)(op_i-opcodes.begin()),opcode_groups)) {
-            fprintf(stderr,"Opcode byte to map error\n");
+                /* must be VEX <byte-range> [<byte-range>] [mrm] [immediate] */
+                if (i != opcode.bytes.end() && (*i).meaning == TOK_VEX) i++;
+                while (i != opcode.bytes.end() && (*i).meaning == 0) i++;
+                if (i != opcode.bytes.end() && (*i).meaning == TOK_MRM) i++;
+                while (i != opcode.bytes.end() && (*i).meaning == TOK_IMMEDIATE) i++;
+
+                if (i != opcode.bytes.end()) {
+                    fprintf(stderr,"ERROR: opcode '%s' unexpected byte entries\n",opcode.name.c_str());
+                    continue;
+                }
+            }
+
             continue;
+        }
+        else {
+            /* bytes[0] must be actual bytes */
+            if (opcode.bytes[0].meaning != 0) {
+                fprintf(stderr,"ERROR: opcode '%s' first entry not a byte value\n",opcode.name.c_str());
+                continue;
+            }
+            {
+                auto i = opcode.bytes.begin();
+
+                /* must be <byte-range> [<byte-range>] [mrm] [immediate]
+                 * exception: AMD 3DNow! 0x0F 0x0F mrm <byte-range> */
+                while (i != opcode.bytes.end() && (*i).meaning == 0) i++;
+                if ((i+0) != opcode.bytes.end() &&
+                        (i+1) != opcode.bytes.end() &&
+                        (*(i+0)).meaning == TOK_MRM &&      // mrm
+                        opcode.mod3 == 0 &&                 // no constraints on mrm
+                        opcode.reg_constraint == 0 &&
+                        opcode.rm_constraint == 0 &&
+                        (*(i+1)).meaning == 0) {            // then byte
+                    /* allow */
+                    assert((i+0) != opcode.bytes.end());
+                    assert((i+1) != opcode.bytes.end());
+                    i += 2;
+                }
+                else {
+                    if (i != opcode.bytes.end() && (*i).meaning == TOK_MRM) i++;
+                    while (i != opcode.bytes.end() && (*i).meaning == TOK_IMMEDIATE) i++;
+                }
+
+                if (i != opcode.bytes.end()) {
+                    fprintf(stderr,"ERROR: opcode '%s' unexpected byte entries\n",opcode.name.c_str());
+                    continue;
+                }
+            }
+
+            if (!enter_opcode_bytes(opcode,(size_t)(op_i-opcodes.begin()),opcode_groups)) {
+                fprintf(stderr,"Opcode byte to map error\n");
+                continue;
+            }
         }
     }
 
