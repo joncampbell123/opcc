@@ -2858,15 +2858,22 @@ bool opcode_sort_func(const OpcodeSpec &a,const OpcodeSpec &b) {
          if (ab                     < bb)                       return true;
     else if (ab                     > bb)                       return false;
     }
+    {
+        int am = std::max((int)a.mod3,(int)0);
+        int bm = std::max((int)b.mod3,(int)0);
 
-         if (a.mod3                 < b.mod3)                   return true;
-    else if (a.mod3                 > b.mod3)                   return false;
+         if (am                     < bm)                       return true;
+    else if (am                     > bm)                       return false;
+    }
 
          if (a.reg_constraint       < b.reg_constraint)         return true;
     else if (a.reg_constraint       > b.reg_constraint)         return false;
 
          if (a.rm_constraint        < b.rm_constraint)          return true;
     else if (a.rm_constraint        > b.rm_constraint)          return false;
+
+         if (a.mod3                 < b.mod3)                   return true;
+    else if (a.mod3                 > b.mod3)                   return false;
 
     return false;
 }
