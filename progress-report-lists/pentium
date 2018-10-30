@@ -1,972 +1,972 @@
 Opcodes by byte:
 ----------------
-         ADD r/m(u8), reg(u8)                                            ; 00 /r
-         ADD r/m(uv), reg(uv)                                            ; 01 /r
-         ADD reg(u8), r/m(u8)                                            ; 02 /r
-         ADD reg(uv), r/m(uv)                                            ; 03 /r
-         ADD AL, I                                                       ; 04 I=imm(u8)
-         ADD Av, I                                                       ; 05 I=imm(uv)
-        PUSH ES                                                          ; 06
-         POP ES                                                          ; 07
-          OR r/m(u8), reg(u8)                                            ; 08 /r
-          OR r/m(uv), reg(uv)                                            ; 09 /r
-          OR reg(u8), r/m(u8)                                            ; 0a /r
-          OR reg(uv), r/m(uv)                                            ; 0b /r
-          OR AL, I                                                       ; 0c I=imm(u8)
-          OR Av, I                                                       ; 0d I=imm(uv)
-        PUSH CS                                                          ; 0e
-        SLDT r/m(uv)                                                     ; 0f 00 /0
-         STR r/m(uv)                                                     ; 0f 00 /1
-        LLDT r/m(uv)                                                     ; 0f 00 /2
-         LTR r/m(uv)                                                     ; 0f 00 /3
-        VERR r/m(uv)                                                     ; 0f 00 /4
-        VERW r/m(uv)                                                     ; 0f 00 /5
-        SGDT r/m(u48)                                                    ; 0f 01 /0=m
-        SIDT r/m(u48)                                                    ; 0f 01 /1=m
-        LGDT r/m(u48)                                                    ; 0f 01 /2=m
-        LIDT r/m(u48)                                                    ; 0f 01 /3=m
-        SMSW r/m(uv)                                                     ; 0f 01 /4
-        LMSW r/m(uv)                                                     ; 0f 01 /6
-      INVLPG r/m(uv)                                                     ; 0f 01 /7=m
-         LAR reg(uv), r/m(uv)                                            ; 0f 02 /r
-         LSL reg(uv), r/m(uv)                                            ; 0f 03 /r
-        CLTS                                                             ; 0f 06 /r
-        INVD                                                             ; 0f 08
-      WBINVD                                                             ; 0f 09
-         UD2                                                             ; 0f 0b
-         MOV r/m(u32), cr(reg)                                           ; 0f 20 /r!m
-         MOV r/m(u32), dr(reg)                                           ; 0f 21 /r!m
-         MOV cr(reg), r/m(u32)                                           ; 0f 22 /r!m
-         MOV dr(reg), r/m(u32)                                           ; 0f 23 /r!m
-         MOV r/m(u32), tr(reg)                                           ; 0f 24 /r!m
-         MOV tr(reg), r/m(u32)                                           ; 0f 26 /r!m
-       WRMSR                                                             ; 0f 30
-       RDTSC                                                             ; 0f 31
-       RDMSR                                                             ; 0f 32
-          JO N                                                           ; 0f 80 P=imm(iv); N=(IPV+P)
-         JNO N                                                           ; 0f 81 P=imm(iv); N=(IPV+P)
-          JC N                                                           ; 0f 82 P=imm(iv); N=(IPV+P)
-         JNC N                                                           ; 0f 83 P=imm(iv); N=(IPV+P)
-          JZ N                                                           ; 0f 84 P=imm(iv); N=(IPV+P)
-         JNZ N                                                           ; 0f 85 P=imm(iv); N=(IPV+P)
-         JNA N                                                           ; 0f 86 P=imm(iv); N=(IPV+P)
-          JA N                                                           ; 0f 87 P=imm(iv); N=(IPV+P)
-          JS N                                                           ; 0f 88 P=imm(iv); N=(IPV+P)
-         JNS N                                                           ; 0f 89 P=imm(iv); N=(IPV+P)
-          JP N                                                           ; 0f 8a P=imm(iv); N=(IPV+P)
-         JNP N                                                           ; 0f 8b P=imm(iv); N=(IPV+P)
-          JL N                                                           ; 0f 8c P=imm(iv); N=(IPV+P)
-         JNL N                                                           ; 0f 8d P=imm(iv); N=(IPV+P)
-         JNG N                                                           ; 0f 8e P=imm(iv); N=(IPV+P)
-          JG N                                                           ; 0f 8f P=imm(iv); N=(IPV+P)
-        SETO r/m(u8)                                                     ; 0f 90 /0
-       SETNO r/m(u8)                                                     ; 0f 91 /0
-        SETC r/m(u8)                                                     ; 0f 92 /0
-       SETNC r/m(u8)                                                     ; 0f 93 /0
-        SETZ r/m(u8)                                                     ; 0f 94 /0
-       SETNZ r/m(u8)                                                     ; 0f 95 /0
-       SETNA r/m(u8)                                                     ; 0f 96 /0
-        SETA r/m(u8)                                                     ; 0f 97 /0
-        SETS r/m(u8)                                                     ; 0f 98 /0
-       SETNS r/m(u8)                                                     ; 0f 99 /0
-        SETP r/m(u8)                                                     ; 0f 9a /0
-       SETNP r/m(u8)                                                     ; 0f 9b /0
-        SETL r/m(u8)                                                     ; 0f 9c /0
-       SETNL r/m(u8)                                                     ; 0f 9d /0
-       SETNG r/m(u8)                                                     ; 0f 9e /0
-        SETG r/m(u8)                                                     ; 0f 9f /0
-       CPUID                                                             ; 0f a2
-          BT r/m(uv), reg(uv)                                            ; 0f a3 /r
-         RSM                                                             ; 0f aa
-         BTS r/m(uv), reg(uv)                                            ; 0f ab /r
-     CMPXCHG r/m(u8), reg(u8)                                            ; 0f b0 /r
-     CMPXCHG r/m(uv), reg(uv)                                            ; 0f b1 /r
-         BTR r/m(uv), reg(uv)                                            ; 0f b3 /r
-         UD2                                                             ; 0f b9
-          BT r/m(uv), I                                                  ; 0f ba /4 I=imm(u8)
-         BTS r/m(uv), I                                                  ; 0f ba /5 I=imm(u8)
-         BTR r/m(uv), I                                                  ; 0f ba /6 I=imm(u8)
-         BTC r/m(uv), I                                                  ; 0f ba /7 I=imm(u8)
-         BTC r/m(uv), reg(uv)                                            ; 0f bb /r
-         BSF reg(uv), r/m(uv)                                            ; 0f bc /r
-         BSR reg(uv), r/m(uv)                                            ; 0f bd /r
-        XADD r/m(u8), reg(u8)                                            ; 0f c0 /r
-        XADD r/m(uv), reg(uv)                                            ; 0f c1 /r
-   CMPXCHG8B r/m(u64)                                                    ; 0f c7 /1=m
-       BSWAP reg(uv), reg(uv)                                            ; 0f c8+reg; reg=0-7
-         ADC r/m(u8), reg(u8)                                            ; 10 /r
-         ADC r/m(uv), reg(uv)                                            ; 11 /r
-         ADC reg(u8), r/m(u8)                                            ; 12 /r
-         ADC reg(uv), r/m(uv)                                            ; 13 /r
-         ADC AL, I                                                       ; 14 I=imm(u8)
-         ADC Av, I                                                       ; 15 I=imm(uv)
-        PUSH SS                                                          ; 16
-         POP SS                                                          ; 17
-         SBB r/m(u8), reg(u8)                                            ; 18 /r
-         SBB r/m(uv), reg(uv)                                            ; 19 /r
-         SBB reg(u8), r/m(u8)                                            ; 1a /r
-         SBB reg(uv), r/m(uv)                                            ; 1b /r
-         SBB AL, I                                                       ; 1c I=imm(u8)
-         SBB Av, I                                                       ; 1d I=imm(uv)
-        PUSH DS                                                          ; 1e
-         POP DS                                                          ; 1f
-         AND r/m(u8), reg(u8)                                            ; 20 /r
-         AND r/m(uv), reg(uv)                                            ; 21 /r
-         AND reg(u8), r/m(u8)                                            ; 22 /r
-         AND reg(uv), r/m(uv)                                            ; 23 /r
-         AND AL, I                                                       ; 24 I=imm(u8)
-         AND Av, I                                                       ; 25 I=imm(uv)
-         ES:                                                    ; prefix ; 26
-         DAA                                                             ; 27
-         SUB r/m(u8), reg(u8)                                            ; 28 /r
-         SUB r/m(uv), reg(uv)                                            ; 29 /r
-         SUB reg(u8), r/m(u8)                                            ; 2a /r
-         SUB reg(uv), r/m(uv)                                            ; 2b /r
-         SUB AL, I                                                       ; 2c I=imm(u8)
-         SUB Av, I                                                       ; 2d I=imm(uv)
-         CS:                                                    ; prefix ; 2e
-         DAS                                                             ; 2f
-         XOR r/m(u8), reg(u8)                                            ; 30 /r
-         XOR r/m(uv), reg(uv)                                            ; 31 /r
-         XOR reg(u8), r/m(u8)                                            ; 32 /r
-         XOR reg(uv), r/m(uv)                                            ; 33 /r
-         XOR AL, I                                                       ; 34 I=imm(u8)
-         XOR Av, I                                                       ; 35 I=imm(uv)
-         SS:                                                    ; prefix ; 36
-         AAA                                                             ; 37
-         CMP r/m(u8), reg(u8)                                            ; 38 /r
-         CMP r/m(uv), reg(uv)                                            ; 39 /r
-         CMP reg(u8), r/m(u8)                                            ; 3a /r
-         CMP reg(uv), r/m(uv)                                            ; 3b /r
-         CMP AL, I                                                       ; 3c I=imm(u8)
-         CMP Av, I                                                       ; 3d I=imm(uv)
-         DS:                                                    ; prefix ; 3e
-         AAS                                                             ; 3f
-         INC reg(uv)                                                     ; 40+reg; reg=0-7
-         DEC reg(uv)                                                     ; 48+reg; reg=0-7
-        PUSH reg(uv)                                                     ; 50+reg; reg=0-7
-         POP reg(uv)                                                     ; 58+reg; reg=0-7
-       PUSHA                                                             ; 60 /r
-        POPA                                                             ; 61 /r
-       BOUND reg(uv), r/m(uv)                                            ; 62 /r
-        ARPL r/m(uv), reg(uv)                                            ; 63 /r
-         FS:                                                    ; prefix ; 64
-         GS:                                                    ; prefix ; 65
-        OPSZ                                                    ; prefix ; 66
-        ADSZ                                                    ; prefix ; 67
-        PUSH I                                                           ; 68 I=imm(uv)
-        IMUL reg(uv), r/m(uv), I                                         ; 69 /r I=imm(iv)
-        PUSH I                                                           ; 6a I=imm(i8)
-        IMUL reg(uv), r/m(uv), I                                         ; 6b /r I=imm(i8)
-         INS AL, u8 [SIV]                                                ; 6c
-         INS Av, uv [SIV]                                                ; 6d
-        OUTS u8 ES:[DIV], AL                                             ; 6e
-        OUTS uv ES:[DIV], Av                                             ; 6f
-          JO N                                                           ; 70 P=imm(i8); N=(IPV+P)
-         JNO N                                                           ; 71 P=imm(i8); N=(IPV+P)
-          JC N                                                           ; 72 P=imm(i8); N=(IPV+P)
-         JNC N                                                           ; 73 P=imm(i8); N=(IPV+P)
-          JZ N                                                           ; 74 P=imm(i8); N=(IPV+P)
-         JNZ N                                                           ; 75 P=imm(i8); N=(IPV+P)
-         JNA N                                                           ; 76 P=imm(i8); N=(IPV+P)
-          JA N                                                           ; 77 P=imm(i8); N=(IPV+P)
-          JS N                                                           ; 78 P=imm(i8); N=(IPV+P)
-         JNS N                                                           ; 79 P=imm(i8); N=(IPV+P)
-          JP N                                                           ; 7a P=imm(i8); N=(IPV+P)
-         JNP N                                                           ; 7b P=imm(i8); N=(IPV+P)
-          JL N                                                           ; 7c P=imm(i8); N=(IPV+P)
-         JNL N                                                           ; 7d P=imm(i8); N=(IPV+P)
-         JNG N                                                           ; 7e P=imm(i8); N=(IPV+P)
-          JG N                                                           ; 7f P=imm(i8); N=(IPV+P)
-         ADD r/m(u8), I                                                  ; 80 /0 I=imm(u8)
-          OR r/m(u8), I                                                  ; 80 /1 I=imm(u8)
-         ADC r/m(u8), I                                                  ; 80 /2 I=imm(u8)
-         SBB r/m(u8), I                                                  ; 80 /3 I=imm(u8)
-         AND r/m(u8), I                                                  ; 80 /4 I=imm(u8)
-         SUB r/m(u8), I                                                  ; 80 /5 I=imm(u8)
-         XOR r/m(u8), I                                                  ; 80 /6 I=imm(u8)
-         CMP r/m(u8), I                                                  ; 80 /7 I=imm(u8)
-         ADD r/m(uv), I                                                  ; 81 /0 I=imm(uv)
-          OR r/m(uv), I                                                  ; 81 /1 I=imm(uv)
-         ADC r/m(uv), I                                                  ; 81 /2 I=imm(uv)
-         SBB r/m(uv), I                                                  ; 81 /3 I=imm(uv)
-         AND r/m(uv), I                                                  ; 81 /4 I=imm(uv)
-         SUB r/m(uv), I                                                  ; 81 /5 I=imm(uv)
-         XOR r/m(uv), I                                                  ; 81 /6 I=imm(uv)
-         CMP r/m(uv), I                                                  ; 81 /7 I=imm(uv)
-         ADD r/m(u8), I                                                  ; 82 /0 I=imm(u8)
-          OR r/m(u8), I                                                  ; 82 /1 I=imm(u8)
-         ADC r/m(u8), I                                                  ; 82 /2 I=imm(u8)
-         SBB r/m(u8), I                                                  ; 82 /3 I=imm(u8)
-         AND r/m(u8), I                                                  ; 82 /4 I=imm(u8)
-         SUB r/m(u8), I                                                  ; 82 /5 I=imm(u8)
-         XOR r/m(u8), I                                                  ; 82 /6 I=imm(u8)
-         CMP r/m(u8), I                                                  ; 82 /7 I=imm(u8)
-         ADD r/m(uv), I                                                  ; 83 /0 I=imm(i8)
-          OR r/m(uv), I                                                  ; 83 /1 I=imm(i8)
-         ADC r/m(uv), I                                                  ; 83 /2 I=imm(i8)
-         SBB r/m(uv), I                                                  ; 83 /3 I=imm(i8)
-         AND r/m(uv), I                                                  ; 83 /4 I=imm(i8)
-         SUB r/m(uv), I                                                  ; 83 /5 I=imm(i8)
-         XOR r/m(uv), I                                                  ; 83 /6 I=imm(i8)
-         CMP r/m(uv), I                                                  ; 83 /7 I=imm(i8)
-        TEST reg(u8), r/m(u8)                                            ; 84 /r
-        TEST reg(uv), r/m(uv)                                            ; 85 /r
-        XCHG reg(u8), r/m(u8)                                            ; 86 /r
-        XCHG reg(uv), r/m(uv)                                            ; 87 /r
-         MOV r/m(u8), reg(u8)                                            ; 88 /r
-         MOV r/m(uv), reg(uv)                                            ; 89 /r
-         MOV reg(u8), r/m(u8)                                            ; 8a /r
-         MOV reg(uv), r/m(uv)                                            ; 8b /r
-         MOV reg(uv), segreg(uv)                                         ; 8c /r
-         LEA reg(uv), r/m(uv)                                            ; 8d /r=m
-         MOV segreg(uv), r/m(uv)                                         ; 8e /r
-         POP r/m(uv)                                                     ; 8f /0
-         NOP                                                             ; 90
-        XCHG reg(uv), Av                                                 ; 90+reg; reg=1-7
-         CBW                                                             ; 98
-         CWD                                                             ; 99
-        CALL P                                                           ; 9a P=imm(farptr)
-        WAIT                                                    ; prefix ; 9b
-       FCLEX                                                             ; 9b db e2; fpu
-       FINIT                                                             ; 9b db e3; fpu
-       PUSHF                                                             ; 9c
-        POPF                                                             ; 9d
-        SAHF                                                             ; 9e
-        LAHF                                                             ; 9f
-         MOV AL, u8 [A]                                                  ; a0 A=imm(uv)
-         MOV Av, uv [A]                                                  ; a1 A=imm(uv)
-         MOV u8 [A], AL                                                  ; a2 A=imm(uv)
-         MOV uv [A], Av                                                  ; a3 A=imm(uv)
-        MOVS u8 ES:[DIV], u8 [SIV]                                       ; a4
-        MOVS uv ES:[DIV], uv [SIV]                                       ; a5
-        CMPS u8 ES:[DIV], u8 [SIV]                                       ; a6
-        CMPS uv ES:[DIV], uv [SIV]                                       ; a7
-        TEST AL, I                                                       ; a8 I=imm(u8)
-        TEST Av, I                                                       ; a9 I=imm(uv)
-        STOS u8 ES:[DIV], AL                                             ; aa
-        STOS uv ES:[DIV], Av                                             ; ab
-        LODS AL, u8 [SIV]                                                ; ac
-        LODS Av, uv [SIV]                                                ; ad
-        SCAS AL, u8 ES:[DIV]                                             ; ae
-        SCAS Av, uv ES:[DIV]                                             ; af
-         MOV reg(u8), I                                                  ; b0+reg; reg=0-7
-         MOV reg(uv), I                                                  ; b8+reg; reg=0-7
-         ROL r/m(u8), I                                                  ; c0 /0 I=imm(u8)
-         ROR r/m(u8), I                                                  ; c0 /1 I=imm(u8)
-         RCL r/m(u8), I                                                  ; c0 /2 I=imm(u8)
-         RCR r/m(u8), I                                                  ; c0 /3 I=imm(u8)
-         SHL r/m(u8), I                                                  ; c0 /4 I=imm(u8)
-         SHR r/m(u8), I                                                  ; c0 /5 I=imm(u8)
-         SAR r/m(u8), I                                                  ; c0 /7 I=imm(u8)
-         ROL r/m(uv), I                                                  ; c1 /0 I=imm(uv)
-         ROR r/m(uv), I                                                  ; c1 /1 I=imm(uv)
-         RCL r/m(uv), I                                                  ; c1 /2 I=imm(uv)
-         RCR r/m(uv), I                                                  ; c1 /3 I=imm(uv)
-         SHL r/m(uv), I                                                  ; c1 /4 I=imm(uv)
-         SHR r/m(uv), I                                                  ; c1 /5 I=imm(uv)
-         SAR r/m(uv), I                                                  ; c1 /7 I=imm(uv)
-         RET C                                                           ; c2 C=imm(u16)
-         RET                                                             ; c3
-         LES reg(uv), r/m(farptr)                                        ; c4 /r=m
-         LDS reg(uv), r/m(farptr)                                        ; c5 /r=m
-         MOV r/m(u8), I                                                  ; c6 /0 I=imm(u8)
-         MOV r/m(uv), I                                                  ; c7 /0 I=imm(uv)
-       ENTER A, L                                                        ; c8 A=imm(u16) L=imm(u8)
-       LEAVE                                                             ; c9
-        RETF C                                                           ; ca C=imm(u16)
-        RETF                                                             ; cb
-         INT 3                                                           ; cc
-         INT I                                                           ; cd I=imm(u8)
-        INTO                                                             ; ce
-        IRET                                                             ; cf
-         ROL r/m(u8), 1                                                  ; d0 /0
-         ROR r/m(u8), 1                                                  ; d0 /1
-         RCL r/m(u8), 1                                                  ; d0 /2
-         RCR r/m(u8), 1                                                  ; d0 /3
-         SHL r/m(u8), 1                                                  ; d0 /4
-         SHR r/m(u8), 1                                                  ; d0 /5
-         SAR r/m(u8), 1                                                  ; d0 /7
-         ROL r/m(uv), 1                                                  ; d1 /0
-         ROR r/m(uv), 1                                                  ; d1 /1
-         RCL r/m(uv), 1                                                  ; d1 /2
-         RCR r/m(uv), 1                                                  ; d1 /3
-         SHL r/m(uv), 1                                                  ; d1 /4
-         SHR r/m(uv), 1                                                  ; d1 /5
-         SAR r/m(uv), 1                                                  ; d1 /7
-         ROL r/m(u8), CL                                                 ; d2 /0
-         ROR r/m(u8), CL                                                 ; d2 /1
-         RCL r/m(u8), CL                                                 ; d2 /2
-         RCR r/m(u8), CL                                                 ; d2 /3
-         SHL r/m(u8), CL                                                 ; d2 /4
-         SHR r/m(u8), CL                                                 ; d2 /5
-         SAR r/m(u8), CL                                                 ; d2 /7
-         ROL r/m(uv), CL                                                 ; d3 /0
-         ROR r/m(uv), CL                                                 ; d3 /1
-         RCL r/m(uv), CL                                                 ; d3 /2
-         RCR r/m(uv), CL                                                 ; d3 /3
-         SHL r/m(uv), CL                                                 ; d3 /4
-         SHR r/m(uv), CL                                                 ; d3 /5
-         SAR r/m(uv), CL                                                 ; d3 /7
-         AAM D                                                           ; d4 D=imm(u8)
-         AAD D                                                           ; d5 D=imm(u8)
-        SALC                                                             ; d6
-        XLAT                                                             ; d7
-        FADD st(0), r/m(f32)                                             ; d8 /0=m; fpu
-        FMUL st(0), r/m(f32)                                             ; d8 /1=m; fpu
-        FCOM st(0), r/m(f32)                                             ; d8 /2=m; fpu
-       FCOMP st(0), r/m(f32)                                             ; d8 /3=m; fpu
-        FSUB st(0), r/m(f32)                                             ; d8 /4=m; fpu
-       FSUBR st(0), r/m(f32)                                             ; d8 /5=m; fpu
-        FDIV st(0), r/m(f32)                                             ; d8 /6=m; fpu
-       FDIVR st(0), r/m(f32)                                             ; d8 /7=m; fpu
-        FADD st(0), st(i)                                                ; d8 c0+i; i=0-7 fpu
-        FMUL st(0), st(i)                                                ; d8 c8+i; i=0-7 fpu
-        FCOM st(0), st(i)                                                ; d8 d0+i; i=0-7 fpu
-       FCOMP st(0), st(i)                                                ; d8 d8+i; i=0-7 fpu
-        FSUB st(0), st(i)                                                ; d8 e0+i; i=0-7 fpu
-       FSUBR st(0), st(i)                                                ; d8 e8+i; i=0-7 fpu
-        FDIV st(0), st(i)                                                ; d8 f0+i; i=0-7 fpu
-       FDIVR st(0), st(i)                                                ; d8 f8+i; i=0-7 fpu
-         FLD st(0), r/m(f32)                                             ; d9 /0=m; fpu
-         FST r/m(f32), st(0)                                             ; d9 /2=m; fpu
-        FSTP r/m(f32), st(0)                                             ; d9 /3=m; fpu
-      FLDENV r/m(f87env)                                                 ; d9 /4=m; fpu
-       FLDCW r/m(u16)                                                    ; d9 /5=m; fpu
-      FSTENV r/m(f87env)                                                 ; d9 /6=m; fpu
-       FSTCW r/m(u16)                                                    ; d9 /7=m; fpu
-         FLD st(0), st(i)                                                ; d9 c0+i; i=0-7 fpu
-        FXCH st(0), st(i)                                                ; d9 c8+i; i=0-7 fpu
-        FNOP                                                             ; d9 d0; fpu
-        FCHS st(0), st(0)                                                ; d9 e0; fpu
-        FABS st(0), st(0)                                                ; d9 e1; fpu
-        FTST st(0)                                                       ; d9 e4; fpu
-        FXAM st(0)                                                       ; d9 e5; fpu
-        FLD1 st(0), 1                                                    ; d9 e8; fpu
-      FLDL2T st(0), const("log2(10)")                                    ; d9 e9; fpu
-      FLDL2E st(0), const("log2(e)")                                     ; d9 ea; fpu
-       FLDPI st(0), const("pi")                                          ; d9 eb; fpu
-      FLDLG2 st(0), const("log10(2)")                                    ; d9 ec; fpu
-      FLDLN2 st(0), const("loge(2)")                                     ; d9 ed; fpu
-        FLDZ st(0), 0                                                    ; d9 ee; fpu
-       F2XM1 st(0), st(0)                                                ; d9 f0; fpu
-       FYL2X st(0), st(0), st(1)                                         ; d9 f1; fpu
-       FPTAN st(0), st(0)                                                ; d9 f2; fpu
-      FPATAN st(1), st(0), st(1)                                         ; d9 f3; fpu
-     FXTRACT st(0), st(0), st(1)                                         ; d9 f4; fpu
-      FPREM1 st(0), st(0), st(1)                                         ; d9 f5; fpu
-     FDECSTP                                                             ; d9 f6; fpu
-     FINCSTP                                                             ; d9 f7; fpu
-       FPREM st(0), st(0), st(1)                                         ; d9 f8; fpu
-     FYL2XP1 st(0), st(0), st(1)                                         ; d9 f9; fpu
-       FSQRT st(0), st(0)                                                ; d9 fa; fpu
-     FSINCOS st(0), st(0)                                                ; d9 fb
-     FRNDINT st(0), st(0)                                                ; d9 fc; fpu
-      FSCALE st(0), st(0), st(1)                                         ; d9 fd; fpu
-        FSIN st(0), st(0)                                                ; d9 fe
-        FCOS st(0), st(0)                                                ; d9 ff
-       FIADD st(0), r/m(i32)                                             ; da /0=m; fpu
-       FIMUL st(0), r/m(i32)                                             ; da /1=m; fpu
-       FICOM st(0), r/m(i32)                                             ; da /2=m; fpu
-      FICOMP st(0), r/m(i32)                                             ; da /3=m; fpu
-       FISUB st(0), r/m(i32)                                             ; da /4=m; fpu
-      FISUBR st(0), r/m(i32)                                             ; da /5=m; fpu
-       FIDIV st(0), r/m(i32)                                             ; da /6=m; fpu
-      FIDIVR st(0), r/m(i32)                                             ; da /7=m; fpu
-     FUCOMPP st(0), st(1)                                                ; da e9; fpu
-        FILD st(0), r/m(i32)                                             ; db /0=m; fpu
-        FIST r/m(i32), st(0)                                             ; db /2=m; fpu
-       FISTP r/m(i32), st(0)                                             ; db /3=m; fpu
-         FLD st(0), r/m(f80)                                             ; db /5=m; fpu
-        FSTP r/m(f80), st(0)                                             ; db /7=m; fpu
-        FENI                                                             ; db e0; fpu
-       FDISI                                                             ; db e1; fpu
-      FNCLEX                                                             ; db e2; fpu
-      FNINIT                                                             ; db e3; fpu
-      FSETPM                                                             ; db e4
-        FADD st(0), r/m(f64)                                             ; dc /0=m; fpu
-        FMUL st(0), r/m(f64)                                             ; dc /1=m; fpu
-        FCOM st(0), r/m(f64)                                             ; dc /2=m; fpu
-       FCOMP st(0), r/m(f64)                                             ; dc /3=m; fpu
-        FSUB st(0), r/m(f64)                                             ; dc /4=m; fpu
-       FSUBR st(0), r/m(f64)                                             ; dc /5=m; fpu
-        FDIV st(0), r/m(f64)                                             ; dc /6=m; fpu
-       FDIVR st(0), r/m(f64)                                             ; dc /7=m; fpu
-        FADD st(i), st(0)                                                ; dc c0+i; i=0-7 fpu
-        FMUL st(i), st(0)                                                ; dc c8+i; i=0-7 fpu
-        FSUB st(i), st(0)                                                ; dc e0+i; i=0-7 fpu
-       FSUBR st(i), st(0)                                                ; dc e8+i; i=0-7 fpu
-        FDIV st(i), st(0)                                                ; dc f0+i; i=0-7 fpu
-       FDIVR st(i), st(0)                                                ; dc f8+i; i=0-7 fpu
-         FLD st(0), r/m(f64)                                             ; dd /0=m; fpu
-         FST r/m(f64), st(0)                                             ; dd /2=m; fpu
-        FSTP r/m(f64), st(0)                                             ; dd /3=m; fpu
-      FRSTOR r/m(f87state)                                               ; dd /4=m; fpu
-       FSAVE r/m(f87state)                                               ; dd /6=m; fpu
-       FSTSW r/m(u16)                                                    ; dd /7=m; fpu
-       FFREE st(i)                                                       ; dd c0+i; i=0-7 fpu
-         FST st(i), st(0)                                                ; dd d0+i; i=0-7 fpu
-        FSTP st(i), st(0)                                                ; dd d8+i; i=0-7 fpu
-       FUCOM st(0), st(i)                                                ; dd e0+rm; fpu
-      FUCOMP st(0), st(i)                                                ; dd e8+rm; fpu
-       FIADD st(0), r/m(i16)                                             ; de /0=m; fpu
-       FIMUL st(0), r/m(i16)                                             ; de /1=m; fpu
-       FICOM st(0), r/m(i16)                                             ; de /2=m; fpu
-      FICOMP st(0), r/m(i16)                                             ; de /3=m; fpu
-       FISUB st(0), r/m(i16)                                             ; de /4=m; fpu
-      FISUBR st(0), r/m(i16)                                             ; de /5=m; fpu
-       FIDIV st(0), r/m(i16)                                             ; de /6=m; fpu
-      FIDIVR st(0), r/m(i16)                                             ; de /7=m; fpu
-        FADD st(i), st(0)                                                ; de c0+i; i=0-7 fpu
-        FMUL st(i), st(0)                                                ; de c8+i; i=0-7 fpu
-      FCOMPP st(0), st(1)                                                ; de d9; fpu
-        FSUB st(i), st(0)                                                ; de e0+i; i=0-7 fpu
-       FSUBR st(i), st(0)                                                ; de e8+i; i=0-7 fpu
-        FDIV st(i), st(0)                                                ; de f0+i; i=0-7 fpu
-       FDIVR st(i), st(0)                                                ; de f8+i; i=0-7 fpu
-        FILD st(0), r/m(i16)                                             ; df /0=m; fpu
-        FIST r/m(i16), st(0)                                             ; df /2=m; fpu
-       FISTP r/m(i16), st(0)                                             ; df /3=m; fpu
-        FBLD st(0), r/m(fbcd)                                            ; df /4=m; fpu
-        FILD st(0), r/m(i64)                                             ; df /5=m; fpu
-       FBSTP r/m(fbcd), st(0)                                            ; df /6=m; fpu
-       FISTP r/m(i64), st(0)                                             ; df /7=m; fpu
-      LOOPNZ N                                                           ; e0 P=imm(i8); N=(IPV+P)
-       LOOPZ N                                                           ; e1 P=imm(i8); N=(IPV+P)
-        LOOP N                                                           ; e2 P=imm(i8); N=(IPV+P)
-        JCXZ N                                                           ; e3 P=imm(i8); N=(IPV+P)
-          IN AL, P                                                       ; e4 P=imm(u8)
-          IN Av, P                                                       ; e5 P=imm(u8)
-         OUT P, AL                                                       ; e6 P=imm(u8)
-         OUT P, Av                                                       ; e7 P=imm(u8)
-        CALL N                                                           ; e8 P=imm(iv); N=(IPV+P)
-         JMP N                                                           ; e9 P=imm(iv); N=(IPV+P)
-         JMP P                                                           ; ea P=imm(farptr)
-         JMP N                                                           ; eb P=imm(i8); N=(IPV+P)
-          IN AL, DX                                                      ; ec
-          IN Av, DX                                                      ; ed
-         OUT DX, AL                                                      ; ee
-         OUT DX, Av                                                      ; ef
-        LOCK                                                    ; prefix ; f0
-         INT 1                                                           ; f1
-       REPNZ                                                    ; prefix ; f2
-        REPZ                                                    ; prefix ; f3
-         HLT                                                             ; f4
-         CMC                                                             ; f5
-        TEST r/m(u8), I                                                  ; f6 /0 I=imm(u8)
-         NOT r/m(u8)                                                     ; f6 /2
-         NEG r/m(u8)                                                     ; f6 /3
-         MUL r/m(u8)                                                     ; f6 /4
-        IMUL r/m(u8)                                                     ; f6 /5
-         DIV r/m(u8)                                                     ; f6 /6
-        IDIV r/m(u8)                                                     ; f6 /7
-        TEST r/m(uv), I                                                  ; f7 /0 I=imm(uv)
-         NOT r/m(uv)                                                     ; f7 /2
-         NEG r/m(uv)                                                     ; f7 /3
-         MUL r/m(uv)                                                     ; f7 /4
-        IMUL r/m(uv)                                                     ; f7 /5
-         DIV r/m(uv)                                                     ; f7 /6
-        IDIV r/m(uv)                                                     ; f7 /7
-         CLC                                                             ; f8
-         STC                                                             ; f9
-         CLI                                                             ; fa
-         STI                                                             ; fb
-         CLD                                                             ; fc
-         STD                                                             ; fd
-         INC r/m(u8)                                                     ; fe /0
-         DEC r/m(u8)                                                     ; fe /1
-         INC r/m(uv)                                                     ; ff /0
-         DEC r/m(uv)                                                     ; ff /1
-        CALL r/m(uv)                                                     ; ff /2
-        CALL r/m(farptr)                                                 ; ff /3=m
-         JMP r/m(uv)                                                     ; ff /4
-         JMP r/m(farptr)                                                 ; ff /5=m
-        PUSH r/m(uv)                                                     ; ff /6
+             ADD r/m(u8), reg(u8)                                            ; 00 /r
+             ADD r/m(uv), reg(uv)                                            ; 01 /r
+             ADD reg(u8), r/m(u8)                                            ; 02 /r
+             ADD reg(uv), r/m(uv)                                            ; 03 /r
+             ADD AL, I                                                       ; 04 I=imm(u8)
+             ADD Av, I                                                       ; 05 I=imm(uv)
+            PUSH ES                                                          ; 06
+             POP ES                                                          ; 07
+              OR r/m(u8), reg(u8)                                            ; 08 /r
+              OR r/m(uv), reg(uv)                                            ; 09 /r
+              OR reg(u8), r/m(u8)                                            ; 0a /r
+              OR reg(uv), r/m(uv)                                            ; 0b /r
+              OR AL, I                                                       ; 0c I=imm(u8)
+              OR Av, I                                                       ; 0d I=imm(uv)
+            PUSH CS                                                          ; 0e
+            SLDT r/m(uv)                                                     ; 0f 00 /0
+             STR r/m(uv)                                                     ; 0f 00 /1
+            LLDT r/m(uv)                                                     ; 0f 00 /2
+             LTR r/m(uv)                                                     ; 0f 00 /3
+            VERR r/m(uv)                                                     ; 0f 00 /4
+            VERW r/m(uv)                                                     ; 0f 00 /5
+            SGDT r/m(u48)                                                    ; 0f 01 /0=m
+            SIDT r/m(u48)                                                    ; 0f 01 /1=m
+            LGDT r/m(u48)                                                    ; 0f 01 /2=m
+            LIDT r/m(u48)                                                    ; 0f 01 /3=m
+          INVLPG r/m(uv)                                                     ; 0f 01 /7=m
+            SMSW r/m(uv)                                                     ; 0f 01 /4
+            LMSW r/m(uv)                                                     ; 0f 01 /6
+             LAR reg(uv), r/m(uv)                                            ; 0f 02 /r
+             LSL reg(uv), r/m(uv)                                            ; 0f 03 /r
+            CLTS                                                             ; 0f 06 /r
+            INVD                                                             ; 0f 08
+          WBINVD                                                             ; 0f 09
+             UD2                                                             ; 0f 0b
+             MOV r/m(u32), cr(reg)                                           ; 0f 20 /r!m
+             MOV r/m(u32), dr(reg)                                           ; 0f 21 /r!m
+             MOV cr(reg), r/m(u32)                                           ; 0f 22 /r!m
+             MOV dr(reg), r/m(u32)                                           ; 0f 23 /r!m
+             MOV r/m(u32), tr(reg)                                           ; 0f 24 /r!m
+             MOV tr(reg), r/m(u32)                                           ; 0f 26 /r!m
+           WRMSR                                                             ; 0f 30
+           RDTSC                                                             ; 0f 31
+           RDMSR                                                             ; 0f 32
+              JO N                                                           ; 0f 80 P=imm(iv); N=(IPV+P)
+             JNO N                                                           ; 0f 81 P=imm(iv); N=(IPV+P)
+              JC N                                                           ; 0f 82 P=imm(iv); N=(IPV+P)
+             JNC N                                                           ; 0f 83 P=imm(iv); N=(IPV+P)
+              JZ N                                                           ; 0f 84 P=imm(iv); N=(IPV+P)
+             JNZ N                                                           ; 0f 85 P=imm(iv); N=(IPV+P)
+             JNA N                                                           ; 0f 86 P=imm(iv); N=(IPV+P)
+              JA N                                                           ; 0f 87 P=imm(iv); N=(IPV+P)
+              JS N                                                           ; 0f 88 P=imm(iv); N=(IPV+P)
+             JNS N                                                           ; 0f 89 P=imm(iv); N=(IPV+P)
+              JP N                                                           ; 0f 8a P=imm(iv); N=(IPV+P)
+             JNP N                                                           ; 0f 8b P=imm(iv); N=(IPV+P)
+              JL N                                                           ; 0f 8c P=imm(iv); N=(IPV+P)
+             JNL N                                                           ; 0f 8d P=imm(iv); N=(IPV+P)
+             JNG N                                                           ; 0f 8e P=imm(iv); N=(IPV+P)
+              JG N                                                           ; 0f 8f P=imm(iv); N=(IPV+P)
+            SETO r/m(u8)                                                     ; 0f 90 /0
+           SETNO r/m(u8)                                                     ; 0f 91 /0
+            SETC r/m(u8)                                                     ; 0f 92 /0
+           SETNC r/m(u8)                                                     ; 0f 93 /0
+            SETZ r/m(u8)                                                     ; 0f 94 /0
+           SETNZ r/m(u8)                                                     ; 0f 95 /0
+           SETNA r/m(u8)                                                     ; 0f 96 /0
+            SETA r/m(u8)                                                     ; 0f 97 /0
+            SETS r/m(u8)                                                     ; 0f 98 /0
+           SETNS r/m(u8)                                                     ; 0f 99 /0
+            SETP r/m(u8)                                                     ; 0f 9a /0
+           SETNP r/m(u8)                                                     ; 0f 9b /0
+            SETL r/m(u8)                                                     ; 0f 9c /0
+           SETNL r/m(u8)                                                     ; 0f 9d /0
+           SETNG r/m(u8)                                                     ; 0f 9e /0
+            SETG r/m(u8)                                                     ; 0f 9f /0
+           CPUID                                                             ; 0f a2
+              BT r/m(uv), reg(uv)                                            ; 0f a3 /r
+             RSM                                                             ; 0f aa
+             BTS r/m(uv), reg(uv)                                            ; 0f ab /r
+         CMPXCHG r/m(u8), reg(u8)                                            ; 0f b0 /r
+         CMPXCHG r/m(uv), reg(uv)                                            ; 0f b1 /r
+             BTR r/m(uv), reg(uv)                                            ; 0f b3 /r
+             UD2                                                             ; 0f b9
+              BT r/m(uv), I                                                  ; 0f ba /4 I=imm(u8)
+             BTS r/m(uv), I                                                  ; 0f ba /5 I=imm(u8)
+             BTR r/m(uv), I                                                  ; 0f ba /6 I=imm(u8)
+             BTC r/m(uv), I                                                  ; 0f ba /7 I=imm(u8)
+             BTC r/m(uv), reg(uv)                                            ; 0f bb /r
+             BSF reg(uv), r/m(uv)                                            ; 0f bc /r
+             BSR reg(uv), r/m(uv)                                            ; 0f bd /r
+            XADD r/m(u8), reg(u8)                                            ; 0f c0 /r
+            XADD r/m(uv), reg(uv)                                            ; 0f c1 /r
+       CMPXCHG8B r/m(u64)                                                    ; 0f c7 /1=m
+           BSWAP reg(uv), reg(uv)                                            ; 0f c8+reg; reg=0-7
+             ADC r/m(u8), reg(u8)                                            ; 10 /r
+             ADC r/m(uv), reg(uv)                                            ; 11 /r
+             ADC reg(u8), r/m(u8)                                            ; 12 /r
+             ADC reg(uv), r/m(uv)                                            ; 13 /r
+             ADC AL, I                                                       ; 14 I=imm(u8)
+             ADC Av, I                                                       ; 15 I=imm(uv)
+            PUSH SS                                                          ; 16
+             POP SS                                                          ; 17
+             SBB r/m(u8), reg(u8)                                            ; 18 /r
+             SBB r/m(uv), reg(uv)                                            ; 19 /r
+             SBB reg(u8), r/m(u8)                                            ; 1a /r
+             SBB reg(uv), r/m(uv)                                            ; 1b /r
+             SBB AL, I                                                       ; 1c I=imm(u8)
+             SBB Av, I                                                       ; 1d I=imm(uv)
+            PUSH DS                                                          ; 1e
+             POP DS                                                          ; 1f
+             AND r/m(u8), reg(u8)                                            ; 20 /r
+             AND r/m(uv), reg(uv)                                            ; 21 /r
+             AND reg(u8), r/m(u8)                                            ; 22 /r
+             AND reg(uv), r/m(uv)                                            ; 23 /r
+             AND AL, I                                                       ; 24 I=imm(u8)
+             AND Av, I                                                       ; 25 I=imm(uv)
+             ES:                                                    ; prefix ; 26
+             DAA                                                             ; 27
+             SUB r/m(u8), reg(u8)                                            ; 28 /r
+             SUB r/m(uv), reg(uv)                                            ; 29 /r
+             SUB reg(u8), r/m(u8)                                            ; 2a /r
+             SUB reg(uv), r/m(uv)                                            ; 2b /r
+             SUB AL, I                                                       ; 2c I=imm(u8)
+             SUB Av, I                                                       ; 2d I=imm(uv)
+             CS:                                                    ; prefix ; 2e
+             DAS                                                             ; 2f
+             XOR r/m(u8), reg(u8)                                            ; 30 /r
+             XOR r/m(uv), reg(uv)                                            ; 31 /r
+             XOR reg(u8), r/m(u8)                                            ; 32 /r
+             XOR reg(uv), r/m(uv)                                            ; 33 /r
+             XOR AL, I                                                       ; 34 I=imm(u8)
+             XOR Av, I                                                       ; 35 I=imm(uv)
+             SS:                                                    ; prefix ; 36
+             AAA                                                             ; 37
+             CMP r/m(u8), reg(u8)                                            ; 38 /r
+             CMP r/m(uv), reg(uv)                                            ; 39 /r
+             CMP reg(u8), r/m(u8)                                            ; 3a /r
+             CMP reg(uv), r/m(uv)                                            ; 3b /r
+             CMP AL, I                                                       ; 3c I=imm(u8)
+             CMP Av, I                                                       ; 3d I=imm(uv)
+             DS:                                                    ; prefix ; 3e
+             AAS                                                             ; 3f
+             INC reg(uv)                                                     ; 40+reg; reg=0-7
+             DEC reg(uv)                                                     ; 48+reg; reg=0-7
+            PUSH reg(uv)                                                     ; 50+reg; reg=0-7
+             POP reg(uv)                                                     ; 58+reg; reg=0-7
+           PUSHA                                                             ; 60 /r
+            POPA                                                             ; 61 /r
+           BOUND reg(uv), r/m(uv)                                            ; 62 /r
+            ARPL r/m(uv), reg(uv)                                            ; 63 /r
+             FS:                                                    ; prefix ; 64
+             GS:                                                    ; prefix ; 65
+            OPSZ                                                    ; prefix ; 66
+            ADSZ                                                    ; prefix ; 67
+            PUSH I                                                           ; 68 I=imm(uv)
+            IMUL reg(uv), r/m(uv), I                                         ; 69 /r I=imm(iv)
+            PUSH I                                                           ; 6a I=imm(i8)
+            IMUL reg(uv), r/m(uv), I                                         ; 6b /r I=imm(i8)
+             INS AL, u8 [SIV]                                                ; 6c
+             INS Av, uv [SIV]                                                ; 6d
+            OUTS u8 ES:[DIV], AL                                             ; 6e
+            OUTS uv ES:[DIV], Av                                             ; 6f
+              JO N                                                           ; 70 P=imm(i8); N=(IPV+P)
+             JNO N                                                           ; 71 P=imm(i8); N=(IPV+P)
+              JC N                                                           ; 72 P=imm(i8); N=(IPV+P)
+             JNC N                                                           ; 73 P=imm(i8); N=(IPV+P)
+              JZ N                                                           ; 74 P=imm(i8); N=(IPV+P)
+             JNZ N                                                           ; 75 P=imm(i8); N=(IPV+P)
+             JNA N                                                           ; 76 P=imm(i8); N=(IPV+P)
+              JA N                                                           ; 77 P=imm(i8); N=(IPV+P)
+              JS N                                                           ; 78 P=imm(i8); N=(IPV+P)
+             JNS N                                                           ; 79 P=imm(i8); N=(IPV+P)
+              JP N                                                           ; 7a P=imm(i8); N=(IPV+P)
+             JNP N                                                           ; 7b P=imm(i8); N=(IPV+P)
+              JL N                                                           ; 7c P=imm(i8); N=(IPV+P)
+             JNL N                                                           ; 7d P=imm(i8); N=(IPV+P)
+             JNG N                                                           ; 7e P=imm(i8); N=(IPV+P)
+              JG N                                                           ; 7f P=imm(i8); N=(IPV+P)
+             ADD r/m(u8), I                                                  ; 80 /0 I=imm(u8)
+              OR r/m(u8), I                                                  ; 80 /1 I=imm(u8)
+             ADC r/m(u8), I                                                  ; 80 /2 I=imm(u8)
+             SBB r/m(u8), I                                                  ; 80 /3 I=imm(u8)
+             AND r/m(u8), I                                                  ; 80 /4 I=imm(u8)
+             SUB r/m(u8), I                                                  ; 80 /5 I=imm(u8)
+             XOR r/m(u8), I                                                  ; 80 /6 I=imm(u8)
+             CMP r/m(u8), I                                                  ; 80 /7 I=imm(u8)
+             ADD r/m(uv), I                                                  ; 81 /0 I=imm(uv)
+              OR r/m(uv), I                                                  ; 81 /1 I=imm(uv)
+             ADC r/m(uv), I                                                  ; 81 /2 I=imm(uv)
+             SBB r/m(uv), I                                                  ; 81 /3 I=imm(uv)
+             AND r/m(uv), I                                                  ; 81 /4 I=imm(uv)
+             SUB r/m(uv), I                                                  ; 81 /5 I=imm(uv)
+             XOR r/m(uv), I                                                  ; 81 /6 I=imm(uv)
+             CMP r/m(uv), I                                                  ; 81 /7 I=imm(uv)
+             ADD r/m(u8), I                                                  ; 82 /0 I=imm(u8)
+              OR r/m(u8), I                                                  ; 82 /1 I=imm(u8)
+             ADC r/m(u8), I                                                  ; 82 /2 I=imm(u8)
+             SBB r/m(u8), I                                                  ; 82 /3 I=imm(u8)
+             AND r/m(u8), I                                                  ; 82 /4 I=imm(u8)
+             SUB r/m(u8), I                                                  ; 82 /5 I=imm(u8)
+             XOR r/m(u8), I                                                  ; 82 /6 I=imm(u8)
+             CMP r/m(u8), I                                                  ; 82 /7 I=imm(u8)
+             ADD r/m(uv), I                                                  ; 83 /0 I=imm(i8)
+              OR r/m(uv), I                                                  ; 83 /1 I=imm(i8)
+             ADC r/m(uv), I                                                  ; 83 /2 I=imm(i8)
+             SBB r/m(uv), I                                                  ; 83 /3 I=imm(i8)
+             AND r/m(uv), I                                                  ; 83 /4 I=imm(i8)
+             SUB r/m(uv), I                                                  ; 83 /5 I=imm(i8)
+             XOR r/m(uv), I                                                  ; 83 /6 I=imm(i8)
+             CMP r/m(uv), I                                                  ; 83 /7 I=imm(i8)
+            TEST reg(u8), r/m(u8)                                            ; 84 /r
+            TEST reg(uv), r/m(uv)                                            ; 85 /r
+            XCHG reg(u8), r/m(u8)                                            ; 86 /r
+            XCHG reg(uv), r/m(uv)                                            ; 87 /r
+             MOV r/m(u8), reg(u8)                                            ; 88 /r
+             MOV r/m(uv), reg(uv)                                            ; 89 /r
+             MOV reg(u8), r/m(u8)                                            ; 8a /r
+             MOV reg(uv), r/m(uv)                                            ; 8b /r
+             MOV reg(uv), segreg(uv)                                         ; 8c /r
+             LEA reg(uv), r/m(uv)                                            ; 8d /r=m
+             MOV segreg(uv), r/m(uv)                                         ; 8e /r
+             POP r/m(uv)                                                     ; 8f /0
+             NOP                                                             ; 90
+            XCHG reg(uv), Av                                                 ; 90+reg; reg=1-7
+             CBW                                                             ; 98
+             CWD                                                             ; 99
+            CALL P                                                           ; 9a P=imm(farptr)
+            WAIT                                                    ; prefix ; 9b
+           FCLEX                                                             ; 9b db e2; fpu
+           FINIT                                                             ; 9b db e3; fpu
+           PUSHF                                                             ; 9c
+            POPF                                                             ; 9d
+            SAHF                                                             ; 9e
+            LAHF                                                             ; 9f
+             MOV AL, u8 [A]                                                  ; a0 A=imm(uv)
+             MOV Av, uv [A]                                                  ; a1 A=imm(uv)
+             MOV u8 [A], AL                                                  ; a2 A=imm(uv)
+             MOV uv [A], Av                                                  ; a3 A=imm(uv)
+            MOVS u8 ES:[DIV], u8 [SIV]                                       ; a4
+            MOVS uv ES:[DIV], uv [SIV]                                       ; a5
+            CMPS u8 ES:[DIV], u8 [SIV]                                       ; a6
+            CMPS uv ES:[DIV], uv [SIV]                                       ; a7
+            TEST AL, I                                                       ; a8 I=imm(u8)
+            TEST Av, I                                                       ; a9 I=imm(uv)
+            STOS u8 ES:[DIV], AL                                             ; aa
+            STOS uv ES:[DIV], Av                                             ; ab
+            LODS AL, u8 [SIV]                                                ; ac
+            LODS Av, uv [SIV]                                                ; ad
+            SCAS AL, u8 ES:[DIV]                                             ; ae
+            SCAS Av, uv ES:[DIV]                                             ; af
+             MOV reg(u8), I                                                  ; b0+reg; reg=0-7
+             MOV reg(uv), I                                                  ; b8+reg; reg=0-7
+             ROL r/m(u8), I                                                  ; c0 /0 I=imm(u8)
+             ROR r/m(u8), I                                                  ; c0 /1 I=imm(u8)
+             RCL r/m(u8), I                                                  ; c0 /2 I=imm(u8)
+             RCR r/m(u8), I                                                  ; c0 /3 I=imm(u8)
+             SHL r/m(u8), I                                                  ; c0 /4 I=imm(u8)
+             SHR r/m(u8), I                                                  ; c0 /5 I=imm(u8)
+             SAR r/m(u8), I                                                  ; c0 /7 I=imm(u8)
+             ROL r/m(uv), I                                                  ; c1 /0 I=imm(uv)
+             ROR r/m(uv), I                                                  ; c1 /1 I=imm(uv)
+             RCL r/m(uv), I                                                  ; c1 /2 I=imm(uv)
+             RCR r/m(uv), I                                                  ; c1 /3 I=imm(uv)
+             SHL r/m(uv), I                                                  ; c1 /4 I=imm(uv)
+             SHR r/m(uv), I                                                  ; c1 /5 I=imm(uv)
+             SAR r/m(uv), I                                                  ; c1 /7 I=imm(uv)
+             RET C                                                           ; c2 C=imm(u16)
+             RET                                                             ; c3
+             LES reg(uv), r/m(farptr)                                        ; c4 /r=m
+             LDS reg(uv), r/m(farptr)                                        ; c5 /r=m
+             MOV r/m(u8), I                                                  ; c6 /0 I=imm(u8)
+             MOV r/m(uv), I                                                  ; c7 /0 I=imm(uv)
+           ENTER A, L                                                        ; c8 A=imm(u16) L=imm(u8)
+           LEAVE                                                             ; c9
+            RETF C                                                           ; ca C=imm(u16)
+            RETF                                                             ; cb
+             INT 3                                                           ; cc
+             INT I                                                           ; cd I=imm(u8)
+            INTO                                                             ; ce
+            IRET                                                             ; cf
+             ROL r/m(u8), 1                                                  ; d0 /0
+             ROR r/m(u8), 1                                                  ; d0 /1
+             RCL r/m(u8), 1                                                  ; d0 /2
+             RCR r/m(u8), 1                                                  ; d0 /3
+             SHL r/m(u8), 1                                                  ; d0 /4
+             SHR r/m(u8), 1                                                  ; d0 /5
+             SAR r/m(u8), 1                                                  ; d0 /7
+             ROL r/m(uv), 1                                                  ; d1 /0
+             ROR r/m(uv), 1                                                  ; d1 /1
+             RCL r/m(uv), 1                                                  ; d1 /2
+             RCR r/m(uv), 1                                                  ; d1 /3
+             SHL r/m(uv), 1                                                  ; d1 /4
+             SHR r/m(uv), 1                                                  ; d1 /5
+             SAR r/m(uv), 1                                                  ; d1 /7
+             ROL r/m(u8), CL                                                 ; d2 /0
+             ROR r/m(u8), CL                                                 ; d2 /1
+             RCL r/m(u8), CL                                                 ; d2 /2
+             RCR r/m(u8), CL                                                 ; d2 /3
+             SHL r/m(u8), CL                                                 ; d2 /4
+             SHR r/m(u8), CL                                                 ; d2 /5
+             SAR r/m(u8), CL                                                 ; d2 /7
+             ROL r/m(uv), CL                                                 ; d3 /0
+             ROR r/m(uv), CL                                                 ; d3 /1
+             RCL r/m(uv), CL                                                 ; d3 /2
+             RCR r/m(uv), CL                                                 ; d3 /3
+             SHL r/m(uv), CL                                                 ; d3 /4
+             SHR r/m(uv), CL                                                 ; d3 /5
+             SAR r/m(uv), CL                                                 ; d3 /7
+             AAM D                                                           ; d4 D=imm(u8)
+             AAD D                                                           ; d5 D=imm(u8)
+            SALC                                                             ; d6
+            XLAT                                                             ; d7
+            FADD st(0), r/m(f32)                                             ; d8 /0=m; fpu
+            FMUL st(0), r/m(f32)                                             ; d8 /1=m; fpu
+            FCOM st(0), r/m(f32)                                             ; d8 /2=m; fpu
+           FCOMP st(0), r/m(f32)                                             ; d8 /3=m; fpu
+            FSUB st(0), r/m(f32)                                             ; d8 /4=m; fpu
+           FSUBR st(0), r/m(f32)                                             ; d8 /5=m; fpu
+            FDIV st(0), r/m(f32)                                             ; d8 /6=m; fpu
+           FDIVR st(0), r/m(f32)                                             ; d8 /7=m; fpu
+            FADD st(0), st(i)                                                ; d8 c0+i; i=0-7 fpu
+            FMUL st(0), st(i)                                                ; d8 c8+i; i=0-7 fpu
+            FCOM st(0), st(i)                                                ; d8 d0+i; i=0-7 fpu
+           FCOMP st(0), st(i)                                                ; d8 d8+i; i=0-7 fpu
+            FSUB st(0), st(i)                                                ; d8 e0+i; i=0-7 fpu
+           FSUBR st(0), st(i)                                                ; d8 e8+i; i=0-7 fpu
+            FDIV st(0), st(i)                                                ; d8 f0+i; i=0-7 fpu
+           FDIVR st(0), st(i)                                                ; d8 f8+i; i=0-7 fpu
+             FLD st(0), r/m(f32)                                             ; d9 /0=m; fpu
+             FST r/m(f32), st(0)                                             ; d9 /2=m; fpu
+            FSTP r/m(f32), st(0)                                             ; d9 /3=m; fpu
+          FLDENV r/m(f87env)                                                 ; d9 /4=m; fpu
+           FLDCW r/m(u16)                                                    ; d9 /5=m; fpu
+          FSTENV r/m(f87env)                                                 ; d9 /6=m; fpu
+           FSTCW r/m(u16)                                                    ; d9 /7=m; fpu
+             FLD st(0), st(i)                                                ; d9 c0+i; i=0-7 fpu
+            FXCH st(0), st(i)                                                ; d9 c8+i; i=0-7 fpu
+            FNOP                                                             ; d9 d0; fpu
+            FCHS st(0), st(0)                                                ; d9 e0; fpu
+            FABS st(0), st(0)                                                ; d9 e1; fpu
+            FTST st(0)                                                       ; d9 e4; fpu
+            FXAM st(0)                                                       ; d9 e5; fpu
+            FLD1 st(0), 1                                                    ; d9 e8; fpu
+          FLDL2T st(0), const("log2(10)")                                    ; d9 e9; fpu
+          FLDL2E st(0), const("log2(e)")                                     ; d9 ea; fpu
+           FLDPI st(0), const("pi")                                          ; d9 eb; fpu
+          FLDLG2 st(0), const("log10(2)")                                    ; d9 ec; fpu
+          FLDLN2 st(0), const("loge(2)")                                     ; d9 ed; fpu
+            FLDZ st(0), 0                                                    ; d9 ee; fpu
+           F2XM1 st(0), st(0)                                                ; d9 f0; fpu
+           FYL2X st(0), st(0), st(1)                                         ; d9 f1; fpu
+           FPTAN st(0), st(0)                                                ; d9 f2; fpu
+          FPATAN st(1), st(0), st(1)                                         ; d9 f3; fpu
+         FXTRACT st(0), st(0), st(1)                                         ; d9 f4; fpu
+          FPREM1 st(0), st(0), st(1)                                         ; d9 f5; fpu
+         FDECSTP                                                             ; d9 f6; fpu
+         FINCSTP                                                             ; d9 f7; fpu
+           FPREM st(0), st(0), st(1)                                         ; d9 f8; fpu
+         FYL2XP1 st(0), st(0), st(1)                                         ; d9 f9; fpu
+           FSQRT st(0), st(0)                                                ; d9 fa; fpu
+         FSINCOS st(0), st(0)                                                ; d9 fb
+         FRNDINT st(0), st(0)                                                ; d9 fc; fpu
+          FSCALE st(0), st(0), st(1)                                         ; d9 fd; fpu
+            FSIN st(0), st(0)                                                ; d9 fe
+            FCOS st(0), st(0)                                                ; d9 ff
+           FIADD st(0), r/m(i32)                                             ; da /0=m; fpu
+           FIMUL st(0), r/m(i32)                                             ; da /1=m; fpu
+           FICOM st(0), r/m(i32)                                             ; da /2=m; fpu
+          FICOMP st(0), r/m(i32)                                             ; da /3=m; fpu
+           FISUB st(0), r/m(i32)                                             ; da /4=m; fpu
+          FISUBR st(0), r/m(i32)                                             ; da /5=m; fpu
+           FIDIV st(0), r/m(i32)                                             ; da /6=m; fpu
+          FIDIVR st(0), r/m(i32)                                             ; da /7=m; fpu
+         FUCOMPP st(0), st(1)                                                ; da e9; fpu
+            FILD st(0), r/m(i32)                                             ; db /0=m; fpu
+            FIST r/m(i32), st(0)                                             ; db /2=m; fpu
+           FISTP r/m(i32), st(0)                                             ; db /3=m; fpu
+             FLD st(0), r/m(f80)                                             ; db /5=m; fpu
+            FSTP r/m(f80), st(0)                                             ; db /7=m; fpu
+            FENI                                                             ; db e0; fpu
+           FDISI                                                             ; db e1; fpu
+          FNCLEX                                                             ; db e2; fpu
+          FNINIT                                                             ; db e3; fpu
+          FSETPM                                                             ; db e4
+            FADD st(0), r/m(f64)                                             ; dc /0=m; fpu
+            FMUL st(0), r/m(f64)                                             ; dc /1=m; fpu
+            FCOM st(0), r/m(f64)                                             ; dc /2=m; fpu
+           FCOMP st(0), r/m(f64)                                             ; dc /3=m; fpu
+            FSUB st(0), r/m(f64)                                             ; dc /4=m; fpu
+           FSUBR st(0), r/m(f64)                                             ; dc /5=m; fpu
+            FDIV st(0), r/m(f64)                                             ; dc /6=m; fpu
+           FDIVR st(0), r/m(f64)                                             ; dc /7=m; fpu
+            FADD st(i), st(0)                                                ; dc c0+i; i=0-7 fpu
+            FMUL st(i), st(0)                                                ; dc c8+i; i=0-7 fpu
+            FSUB st(i), st(0)                                                ; dc e0+i; i=0-7 fpu
+           FSUBR st(i), st(0)                                                ; dc e8+i; i=0-7 fpu
+            FDIV st(i), st(0)                                                ; dc f0+i; i=0-7 fpu
+           FDIVR st(i), st(0)                                                ; dc f8+i; i=0-7 fpu
+             FLD st(0), r/m(f64)                                             ; dd /0=m; fpu
+             FST r/m(f64), st(0)                                             ; dd /2=m; fpu
+            FSTP r/m(f64), st(0)                                             ; dd /3=m; fpu
+          FRSTOR r/m(f87state)                                               ; dd /4=m; fpu
+           FSAVE r/m(f87state)                                               ; dd /6=m; fpu
+           FSTSW r/m(u16)                                                    ; dd /7=m; fpu
+           FFREE st(i)                                                       ; dd c0+i; i=0-7 fpu
+             FST st(i), st(0)                                                ; dd d0+i; i=0-7 fpu
+            FSTP st(i), st(0)                                                ; dd d8+i; i=0-7 fpu
+           FUCOM st(0), st(i)                                                ; dd e0+rm; fpu
+          FUCOMP st(0), st(i)                                                ; dd e8+rm; fpu
+           FIADD st(0), r/m(i16)                                             ; de /0=m; fpu
+           FIMUL st(0), r/m(i16)                                             ; de /1=m; fpu
+           FICOM st(0), r/m(i16)                                             ; de /2=m; fpu
+          FICOMP st(0), r/m(i16)                                             ; de /3=m; fpu
+           FISUB st(0), r/m(i16)                                             ; de /4=m; fpu
+          FISUBR st(0), r/m(i16)                                             ; de /5=m; fpu
+           FIDIV st(0), r/m(i16)                                             ; de /6=m; fpu
+          FIDIVR st(0), r/m(i16)                                             ; de /7=m; fpu
+            FADD st(i), st(0)                                                ; de c0+i; i=0-7 fpu
+            FMUL st(i), st(0)                                                ; de c8+i; i=0-7 fpu
+          FCOMPP st(0), st(1)                                                ; de d9; fpu
+            FSUB st(i), st(0)                                                ; de e0+i; i=0-7 fpu
+           FSUBR st(i), st(0)                                                ; de e8+i; i=0-7 fpu
+            FDIV st(i), st(0)                                                ; de f0+i; i=0-7 fpu
+           FDIVR st(i), st(0)                                                ; de f8+i; i=0-7 fpu
+            FILD st(0), r/m(i16)                                             ; df /0=m; fpu
+            FIST r/m(i16), st(0)                                             ; df /2=m; fpu
+           FISTP r/m(i16), st(0)                                             ; df /3=m; fpu
+            FBLD st(0), r/m(fbcd)                                            ; df /4=m; fpu
+            FILD st(0), r/m(i64)                                             ; df /5=m; fpu
+           FBSTP r/m(fbcd), st(0)                                            ; df /6=m; fpu
+           FISTP r/m(i64), st(0)                                             ; df /7=m; fpu
+          LOOPNZ N                                                           ; e0 P=imm(i8); N=(IPV+P)
+           LOOPZ N                                                           ; e1 P=imm(i8); N=(IPV+P)
+            LOOP N                                                           ; e2 P=imm(i8); N=(IPV+P)
+            JCXZ N                                                           ; e3 P=imm(i8); N=(IPV+P)
+              IN AL, P                                                       ; e4 P=imm(u8)
+              IN Av, P                                                       ; e5 P=imm(u8)
+             OUT P, AL                                                       ; e6 P=imm(u8)
+             OUT P, Av                                                       ; e7 P=imm(u8)
+            CALL N                                                           ; e8 P=imm(iv); N=(IPV+P)
+             JMP N                                                           ; e9 P=imm(iv); N=(IPV+P)
+             JMP P                                                           ; ea P=imm(farptr)
+             JMP N                                                           ; eb P=imm(i8); N=(IPV+P)
+              IN AL, DX                                                      ; ec
+              IN Av, DX                                                      ; ed
+             OUT DX, AL                                                      ; ee
+             OUT DX, Av                                                      ; ef
+            LOCK                                                    ; prefix ; f0
+             INT 1                                                           ; f1
+           REPNZ                                                    ; prefix ; f2
+            REPZ                                                    ; prefix ; f3
+             HLT                                                             ; f4
+             CMC                                                             ; f5
+            TEST r/m(u8), I                                                  ; f6 /0 I=imm(u8)
+             NOT r/m(u8)                                                     ; f6 /2
+             NEG r/m(u8)                                                     ; f6 /3
+             MUL r/m(u8)                                                     ; f6 /4
+            IMUL r/m(u8)                                                     ; f6 /5
+             DIV r/m(u8)                                                     ; f6 /6
+            IDIV r/m(u8)                                                     ; f6 /7
+            TEST r/m(uv), I                                                  ; f7 /0 I=imm(uv)
+             NOT r/m(uv)                                                     ; f7 /2
+             NEG r/m(uv)                                                     ; f7 /3
+             MUL r/m(uv)                                                     ; f7 /4
+            IMUL r/m(uv)                                                     ; f7 /5
+             DIV r/m(uv)                                                     ; f7 /6
+            IDIV r/m(uv)                                                     ; f7 /7
+             CLC                                                             ; f8
+             STC                                                             ; f9
+             CLI                                                             ; fa
+             STI                                                             ; fb
+             CLD                                                             ; fc
+             STD                                                             ; fd
+             INC r/m(u8)                                                     ; fe /0
+             DEC r/m(u8)                                                     ; fe /1
+            CALL r/m(farptr)                                                 ; ff /3=m
+             JMP r/m(farptr)                                                 ; ff /5=m
+             INC r/m(uv)                                                     ; ff /0
+             DEC r/m(uv)                                                     ; ff /1
+            CALL r/m(uv)                                                     ; ff /2
+             JMP r/m(uv)                                                     ; ff /4
+            PUSH r/m(uv)                                                     ; ff /6
 
 Opcodes by name:
 ----------------
-         AAA                                                             ; 37
-         AAD D                                                           ; d5 D=imm(u8)
-         AAM D                                                           ; d4 D=imm(u8)
-         AAS                                                             ; 3f
-         ADC r/m(u8), reg(u8)                                            ; 10 /r
-         ADC r/m(uv), reg(uv)                                            ; 11 /r
-         ADC reg(u8), r/m(u8)                                            ; 12 /r
-         ADC reg(uv), r/m(uv)                                            ; 13 /r
-         ADC AL, I                                                       ; 14 I=imm(u8)
-         ADC Av, I                                                       ; 15 I=imm(uv)
-         ADC r/m(u8), I                                                  ; 80 /2 I=imm(u8)
-         ADC r/m(uv), I                                                  ; 81 /2 I=imm(uv)
-         ADC r/m(u8), I                                                  ; 82 /2 I=imm(u8)
-         ADC r/m(uv), I                                                  ; 83 /2 I=imm(i8)
-         ADD r/m(u8), reg(u8)                                            ; 00 /r
-         ADD r/m(uv), reg(uv)                                            ; 01 /r
-         ADD reg(u8), r/m(u8)                                            ; 02 /r
-         ADD reg(uv), r/m(uv)                                            ; 03 /r
-         ADD AL, I                                                       ; 04 I=imm(u8)
-         ADD Av, I                                                       ; 05 I=imm(uv)
-         ADD r/m(u8), I                                                  ; 80 /0 I=imm(u8)
-         ADD r/m(uv), I                                                  ; 81 /0 I=imm(uv)
-         ADD r/m(u8), I                                                  ; 82 /0 I=imm(u8)
-         ADD r/m(uv), I                                                  ; 83 /0 I=imm(i8)
-        ADSZ                                                    ; prefix ; 67
-         AND r/m(u8), reg(u8)                                            ; 20 /r
-         AND r/m(uv), reg(uv)                                            ; 21 /r
-         AND reg(u8), r/m(u8)                                            ; 22 /r
-         AND reg(uv), r/m(uv)                                            ; 23 /r
-         AND AL, I                                                       ; 24 I=imm(u8)
-         AND Av, I                                                       ; 25 I=imm(uv)
-         AND r/m(u8), I                                                  ; 80 /4 I=imm(u8)
-         AND r/m(uv), I                                                  ; 81 /4 I=imm(uv)
-         AND r/m(u8), I                                                  ; 82 /4 I=imm(u8)
-         AND r/m(uv), I                                                  ; 83 /4 I=imm(i8)
-        ARPL r/m(uv), reg(uv)                                            ; 63 /r
-       BOUND reg(uv), r/m(uv)                                            ; 62 /r
-         BSF reg(uv), r/m(uv)                                            ; 0f bc /r
-         BSR reg(uv), r/m(uv)                                            ; 0f bd /r
-       BSWAP reg(uv), reg(uv)                                            ; 0f c8+reg; reg=0-7
-          BT r/m(uv), reg(uv)                                            ; 0f a3 /r
-          BT r/m(uv), I                                                  ; 0f ba /4 I=imm(u8)
-         BTC r/m(uv), I                                                  ; 0f ba /7 I=imm(u8)
-         BTC r/m(uv), reg(uv)                                            ; 0f bb /r
-         BTR r/m(uv), reg(uv)                                            ; 0f b3 /r
-         BTR r/m(uv), I                                                  ; 0f ba /6 I=imm(u8)
-         BTS r/m(uv), reg(uv)                                            ; 0f ab /r
-         BTS r/m(uv), I                                                  ; 0f ba /5 I=imm(u8)
-        CALL P                                                           ; 9a P=imm(farptr)
-        CALL N                                                           ; e8 P=imm(iv); N=(IPV+P)
-        CALL r/m(uv)                                                     ; ff /2
-        CALL r/m(farptr)                                                 ; ff /3=m
-         CBW                                                             ; 98
-         CLC                                                             ; f8
-         CLD                                                             ; fc
-         CLI                                                             ; fa
-        CLTS                                                             ; 0f 06 /r
-         CMC                                                             ; f5
-         CMP r/m(u8), reg(u8)                                            ; 38 /r
-         CMP r/m(uv), reg(uv)                                            ; 39 /r
-         CMP reg(u8), r/m(u8)                                            ; 3a /r
-         CMP reg(uv), r/m(uv)                                            ; 3b /r
-         CMP AL, I                                                       ; 3c I=imm(u8)
-         CMP Av, I                                                       ; 3d I=imm(uv)
-         CMP r/m(u8), I                                                  ; 80 /7 I=imm(u8)
-         CMP r/m(uv), I                                                  ; 81 /7 I=imm(uv)
-         CMP r/m(u8), I                                                  ; 82 /7 I=imm(u8)
-         CMP r/m(uv), I                                                  ; 83 /7 I=imm(i8)
-        CMPS u8 ES:[DIV], u8 [SIV]                                       ; a6
-        CMPS uv ES:[DIV], uv [SIV]                                       ; a7
-     CMPXCHG r/m(u8), reg(u8)                                            ; 0f b0 /r
-     CMPXCHG r/m(uv), reg(uv)                                            ; 0f b1 /r
-   CMPXCHG8B r/m(u64)                                                    ; 0f c7 /1=m
-       CPUID                                                             ; 0f a2
-         CS:                                                    ; prefix ; 2e
-         CWD                                                             ; 99
-         DAA                                                             ; 27
-         DAS                                                             ; 2f
-         DEC reg(uv)                                                     ; 48+reg; reg=0-7
-         DEC r/m(u8)                                                     ; fe /1
-         DEC r/m(uv)                                                     ; ff /1
-         DIV r/m(u8)                                                     ; f6 /6
-         DIV r/m(uv)                                                     ; f7 /6
-         DS:                                                    ; prefix ; 3e
-       ENTER A, L                                                        ; c8 A=imm(u16) L=imm(u8)
-         ES:                                                    ; prefix ; 26
-       F2XM1 st(0), st(0)                                                ; d9 f0; fpu
-        FABS st(0), st(0)                                                ; d9 e1; fpu
-        FADD st(0), r/m(f32)                                             ; d8 /0=m; fpu
-        FADD st(0), st(i)                                                ; d8 c0+i; i=0-7 fpu
-        FADD st(0), r/m(f64)                                             ; dc /0=m; fpu
-        FADD st(i), st(0)                                                ; dc c0+i; i=0-7 fpu
-        FADD st(i), st(0)                                                ; de c0+i; i=0-7 fpu
-        FBLD st(0), r/m(fbcd)                                            ; df /4=m; fpu
-       FBSTP r/m(fbcd), st(0)                                            ; df /6=m; fpu
-        FCHS st(0), st(0)                                                ; d9 e0; fpu
-       FCLEX                                                             ; 9b db e2; fpu
-        FCOM st(0), r/m(f32)                                             ; d8 /2=m; fpu
-        FCOM st(0), st(i)                                                ; d8 d0+i; i=0-7 fpu
-        FCOM st(0), r/m(f64)                                             ; dc /2=m; fpu
-       FCOMP st(0), r/m(f32)                                             ; d8 /3=m; fpu
-       FCOMP st(0), st(i)                                                ; d8 d8+i; i=0-7 fpu
-       FCOMP st(0), r/m(f64)                                             ; dc /3=m; fpu
-      FCOMPP st(0), st(1)                                                ; de d9; fpu
-        FCOS st(0), st(0)                                                ; d9 ff
-     FDECSTP                                                             ; d9 f6; fpu
-       FDISI                                                             ; db e1; fpu
-        FDIV st(0), r/m(f32)                                             ; d8 /6=m; fpu
-        FDIV st(0), st(i)                                                ; d8 f0+i; i=0-7 fpu
-        FDIV st(0), r/m(f64)                                             ; dc /6=m; fpu
-        FDIV st(i), st(0)                                                ; dc f0+i; i=0-7 fpu
-        FDIV st(i), st(0)                                                ; de f0+i; i=0-7 fpu
-       FDIVR st(0), r/m(f32)                                             ; d8 /7=m; fpu
-       FDIVR st(0), st(i)                                                ; d8 f8+i; i=0-7 fpu
-       FDIVR st(0), r/m(f64)                                             ; dc /7=m; fpu
-       FDIVR st(i), st(0)                                                ; dc f8+i; i=0-7 fpu
-       FDIVR st(i), st(0)                                                ; de f8+i; i=0-7 fpu
-        FENI                                                             ; db e0; fpu
-       FFREE st(i)                                                       ; dd c0+i; i=0-7 fpu
-       FIADD st(0), r/m(i32)                                             ; da /0=m; fpu
-       FIADD st(0), r/m(i16)                                             ; de /0=m; fpu
-       FICOM st(0), r/m(i32)                                             ; da /2=m; fpu
-       FICOM st(0), r/m(i16)                                             ; de /2=m; fpu
-      FICOMP st(0), r/m(i32)                                             ; da /3=m; fpu
-      FICOMP st(0), r/m(i16)                                             ; de /3=m; fpu
-       FIDIV st(0), r/m(i32)                                             ; da /6=m; fpu
-       FIDIV st(0), r/m(i16)                                             ; de /6=m; fpu
-      FIDIVR st(0), r/m(i32)                                             ; da /7=m; fpu
-      FIDIVR st(0), r/m(i16)                                             ; de /7=m; fpu
-        FILD st(0), r/m(i32)                                             ; db /0=m; fpu
-        FILD st(0), r/m(i16)                                             ; df /0=m; fpu
-        FILD st(0), r/m(i64)                                             ; df /5=m; fpu
-       FIMUL st(0), r/m(i32)                                             ; da /1=m; fpu
-       FIMUL st(0), r/m(i16)                                             ; de /1=m; fpu
-     FINCSTP                                                             ; d9 f7; fpu
-       FINIT                                                             ; 9b db e3; fpu
-        FIST r/m(i32), st(0)                                             ; db /2=m; fpu
-        FIST r/m(i16), st(0)                                             ; df /2=m; fpu
-       FISTP r/m(i32), st(0)                                             ; db /3=m; fpu
-       FISTP r/m(i16), st(0)                                             ; df /3=m; fpu
-       FISTP r/m(i64), st(0)                                             ; df /7=m; fpu
-       FISUB st(0), r/m(i32)                                             ; da /4=m; fpu
-       FISUB st(0), r/m(i16)                                             ; de /4=m; fpu
-      FISUBR st(0), r/m(i32)                                             ; da /5=m; fpu
-      FISUBR st(0), r/m(i16)                                             ; de /5=m; fpu
-         FLD st(0), r/m(f32)                                             ; d9 /0=m; fpu
-         FLD st(0), st(i)                                                ; d9 c0+i; i=0-7 fpu
-         FLD st(0), r/m(f80)                                             ; db /5=m; fpu
-         FLD st(0), r/m(f64)                                             ; dd /0=m; fpu
-        FLD1 st(0), 1                                                    ; d9 e8; fpu
-       FLDCW r/m(u16)                                                    ; d9 /5=m; fpu
-      FLDENV r/m(f87env)                                                 ; d9 /4=m; fpu
-      FLDL2E st(0), const("log2(e)")                                     ; d9 ea; fpu
-      FLDL2T st(0), const("log2(10)")                                    ; d9 e9; fpu
-      FLDLG2 st(0), const("log10(2)")                                    ; d9 ec; fpu
-      FLDLN2 st(0), const("loge(2)")                                     ; d9 ed; fpu
-       FLDPI st(0), const("pi")                                          ; d9 eb; fpu
-        FLDZ st(0), 0                                                    ; d9 ee; fpu
-        FMUL st(0), r/m(f32)                                             ; d8 /1=m; fpu
-        FMUL st(0), st(i)                                                ; d8 c8+i; i=0-7 fpu
-        FMUL st(0), r/m(f64)                                             ; dc /1=m; fpu
-        FMUL st(i), st(0)                                                ; dc c8+i; i=0-7 fpu
-        FMUL st(i), st(0)                                                ; de c8+i; i=0-7 fpu
-      FNCLEX                                                             ; db e2; fpu
-      FNINIT                                                             ; db e3; fpu
-        FNOP                                                             ; d9 d0; fpu
-      FPATAN st(1), st(0), st(1)                                         ; d9 f3; fpu
-       FPREM st(0), st(0), st(1)                                         ; d9 f8; fpu
-      FPREM1 st(0), st(0), st(1)                                         ; d9 f5; fpu
-       FPTAN st(0), st(0)                                                ; d9 f2; fpu
-     FRNDINT st(0), st(0)                                                ; d9 fc; fpu
-      FRSTOR r/m(f87state)                                               ; dd /4=m; fpu
-         FS:                                                    ; prefix ; 64
-       FSAVE r/m(f87state)                                               ; dd /6=m; fpu
-      FSCALE st(0), st(0), st(1)                                         ; d9 fd; fpu
-      FSETPM                                                             ; db e4
-        FSIN st(0), st(0)                                                ; d9 fe
-     FSINCOS st(0), st(0)                                                ; d9 fb
-       FSQRT st(0), st(0)                                                ; d9 fa; fpu
-         FST r/m(f32), st(0)                                             ; d9 /2=m; fpu
-         FST r/m(f64), st(0)                                             ; dd /2=m; fpu
-         FST st(i), st(0)                                                ; dd d0+i; i=0-7 fpu
-       FSTCW r/m(u16)                                                    ; d9 /7=m; fpu
-      FSTENV r/m(f87env)                                                 ; d9 /6=m; fpu
-        FSTP r/m(f32), st(0)                                             ; d9 /3=m; fpu
-        FSTP r/m(f80), st(0)                                             ; db /7=m; fpu
-        FSTP r/m(f64), st(0)                                             ; dd /3=m; fpu
-        FSTP st(i), st(0)                                                ; dd d8+i; i=0-7 fpu
-       FSTSW r/m(u16)                                                    ; dd /7=m; fpu
-        FSUB st(0), r/m(f32)                                             ; d8 /4=m; fpu
-        FSUB st(0), st(i)                                                ; d8 e0+i; i=0-7 fpu
-        FSUB st(0), r/m(f64)                                             ; dc /4=m; fpu
-        FSUB st(i), st(0)                                                ; dc e0+i; i=0-7 fpu
-        FSUB st(i), st(0)                                                ; de e0+i; i=0-7 fpu
-       FSUBR st(0), r/m(f32)                                             ; d8 /5=m; fpu
-       FSUBR st(0), st(i)                                                ; d8 e8+i; i=0-7 fpu
-       FSUBR st(0), r/m(f64)                                             ; dc /5=m; fpu
-       FSUBR st(i), st(0)                                                ; dc e8+i; i=0-7 fpu
-       FSUBR st(i), st(0)                                                ; de e8+i; i=0-7 fpu
-        FTST st(0)                                                       ; d9 e4; fpu
-       FUCOM st(0), st(i)                                                ; dd e0+rm; fpu
-      FUCOMP st(0), st(i)                                                ; dd e8+rm; fpu
-     FUCOMPP st(0), st(1)                                                ; da e9; fpu
-        FXAM st(0)                                                       ; d9 e5; fpu
-        FXCH st(0), st(i)                                                ; d9 c8+i; i=0-7 fpu
-     FXTRACT st(0), st(0), st(1)                                         ; d9 f4; fpu
-       FYL2X st(0), st(0), st(1)                                         ; d9 f1; fpu
-     FYL2XP1 st(0), st(0), st(1)                                         ; d9 f9; fpu
-         GS:                                                    ; prefix ; 65
-         HLT                                                             ; f4
-        IDIV r/m(u8)                                                     ; f6 /7
-        IDIV r/m(uv)                                                     ; f7 /7
-        IMUL reg(uv), r/m(uv), I                                         ; 69 /r I=imm(iv)
-        IMUL reg(uv), r/m(uv), I                                         ; 6b /r I=imm(i8)
-        IMUL r/m(u8)                                                     ; f6 /5
-        IMUL r/m(uv)                                                     ; f7 /5
-          IN AL, P                                                       ; e4 P=imm(u8)
-          IN Av, P                                                       ; e5 P=imm(u8)
-          IN AL, DX                                                      ; ec
-          IN Av, DX                                                      ; ed
-         INC reg(uv)                                                     ; 40+reg; reg=0-7
-         INC r/m(u8)                                                     ; fe /0
-         INC r/m(uv)                                                     ; ff /0
-         INS AL, u8 [SIV]                                                ; 6c
-         INS Av, uv [SIV]                                                ; 6d
-         INT 3                                                           ; cc
-         INT I                                                           ; cd I=imm(u8)
-         INT 1                                                           ; f1
-        INTO                                                             ; ce
-        INVD                                                             ; 0f 08
-      INVLPG r/m(uv)                                                     ; 0f 01 /7=m
-        IRET                                                             ; cf
-          JA N                                                           ; 0f 87 P=imm(iv); N=(IPV+P)
-          JA N                                                           ; 77 P=imm(i8); N=(IPV+P)
-          JC N                                                           ; 0f 82 P=imm(iv); N=(IPV+P)
-          JC N                                                           ; 72 P=imm(i8); N=(IPV+P)
-        JCXZ N                                                           ; e3 P=imm(i8); N=(IPV+P)
-          JG N                                                           ; 0f 8f P=imm(iv); N=(IPV+P)
-          JG N                                                           ; 7f P=imm(i8); N=(IPV+P)
-          JL N                                                           ; 0f 8c P=imm(iv); N=(IPV+P)
-          JL N                                                           ; 7c P=imm(i8); N=(IPV+P)
-         JMP N                                                           ; e9 P=imm(iv); N=(IPV+P)
-         JMP P                                                           ; ea P=imm(farptr)
-         JMP N                                                           ; eb P=imm(i8); N=(IPV+P)
-         JMP r/m(uv)                                                     ; ff /4
-         JMP r/m(farptr)                                                 ; ff /5=m
-         JNA N                                                           ; 0f 86 P=imm(iv); N=(IPV+P)
-         JNA N                                                           ; 76 P=imm(i8); N=(IPV+P)
-         JNC N                                                           ; 0f 83 P=imm(iv); N=(IPV+P)
-         JNC N                                                           ; 73 P=imm(i8); N=(IPV+P)
-         JNG N                                                           ; 0f 8e P=imm(iv); N=(IPV+P)
-         JNG N                                                           ; 7e P=imm(i8); N=(IPV+P)
-         JNL N                                                           ; 0f 8d P=imm(iv); N=(IPV+P)
-         JNL N                                                           ; 7d P=imm(i8); N=(IPV+P)
-         JNO N                                                           ; 0f 81 P=imm(iv); N=(IPV+P)
-         JNO N                                                           ; 71 P=imm(i8); N=(IPV+P)
-         JNP N                                                           ; 0f 8b P=imm(iv); N=(IPV+P)
-         JNP N                                                           ; 7b P=imm(i8); N=(IPV+P)
-         JNS N                                                           ; 0f 89 P=imm(iv); N=(IPV+P)
-         JNS N                                                           ; 79 P=imm(i8); N=(IPV+P)
-         JNZ N                                                           ; 0f 85 P=imm(iv); N=(IPV+P)
-         JNZ N                                                           ; 75 P=imm(i8); N=(IPV+P)
-          JO N                                                           ; 0f 80 P=imm(iv); N=(IPV+P)
-          JO N                                                           ; 70 P=imm(i8); N=(IPV+P)
-          JP N                                                           ; 0f 8a P=imm(iv); N=(IPV+P)
-          JP N                                                           ; 7a P=imm(i8); N=(IPV+P)
-          JS N                                                           ; 0f 88 P=imm(iv); N=(IPV+P)
-          JS N                                                           ; 78 P=imm(i8); N=(IPV+P)
-          JZ N                                                           ; 0f 84 P=imm(iv); N=(IPV+P)
-          JZ N                                                           ; 74 P=imm(i8); N=(IPV+P)
-        LAHF                                                             ; 9f
-         LAR reg(uv), r/m(uv)                                            ; 0f 02 /r
-         LDS reg(uv), r/m(farptr)                                        ; c5 /r=m
-         LEA reg(uv), r/m(uv)                                            ; 8d /r=m
-       LEAVE                                                             ; c9
-         LES reg(uv), r/m(farptr)                                        ; c4 /r=m
-        LGDT r/m(u48)                                                    ; 0f 01 /2=m
-        LIDT r/m(u48)                                                    ; 0f 01 /3=m
-        LLDT r/m(uv)                                                     ; 0f 00 /2
-        LMSW r/m(uv)                                                     ; 0f 01 /6
-        LOCK                                                    ; prefix ; f0
-        LODS AL, u8 [SIV]                                                ; ac
-        LODS Av, uv [SIV]                                                ; ad
-        LOOP N                                                           ; e2 P=imm(i8); N=(IPV+P)
-      LOOPNZ N                                                           ; e0 P=imm(i8); N=(IPV+P)
-       LOOPZ N                                                           ; e1 P=imm(i8); N=(IPV+P)
-         LSL reg(uv), r/m(uv)                                            ; 0f 03 /r
-         LTR r/m(uv)                                                     ; 0f 00 /3
-         MOV r/m(u32), cr(reg)                                           ; 0f 20 /r!m
-         MOV r/m(u32), dr(reg)                                           ; 0f 21 /r!m
-         MOV cr(reg), r/m(u32)                                           ; 0f 22 /r!m
-         MOV dr(reg), r/m(u32)                                           ; 0f 23 /r!m
-         MOV r/m(u32), tr(reg)                                           ; 0f 24 /r!m
-         MOV tr(reg), r/m(u32)                                           ; 0f 26 /r!m
-         MOV r/m(u8), reg(u8)                                            ; 88 /r
-         MOV r/m(uv), reg(uv)                                            ; 89 /r
-         MOV reg(u8), r/m(u8)                                            ; 8a /r
-         MOV reg(uv), r/m(uv)                                            ; 8b /r
-         MOV reg(uv), segreg(uv)                                         ; 8c /r
-         MOV segreg(uv), r/m(uv)                                         ; 8e /r
-         MOV AL, u8 [A]                                                  ; a0 A=imm(uv)
-         MOV Av, uv [A]                                                  ; a1 A=imm(uv)
-         MOV u8 [A], AL                                                  ; a2 A=imm(uv)
-         MOV uv [A], Av                                                  ; a3 A=imm(uv)
-         MOV reg(u8), I                                                  ; b0+reg; reg=0-7
-         MOV reg(uv), I                                                  ; b8+reg; reg=0-7
-         MOV r/m(u8), I                                                  ; c6 /0 I=imm(u8)
-         MOV r/m(uv), I                                                  ; c7 /0 I=imm(uv)
-        MOVS u8 ES:[DIV], u8 [SIV]                                       ; a4
-        MOVS uv ES:[DIV], uv [SIV]                                       ; a5
-         MUL r/m(u8)                                                     ; f6 /4
-         MUL r/m(uv)                                                     ; f7 /4
-         NEG r/m(u8)                                                     ; f6 /3
-         NEG r/m(uv)                                                     ; f7 /3
-         NOP                                                             ; 90
-         NOT r/m(u8)                                                     ; f6 /2
-         NOT r/m(uv)                                                     ; f7 /2
-        OPSZ                                                    ; prefix ; 66
-          OR r/m(u8), reg(u8)                                            ; 08 /r
-          OR r/m(uv), reg(uv)                                            ; 09 /r
-          OR reg(u8), r/m(u8)                                            ; 0a /r
-          OR reg(uv), r/m(uv)                                            ; 0b /r
-          OR AL, I                                                       ; 0c I=imm(u8)
-          OR Av, I                                                       ; 0d I=imm(uv)
-          OR r/m(u8), I                                                  ; 80 /1 I=imm(u8)
-          OR r/m(uv), I                                                  ; 81 /1 I=imm(uv)
-          OR r/m(u8), I                                                  ; 82 /1 I=imm(u8)
-          OR r/m(uv), I                                                  ; 83 /1 I=imm(i8)
-         OUT P, AL                                                       ; e6 P=imm(u8)
-         OUT P, Av                                                       ; e7 P=imm(u8)
-         OUT DX, AL                                                      ; ee
-         OUT DX, Av                                                      ; ef
-        OUTS u8 ES:[DIV], AL                                             ; 6e
-        OUTS uv ES:[DIV], Av                                             ; 6f
-         POP ES                                                          ; 07
-         POP SS                                                          ; 17
-         POP DS                                                          ; 1f
-         POP reg(uv)                                                     ; 58+reg; reg=0-7
-         POP r/m(uv)                                                     ; 8f /0
-        POPA                                                             ; 61 /r
-        POPF                                                             ; 9d
-        PUSH ES                                                          ; 06
-        PUSH CS                                                          ; 0e
-        PUSH SS                                                          ; 16
-        PUSH DS                                                          ; 1e
-        PUSH reg(uv)                                                     ; 50+reg; reg=0-7
-        PUSH I                                                           ; 68 I=imm(uv)
-        PUSH I                                                           ; 6a I=imm(i8)
-        PUSH r/m(uv)                                                     ; ff /6
-       PUSHA                                                             ; 60 /r
-       PUSHF                                                             ; 9c
-         RCL r/m(u8), I                                                  ; c0 /2 I=imm(u8)
-         RCL r/m(uv), I                                                  ; c1 /2 I=imm(uv)
-         RCL r/m(u8), 1                                                  ; d0 /2
-         RCL r/m(uv), 1                                                  ; d1 /2
-         RCL r/m(u8), CL                                                 ; d2 /2
-         RCL r/m(uv), CL                                                 ; d3 /2
-         RCR r/m(u8), I                                                  ; c0 /3 I=imm(u8)
-         RCR r/m(uv), I                                                  ; c1 /3 I=imm(uv)
-         RCR r/m(u8), 1                                                  ; d0 /3
-         RCR r/m(uv), 1                                                  ; d1 /3
-         RCR r/m(u8), CL                                                 ; d2 /3
-         RCR r/m(uv), CL                                                 ; d3 /3
-       RDMSR                                                             ; 0f 32
-       RDTSC                                                             ; 0f 31
-       REPNZ                                                    ; prefix ; f2
-        REPZ                                                    ; prefix ; f3
-         RET C                                                           ; c2 C=imm(u16)
-         RET                                                             ; c3
-        RETF C                                                           ; ca C=imm(u16)
-        RETF                                                             ; cb
-         ROL r/m(u8), I                                                  ; c0 /0 I=imm(u8)
-         ROL r/m(uv), I                                                  ; c1 /0 I=imm(uv)
-         ROL r/m(u8), 1                                                  ; d0 /0
-         ROL r/m(uv), 1                                                  ; d1 /0
-         ROL r/m(u8), CL                                                 ; d2 /0
-         ROL r/m(uv), CL                                                 ; d3 /0
-         ROR r/m(u8), I                                                  ; c0 /1 I=imm(u8)
-         ROR r/m(uv), I                                                  ; c1 /1 I=imm(uv)
-         ROR r/m(u8), 1                                                  ; d0 /1
-         ROR r/m(uv), 1                                                  ; d1 /1
-         ROR r/m(u8), CL                                                 ; d2 /1
-         ROR r/m(uv), CL                                                 ; d3 /1
-         RSM                                                             ; 0f aa
-        SAHF                                                             ; 9e
-        SALC                                                             ; d6
-         SAR r/m(u8), I                                                  ; c0 /7 I=imm(u8)
-         SAR r/m(uv), I                                                  ; c1 /7 I=imm(uv)
-         SAR r/m(u8), 1                                                  ; d0 /7
-         SAR r/m(uv), 1                                                  ; d1 /7
-         SAR r/m(u8), CL                                                 ; d2 /7
-         SAR r/m(uv), CL                                                 ; d3 /7
-         SBB r/m(u8), reg(u8)                                            ; 18 /r
-         SBB r/m(uv), reg(uv)                                            ; 19 /r
-         SBB reg(u8), r/m(u8)                                            ; 1a /r
-         SBB reg(uv), r/m(uv)                                            ; 1b /r
-         SBB AL, I                                                       ; 1c I=imm(u8)
-         SBB Av, I                                                       ; 1d I=imm(uv)
-         SBB r/m(u8), I                                                  ; 80 /3 I=imm(u8)
-         SBB r/m(uv), I                                                  ; 81 /3 I=imm(uv)
-         SBB r/m(u8), I                                                  ; 82 /3 I=imm(u8)
-         SBB r/m(uv), I                                                  ; 83 /3 I=imm(i8)
-        SCAS AL, u8 ES:[DIV]                                             ; ae
-        SCAS Av, uv ES:[DIV]                                             ; af
-        SETA r/m(u8)                                                     ; 0f 97 /0
-        SETC r/m(u8)                                                     ; 0f 92 /0
-        SETG r/m(u8)                                                     ; 0f 9f /0
-        SETL r/m(u8)                                                     ; 0f 9c /0
-       SETNA r/m(u8)                                                     ; 0f 96 /0
-       SETNC r/m(u8)                                                     ; 0f 93 /0
-       SETNG r/m(u8)                                                     ; 0f 9e /0
-       SETNL r/m(u8)                                                     ; 0f 9d /0
-       SETNO r/m(u8)                                                     ; 0f 91 /0
-       SETNP r/m(u8)                                                     ; 0f 9b /0
-       SETNS r/m(u8)                                                     ; 0f 99 /0
-       SETNZ r/m(u8)                                                     ; 0f 95 /0
-        SETO r/m(u8)                                                     ; 0f 90 /0
-        SETP r/m(u8)                                                     ; 0f 9a /0
-        SETS r/m(u8)                                                     ; 0f 98 /0
-        SETZ r/m(u8)                                                     ; 0f 94 /0
-        SGDT r/m(u48)                                                    ; 0f 01 /0=m
-         SHL r/m(u8), I                                                  ; c0 /4 I=imm(u8)
-         SHL r/m(uv), I                                                  ; c1 /4 I=imm(uv)
-         SHL r/m(u8), 1                                                  ; d0 /4
-         SHL r/m(uv), 1                                                  ; d1 /4
-         SHL r/m(u8), CL                                                 ; d2 /4
-         SHL r/m(uv), CL                                                 ; d3 /4
-         SHR r/m(u8), I                                                  ; c0 /5 I=imm(u8)
-         SHR r/m(uv), I                                                  ; c1 /5 I=imm(uv)
-         SHR r/m(u8), 1                                                  ; d0 /5
-         SHR r/m(uv), 1                                                  ; d1 /5
-         SHR r/m(u8), CL                                                 ; d2 /5
-         SHR r/m(uv), CL                                                 ; d3 /5
-        SIDT r/m(u48)                                                    ; 0f 01 /1=m
-        SLDT r/m(uv)                                                     ; 0f 00 /0
-        SMSW r/m(uv)                                                     ; 0f 01 /4
-         SS:                                                    ; prefix ; 36
-         STC                                                             ; f9
-         STD                                                             ; fd
-         STI                                                             ; fb
-        STOS u8 ES:[DIV], AL                                             ; aa
-        STOS uv ES:[DIV], Av                                             ; ab
-         STR r/m(uv)                                                     ; 0f 00 /1
-         SUB r/m(u8), reg(u8)                                            ; 28 /r
-         SUB r/m(uv), reg(uv)                                            ; 29 /r
-         SUB reg(u8), r/m(u8)                                            ; 2a /r
-         SUB reg(uv), r/m(uv)                                            ; 2b /r
-         SUB AL, I                                                       ; 2c I=imm(u8)
-         SUB Av, I                                                       ; 2d I=imm(uv)
-         SUB r/m(u8), I                                                  ; 80 /5 I=imm(u8)
-         SUB r/m(uv), I                                                  ; 81 /5 I=imm(uv)
-         SUB r/m(u8), I                                                  ; 82 /5 I=imm(u8)
-         SUB r/m(uv), I                                                  ; 83 /5 I=imm(i8)
-        TEST reg(u8), r/m(u8)                                            ; 84 /r
-        TEST reg(uv), r/m(uv)                                            ; 85 /r
-        TEST AL, I                                                       ; a8 I=imm(u8)
-        TEST Av, I                                                       ; a9 I=imm(uv)
-        TEST r/m(u8), I                                                  ; f6 /0 I=imm(u8)
-        TEST r/m(uv), I                                                  ; f7 /0 I=imm(uv)
-         UD2                                                             ; 0f 0b
-         UD2                                                             ; 0f b9
-        VERR r/m(uv)                                                     ; 0f 00 /4
-        VERW r/m(uv)                                                     ; 0f 00 /5
-        WAIT                                                    ; prefix ; 9b
-      WBINVD                                                             ; 0f 09
-       WRMSR                                                             ; 0f 30
-        XADD r/m(u8), reg(u8)                                            ; 0f c0 /r
-        XADD r/m(uv), reg(uv)                                            ; 0f c1 /r
-        XCHG reg(u8), r/m(u8)                                            ; 86 /r
-        XCHG reg(uv), r/m(uv)                                            ; 87 /r
-        XCHG reg(uv), Av                                                 ; 90+reg; reg=1-7
-        XLAT                                                             ; d7
-         XOR r/m(u8), reg(u8)                                            ; 30 /r
-         XOR r/m(uv), reg(uv)                                            ; 31 /r
-         XOR reg(u8), r/m(u8)                                            ; 32 /r
-         XOR reg(uv), r/m(uv)                                            ; 33 /r
-         XOR AL, I                                                       ; 34 I=imm(u8)
-         XOR Av, I                                                       ; 35 I=imm(uv)
-         XOR r/m(u8), I                                                  ; 80 /6 I=imm(u8)
-         XOR r/m(uv), I                                                  ; 81 /6 I=imm(uv)
-         XOR r/m(u8), I                                                  ; 82 /6 I=imm(u8)
-         XOR r/m(uv), I                                                  ; 83 /6 I=imm(i8)
+             AAA                                                             ; 37
+             AAD D                                                           ; d5 D=imm(u8)
+             AAM D                                                           ; d4 D=imm(u8)
+             AAS                                                             ; 3f
+             ADC r/m(u8), reg(u8)                                            ; 10 /r
+             ADC r/m(uv), reg(uv)                                            ; 11 /r
+             ADC reg(u8), r/m(u8)                                            ; 12 /r
+             ADC reg(uv), r/m(uv)                                            ; 13 /r
+             ADC AL, I                                                       ; 14 I=imm(u8)
+             ADC Av, I                                                       ; 15 I=imm(uv)
+             ADC r/m(u8), I                                                  ; 80 /2 I=imm(u8)
+             ADC r/m(uv), I                                                  ; 81 /2 I=imm(uv)
+             ADC r/m(u8), I                                                  ; 82 /2 I=imm(u8)
+             ADC r/m(uv), I                                                  ; 83 /2 I=imm(i8)
+             ADD r/m(u8), reg(u8)                                            ; 00 /r
+             ADD r/m(uv), reg(uv)                                            ; 01 /r
+             ADD reg(u8), r/m(u8)                                            ; 02 /r
+             ADD reg(uv), r/m(uv)                                            ; 03 /r
+             ADD AL, I                                                       ; 04 I=imm(u8)
+             ADD Av, I                                                       ; 05 I=imm(uv)
+             ADD r/m(u8), I                                                  ; 80 /0 I=imm(u8)
+             ADD r/m(uv), I                                                  ; 81 /0 I=imm(uv)
+             ADD r/m(u8), I                                                  ; 82 /0 I=imm(u8)
+             ADD r/m(uv), I                                                  ; 83 /0 I=imm(i8)
+            ADSZ                                                    ; prefix ; 67
+             AND r/m(u8), reg(u8)                                            ; 20 /r
+             AND r/m(uv), reg(uv)                                            ; 21 /r
+             AND reg(u8), r/m(u8)                                            ; 22 /r
+             AND reg(uv), r/m(uv)                                            ; 23 /r
+             AND AL, I                                                       ; 24 I=imm(u8)
+             AND Av, I                                                       ; 25 I=imm(uv)
+             AND r/m(u8), I                                                  ; 80 /4 I=imm(u8)
+             AND r/m(uv), I                                                  ; 81 /4 I=imm(uv)
+             AND r/m(u8), I                                                  ; 82 /4 I=imm(u8)
+             AND r/m(uv), I                                                  ; 83 /4 I=imm(i8)
+            ARPL r/m(uv), reg(uv)                                            ; 63 /r
+           BOUND reg(uv), r/m(uv)                                            ; 62 /r
+             BSF reg(uv), r/m(uv)                                            ; 0f bc /r
+             BSR reg(uv), r/m(uv)                                            ; 0f bd /r
+           BSWAP reg(uv), reg(uv)                                            ; 0f c8+reg; reg=0-7
+              BT r/m(uv), reg(uv)                                            ; 0f a3 /r
+              BT r/m(uv), I                                                  ; 0f ba /4 I=imm(u8)
+             BTC r/m(uv), I                                                  ; 0f ba /7 I=imm(u8)
+             BTC r/m(uv), reg(uv)                                            ; 0f bb /r
+             BTR r/m(uv), reg(uv)                                            ; 0f b3 /r
+             BTR r/m(uv), I                                                  ; 0f ba /6 I=imm(u8)
+             BTS r/m(uv), reg(uv)                                            ; 0f ab /r
+             BTS r/m(uv), I                                                  ; 0f ba /5 I=imm(u8)
+            CALL P                                                           ; 9a P=imm(farptr)
+            CALL N                                                           ; e8 P=imm(iv); N=(IPV+P)
+            CALL r/m(farptr)                                                 ; ff /3=m
+            CALL r/m(uv)                                                     ; ff /2
+             CBW                                                             ; 98
+             CLC                                                             ; f8
+             CLD                                                             ; fc
+             CLI                                                             ; fa
+            CLTS                                                             ; 0f 06 /r
+             CMC                                                             ; f5
+             CMP r/m(u8), reg(u8)                                            ; 38 /r
+             CMP r/m(uv), reg(uv)                                            ; 39 /r
+             CMP reg(u8), r/m(u8)                                            ; 3a /r
+             CMP reg(uv), r/m(uv)                                            ; 3b /r
+             CMP AL, I                                                       ; 3c I=imm(u8)
+             CMP Av, I                                                       ; 3d I=imm(uv)
+             CMP r/m(u8), I                                                  ; 80 /7 I=imm(u8)
+             CMP r/m(uv), I                                                  ; 81 /7 I=imm(uv)
+             CMP r/m(u8), I                                                  ; 82 /7 I=imm(u8)
+             CMP r/m(uv), I                                                  ; 83 /7 I=imm(i8)
+            CMPS u8 ES:[DIV], u8 [SIV]                                       ; a6
+            CMPS uv ES:[DIV], uv [SIV]                                       ; a7
+         CMPXCHG r/m(u8), reg(u8)                                            ; 0f b0 /r
+         CMPXCHG r/m(uv), reg(uv)                                            ; 0f b1 /r
+       CMPXCHG8B r/m(u64)                                                    ; 0f c7 /1=m
+           CPUID                                                             ; 0f a2
+             CS:                                                    ; prefix ; 2e
+             CWD                                                             ; 99
+             DAA                                                             ; 27
+             DAS                                                             ; 2f
+             DEC reg(uv)                                                     ; 48+reg; reg=0-7
+             DEC r/m(u8)                                                     ; fe /1
+             DEC r/m(uv)                                                     ; ff /1
+             DIV r/m(u8)                                                     ; f6 /6
+             DIV r/m(uv)                                                     ; f7 /6
+             DS:                                                    ; prefix ; 3e
+           ENTER A, L                                                        ; c8 A=imm(u16) L=imm(u8)
+             ES:                                                    ; prefix ; 26
+           F2XM1 st(0), st(0)                                                ; d9 f0; fpu
+            FABS st(0), st(0)                                                ; d9 e1; fpu
+            FADD st(0), r/m(f32)                                             ; d8 /0=m; fpu
+            FADD st(0), st(i)                                                ; d8 c0+i; i=0-7 fpu
+            FADD st(0), r/m(f64)                                             ; dc /0=m; fpu
+            FADD st(i), st(0)                                                ; dc c0+i; i=0-7 fpu
+            FADD st(i), st(0)                                                ; de c0+i; i=0-7 fpu
+            FBLD st(0), r/m(fbcd)                                            ; df /4=m; fpu
+           FBSTP r/m(fbcd), st(0)                                            ; df /6=m; fpu
+            FCHS st(0), st(0)                                                ; d9 e0; fpu
+           FCLEX                                                             ; 9b db e2; fpu
+            FCOM st(0), r/m(f32)                                             ; d8 /2=m; fpu
+            FCOM st(0), st(i)                                                ; d8 d0+i; i=0-7 fpu
+            FCOM st(0), r/m(f64)                                             ; dc /2=m; fpu
+           FCOMP st(0), r/m(f32)                                             ; d8 /3=m; fpu
+           FCOMP st(0), st(i)                                                ; d8 d8+i; i=0-7 fpu
+           FCOMP st(0), r/m(f64)                                             ; dc /3=m; fpu
+          FCOMPP st(0), st(1)                                                ; de d9; fpu
+            FCOS st(0), st(0)                                                ; d9 ff
+         FDECSTP                                                             ; d9 f6; fpu
+           FDISI                                                             ; db e1; fpu
+            FDIV st(0), r/m(f32)                                             ; d8 /6=m; fpu
+            FDIV st(0), st(i)                                                ; d8 f0+i; i=0-7 fpu
+            FDIV st(0), r/m(f64)                                             ; dc /6=m; fpu
+            FDIV st(i), st(0)                                                ; dc f0+i; i=0-7 fpu
+            FDIV st(i), st(0)                                                ; de f0+i; i=0-7 fpu
+           FDIVR st(0), r/m(f32)                                             ; d8 /7=m; fpu
+           FDIVR st(0), st(i)                                                ; d8 f8+i; i=0-7 fpu
+           FDIVR st(0), r/m(f64)                                             ; dc /7=m; fpu
+           FDIVR st(i), st(0)                                                ; dc f8+i; i=0-7 fpu
+           FDIVR st(i), st(0)                                                ; de f8+i; i=0-7 fpu
+            FENI                                                             ; db e0; fpu
+           FFREE st(i)                                                       ; dd c0+i; i=0-7 fpu
+           FIADD st(0), r/m(i32)                                             ; da /0=m; fpu
+           FIADD st(0), r/m(i16)                                             ; de /0=m; fpu
+           FICOM st(0), r/m(i32)                                             ; da /2=m; fpu
+           FICOM st(0), r/m(i16)                                             ; de /2=m; fpu
+          FICOMP st(0), r/m(i32)                                             ; da /3=m; fpu
+          FICOMP st(0), r/m(i16)                                             ; de /3=m; fpu
+           FIDIV st(0), r/m(i32)                                             ; da /6=m; fpu
+           FIDIV st(0), r/m(i16)                                             ; de /6=m; fpu
+          FIDIVR st(0), r/m(i32)                                             ; da /7=m; fpu
+          FIDIVR st(0), r/m(i16)                                             ; de /7=m; fpu
+            FILD st(0), r/m(i32)                                             ; db /0=m; fpu
+            FILD st(0), r/m(i16)                                             ; df /0=m; fpu
+            FILD st(0), r/m(i64)                                             ; df /5=m; fpu
+           FIMUL st(0), r/m(i32)                                             ; da /1=m; fpu
+           FIMUL st(0), r/m(i16)                                             ; de /1=m; fpu
+         FINCSTP                                                             ; d9 f7; fpu
+           FINIT                                                             ; 9b db e3; fpu
+            FIST r/m(i32), st(0)                                             ; db /2=m; fpu
+            FIST r/m(i16), st(0)                                             ; df /2=m; fpu
+           FISTP r/m(i32), st(0)                                             ; db /3=m; fpu
+           FISTP r/m(i16), st(0)                                             ; df /3=m; fpu
+           FISTP r/m(i64), st(0)                                             ; df /7=m; fpu
+           FISUB st(0), r/m(i32)                                             ; da /4=m; fpu
+           FISUB st(0), r/m(i16)                                             ; de /4=m; fpu
+          FISUBR st(0), r/m(i32)                                             ; da /5=m; fpu
+          FISUBR st(0), r/m(i16)                                             ; de /5=m; fpu
+             FLD st(0), r/m(f32)                                             ; d9 /0=m; fpu
+             FLD st(0), st(i)                                                ; d9 c0+i; i=0-7 fpu
+             FLD st(0), r/m(f80)                                             ; db /5=m; fpu
+             FLD st(0), r/m(f64)                                             ; dd /0=m; fpu
+            FLD1 st(0), 1                                                    ; d9 e8; fpu
+           FLDCW r/m(u16)                                                    ; d9 /5=m; fpu
+          FLDENV r/m(f87env)                                                 ; d9 /4=m; fpu
+          FLDL2E st(0), const("log2(e)")                                     ; d9 ea; fpu
+          FLDL2T st(0), const("log2(10)")                                    ; d9 e9; fpu
+          FLDLG2 st(0), const("log10(2)")                                    ; d9 ec; fpu
+          FLDLN2 st(0), const("loge(2)")                                     ; d9 ed; fpu
+           FLDPI st(0), const("pi")                                          ; d9 eb; fpu
+            FLDZ st(0), 0                                                    ; d9 ee; fpu
+            FMUL st(0), r/m(f32)                                             ; d8 /1=m; fpu
+            FMUL st(0), st(i)                                                ; d8 c8+i; i=0-7 fpu
+            FMUL st(0), r/m(f64)                                             ; dc /1=m; fpu
+            FMUL st(i), st(0)                                                ; dc c8+i; i=0-7 fpu
+            FMUL st(i), st(0)                                                ; de c8+i; i=0-7 fpu
+          FNCLEX                                                             ; db e2; fpu
+          FNINIT                                                             ; db e3; fpu
+            FNOP                                                             ; d9 d0; fpu
+          FPATAN st(1), st(0), st(1)                                         ; d9 f3; fpu
+           FPREM st(0), st(0), st(1)                                         ; d9 f8; fpu
+          FPREM1 st(0), st(0), st(1)                                         ; d9 f5; fpu
+           FPTAN st(0), st(0)                                                ; d9 f2; fpu
+         FRNDINT st(0), st(0)                                                ; d9 fc; fpu
+          FRSTOR r/m(f87state)                                               ; dd /4=m; fpu
+             FS:                                                    ; prefix ; 64
+           FSAVE r/m(f87state)                                               ; dd /6=m; fpu
+          FSCALE st(0), st(0), st(1)                                         ; d9 fd; fpu
+          FSETPM                                                             ; db e4
+            FSIN st(0), st(0)                                                ; d9 fe
+         FSINCOS st(0), st(0)                                                ; d9 fb
+           FSQRT st(0), st(0)                                                ; d9 fa; fpu
+             FST r/m(f32), st(0)                                             ; d9 /2=m; fpu
+             FST r/m(f64), st(0)                                             ; dd /2=m; fpu
+             FST st(i), st(0)                                                ; dd d0+i; i=0-7 fpu
+           FSTCW r/m(u16)                                                    ; d9 /7=m; fpu
+          FSTENV r/m(f87env)                                                 ; d9 /6=m; fpu
+            FSTP r/m(f32), st(0)                                             ; d9 /3=m; fpu
+            FSTP r/m(f80), st(0)                                             ; db /7=m; fpu
+            FSTP r/m(f64), st(0)                                             ; dd /3=m; fpu
+            FSTP st(i), st(0)                                                ; dd d8+i; i=0-7 fpu
+           FSTSW r/m(u16)                                                    ; dd /7=m; fpu
+            FSUB st(0), r/m(f32)                                             ; d8 /4=m; fpu
+            FSUB st(0), st(i)                                                ; d8 e0+i; i=0-7 fpu
+            FSUB st(0), r/m(f64)                                             ; dc /4=m; fpu
+            FSUB st(i), st(0)                                                ; dc e0+i; i=0-7 fpu
+            FSUB st(i), st(0)                                                ; de e0+i; i=0-7 fpu
+           FSUBR st(0), r/m(f32)                                             ; d8 /5=m; fpu
+           FSUBR st(0), st(i)                                                ; d8 e8+i; i=0-7 fpu
+           FSUBR st(0), r/m(f64)                                             ; dc /5=m; fpu
+           FSUBR st(i), st(0)                                                ; dc e8+i; i=0-7 fpu
+           FSUBR st(i), st(0)                                                ; de e8+i; i=0-7 fpu
+            FTST st(0)                                                       ; d9 e4; fpu
+           FUCOM st(0), st(i)                                                ; dd e0+rm; fpu
+          FUCOMP st(0), st(i)                                                ; dd e8+rm; fpu
+         FUCOMPP st(0), st(1)                                                ; da e9; fpu
+            FXAM st(0)                                                       ; d9 e5; fpu
+            FXCH st(0), st(i)                                                ; d9 c8+i; i=0-7 fpu
+         FXTRACT st(0), st(0), st(1)                                         ; d9 f4; fpu
+           FYL2X st(0), st(0), st(1)                                         ; d9 f1; fpu
+         FYL2XP1 st(0), st(0), st(1)                                         ; d9 f9; fpu
+             GS:                                                    ; prefix ; 65
+             HLT                                                             ; f4
+            IDIV r/m(u8)                                                     ; f6 /7
+            IDIV r/m(uv)                                                     ; f7 /7
+            IMUL reg(uv), r/m(uv), I                                         ; 69 /r I=imm(iv)
+            IMUL reg(uv), r/m(uv), I                                         ; 6b /r I=imm(i8)
+            IMUL r/m(u8)                                                     ; f6 /5
+            IMUL r/m(uv)                                                     ; f7 /5
+              IN AL, P                                                       ; e4 P=imm(u8)
+              IN Av, P                                                       ; e5 P=imm(u8)
+              IN AL, DX                                                      ; ec
+              IN Av, DX                                                      ; ed
+             INC reg(uv)                                                     ; 40+reg; reg=0-7
+             INC r/m(u8)                                                     ; fe /0
+             INC r/m(uv)                                                     ; ff /0
+             INS AL, u8 [SIV]                                                ; 6c
+             INS Av, uv [SIV]                                                ; 6d
+             INT 3                                                           ; cc
+             INT I                                                           ; cd I=imm(u8)
+             INT 1                                                           ; f1
+            INTO                                                             ; ce
+            INVD                                                             ; 0f 08
+          INVLPG r/m(uv)                                                     ; 0f 01 /7=m
+            IRET                                                             ; cf
+              JA N                                                           ; 0f 87 P=imm(iv); N=(IPV+P)
+              JA N                                                           ; 77 P=imm(i8); N=(IPV+P)
+              JC N                                                           ; 0f 82 P=imm(iv); N=(IPV+P)
+              JC N                                                           ; 72 P=imm(i8); N=(IPV+P)
+            JCXZ N                                                           ; e3 P=imm(i8); N=(IPV+P)
+              JG N                                                           ; 0f 8f P=imm(iv); N=(IPV+P)
+              JG N                                                           ; 7f P=imm(i8); N=(IPV+P)
+              JL N                                                           ; 0f 8c P=imm(iv); N=(IPV+P)
+              JL N                                                           ; 7c P=imm(i8); N=(IPV+P)
+             JMP N                                                           ; e9 P=imm(iv); N=(IPV+P)
+             JMP P                                                           ; ea P=imm(farptr)
+             JMP N                                                           ; eb P=imm(i8); N=(IPV+P)
+             JMP r/m(farptr)                                                 ; ff /5=m
+             JMP r/m(uv)                                                     ; ff /4
+             JNA N                                                           ; 0f 86 P=imm(iv); N=(IPV+P)
+             JNA N                                                           ; 76 P=imm(i8); N=(IPV+P)
+             JNC N                                                           ; 0f 83 P=imm(iv); N=(IPV+P)
+             JNC N                                                           ; 73 P=imm(i8); N=(IPV+P)
+             JNG N                                                           ; 0f 8e P=imm(iv); N=(IPV+P)
+             JNG N                                                           ; 7e P=imm(i8); N=(IPV+P)
+             JNL N                                                           ; 0f 8d P=imm(iv); N=(IPV+P)
+             JNL N                                                           ; 7d P=imm(i8); N=(IPV+P)
+             JNO N                                                           ; 0f 81 P=imm(iv); N=(IPV+P)
+             JNO N                                                           ; 71 P=imm(i8); N=(IPV+P)
+             JNP N                                                           ; 0f 8b P=imm(iv); N=(IPV+P)
+             JNP N                                                           ; 7b P=imm(i8); N=(IPV+P)
+             JNS N                                                           ; 0f 89 P=imm(iv); N=(IPV+P)
+             JNS N                                                           ; 79 P=imm(i8); N=(IPV+P)
+             JNZ N                                                           ; 0f 85 P=imm(iv); N=(IPV+P)
+             JNZ N                                                           ; 75 P=imm(i8); N=(IPV+P)
+              JO N                                                           ; 0f 80 P=imm(iv); N=(IPV+P)
+              JO N                                                           ; 70 P=imm(i8); N=(IPV+P)
+              JP N                                                           ; 0f 8a P=imm(iv); N=(IPV+P)
+              JP N                                                           ; 7a P=imm(i8); N=(IPV+P)
+              JS N                                                           ; 0f 88 P=imm(iv); N=(IPV+P)
+              JS N                                                           ; 78 P=imm(i8); N=(IPV+P)
+              JZ N                                                           ; 0f 84 P=imm(iv); N=(IPV+P)
+              JZ N                                                           ; 74 P=imm(i8); N=(IPV+P)
+            LAHF                                                             ; 9f
+             LAR reg(uv), r/m(uv)                                            ; 0f 02 /r
+             LDS reg(uv), r/m(farptr)                                        ; c5 /r=m
+             LEA reg(uv), r/m(uv)                                            ; 8d /r=m
+           LEAVE                                                             ; c9
+             LES reg(uv), r/m(farptr)                                        ; c4 /r=m
+            LGDT r/m(u48)                                                    ; 0f 01 /2=m
+            LIDT r/m(u48)                                                    ; 0f 01 /3=m
+            LLDT r/m(uv)                                                     ; 0f 00 /2
+            LMSW r/m(uv)                                                     ; 0f 01 /6
+            LOCK                                                    ; prefix ; f0
+            LODS AL, u8 [SIV]                                                ; ac
+            LODS Av, uv [SIV]                                                ; ad
+            LOOP N                                                           ; e2 P=imm(i8); N=(IPV+P)
+          LOOPNZ N                                                           ; e0 P=imm(i8); N=(IPV+P)
+           LOOPZ N                                                           ; e1 P=imm(i8); N=(IPV+P)
+             LSL reg(uv), r/m(uv)                                            ; 0f 03 /r
+             LTR r/m(uv)                                                     ; 0f 00 /3
+             MOV r/m(u32), cr(reg)                                           ; 0f 20 /r!m
+             MOV r/m(u32), dr(reg)                                           ; 0f 21 /r!m
+             MOV cr(reg), r/m(u32)                                           ; 0f 22 /r!m
+             MOV dr(reg), r/m(u32)                                           ; 0f 23 /r!m
+             MOV r/m(u32), tr(reg)                                           ; 0f 24 /r!m
+             MOV tr(reg), r/m(u32)                                           ; 0f 26 /r!m
+             MOV r/m(u8), reg(u8)                                            ; 88 /r
+             MOV r/m(uv), reg(uv)                                            ; 89 /r
+             MOV reg(u8), r/m(u8)                                            ; 8a /r
+             MOV reg(uv), r/m(uv)                                            ; 8b /r
+             MOV reg(uv), segreg(uv)                                         ; 8c /r
+             MOV segreg(uv), r/m(uv)                                         ; 8e /r
+             MOV AL, u8 [A]                                                  ; a0 A=imm(uv)
+             MOV Av, uv [A]                                                  ; a1 A=imm(uv)
+             MOV u8 [A], AL                                                  ; a2 A=imm(uv)
+             MOV uv [A], Av                                                  ; a3 A=imm(uv)
+             MOV reg(u8), I                                                  ; b0+reg; reg=0-7
+             MOV reg(uv), I                                                  ; b8+reg; reg=0-7
+             MOV r/m(u8), I                                                  ; c6 /0 I=imm(u8)
+             MOV r/m(uv), I                                                  ; c7 /0 I=imm(uv)
+            MOVS u8 ES:[DIV], u8 [SIV]                                       ; a4
+            MOVS uv ES:[DIV], uv [SIV]                                       ; a5
+             MUL r/m(u8)                                                     ; f6 /4
+             MUL r/m(uv)                                                     ; f7 /4
+             NEG r/m(u8)                                                     ; f6 /3
+             NEG r/m(uv)                                                     ; f7 /3
+             NOP                                                             ; 90
+             NOT r/m(u8)                                                     ; f6 /2
+             NOT r/m(uv)                                                     ; f7 /2
+            OPSZ                                                    ; prefix ; 66
+              OR r/m(u8), reg(u8)                                            ; 08 /r
+              OR r/m(uv), reg(uv)                                            ; 09 /r
+              OR reg(u8), r/m(u8)                                            ; 0a /r
+              OR reg(uv), r/m(uv)                                            ; 0b /r
+              OR AL, I                                                       ; 0c I=imm(u8)
+              OR Av, I                                                       ; 0d I=imm(uv)
+              OR r/m(u8), I                                                  ; 80 /1 I=imm(u8)
+              OR r/m(uv), I                                                  ; 81 /1 I=imm(uv)
+              OR r/m(u8), I                                                  ; 82 /1 I=imm(u8)
+              OR r/m(uv), I                                                  ; 83 /1 I=imm(i8)
+             OUT P, AL                                                       ; e6 P=imm(u8)
+             OUT P, Av                                                       ; e7 P=imm(u8)
+             OUT DX, AL                                                      ; ee
+             OUT DX, Av                                                      ; ef
+            OUTS u8 ES:[DIV], AL                                             ; 6e
+            OUTS uv ES:[DIV], Av                                             ; 6f
+             POP ES                                                          ; 07
+             POP SS                                                          ; 17
+             POP DS                                                          ; 1f
+             POP reg(uv)                                                     ; 58+reg; reg=0-7
+             POP r/m(uv)                                                     ; 8f /0
+            POPA                                                             ; 61 /r
+            POPF                                                             ; 9d
+            PUSH ES                                                          ; 06
+            PUSH CS                                                          ; 0e
+            PUSH SS                                                          ; 16
+            PUSH DS                                                          ; 1e
+            PUSH reg(uv)                                                     ; 50+reg; reg=0-7
+            PUSH I                                                           ; 68 I=imm(uv)
+            PUSH I                                                           ; 6a I=imm(i8)
+            PUSH r/m(uv)                                                     ; ff /6
+           PUSHA                                                             ; 60 /r
+           PUSHF                                                             ; 9c
+             RCL r/m(u8), I                                                  ; c0 /2 I=imm(u8)
+             RCL r/m(uv), I                                                  ; c1 /2 I=imm(uv)
+             RCL r/m(u8), 1                                                  ; d0 /2
+             RCL r/m(uv), 1                                                  ; d1 /2
+             RCL r/m(u8), CL                                                 ; d2 /2
+             RCL r/m(uv), CL                                                 ; d3 /2
+             RCR r/m(u8), I                                                  ; c0 /3 I=imm(u8)
+             RCR r/m(uv), I                                                  ; c1 /3 I=imm(uv)
+             RCR r/m(u8), 1                                                  ; d0 /3
+             RCR r/m(uv), 1                                                  ; d1 /3
+             RCR r/m(u8), CL                                                 ; d2 /3
+             RCR r/m(uv), CL                                                 ; d3 /3
+           RDMSR                                                             ; 0f 32
+           RDTSC                                                             ; 0f 31
+           REPNZ                                                    ; prefix ; f2
+            REPZ                                                    ; prefix ; f3
+             RET C                                                           ; c2 C=imm(u16)
+             RET                                                             ; c3
+            RETF C                                                           ; ca C=imm(u16)
+            RETF                                                             ; cb
+             ROL r/m(u8), I                                                  ; c0 /0 I=imm(u8)
+             ROL r/m(uv), I                                                  ; c1 /0 I=imm(uv)
+             ROL r/m(u8), 1                                                  ; d0 /0
+             ROL r/m(uv), 1                                                  ; d1 /0
+             ROL r/m(u8), CL                                                 ; d2 /0
+             ROL r/m(uv), CL                                                 ; d3 /0
+             ROR r/m(u8), I                                                  ; c0 /1 I=imm(u8)
+             ROR r/m(uv), I                                                  ; c1 /1 I=imm(uv)
+             ROR r/m(u8), 1                                                  ; d0 /1
+             ROR r/m(uv), 1                                                  ; d1 /1
+             ROR r/m(u8), CL                                                 ; d2 /1
+             ROR r/m(uv), CL                                                 ; d3 /1
+             RSM                                                             ; 0f aa
+            SAHF                                                             ; 9e
+            SALC                                                             ; d6
+             SAR r/m(u8), I                                                  ; c0 /7 I=imm(u8)
+             SAR r/m(uv), I                                                  ; c1 /7 I=imm(uv)
+             SAR r/m(u8), 1                                                  ; d0 /7
+             SAR r/m(uv), 1                                                  ; d1 /7
+             SAR r/m(u8), CL                                                 ; d2 /7
+             SAR r/m(uv), CL                                                 ; d3 /7
+             SBB r/m(u8), reg(u8)                                            ; 18 /r
+             SBB r/m(uv), reg(uv)                                            ; 19 /r
+             SBB reg(u8), r/m(u8)                                            ; 1a /r
+             SBB reg(uv), r/m(uv)                                            ; 1b /r
+             SBB AL, I                                                       ; 1c I=imm(u8)
+             SBB Av, I                                                       ; 1d I=imm(uv)
+             SBB r/m(u8), I                                                  ; 80 /3 I=imm(u8)
+             SBB r/m(uv), I                                                  ; 81 /3 I=imm(uv)
+             SBB r/m(u8), I                                                  ; 82 /3 I=imm(u8)
+             SBB r/m(uv), I                                                  ; 83 /3 I=imm(i8)
+            SCAS AL, u8 ES:[DIV]                                             ; ae
+            SCAS Av, uv ES:[DIV]                                             ; af
+            SETA r/m(u8)                                                     ; 0f 97 /0
+            SETC r/m(u8)                                                     ; 0f 92 /0
+            SETG r/m(u8)                                                     ; 0f 9f /0
+            SETL r/m(u8)                                                     ; 0f 9c /0
+           SETNA r/m(u8)                                                     ; 0f 96 /0
+           SETNC r/m(u8)                                                     ; 0f 93 /0
+           SETNG r/m(u8)                                                     ; 0f 9e /0
+           SETNL r/m(u8)                                                     ; 0f 9d /0
+           SETNO r/m(u8)                                                     ; 0f 91 /0
+           SETNP r/m(u8)                                                     ; 0f 9b /0
+           SETNS r/m(u8)                                                     ; 0f 99 /0
+           SETNZ r/m(u8)                                                     ; 0f 95 /0
+            SETO r/m(u8)                                                     ; 0f 90 /0
+            SETP r/m(u8)                                                     ; 0f 9a /0
+            SETS r/m(u8)                                                     ; 0f 98 /0
+            SETZ r/m(u8)                                                     ; 0f 94 /0
+            SGDT r/m(u48)                                                    ; 0f 01 /0=m
+             SHL r/m(u8), I                                                  ; c0 /4 I=imm(u8)
+             SHL r/m(uv), I                                                  ; c1 /4 I=imm(uv)
+             SHL r/m(u8), 1                                                  ; d0 /4
+             SHL r/m(uv), 1                                                  ; d1 /4
+             SHL r/m(u8), CL                                                 ; d2 /4
+             SHL r/m(uv), CL                                                 ; d3 /4
+             SHR r/m(u8), I                                                  ; c0 /5 I=imm(u8)
+             SHR r/m(uv), I                                                  ; c1 /5 I=imm(uv)
+             SHR r/m(u8), 1                                                  ; d0 /5
+             SHR r/m(uv), 1                                                  ; d1 /5
+             SHR r/m(u8), CL                                                 ; d2 /5
+             SHR r/m(uv), CL                                                 ; d3 /5
+            SIDT r/m(u48)                                                    ; 0f 01 /1=m
+            SLDT r/m(uv)                                                     ; 0f 00 /0
+            SMSW r/m(uv)                                                     ; 0f 01 /4
+             SS:                                                    ; prefix ; 36
+             STC                                                             ; f9
+             STD                                                             ; fd
+             STI                                                             ; fb
+            STOS u8 ES:[DIV], AL                                             ; aa
+            STOS uv ES:[DIV], Av                                             ; ab
+             STR r/m(uv)                                                     ; 0f 00 /1
+             SUB r/m(u8), reg(u8)                                            ; 28 /r
+             SUB r/m(uv), reg(uv)                                            ; 29 /r
+             SUB reg(u8), r/m(u8)                                            ; 2a /r
+             SUB reg(uv), r/m(uv)                                            ; 2b /r
+             SUB AL, I                                                       ; 2c I=imm(u8)
+             SUB Av, I                                                       ; 2d I=imm(uv)
+             SUB r/m(u8), I                                                  ; 80 /5 I=imm(u8)
+             SUB r/m(uv), I                                                  ; 81 /5 I=imm(uv)
+             SUB r/m(u8), I                                                  ; 82 /5 I=imm(u8)
+             SUB r/m(uv), I                                                  ; 83 /5 I=imm(i8)
+            TEST reg(u8), r/m(u8)                                            ; 84 /r
+            TEST reg(uv), r/m(uv)                                            ; 85 /r
+            TEST AL, I                                                       ; a8 I=imm(u8)
+            TEST Av, I                                                       ; a9 I=imm(uv)
+            TEST r/m(u8), I                                                  ; f6 /0 I=imm(u8)
+            TEST r/m(uv), I                                                  ; f7 /0 I=imm(uv)
+             UD2                                                             ; 0f 0b
+             UD2                                                             ; 0f b9
+            VERR r/m(uv)                                                     ; 0f 00 /4
+            VERW r/m(uv)                                                     ; 0f 00 /5
+            WAIT                                                    ; prefix ; 9b
+          WBINVD                                                             ; 0f 09
+           WRMSR                                                             ; 0f 30
+            XADD r/m(u8), reg(u8)                                            ; 0f c0 /r
+            XADD r/m(uv), reg(uv)                                            ; 0f c1 /r
+            XCHG reg(u8), r/m(u8)                                            ; 86 /r
+            XCHG reg(uv), r/m(uv)                                            ; 87 /r
+            XCHG reg(uv), Av                                                 ; 90+reg; reg=1-7
+            XLAT                                                             ; d7
+             XOR r/m(u8), reg(u8)                                            ; 30 /r
+             XOR r/m(uv), reg(uv)                                            ; 31 /r
+             XOR reg(u8), r/m(u8)                                            ; 32 /r
+             XOR reg(uv), r/m(uv)                                            ; 33 /r
+             XOR AL, I                                                       ; 34 I=imm(u8)
+             XOR Av, I                                                       ; 35 I=imm(uv)
+             XOR r/m(u8), I                                                  ; 80 /6 I=imm(u8)
+             XOR r/m(uv), I                                                  ; 81 /6 I=imm(uv)
+             XOR r/m(u8), I                                                  ; 82 /6 I=imm(u8)
+             XOR r/m(uv), I                                                  ; 83 /6 I=imm(i8)
 
 Opcode coverage (single opcode):
 ------------------------------
