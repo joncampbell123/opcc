@@ -6137,6 +6137,10 @@ int main(int argc,char **argv) {
                 fprintf(stderr,"ERROR: opcode '%s' is a VEX instruction, first entry not vex()\n",opcode.name.c_str());
                 continue;
             }
+            if (opcode.vex_prefix_idx < 0) {
+                fprintf(stderr,"ERROR: opcode '%s' is a VEX instruction, but no or invalid prefix specified\n",opcode.name.c_str());
+                continue;
+            }
             {
                 auto i = opcode.bytes.begin();
 
