@@ -24,17 +24,12 @@
 [x] AMD-V
 [x] Intel VT-x
 [x] ABM
-[ ] VEX
-[ ] SSE5        TODO find datasheets
-[ ] XOP         TODO find datasheets
-[ ] F16C        TODO find datasheets
-[ ] FMA3        TODO find datasheets
-[ ] FMA4        TODO find datasheets
-[ ] AVX         TODO find datasheets
-[ ] AVX2        TODO find datasheets
-[ ] AVX512      TODO find datasheets
 [ ] AES         TODO find datasheets
 [ ] SHA         TODO find datasheets
+
+Reminder:
+- No AVX, AVX2, AVX512 or any other VEX encoded instructions.
+- No EVEX instructions.
 
 Also todo:
 [x] Add to "fpu", "sse" tags by adding "mmx", "emmi", "3dnow", and "3dnow+" tags.

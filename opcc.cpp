@@ -1921,13 +1921,10 @@ public:
     bool                        rep_condition_negate = false;
     bool                        fpu = false;
     bool                        sse = false;
-    bool                        vex = false;
     bool                        sse2 = false;
     bool                        emmi = false;
     bool                        amd3dnow = false;
     bool                        amd3dnowplus = false;
-    signed char                 vex_prefix_idx = -1;
-    unsigned char               vex_prefix_addidx = 0;
     std::vector<SingleByteSpec> fpu_stack_ops;              // push or pop
     unsigned int                fpu_stack_op_dir = 0;       // TOK_PUSH or TOK_POP
 public:
@@ -2622,31 +2619,6 @@ std::string OpcodeSpec::to_string(void) {
         res += ")";
     }
 
-    if (vex) {
-        std::string str;
-
-        if (!str.empty()) str += ",";
-        switch (vex_prefix_addidx) {
-            case 0x01:  str += "0x66"; break;
-            case 0x02:  str += "0xF3"; break;
-            case 0x03:  str += "0xF2"; break;
-        };
-
-        if (vex_prefix_idx >= 0) {
-            if (!str.empty()) str += ",";
-            switch (vex_prefix_idx) {
-                case 1: str += "0x0F"; break;
-                case 2: str += "0x0F,0x38"; break;
-                case 3: str += "0x0F,0x3A"; break;
-            };
-        }
-
-        if (!res.empty()) res += ",";
-        res += "vex-prefix(";
-        res += str;
-        res += ")";
-    }
-
     if (!assign.empty()) {
         if (!res.empty()) res += ",";
         res += "assign=(";
@@ -2879,10 +2851,6 @@ std::vector<ByteSpec> bytes_only_bytes(const std::vector<ByteSpec> &s) {
 }
 
 bool opcode_sort_func(const OpcodeSpec &a,const OpcodeSpec &b) {
-    /* vex instructions belong in their own little weirdness */
-             if (a.vex              < b.vex)                    return true;
-        else if (a.vex              > b.vex)                    return false;
-
     {
         std::vector<ByteSpec> ab = bytes_only_bytes(a.bytes);
         std::vector<ByteSpec> bb = bytes_only_bytes(b.bytes);
@@ -4637,96 +4605,6 @@ bool read_opcode_spec_opcode_parens(tokenlist &parent_tokens,OpcodeSpec &spec) {
                 bs.meaning = TOK_MRM;
                 spec.bytes.push_back(bs);
             }
-            else if (tokens.peek(0).type == TOK_VEX && tokens.peek(1).type == TOK_OPEN_PARENS) {
-                tokens.discard(2);
-
-                bs.meaning = TOK_VEX;
-                spec.bytes.push_back(bs);
-
-                do {
-                    if (tokens.eof())
-                        break;
-
-                    auto &n = tokens.next();
-
-                    if (n.type == TOK_CLOSE_PARENS)
-                        break;
-                    else if (n.type == TOK_ERROR)
-                        return false;
-                    else if (n.type == TOK_PREFIX) {
-                        if (tokens.next().type != TOK_OPEN_PARENS)
-                            return false;
-
-                        std::vector<uint8_t> prefix;
-
-                        do {
-                            n = tokens.next();
-                            if (n.type == TOK_UINT) {
-                                if (n.intval.u > 255ull)
-                                    return false;
-
-                                prefix.push_back((uint8_t)n.intval.u);
-
-                                n = tokens.next();
-                                if (n.type == TOK_CLOSE_PARENS)
-                                    break;
-                                else if (n.type == TOK_COMMA)
-                                    continue;
-                                else {
-                                    fprintf(stderr,"vex() unexpected token #1\n");
-                                    return false;
-                                }
-                            }
-                            else {
-                                fprintf(stderr,"vex() unexpected token #2, %s\n",n.type_str());
-                                return false;
-                            }
-                        } while (1);
-
-                        if (prefix.size() > 0) {
-                            if (prefix[0] == 0x66) {
-                                spec.vex_prefix_addidx = 1;
-                                prefix.erase(prefix.begin(),prefix.begin()+1);
-                            }
-                            else if (prefix[0] == 0xF3) {
-                                spec.vex_prefix_addidx = 2;
-                                prefix.erase(prefix.begin(),prefix.begin()+1);
-                            }
-                            else if (prefix[0] == 0xF2) {
-                                spec.vex_prefix_addidx = 3;
-                                prefix.erase(prefix.begin(),prefix.begin()+1);
-                            }
-                        }
-
-                        if (prefix.size() > 0 && prefix[0] == 0x0F) {
-                            spec.vex_prefix_idx = 1;
-                        }
-                        else if (prefix.size() > 1 && prefix[0] == 0x0F && prefix[1] == 0x38) {
-                            spec.vex_prefix_idx = 2;
-                        }
-                        else if (prefix.size() > 1 && prefix[0] == 0x0F && prefix[1] == 0x3A) {
-                            spec.vex_prefix_idx = 3;
-                        }
-                        else {
-                            fprintf(stderr,"Unsupported vex prefix ");
-                            for (const auto &b : prefix) fprintf(stderr,"%02x ",b);
-                            fprintf(stderr,"\n");
-                            return false;
-                        }
-                    }
-                    else {
-                        fprintf(stderr,"vex() unexpected tokens\n");
-                        return false;
-                    }
-                } while (1);
-
-                if (spec.vex_prefix_idx < 0) {
-                    fprintf(stderr,"vex() prefix not specified\n");
-                    return false;
-                }
-
-                spec.vex = true;
-            }
             else if ((tokens.peek(0).type == TOK_REG || tokens.peek(0).type == TOK_RM) && tokens.peek(1).type == TOK_OPEN_PARENS) {
                 unsigned int typ = tokens.peek(0).type;
                 tokens.discard(2);
@@ -5663,7 +5541,6 @@ public:
     };
     enum mapping_type maptype = NONE;
 public:
-    bool                        vex = false;
     bool                        overlap_error = false;
     size_t                      opcode_index = 0;
 public:
@@ -5703,7 +5580,6 @@ bool enter_opcode_byte_spec(const OpcodeSpec &opcode,size_t opcode_index,std::sh
             if (opcode.type == TOK_PREFIX) {
                 if (gs.maptype == OpcodeGroupBlock::NONE) {
                     gs.maptype = OpcodeGroupBlock::PREFIX;
-                    gs.vex = opcode.vex;
                 }
                 else/* if (gs.maptype != OpcodeGroupBlock::PREFIX)*/ {
                     gs.overlap_error = true;
@@ -5714,7 +5590,6 @@ bool enter_opcode_byte_spec(const OpcodeSpec &opcode,size_t opcode_index,std::sh
             else {
                 if (gs.maptype == OpcodeGroupBlock::NONE) {
                     gs.maptype = OpcodeGroupBlock::LEAF;
-                    gs.vex = opcode.vex;
                 }
                 else/*if (gs.maptype != OpcodeGroupBlock::LEAF)*/ {
                     gs.overlap_error = true;
@@ -5724,11 +5599,6 @@ bool enter_opcode_byte_spec(const OpcodeSpec &opcode,size_t opcode_index,std::sh
 
                     return false;
                 }
-            }
-
-            if (gs.vex != opcode.vex) {
-                fprintf(stderr,"map overlap error for opcode '%s', vex conflict\n",opcode.name.c_str());
-                return false;
             }
 
             gs.opcode_index = opcode_index;
@@ -5746,7 +5616,6 @@ bool enter_opcode_byte_spec(const OpcodeSpec &opcode,size_t opcode_index,std::sh
 
             if (gs.maptype == OpcodeGroupBlock::NONE) {
                 gs.maptype = OpcodeGroupBlock::LINEAR;
-                gs.vex = opcode.vex;
             }
             else if (gs.maptype == OpcodeGroupBlock::PREFIX) {
                 /* mandatory prefix (i.e. to turn MMX instructions into SSE) */
@@ -5755,11 +5624,6 @@ bool enter_opcode_byte_spec(const OpcodeSpec &opcode,size_t opcode_index,std::sh
             else if (gs.maptype != OpcodeGroupBlock::LINEAR) {
                 gs.overlap_error = true;
                 fprintf(stderr,"map overlap error for opcode '%s'\n",opcode.name.c_str());
-                return false;
-            }
-
-            if (gs.vex != opcode.vex) {
-                fprintf(stderr,"map overlap error for opcode '%s', vex conflict\n",opcode.name.c_str());
                 return false;
             }
         }
@@ -5901,77 +5765,6 @@ bool enter_opcode_bytes(const OpcodeSpec &opcode,size_t opcode_index,std::shared
 
     if (!enter_opcode_byte_spec(opcode,opcode_index,groups,opcode.bytes.begin()))
         return false;
-
-    return true;
-}
-
-bool enter_opcode_bytes_vex(const OpcodeSpec &opcode,size_t opcode_index,std::shared_ptr<OpcodeGroupBlock> groups) {
-    if (opcode.bytes.size() <= 1) /* VEX something */
-        return false;
-
-    auto i = opcode.bytes.begin();
-
-    assert(i != opcode.bytes.end());
-    if ((*i).meaning != TOK_VEX) return false;
-    i++;
-
-    /* next must be byte value, first of the opcode */
-    assert(i != opcode.bytes.end());
-    if ((*i).meaning != 0) return false;
-
-    /* VEX encoding requires the overload of invalid LDS/LES encodings */
-    {
-        auto &gs = *groups;
-
-        if (gs.maptype == OpcodeGroupBlock::NONE)
-            gs.maptype = OpcodeGroupBlock::LINEAR;
-        else if (gs.maptype != OpcodeGroupBlock::LINEAR) {
-            gs.overlap_error = true;
-            fprintf(stderr,"map overlap error for opcode '%s', top level map is not linear\n",opcode.name.c_str());
-            return false;
-        }
-    }
-
-    if (opcode.vex_prefix_idx == 1) { /* 2-byte VEX */
-        auto gsr = (*groups).map_get_alloc(0xC5);
-        if (gsr.get() == nullptr) return false;
-
-        auto &gs = *gsr;
-        if (gs.maptype == OpcodeGroupBlock::NONE) {
-            gs.maptype = OpcodeGroupBlock::MODREGRM;
-        }
-        else if (gs.maptype != OpcodeGroupBlock::MODREGRM) {
-            gs.overlap_error = true;
-            fprintf(stderr,"map overlap error for opcode '%s', map of 0xC5 is not mod/reg/rm\n",opcode.name.c_str());
-            return false;
-        }
-
-        unsigned char vmin = 0x0,vmax = 0x0,v;
-
-        /* if the instruction doesn't use the third operand, generally only V == 0 (!V == 0xF) is valid, else will #UD */
-        /* TODO: Update vex() encoding to indicate this constraint */
-        if (true/*TODO*/) {
-            vmin = 0x0;
-            vmax = 0x7;
-        }
-
-        /* NTS: remember vmin/vmax can only be 0-7 in 32-bit mode, because !V3 == 1 and !R == 1 to avoid overlap with
-         *      legal LDS/LES encoding */
-
-        for (v=vmin;v <= vmax;v++) {
-            /* !R !(V3:0) L P1:0 */
-            unsigned char vexbyte = 0xC0/*R and V3*/ + ((v ^ 0x7) << 3) + opcode.vex_prefix_addidx;
-
-            auto vgsr = gs.map_get_alloc(vexbyte);
-            if (vgsr.get() == nullptr) return false;
-
-            if (!enter_opcode_byte_spec(opcode,opcode_index,vgsr,i/*bytes iterator*/))
-                return false;
-        }
-    }
-    else {
-        return false;
-    }
 
     return true;
 }
@@ -6217,98 +6010,43 @@ int main(int argc,char **argv) {
             continue;
         }
 
-        /* VEX instructions must start with the VEX prefix.
-         * It's like a compressed prefix, in a way, that Intel can extend in the future as well. */
-        if (opcode.vex) {
-            /* NTS: Intel officially documents that adding other prefixes before VEX that VEX already encodes,
-             *      as well as REX, is an undefined opcode.
-             *
-             *      You can't encode 0x66 VEX because VEX already provides a way to encode the 0x66 wtithin itself.
-             *
-             *      The option to use REX VEX in the future to extend the opcode space is left open by Intel. */
-
-            /* bytes[0] must be VEX */
-            if (opcode.bytes[0].meaning != TOK_VEX) {
-                fprintf(stderr,"ERROR: opcode '%s' is a VEX instruction, first entry not vex()\n",opcode.name.c_str());
-                continue;
-            }
-            if (opcode.vex_prefix_idx < 0) {
-                fprintf(stderr,"ERROR: opcode '%s' is a VEX instruction, but no or invalid prefix specified\n",opcode.name.c_str());
-                continue;
-            }
-            /* assignment to 'v' is not allowed for vex instructions because 'v'
-             * represents the V field */
-            {
-                for (const auto &i : opcode.assign) {
-                    if (i.meaning == TOK_EQUAL) {
-                        if (i.var_assign == TOK_V) {
-                            fprintf(stderr,"ERROR: opcode '%s' is a VEX instruction, assignment to 'v' is not allowed\n",opcode.name.c_str());
-                            continue;
-                        }
-                    }
-                }
-            }
-            {
-                auto i = opcode.bytes.begin();
-
-                /* must be VEX <byte-range> [<byte-range>] [mrm] [immediate] */
-                if (i != opcode.bytes.end() && (*i).meaning == TOK_VEX) i++;
-                while (i != opcode.bytes.end() && (*i).meaning == 0) i++;
-                if (i != opcode.bytes.end() && (*i).meaning == TOK_MRM) i++;
-                while (i != opcode.bytes.end() && (*i).meaning == TOK_IMMEDIATE) i++;
-
-                if (i != opcode.bytes.end()) {
-                    fprintf(stderr,"ERROR: opcode '%s' unexpected byte entries\n",opcode.name.c_str());
-                    continue;
-                }
-            }
-
-            if (!enter_opcode_bytes_vex(opcode,(size_t)(op_i-opcodes.begin()),opcode_groups)) {
-                fprintf(stderr,"Opcode byte to map error\n");
-                continue;
-            }
-
+        /* bytes[0] must be actual bytes */
+        if (opcode.bytes[0].meaning != 0) {
+            fprintf(stderr,"ERROR: opcode '%s' first entry not a byte value\n",opcode.name.c_str());
             continue;
         }
-        else {
-            /* bytes[0] must be actual bytes */
-            if (opcode.bytes[0].meaning != 0) {
-                fprintf(stderr,"ERROR: opcode '%s' first entry not a byte value\n",opcode.name.c_str());
+        {
+            auto i = opcode.bytes.begin();
+
+            /* must be <byte-range> [<byte-range>] [mrm] [immediate]
+             * exception: AMD 3DNow! 0x0F 0x0F mrm <byte-range> */
+            while (i != opcode.bytes.end() && (*i).meaning == 0) i++;
+            if ((i+0) != opcode.bytes.end() &&
+                    (i+1) != opcode.bytes.end() &&
+                    (*(i+0)).meaning == TOK_MRM &&      // mrm
+                    opcode.mod3 == 0 &&                 // no constraints on mrm
+                    opcode.reg_constraint == 0 &&
+                    opcode.rm_constraint == 0 &&
+                    (*(i+1)).meaning == 0) {            // then byte
+                /* allow */
+                assert((i+0) != opcode.bytes.end());
+                assert((i+1) != opcode.bytes.end());
+                i += 2;
+            }
+            else {
+                if (i != opcode.bytes.end() && (*i).meaning == TOK_MRM) i++;
+                while (i != opcode.bytes.end() && (*i).meaning == TOK_IMMEDIATE) i++;
+            }
+
+            if (i != opcode.bytes.end()) {
+                fprintf(stderr,"ERROR: opcode '%s' unexpected byte entries\n",opcode.name.c_str());
                 continue;
             }
-            {
-                auto i = opcode.bytes.begin();
+        }
 
-                /* must be <byte-range> [<byte-range>] [mrm] [immediate]
-                 * exception: AMD 3DNow! 0x0F 0x0F mrm <byte-range> */
-                while (i != opcode.bytes.end() && (*i).meaning == 0) i++;
-                if ((i+0) != opcode.bytes.end() &&
-                        (i+1) != opcode.bytes.end() &&
-                        (*(i+0)).meaning == TOK_MRM &&      // mrm
-                        opcode.mod3 == 0 &&                 // no constraints on mrm
-                        opcode.reg_constraint == 0 &&
-                        opcode.rm_constraint == 0 &&
-                        (*(i+1)).meaning == 0) {            // then byte
-                    /* allow */
-                    assert((i+0) != opcode.bytes.end());
-                    assert((i+1) != opcode.bytes.end());
-                    i += 2;
-                }
-                else {
-                    if (i != opcode.bytes.end() && (*i).meaning == TOK_MRM) i++;
-                    while (i != opcode.bytes.end() && (*i).meaning == TOK_IMMEDIATE) i++;
-                }
-
-                if (i != opcode.bytes.end()) {
-                    fprintf(stderr,"ERROR: opcode '%s' unexpected byte entries\n",opcode.name.c_str());
-                    continue;
-                }
-            }
-
-            if (!enter_opcode_bytes(opcode,(size_t)(op_i-opcodes.begin()),opcode_groups)) {
-                fprintf(stderr,"Opcode byte to map error\n");
-                continue;
-            }
+        if (!enter_opcode_bytes(opcode,(size_t)(op_i-opcodes.begin()),opcode_groups)) {
+            fprintf(stderr,"Opcode byte to map error\n");
+            continue;
         }
     }
 
@@ -6348,7 +6086,6 @@ int main(int argc,char **argv) {
         //      use a list instead because the iterator is a pointer to a node in a linked list which
         //      does not invalidate when extending the list.
         std::list< std::pair< std::vector<uint8_t>, std::shared_ptr<OpcodeGroupBlock> > > subl;
-        std::list< std::pair< std::vector<uint8_t>, std::shared_ptr<OpcodeGroupBlock> > > sublv;
         std::list< std::pair< std::vector<uint8_t>, std::shared_ptr<OpcodeGroupBlock> > > submrm;
 
         {
@@ -6470,7 +6207,7 @@ int main(int argc,char **argv) {
             printf("):\n");
             printf("------------------------------\n");
             printf("X = coverage  O = overlap(!)  M = multi-byte  R = group by mod/reg/rm\n");
-            printf("P = prefix    Mv = m/b vex\n");
+            printf("P = prefix\n");
             printf("\n");
 
             for (unsigned int mod=0;mod < 4;mod++) {
@@ -6493,21 +6230,8 @@ int main(int argc,char **argv) {
                             const auto &gs = *gsr;
 
                             if (gs.maptype == OpcodeGroupBlock::LINEAR) {
-                                if (gs.vex) {
-                                    c = 'M';
-                                    c2 = 'v';
-
-                                    std::pair< std::vector<uint8_t>, std::shared_ptr<OpcodeGroupBlock> > p;
-                                    p.first = (*si).first;
-                                    p.first.push_back((mod*64)+(y*8)+x);
-                                    p.second = gsr;
-                                    assert(p.second.get() != nullptr);
-                                    sublv.push_back(p);
-                                }
-                                else {
-                                    c = 'M';
-                                    c2 = '!';
-                                }
+                                c = 'M';
+                                c2 = '!';
                             }
                             else if (gs.maptype == OpcodeGroupBlock::MODREGRM) {
                                 c = 'R';
@@ -6536,104 +6260,6 @@ int main(int argc,char **argv) {
 
                 printf("\n");
             }
-
-            printf("\n");
-        }
-
-        for (auto si=sublv.begin();si!=sublv.end();si++) {
-            assert((*si).second.get() != nullptr);
-            auto sgroup = (*si).second;
-
-            printf("Opcode coverage, VEX (");
-            if ((*si).first.empty()) {
-                printf("single opcode");
-            }
-            else {
-                for (auto bi=(*si).first.begin();bi!=(*si).first.end();bi++)
-                    printf("%02x ",*bi);
-
-                printf("...");
-
-                if ((*sgroup).maptype == OpcodeGroupBlock::MRMLINEAR)
-                    printf(" with mod/reg/rm before last byte");
-                else if ((*sgroup).maptype == OpcodeGroupBlock::PREFIX)
-                    printf(" mandatory prefix");
-            }
-            printf("):\n");
-            printf("------------------------------\n");
-            printf("X = coverage  O = overlap(!)  M = multi-byte  R = group by mod/reg/rm\n");
-            printf("P = prefix    Pm = mandatory prefix (modifies opcodes)\n");
-            printf("\n");
-
-            {
-                printf("    ");
-                for (unsigned int x=0;x < 16;x++) printf("%x ",x);
-                printf("\n");
-
-                printf("   ");
-                for (unsigned int x=0;x < 16;x++) printf("--");
-                printf("\n");
-
-                for (unsigned int y=0;y < 16;y++) {
-                    printf("  %x|",y);
-                    for (unsigned int x=0;x < 16;x++) {
-                        unsigned char c = ' ';
-                        unsigned char c2 = ' ';
-
-                        auto gsr = (*sgroup).map_get((y*16)+x);
-                        if (gsr.get() != nullptr) {
-                            const auto &gs = *gsr;
-
-                            if (gs.maptype == OpcodeGroupBlock::LINEAR ||
-                                gs.maptype == OpcodeGroupBlock::MRMLINEAR ||
-                                (gs.maptype == OpcodeGroupBlock::PREFIX && !gs.map.empty())) {
-
-                                if (gs.maptype == OpcodeGroupBlock::PREFIX) {
-                                    c = 'P';
-                                    c2 = 'm';
-                                }
-                                else {
-                                    c = 'M';
-                                }
-
-                                std::pair< std::vector<uint8_t>, std::shared_ptr<OpcodeGroupBlock> > p;
-                                p.first = (*si).first;
-                                p.first.push_back((y*16)+x);
-                                p.second = gsr;
-                                assert(p.second.get() != nullptr);
-                                sublv.push_back(p);
-                            }
-                            else if (gs.maptype == OpcodeGroupBlock::MODREGRM) {
-                                c = 'R';
-
-                                std::pair< std::vector<uint8_t>, std::shared_ptr<OpcodeGroupBlock> > p;
-                                p.first = (*si).first;
-                                p.first.push_back((y*16)+x);
-                                p.second = gsr;
-                                assert(p.second.get() != nullptr);
-                                submrm.push_back(p);
-                            }
-                            else if (gs.maptype == OpcodeGroupBlock::LEAF) {
-                                c = 'X';
-                            }
-                            else if (gs.maptype == OpcodeGroupBlock::PREFIX) {
-                                c = 'P';
-                            }
-                            else {
-                                c = '?';
-                            }
-                        }
-                        else {
-                            c = ' ';
-                        }
-
-                        printf("%c%c",(char)c,(char)c2);
-                    }
-                    printf("\n");
-                }
-            }
-
-            /* TODO: VEX submrm maps */
 
             printf("\n");
         }

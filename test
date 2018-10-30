@@ -6744,21 +6744,3 @@ if ((value("everything") > 0)) {;
     (code 0xF3 0x0F 0xBD mrm);
 } if;
 
-if ((value("everything") > 0)) {;
-  comment "Intel AVX VEX encodings";
-
-  opcode "VADDPD"
-    (comment "VEX.NDS.128.66.0F.WIG 58 /r")
-    (dest=xmm(reg))
-    (param(0)=xmm(v))
-    (param(1)=xmm(rm))
-    (code vex(prefix(0x66,0x0F)) 0x58 mrm);
-
-  opcode "VADDPS"
-    (comment "VEX.NDS.128.0F.WIG 58 /r")
-    (dest=xmm(reg))
-    (param(0)=xmm(v))
-    (param(1)=xmm(rm))
-    (code vex(prefix(0x0F)) 0x58 mrm);
-} if;
-
