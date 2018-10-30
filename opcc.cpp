@@ -6219,6 +6219,18 @@ int main(int argc,char **argv) {
                 fprintf(stderr,"ERROR: opcode '%s' is a VEX instruction, but no or invalid prefix specified\n",opcode.name.c_str());
                 continue;
             }
+            /* assignment to 'v' is not allowed for vex instructions because 'v'
+             * represents the V field */
+            {
+                for (const auto &i : opcode.assign) {
+                    if (i.meaning == TOK_EQUAL) {
+                        if (i.var_assign == TOK_V) {
+                            fprintf(stderr,"ERROR: opcode '%s' is a VEX instruction, assignment to 'v' is not allowed\n",opcode.name.c_str());
+                            continue;
+                        }
+                    }
+                }
+            }
             {
                 auto i = opcode.bytes.begin();
 
