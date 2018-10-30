@@ -24,7 +24,7 @@
 [x] AMD-V
 [x] Intel VT-x
 [x] ABM
-[ ] AES         TODO find datasheets
+[x] AES
 [ ] SHA         TODO find datasheets
 
 Reminder:
