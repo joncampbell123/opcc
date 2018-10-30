@@ -20,7 +20,7 @@
 [x] SSSE3
 [x] SSE4.1
 [ ] SSE4a     TODO find AMD datasheet describing EXTRQ/INSERTQ/MOVNTSD/MOVNTSS
-[ ] SSE4.2
+[x] SSE4.2
 
 Also todo:
 [x] Add to "fpu", "sse" tags by adding "mmx", "emmi", "3dnow", and "3dnow+" tags.
