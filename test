@@ -6744,3 +6744,36 @@ if ((value("everything") > 0)) {;
     (code 0xF3 0x0F 0xBD mrm);
 } if;
 
+if ((value("everything") > 0)) {;
+  opcode "AESDEC"
+    (dest=reg(v))
+    (param=rm(v))
+    (code 0x66 0x0F 0x38 0xDE mrm);
+
+  opcode "AESDECLAST"
+    (dest=reg(v))
+    (param=rm(v))
+    (code 0x66 0x0F 0x38 0xDF mrm);
+
+  opcode "AESENC"
+    (dest=reg(v))
+    (param=rm(v))
+    (code 0x66 0x0F 0x38 0xDC mrm);
+
+  opcode "AESENCLAST"
+    (dest=reg(v))
+    (param=rm(v))
+    (code 0x66 0x0F 0x38 0xDD mrm);
+
+  opcode "AESIMC"
+    (dest=reg(v))
+    (param=rm(v))
+    (code 0x66 0x0F 0x38 0xDB mrm);
+
+  opcode "AESKEYGENASSIST"
+    (dest=reg(v))
+    (param=rm(v))
+    (param(1)=i)
+    (code 0x66 0x0F 0x3A 0xDF mrm i=immediate(b));
+} if;
+
