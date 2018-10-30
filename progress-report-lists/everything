@@ -896,6 +896,8 @@ Opcodes by byte:
      PSHUFHW xmm(reg), xmm(rm), I                                        ; f3 0f 70 /r I=imm(u8)
         MOVQ xmm(reg), xmm(rm)                                           ; f3 0f 7e /r; sse2
       MOVDQU xmm(rm), xmm(reg)                                           ; f3 0f 7f /r; sse2
+      POPCNT reg(uv), r/m(uv)                                            ; f3 0f b8 /r
+       LZCNT reg(uv), r/m(uv)                                            ; f3 0f bd /r
        CMPSS xmm(reg), xmm(rm), I                                        ; f3 0f c2 /r I=imm(u8); sse
        VMXON reg(u64)                                                    ; f3 0f c7 /6=m
      MOVQ2DQ xmm(rm), mm(reg)                                            ; f3 0f d6 /r!m; sse2
@@ -1324,6 +1326,7 @@ Opcodes by name:
        LOOPZ N                                                           ; e1 P=imm(i8); N=(IPV+P)
          LSL reg(uv), r/m(uv)                                            ; 0f 03 /r
          LTR r/m(uv)                                                     ; 0f 00 /3
+       LZCNT reg(uv), r/m(uv)                                            ; f3 0f bd /r
   MASKMOVDQU xmm(rm), xmm(reg)                                           ; 66 0f f7 /r; sse2
     MASKMOVQ u64 [DIV], mm(reg), mm(rm)                                  ; 0f f7 /r
        MAXPD xmm(reg), xmm(rm)                                           ; 66 0f 5f /r; sse2
@@ -1587,6 +1590,7 @@ Opcodes by name:
          POP reg(uv)                                                     ; 58+reg; reg=0-7
          POP r/m(uv)                                                     ; 8f /0
         POPA                                                             ; 61 /r
+      POPCNT reg(uv), r/m(uv)                                            ; f3 0f b8 /r
         POPF                                                             ; 9d
          POR mm(reg), mm(rm)                                             ; 0f eb /r; fpu
          POR xmm(reg), xmm(rm)                                           ; 66 0f eb /r; sse2
@@ -2102,7 +2106,7 @@ P = prefix    Pm = mandatory prefix (modifies opcodes)
   8|                                
   9|                                
   a|                                
-  b|                                
+  b|                X         X     
   c|    X         R                 
   d|            R                   
   e|            X                   
