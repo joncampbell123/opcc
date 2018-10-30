@@ -6527,5 +6527,32 @@ if ((value("sss41") > 0) or (value("everything") > 0)) {;
     (param=xmm(rm))
     (code 0x66 0x0F 0x38 0x35 mrm);
 
+  opcode "PTEST"
+    (reads xmm(rm))
+    (writes xmm(reg))
+    (dest=xmm(reg))
+    (param=xmm(rm))
+    (code 0x66 0x0F 0x38 0x17 mrm);
+
+  opcode "PCMPEQQ"
+    (reads xmm(rm))
+    (writes xmm(reg))
+    (dest=xmm(reg))
+    (param=xmm(rm))
+    (code 0x66 0x0F 0x38 0x29 mrm);
+
+  opcode "PACKUSDW"
+    (reads xmm(rm))
+    (writes xmm(reg))
+    (dest=xmm(reg))
+    (param=xmm(rm))
+    (code 0x66 0x0F 0x38 0x2B mrm);
+
+  opcode "MOVNTDQA"
+    (reads xmm(rm))
+    (writes xmm(reg))
+    (dest=xmm(reg))
+    (param=xmm(rm))
+    (code 0x66 0x0F 0x38 0x2A mrm mod(!3));
 } if;
 
