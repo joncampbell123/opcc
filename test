@@ -6599,6 +6599,7 @@ if ((value("sss42") > 0) or (value("everything") > 0)) {;
 
 if ((value("sss4a") > 0) or (value("everything") > 0)) {;
   opcode "EXTRQ"
+    (comment "Need to check param order")
     (writes xmm(rm))
     (dest=xmm(rm))
     (param(0)=a)
@@ -6606,12 +6607,14 @@ if ((value("sss4a") > 0) or (value("everything") > 0)) {;
     (code 0x66 0x0F 0x78 mrm mod(3) reg(0) a=immediate(b) b=immediate(b));
 
   opcode "EXTRQ"
+    (comment "Need to check param order")
     (writes xmm(reg))
     (dest=xmm(reg))
     (param=xmm(rm))
     (code 0x66 0x0F 0x79 mrm mod(3));
 
   opcode "INSERTQ"
+    (comment "Need to check param order")
     (writes xmm(reg))
     (dest=xmm(reg))
     (param(0)=xmm(rm))
@@ -6620,18 +6623,21 @@ if ((value("sss4a") > 0) or (value("everything") > 0)) {;
     (code 0xF2 0x0F 0x78 mrm mod(3) a=immediate(b) b=immediate(b));
 
   opcode "INSERTQ"
+    (comment "Need to check param order")
     (writes xmm(reg))
     (dest=xmm(reg))
     (param=xmm(rm))
     (code 0xF2 0x0F 0x79 mrm mod(3));
 
   opcode "MOVNTSD"
+    (comment "Need to check param order")
     (writes xmm(rm))
     (dest=xmm(rm))
     (param=xmm(reg))
     (code 0xF2 0x0F 0x2B mrm mod(!3));
 
   opcode "MOVNTSS"
+    (comment "Need to check param order")
     (writes xmm(rm))
     (dest=xmm(rm))
     (param=xmm(reg))
