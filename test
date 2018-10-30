@@ -6597,3 +6597,18 @@ if ((value("sss42") > 0) or (value("everything") > 0)) {;
     (code 0x66 0x0F 0x38 0x37 mrm);
 } if;
 
+if ((value("sss4a") > 0) or (value("everything") > 0)) {;
+  opcode "EXTRQ"
+    (writes xmm(rm))
+    (dest=xmm(rm))
+    (param(0)=a)
+    (param(1)=b)
+    (code 0x66 0x0F 0x78 mrm mod(3) reg(0) a=immediate(b) b=immediate(b));
+
+  opcode "EXTRQ"
+    (writes xmm(reg))
+    (dest=xmm(reg))
+    (param=xmm(rm))
+    (code 0x66 0x0F 0x79 mrm mod(3));
+} if;
+
