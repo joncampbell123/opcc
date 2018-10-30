@@ -6403,5 +6403,21 @@ if ((value("sss41") > 0) or (value("everything") > 0)) {;
     (param=xmm(rm))
     (code 0x66 0x0F 0x38 0x3F mrm);
 
+  opcode "PINSRB"
+    (reads xmm(rm))
+    (writes xmm(reg))
+    (dest=xmm(reg))
+    (param=xmm(rm))
+    (param(1)=i)
+    (code 0x66 0x0F 0x3A 0x20 mrm i=immediate(b));
+
+  opcode "PINSRD"
+    (reads xmm(rm))
+    (writes xmm(reg))
+    (dest=xmm(reg))
+    (param=xmm(rm))
+    (param(1)=i)
+    (code 0x66 0x0F 0x3A 0x22 mrm i=immediate(b));
+
 } if;
 
