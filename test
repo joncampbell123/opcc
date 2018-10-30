@@ -6666,3 +6666,29 @@ if ((value("everything") > 0)) {;
     (code 0x0F 0x01 mrm mod(3) reg(7) rm(0));
 } if;
 
+if ((value("everything") > 0)) {;
+  opcode "CLGI"
+    (code 0x0F 0x01 mrm mod(3) reg(3) rm(5));
+
+  opcode "INVLPGA"
+    (code 0x0F 0x01 mrm mod(3) reg(3) rm(7));
+
+  opcode "SKINIT"
+    (code 0x0F 0x01 mrm mod(3) reg(3) rm(6));
+
+  opcode "STGI"
+    (code 0x0F 0x01 mrm mod(3) reg(3) rm(4));
+
+  opcode "VMLOAD"
+    (code 0x0F 0x01 mrm mod(3) reg(3) rm(2));
+
+  opcode "VMMCALL"
+    (code 0x0F 0x01 mrm mod(3) reg(3) rm(1));
+
+  opcode "VMRUN"
+    (code 0x0F 0x01 mrm mod(3) reg(3) rm(0));
+
+  opcode "VMSAVE"
+    (code 0x0F 0x01 mrm mod(3) reg(3) rm(3));
+} if;
+
