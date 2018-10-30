@@ -6556,3 +6556,44 @@ if ((value("sss41") > 0) or (value("everything") > 0)) {;
     (code 0x66 0x0F 0x38 0x2A mrm mod(!3));
 } if;
 
+if ((value("sss42") > 0) or (value("everything") > 0)) {;
+  opcode "PCMPESTRI"
+    (reads xmm(rm))
+    (writes xmm(reg))
+    (dest=xmm(reg))
+    (param=xmm(rm))
+    (param(1)=i)
+    (code 0x66 0x0F 0x3A 0x61 mrm i=immediate(b));
+
+  opcode "PCMPESTRM"
+    (reads xmm(rm))
+    (writes xmm(reg))
+    (dest=xmm(reg))
+    (param=xmm(rm))
+    (param(1)=i)
+    (code 0x66 0x0F 0x3A 0x60 mrm i=immediate(b));
+
+  opcode "PCMPISTRI"
+    (reads xmm(rm))
+    (writes xmm(reg))
+    (dest=xmm(reg))
+    (param=xmm(rm))
+    (param(1)=i)
+    (code 0x66 0x0F 0x3A 0x63 mrm i=immediate(b));
+
+  opcode "PCMPISTRM"
+    (reads xmm(rm))
+    (writes xmm(reg))
+    (dest=xmm(reg))
+    (param=xmm(rm))
+    (param(1)=i)
+    (code 0x66 0x0F 0x3A 0x62 mrm i=immediate(b));
+
+  opcode "PCMPGTQ"
+    (reads xmm(rm))
+    (writes xmm(reg))
+    (dest=xmm(reg))
+    (param=xmm(rm))
+    (code 0x66 0x0F 0x38 0x37 mrm);
+} if;
+
