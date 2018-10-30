@@ -25,9 +25,9 @@ Opcodes by byte:
             SIDT r/m(u48)                                                    ; 0f 01 /1=m
             LGDT r/m(u48)                                                    ; 0f 01 /2=m
             LIDT r/m(u48)                                                    ; 0f 01 /3=m
-          INVLPG r/m(uv)                                                     ; 0f 01 /7=m
             SMSW r/m(uv)                                                     ; 0f 01 /4
             LMSW r/m(uv)                                                     ; 0f 01 /6
+          INVLPG r/m(uv)                                                     ; 0f 01 /7=m
              LAR reg(uv), r/m(uv)                                            ; 0f 02 /r
              LSL reg(uv), r/m(uv)                                            ; 0f 03 /r
             CLTS                                                             ; 0f 06 /r
@@ -360,11 +360,11 @@ Opcodes by byte:
            FPREM st(0), st(0), st(1)                                         ; d9 f8; fpu
          FYL2XP1 st(0), st(0), st(1)                                         ; d9 f9; fpu
            FSQRT st(0), st(0)                                                ; d9 fa; fpu
-         FSINCOS st(0), st(0)                                                ; d9 fb
+         FSINCOS st(0), st(0)                                                ; d9 fb; fpu
          FRNDINT st(0), st(0)                                                ; d9 fc; fpu
           FSCALE st(0), st(0), st(1)                                         ; d9 fd; fpu
-            FSIN st(0), st(0)                                                ; d9 fe
-            FCOS st(0), st(0)                                                ; d9 ff
+            FSIN st(0), st(0)                                                ; d9 fe; fpu
+            FCOS st(0), st(0)                                                ; d9 ff; fpu
            FIADD st(0), r/m(i32)                                             ; da /0=m; fpu
            FIMUL st(0), r/m(i32)                                             ; da /1=m; fpu
            FICOM st(0), r/m(i32)                                             ; da /2=m; fpu
@@ -383,7 +383,7 @@ Opcodes by byte:
            FDISI                                                             ; db e1; fpu
           FNCLEX                                                             ; db e2; fpu
           FNINIT                                                             ; db e3; fpu
-          FSETPM                                                             ; db e4
+          FSETPM                                                             ; db e4; fpu
             FADD st(0), r/m(f64)                                             ; dc /0=m; fpu
             FMUL st(0), r/m(f64)                                             ; dc /1=m; fpu
             FCOM st(0), r/m(f64)                                             ; dc /2=m; fpu
@@ -475,12 +475,12 @@ Opcodes by byte:
              STD                                                             ; fd
              INC r/m(u8)                                                     ; fe /0
              DEC r/m(u8)                                                     ; fe /1
-            CALL r/m(farptr)                                                 ; ff /3=m
-             JMP r/m(farptr)                                                 ; ff /5=m
              INC r/m(uv)                                                     ; ff /0
              DEC r/m(uv)                                                     ; ff /1
             CALL r/m(uv)                                                     ; ff /2
+            CALL r/m(farptr)                                                 ; ff /3=m
              JMP r/m(uv)                                                     ; ff /4
+             JMP r/m(farptr)                                                 ; ff /5=m
             PUSH r/m(uv)                                                     ; ff /6
 
 Opcodes by name:
@@ -535,8 +535,8 @@ Opcodes by name:
              BTS r/m(uv), I                                                  ; 0f ba /5 I=imm(u8)
             CALL P                                                           ; 9a P=imm(farptr)
             CALL N                                                           ; e8 P=imm(iv); N=(IPV+P)
-            CALL r/m(farptr)                                                 ; ff /3=m
             CALL r/m(uv)                                                     ; ff /2
+            CALL r/m(farptr)                                                 ; ff /3=m
              CBW                                                             ; 98
              CLC                                                             ; f8
              CLD                                                             ; fc
@@ -588,7 +588,7 @@ Opcodes by name:
            FCOMP st(0), st(i)                                                ; d8 d8+i; i=0-7 fpu
            FCOMP st(0), r/m(f64)                                             ; dc /3=m; fpu
           FCOMPP st(0), st(1)                                                ; de d9; fpu
-            FCOS st(0), st(0)                                                ; d9 ff
+            FCOS st(0), st(0)                                                ; d9 ff; fpu
          FDECSTP                                                             ; d9 f6; fpu
            FDISI                                                             ; db e1; fpu
             FDIV st(0), r/m(f32)                                             ; d8 /6=m; fpu
@@ -659,9 +659,9 @@ Opcodes by name:
              FS:                                                    ; prefix ; 64
            FSAVE r/m(f87state)                                               ; dd /6=m; fpu
           FSCALE st(0), st(0), st(1)                                         ; d9 fd; fpu
-          FSETPM                                                             ; db e4
-            FSIN st(0), st(0)                                                ; d9 fe
-         FSINCOS st(0), st(0)                                                ; d9 fb
+          FSETPM                                                             ; db e4; fpu
+            FSIN st(0), st(0)                                                ; d9 fe; fpu
+         FSINCOS st(0), st(0)                                                ; d9 fb; fpu
            FSQRT st(0), st(0)                                                ; d9 fa; fpu
              FST r/m(f32), st(0)                                             ; d9 /2=m; fpu
              FST r/m(f64), st(0)                                             ; dd /2=m; fpu
@@ -728,8 +728,8 @@ Opcodes by name:
              JMP N                                                           ; e9 P=imm(iv); N=(IPV+P)
              JMP P                                                           ; ea P=imm(farptr)
              JMP N                                                           ; eb P=imm(i8); N=(IPV+P)
-             JMP r/m(farptr)                                                 ; ff /5=m
              JMP r/m(uv)                                                     ; ff /4
+             JMP r/m(farptr)                                                 ; ff /5=m
              JNA N                                                           ; 0f 86 P=imm(iv); N=(IPV+P)
              JNA N                                                           ; 76 P=imm(i8); N=(IPV+P)
              JNC N                                                           ; 0f 83 P=imm(iv); N=(IPV+P)

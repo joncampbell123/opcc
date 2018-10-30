@@ -319,7 +319,7 @@ Opcodes by byte:
            FDISI                                                             ; db e1; fpu
           FNCLEX                                                             ; db e2; fpu
           FNINIT                                                             ; db e3; fpu
-          FSETPM                                                             ; db e4
+          FSETPM                                                             ; db e4; fpu
             FADD st(0), r/m(f64)                                             ; dc /0=m; fpu
             FMUL st(0), r/m(f64)                                             ; dc /1=m; fpu
             FCOM st(0), r/m(f64)                                             ; dc /2=m; fpu
@@ -408,12 +408,12 @@ Opcodes by byte:
              STD                                                             ; fd
              INC r/m(u8)                                                     ; fe /0
              DEC r/m(u8)                                                     ; fe /1
-            CALL r/m(farptr)                                                 ; ff /3=m
-             JMP r/m(farptr)                                                 ; ff /5=m
              INC r/m(uv)                                                     ; ff /0
              DEC r/m(uv)                                                     ; ff /1
             CALL r/m(uv)                                                     ; ff /2
+            CALL r/m(farptr)                                                 ; ff /3=m
              JMP r/m(uv)                                                     ; ff /4
+             JMP r/m(farptr)                                                 ; ff /5=m
             PUSH r/m(uv)                                                     ; ff /6
 
 Opcodes by name:
@@ -456,8 +456,8 @@ Opcodes by name:
            BOUND reg(uv), r/m(uv)                                            ; 62 /r
             CALL P                                                           ; 9a P=imm(farptr)
             CALL N                                                           ; e8 P=imm(iv); N=(IPV+P)
-            CALL r/m(farptr)                                                 ; ff /3=m
             CALL r/m(uv)                                                     ; ff /2
+            CALL r/m(farptr)                                                 ; ff /3=m
              CBW                                                             ; 98
              CLC                                                             ; f8
              CLD                                                             ; fc
@@ -578,7 +578,7 @@ Opcodes by name:
           FRSTOR r/m(f87state)                                               ; dd /4=m; fpu
            FSAVE r/m(f87state)                                               ; dd /6=m; fpu
           FSCALE st(0), st(0), st(1)                                         ; d9 fd; fpu
-          FSETPM                                                             ; db e4
+          FSETPM                                                             ; db e4; fpu
            FSQRT st(0), st(0)                                                ; d9 fa; fpu
              FST r/m(f32), st(0)                                             ; d9 /2=m; fpu
              FST r/m(f64), st(0)                                             ; dd /2=m; fpu
@@ -636,8 +636,8 @@ Opcodes by name:
              JMP N                                                           ; e9 P=imm(iv); N=(IPV+P)
              JMP P                                                           ; ea P=imm(farptr)
              JMP N                                                           ; eb P=imm(i8); N=(IPV+P)
-             JMP r/m(farptr)                                                 ; ff /5=m
              JMP r/m(uv)                                                     ; ff /4
+             JMP r/m(farptr)                                                 ; ff /5=m
              JNA N                                                           ; 76 P=imm(i8); N=(IPV+P)
              JNC N                                                           ; 73 P=imm(i8); N=(IPV+P)
              JNG N                                                           ; 7e P=imm(i8); N=(IPV+P)

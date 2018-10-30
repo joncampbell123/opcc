@@ -363,12 +363,12 @@ Opcodes by byte:
              STD                                                             ; fd
              INC r/m(u8)                                                     ; fe /0
              DEC r/m(u8)                                                     ; fe /1
-            CALL r/m(farptr)                                                 ; ff /3=m
-             JMP r/m(farptr)                                                 ; ff /5=m
              INC r/m(uv)                                                     ; ff /0
              DEC r/m(uv)                                                     ; ff /1
             CALL r/m(uv)                                                     ; ff /2
+            CALL r/m(farptr)                                                 ; ff /3=m
              JMP r/m(uv)                                                     ; ff /4
+             JMP r/m(farptr)                                                 ; ff /5=m
             PUSH r/m(uv)                                                     ; ff /6
 
 Opcodes by name:
@@ -409,8 +409,8 @@ Opcodes by name:
              AND r/m(uv), I                                                  ; 83 /4 I=imm(i8)
             CALL P                                                           ; 9a P=imm(farptr)
             CALL N                                                           ; e8 P=imm(iv); N=(IPV+P)
-            CALL r/m(farptr)                                                 ; ff /3=m
             CALL r/m(uv)                                                     ; ff /2
+            CALL r/m(farptr)                                                 ; ff /3=m
              CBW                                                             ; 98
              CLC                                                             ; f8
              CLD                                                             ; fc
@@ -582,8 +582,8 @@ Opcodes by name:
              JMP N                                                           ; e9 P=imm(iv); N=(IPV+P)
              JMP P                                                           ; ea P=imm(farptr)
              JMP N                                                           ; eb P=imm(i8); N=(IPV+P)
-             JMP r/m(farptr)                                                 ; ff /5=m
              JMP r/m(uv)                                                     ; ff /4
+             JMP r/m(farptr)                                                 ; ff /5=m
              JNA N                                                           ; 76 P=imm(i8); N=(IPV+P)
              JNC N                                                           ; 73 P=imm(i8); N=(IPV+P)
              JNG N                                                           ; 7e P=imm(i8); N=(IPV+P)
