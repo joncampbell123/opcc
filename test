@@ -6749,9 +6749,9 @@ if ((value("everything") > 0)) {;
 
   opcode "VADDPD"
     (comment "VEX.NDS.128.66.0F.WIG 58 /r")
-    (dest=xmm(rm))
+    (dest=xmm(reg))
     (param(0)=xmm(v))
-    (param(1)=xmm(reg))
+    (param(1)=xmm(rm))
     (code vex(prefix(0x66,0x0F)) 0x58 mrm);
 } if;
 
