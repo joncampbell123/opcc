@@ -6060,7 +6060,7 @@ int main(int argc,char **argv) {
         }
         else {
             for (auto i=opcodes.begin();i!=opcodes.end();i++)
-                printf("%12s %s\n",(*i).name.c_str(),(*i).pretty_string().c_str());
+                printf("%16s %s\n",(*i).name.c_str(),(*i).pretty_string().c_str());
         }
         printf("\n");
 
@@ -6076,7 +6076,7 @@ int main(int argc,char **argv) {
             }
             else {
                 for (auto i=opcodes_by_name.begin();i!=opcodes_by_name.end();i++)
-                    printf("%12s %s\n",(*i).name.c_str(),(*i).pretty_string().c_str());
+                    printf("%16s %s\n",(*i).name.c_str(),(*i).pretty_string().c_str());
             }
             printf("\n");
         }
