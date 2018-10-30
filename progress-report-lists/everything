@@ -25,6 +25,8 @@ Opcodes by byte:
         SIDT r/m(u48)                                                    ; 0f 01 /1=m
         LGDT r/m(u48)                                                    ; 0f 01 /2=m
         LIDT r/m(u48)                                                    ; 0f 01 /3=m
+        SMSW r/m(uv)                                                     ; 0f 01 /4
+        LMSW r/m(uv)                                                     ; 0f 01 /6
       INVLPG r/m(uv)                                                     ; 0f 01 /7=m
       VMCALL                                                             ; 0f 01 c1
     VMLAUNCH                                                             ; 0f 01 c2
@@ -40,8 +42,6 @@ Opcodes by byte:
         CLGI                                                             ; 0f 01 dd
       SKINIT                                                             ; 0f 01 de
      INVLPGA                                                             ; 0f 01 df
-        SMSW r/m(uv)                                                     ; 0f 01 /4
-        LMSW r/m(uv)                                                     ; 0f 01 /6
       SWAPGS                                                             ; 0f 01 f8
       RDTSCP                                                             ; 0f 01 f9
          LAR reg(uv), r/m(uv)                                            ; 0f 02 /r
@@ -410,6 +410,11 @@ Opcodes by byte:
       PMAXUD xmm(reg), xmm(rm)                                           ; 66 0f 38 3f /r
       PMULLD xmm(reg), xmm(rm)                                           ; 66 0f 38 40 /r
   PHMINPOSUW xmm(reg), xmm(rm)                                           ; 66 0f 38 41 /r
+      AESIMC reg(uv), r/m(uv)                                            ; 66 0f 38 db /r
+      AESENC reg(uv), r/m(uv)                                            ; 66 0f 38 dc /r
+  AESENCLAST reg(uv), r/m(uv)                                            ; 66 0f 38 dd /r
+      AESDEC reg(uv), r/m(uv)                                            ; 66 0f 38 de /r
+  AESDECLAST reg(uv), r/m(uv)                                            ; 66 0f 38 df /r
      ROUNDPS xmm(reg), xmm(rm), I                                        ; 66 0f 3a 08 /r I=imm(u8)
      ROUNDPD xmm(reg), xmm(rm), I                                        ; 66 0f 3a 09 /r I=imm(u8)
      ROUNDSS xmm(reg), xmm(rm), I                                        ; 66 0f 3a 0a /r I=imm(u8)
@@ -432,6 +437,7 @@ Opcodes by byte:
    PCMPESTRI xmm(reg), xmm(rm), I                                        ; 66 0f 3a 61 /r I=imm(u8)
    PCMPISTRM xmm(reg), xmm(rm), I                                        ; 66 0f 3a 62 /r I=imm(u8)
    PCMPISTRI xmm(reg), xmm(rm), I                                        ; 66 0f 3a 63 /r I=imm(u8)
+AESKEYGENASSIST reg(uv), r/m(uv), I                                         ; 66 0f 3a df /r I=imm(u8)
     MOVMSKPD r/m(u32), xmm(reg)                                          ; 66 0f 50 /r!m; sse2
       SQRTPD xmm(reg), xmm(rm)                                           ; 66 0f 51 /r; sse2
        ANDPD xmm(reg), xmm(rm)                                           ; 66 0f 54 /r; sse2
@@ -968,6 +974,12 @@ Opcodes by name:
     ADDSUBPD xmm(reg), xmm(rm)                                           ; 66 0f d0 /r
     ADDSUBPS xmm(reg), xmm(rm)                                           ; f2 0f d0 /r
         ADSZ                                                    ; prefix ; 67
+      AESDEC reg(uv), r/m(uv)                                            ; 66 0f 38 de /r
+  AESDECLAST reg(uv), r/m(uv)                                            ; 66 0f 38 df /r
+      AESENC reg(uv), r/m(uv)                                            ; 66 0f 38 dc /r
+  AESENCLAST reg(uv), r/m(uv)                                            ; 66 0f 38 dd /r
+      AESIMC reg(uv), r/m(uv)                                            ; 66 0f 38 db /r
+AESKEYGENASSIST reg(uv), r/m(uv), I                                         ; 66 0f 3a df /r I=imm(u8)
          AND r/m(u8), reg(u8)                                            ; 20 /r
          AND r/m(uv), reg(uv)                                            ; 21 /r
          AND reg(u8), r/m(u8)                                            ; 22 /r
@@ -2132,7 +2144,7 @@ P = prefix    Pm = mandatory prefix (modifies opcodes)
   a|                                
   b|                                
   c|                                
-  d|                                
+  d|                      X X X X X 
   e|                                
   f|                                
 
@@ -2156,7 +2168,7 @@ P = prefix    Pm = mandatory prefix (modifies opcodes)
   a|                                
   b|                                
   c|                                
-  d|                                
+  d|                              X 
   e|                                
   f|                                
 
