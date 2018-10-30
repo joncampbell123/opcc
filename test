@@ -6595,6 +6595,20 @@ if ((value("sss42") > 0) or (value("everything") > 0)) {;
     (dest=xmm(reg))
     (param=xmm(rm))
     (code 0x66 0x0F 0x38 0x37 mrm);
+
+  opcode "CRC32"
+    (reads rm(b))
+    (param=rm(b))
+    (writes rm(dw))
+    (dest=rm(dw))
+    (code 0xF2 0x0F 0x38 0xF0 mrm);
+
+  opcode "CRC32"
+    (reads rm(v))
+    (param=rm(v))
+    (writes rm(dw))
+    (dest=rm(dw))
+    (code 0xF2 0x0F 0x38 0xF1 mrm);
 } if;
 
 if ((value("sss4a") > 0) or (value("everything") > 0)) {;
