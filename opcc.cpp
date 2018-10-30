@@ -5921,11 +5921,29 @@ bool enter_opcode_bytes_vex(const OpcodeSpec &opcode,size_t opcode_index,std::sh
             fprintf(stderr,"map overlap error for opcode '%s', map of 0xC5 is not mod/reg/rm\n",opcode.name.c_str());
             return false;
         }
-    }
 
-    /* if the prefix is 0x0F (not including 0x66/0xF2/0xF3) then add the 2-byte encoding */
-    if (opcode.vex_prefix_idx == 1) {
+        unsigned char vmin = 0x0,vmax = 0x0,v;
 
+        /* if the instruction doesn't use the third operand, generally only V == 0 (!V == 0xF) is valid, else will #UD */
+        /* TODO: Update vex() encoding to indicate this constraint */
+        if (true/*TODO*/) {
+            vmin = 0x0;
+            vmax = 0x7;
+        }
+
+        /* NTS: remember vmin/vmax can only be 0-7 in 32-bit mode, because !V3 == 1 and !R == 1 to avoid overlap with
+         *      legal LDS/LES encoding */
+
+        for (v=vmin;v <= vmax;v++) {
+            /* !R !(V3:0) L P1:0 */
+            unsigned char vexbyte = 0xC0/*R and V3*/ + ((v ^ 0x7) << 3) + opcode.vex_prefix_addidx;
+
+            auto vgsr = gs.map_get_alloc(vexbyte);
+            if (vgsr.get() == nullptr) return false;
+
+            if (!enter_opcode_byte_spec(opcode,opcode_index,vgsr,i/*bytes iterator*/))
+                return false;
+        }
     }
     else {
         return false;
