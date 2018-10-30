@@ -23,6 +23,7 @@
 [x] SSE4.2
 [x] AMD-V
 [x] Intel VT-x
+[x] ABM
 [ ] SSE5        TODO find datasheets
 [ ] XOP         TODO find datasheets
 [ ] F16C        TODO find datasheets
