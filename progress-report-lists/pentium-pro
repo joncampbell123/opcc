@@ -1101,7 +1101,7 @@ P = prefix    Pm = mandatory prefix (modifies opcodes)
 Opcode coverage mod/reg/rm (80 ...):
 ------------------------------
 X = coverage  O = overlap(!)  M = multi-byte  R = group by mod/reg/rm
-P = prefix    Mv = m/b vex
+P = prefix
 
     0 1 2 3 4 5 6 7  rm with mod==0
    ----------------
@@ -1151,7 +1151,7 @@ P = prefix    Mv = m/b vex
 Opcode coverage mod/reg/rm (81 ...):
 ------------------------------
 X = coverage  O = overlap(!)  M = multi-byte  R = group by mod/reg/rm
-P = prefix    Mv = m/b vex
+P = prefix
 
     0 1 2 3 4 5 6 7  rm with mod==0
    ----------------
@@ -1201,7 +1201,7 @@ P = prefix    Mv = m/b vex
 Opcode coverage mod/reg/rm (82 ...):
 ------------------------------
 X = coverage  O = overlap(!)  M = multi-byte  R = group by mod/reg/rm
-P = prefix    Mv = m/b vex
+P = prefix
 
     0 1 2 3 4 5 6 7  rm with mod==0
    ----------------
@@ -1251,7 +1251,7 @@ P = prefix    Mv = m/b vex
 Opcode coverage mod/reg/rm (83 ...):
 ------------------------------
 X = coverage  O = overlap(!)  M = multi-byte  R = group by mod/reg/rm
-P = prefix    Mv = m/b vex
+P = prefix
 
     0 1 2 3 4 5 6 7  rm with mod==0
    ----------------
@@ -1301,7 +1301,7 @@ P = prefix    Mv = m/b vex
 Opcode coverage mod/reg/rm (8d ...):
 ------------------------------
 X = coverage  O = overlap(!)  M = multi-byte  R = group by mod/reg/rm
-P = prefix    Mv = m/b vex
+P = prefix
 
     0 1 2 3 4 5 6 7  rm with mod==0
    ----------------
@@ -1351,7 +1351,7 @@ P = prefix    Mv = m/b vex
 Opcode coverage mod/reg/rm (8f ...):
 ------------------------------
 X = coverage  O = overlap(!)  M = multi-byte  R = group by mod/reg/rm
-P = prefix    Mv = m/b vex
+P = prefix
 
     0 1 2 3 4 5 6 7  rm with mod==0
    ----------------
@@ -1401,7 +1401,7 @@ P = prefix    Mv = m/b vex
 Opcode coverage mod/reg/rm (c0 ...):
 ------------------------------
 X = coverage  O = overlap(!)  M = multi-byte  R = group by mod/reg/rm
-P = prefix    Mv = m/b vex
+P = prefix
 
     0 1 2 3 4 5 6 7  rm with mod==0
    ----------------
@@ -1451,7 +1451,7 @@ P = prefix    Mv = m/b vex
 Opcode coverage mod/reg/rm (c1 ...):
 ------------------------------
 X = coverage  O = overlap(!)  M = multi-byte  R = group by mod/reg/rm
-P = prefix    Mv = m/b vex
+P = prefix
 
     0 1 2 3 4 5 6 7  rm with mod==0
    ----------------
@@ -1501,7 +1501,7 @@ P = prefix    Mv = m/b vex
 Opcode coverage mod/reg/rm (c4 ...):
 ------------------------------
 X = coverage  O = overlap(!)  M = multi-byte  R = group by mod/reg/rm
-P = prefix    Mv = m/b vex
+P = prefix
 
     0 1 2 3 4 5 6 7  rm with mod==0
    ----------------
@@ -1551,7 +1551,7 @@ P = prefix    Mv = m/b vex
 Opcode coverage mod/reg/rm (c5 ...):
 ------------------------------
 X = coverage  O = overlap(!)  M = multi-byte  R = group by mod/reg/rm
-P = prefix    Mv = m/b vex
+P = prefix
 
     0 1 2 3 4 5 6 7  rm with mod==0
    ----------------
@@ -1601,7 +1601,7 @@ P = prefix    Mv = m/b vex
 Opcode coverage mod/reg/rm (c6 ...):
 ------------------------------
 X = coverage  O = overlap(!)  M = multi-byte  R = group by mod/reg/rm
-P = prefix    Mv = m/b vex
+P = prefix
 
     0 1 2 3 4 5 6 7  rm with mod==0
    ----------------
@@ -1651,7 +1651,7 @@ P = prefix    Mv = m/b vex
 Opcode coverage mod/reg/rm (c7 ...):
 ------------------------------
 X = coverage  O = overlap(!)  M = multi-byte  R = group by mod/reg/rm
-P = prefix    Mv = m/b vex
+P = prefix
 
     0 1 2 3 4 5 6 7  rm with mod==0
    ----------------
@@ -1701,7 +1701,7 @@ P = prefix    Mv = m/b vex
 Opcode coverage mod/reg/rm (d0 ...):
 ------------------------------
 X = coverage  O = overlap(!)  M = multi-byte  R = group by mod/reg/rm
-P = prefix    Mv = m/b vex
+P = prefix
 
     0 1 2 3 4 5 6 7  rm with mod==0
    ----------------
@@ -1751,7 +1751,7 @@ P = prefix    Mv = m/b vex
 Opcode coverage mod/reg/rm (d1 ...):
 ------------------------------
 X = coverage  O = overlap(!)  M = multi-byte  R = group by mod/reg/rm
-P = prefix    Mv = m/b vex
+P = prefix
 
     0 1 2 3 4 5 6 7  rm with mod==0
    ----------------
@@ -1801,7 +1801,7 @@ P = prefix    Mv = m/b vex
 Opcode coverage mod/reg/rm (d2 ...):
 ------------------------------
 X = coverage  O = overlap(!)  M = multi-byte  R = group by mod/reg/rm
-P = prefix    Mv = m/b vex
+P = prefix
 
     0 1 2 3 4 5 6 7  rm with mod==0
    ----------------
@@ -1851,7 +1851,7 @@ P = prefix    Mv = m/b vex
 Opcode coverage mod/reg/rm (d3 ...):
 ------------------------------
 X = coverage  O = overlap(!)  M = multi-byte  R = group by mod/reg/rm
-P = prefix    Mv = m/b vex
+P = prefix
 
     0 1 2 3 4 5 6 7  rm with mod==0
    ----------------
@@ -1901,7 +1901,7 @@ P = prefix    Mv = m/b vex
 Opcode coverage mod/reg/rm (d8 ...):
 ------------------------------
 X = coverage  O = overlap(!)  M = multi-byte  R = group by mod/reg/rm
-P = prefix    Mv = m/b vex
+P = prefix
 
     0 1 2 3 4 5 6 7  rm with mod==0
    ----------------
@@ -1951,7 +1951,7 @@ P = prefix    Mv = m/b vex
 Opcode coverage mod/reg/rm (d9 ...):
 ------------------------------
 X = coverage  O = overlap(!)  M = multi-byte  R = group by mod/reg/rm
-P = prefix    Mv = m/b vex
+P = prefix
 
     0 1 2 3 4 5 6 7  rm with mod==0
    ----------------
@@ -2001,7 +2001,7 @@ P = prefix    Mv = m/b vex
 Opcode coverage mod/reg/rm (da ...):
 ------------------------------
 X = coverage  O = overlap(!)  M = multi-byte  R = group by mod/reg/rm
-P = prefix    Mv = m/b vex
+P = prefix
 
     0 1 2 3 4 5 6 7  rm with mod==0
    ----------------
@@ -2051,7 +2051,7 @@ P = prefix    Mv = m/b vex
 Opcode coverage mod/reg/rm (db ...):
 ------------------------------
 X = coverage  O = overlap(!)  M = multi-byte  R = group by mod/reg/rm
-P = prefix    Mv = m/b vex
+P = prefix
 
     0 1 2 3 4 5 6 7  rm with mod==0
    ----------------
@@ -2101,7 +2101,7 @@ P = prefix    Mv = m/b vex
 Opcode coverage mod/reg/rm (dc ...):
 ------------------------------
 X = coverage  O = overlap(!)  M = multi-byte  R = group by mod/reg/rm
-P = prefix    Mv = m/b vex
+P = prefix
 
     0 1 2 3 4 5 6 7  rm with mod==0
    ----------------
@@ -2151,7 +2151,7 @@ P = prefix    Mv = m/b vex
 Opcode coverage mod/reg/rm (dd ...):
 ------------------------------
 X = coverage  O = overlap(!)  M = multi-byte  R = group by mod/reg/rm
-P = prefix    Mv = m/b vex
+P = prefix
 
     0 1 2 3 4 5 6 7  rm with mod==0
    ----------------
@@ -2201,7 +2201,7 @@ P = prefix    Mv = m/b vex
 Opcode coverage mod/reg/rm (de ...):
 ------------------------------
 X = coverage  O = overlap(!)  M = multi-byte  R = group by mod/reg/rm
-P = prefix    Mv = m/b vex
+P = prefix
 
     0 1 2 3 4 5 6 7  rm with mod==0
    ----------------
@@ -2251,7 +2251,7 @@ P = prefix    Mv = m/b vex
 Opcode coverage mod/reg/rm (df ...):
 ------------------------------
 X = coverage  O = overlap(!)  M = multi-byte  R = group by mod/reg/rm
-P = prefix    Mv = m/b vex
+P = prefix
 
     0 1 2 3 4 5 6 7  rm with mod==0
    ----------------
@@ -2301,7 +2301,7 @@ P = prefix    Mv = m/b vex
 Opcode coverage mod/reg/rm (f6 ...):
 ------------------------------
 X = coverage  O = overlap(!)  M = multi-byte  R = group by mod/reg/rm
-P = prefix    Mv = m/b vex
+P = prefix
 
     0 1 2 3 4 5 6 7  rm with mod==0
    ----------------
@@ -2351,7 +2351,7 @@ P = prefix    Mv = m/b vex
 Opcode coverage mod/reg/rm (f7 ...):
 ------------------------------
 X = coverage  O = overlap(!)  M = multi-byte  R = group by mod/reg/rm
-P = prefix    Mv = m/b vex
+P = prefix
 
     0 1 2 3 4 5 6 7  rm with mod==0
    ----------------
@@ -2401,7 +2401,7 @@ P = prefix    Mv = m/b vex
 Opcode coverage mod/reg/rm (fe ...):
 ------------------------------
 X = coverage  O = overlap(!)  M = multi-byte  R = group by mod/reg/rm
-P = prefix    Mv = m/b vex
+P = prefix
 
     0 1 2 3 4 5 6 7  rm with mod==0
    ----------------
@@ -2451,7 +2451,7 @@ P = prefix    Mv = m/b vex
 Opcode coverage mod/reg/rm (ff ...):
 ------------------------------
 X = coverage  O = overlap(!)  M = multi-byte  R = group by mod/reg/rm
-P = prefix    Mv = m/b vex
+P = prefix
 
     0 1 2 3 4 5 6 7  rm with mod==0
    ----------------
@@ -2501,7 +2501,7 @@ P = prefix    Mv = m/b vex
 Opcode coverage mod/reg/rm (0f 00 ...):
 ------------------------------
 X = coverage  O = overlap(!)  M = multi-byte  R = group by mod/reg/rm
-P = prefix    Mv = m/b vex
+P = prefix
 
     0 1 2 3 4 5 6 7  rm with mod==0
    ----------------
@@ -2551,7 +2551,7 @@ P = prefix    Mv = m/b vex
 Opcode coverage mod/reg/rm (0f 01 ...):
 ------------------------------
 X = coverage  O = overlap(!)  M = multi-byte  R = group by mod/reg/rm
-P = prefix    Mv = m/b vex
+P = prefix
 
     0 1 2 3 4 5 6 7  rm with mod==0
    ----------------
@@ -2601,7 +2601,7 @@ P = prefix    Mv = m/b vex
 Opcode coverage mod/reg/rm (0f 20 ...):
 ------------------------------
 X = coverage  O = overlap(!)  M = multi-byte  R = group by mod/reg/rm
-P = prefix    Mv = m/b vex
+P = prefix
 
     0 1 2 3 4 5 6 7  rm with mod==0
    ----------------
@@ -2651,7 +2651,7 @@ P = prefix    Mv = m/b vex
 Opcode coverage mod/reg/rm (0f 21 ...):
 ------------------------------
 X = coverage  O = overlap(!)  M = multi-byte  R = group by mod/reg/rm
-P = prefix    Mv = m/b vex
+P = prefix
 
     0 1 2 3 4 5 6 7  rm with mod==0
    ----------------
@@ -2701,7 +2701,7 @@ P = prefix    Mv = m/b vex
 Opcode coverage mod/reg/rm (0f 22 ...):
 ------------------------------
 X = coverage  O = overlap(!)  M = multi-byte  R = group by mod/reg/rm
-P = prefix    Mv = m/b vex
+P = prefix
 
     0 1 2 3 4 5 6 7  rm with mod==0
    ----------------
@@ -2751,7 +2751,7 @@ P = prefix    Mv = m/b vex
 Opcode coverage mod/reg/rm (0f 23 ...):
 ------------------------------
 X = coverage  O = overlap(!)  M = multi-byte  R = group by mod/reg/rm
-P = prefix    Mv = m/b vex
+P = prefix
 
     0 1 2 3 4 5 6 7  rm with mod==0
    ----------------
@@ -2801,7 +2801,7 @@ P = prefix    Mv = m/b vex
 Opcode coverage mod/reg/rm (0f 24 ...):
 ------------------------------
 X = coverage  O = overlap(!)  M = multi-byte  R = group by mod/reg/rm
-P = prefix    Mv = m/b vex
+P = prefix
 
     0 1 2 3 4 5 6 7  rm with mod==0
    ----------------
@@ -2851,7 +2851,7 @@ P = prefix    Mv = m/b vex
 Opcode coverage mod/reg/rm (0f 26 ...):
 ------------------------------
 X = coverage  O = overlap(!)  M = multi-byte  R = group by mod/reg/rm
-P = prefix    Mv = m/b vex
+P = prefix
 
     0 1 2 3 4 5 6 7  rm with mod==0
    ----------------
@@ -2901,7 +2901,7 @@ P = prefix    Mv = m/b vex
 Opcode coverage mod/reg/rm (0f 90 ...):
 ------------------------------
 X = coverage  O = overlap(!)  M = multi-byte  R = group by mod/reg/rm
-P = prefix    Mv = m/b vex
+P = prefix
 
     0 1 2 3 4 5 6 7  rm with mod==0
    ----------------
@@ -2951,7 +2951,7 @@ P = prefix    Mv = m/b vex
 Opcode coverage mod/reg/rm (0f 91 ...):
 ------------------------------
 X = coverage  O = overlap(!)  M = multi-byte  R = group by mod/reg/rm
-P = prefix    Mv = m/b vex
+P = prefix
 
     0 1 2 3 4 5 6 7  rm with mod==0
    ----------------
@@ -3001,7 +3001,7 @@ P = prefix    Mv = m/b vex
 Opcode coverage mod/reg/rm (0f 92 ...):
 ------------------------------
 X = coverage  O = overlap(!)  M = multi-byte  R = group by mod/reg/rm
-P = prefix    Mv = m/b vex
+P = prefix
 
     0 1 2 3 4 5 6 7  rm with mod==0
    ----------------
@@ -3051,7 +3051,7 @@ P = prefix    Mv = m/b vex
 Opcode coverage mod/reg/rm (0f 93 ...):
 ------------------------------
 X = coverage  O = overlap(!)  M = multi-byte  R = group by mod/reg/rm
-P = prefix    Mv = m/b vex
+P = prefix
 
     0 1 2 3 4 5 6 7  rm with mod==0
    ----------------
@@ -3101,7 +3101,7 @@ P = prefix    Mv = m/b vex
 Opcode coverage mod/reg/rm (0f 94 ...):
 ------------------------------
 X = coverage  O = overlap(!)  M = multi-byte  R = group by mod/reg/rm
-P = prefix    Mv = m/b vex
+P = prefix
 
     0 1 2 3 4 5 6 7  rm with mod==0
    ----------------
@@ -3151,7 +3151,7 @@ P = prefix    Mv = m/b vex
 Opcode coverage mod/reg/rm (0f 95 ...):
 ------------------------------
 X = coverage  O = overlap(!)  M = multi-byte  R = group by mod/reg/rm
-P = prefix    Mv = m/b vex
+P = prefix
 
     0 1 2 3 4 5 6 7  rm with mod==0
    ----------------
@@ -3201,7 +3201,7 @@ P = prefix    Mv = m/b vex
 Opcode coverage mod/reg/rm (0f 96 ...):
 ------------------------------
 X = coverage  O = overlap(!)  M = multi-byte  R = group by mod/reg/rm
-P = prefix    Mv = m/b vex
+P = prefix
 
     0 1 2 3 4 5 6 7  rm with mod==0
    ----------------
@@ -3251,7 +3251,7 @@ P = prefix    Mv = m/b vex
 Opcode coverage mod/reg/rm (0f 97 ...):
 ------------------------------
 X = coverage  O = overlap(!)  M = multi-byte  R = group by mod/reg/rm
-P = prefix    Mv = m/b vex
+P = prefix
 
     0 1 2 3 4 5 6 7  rm with mod==0
    ----------------
@@ -3301,7 +3301,7 @@ P = prefix    Mv = m/b vex
 Opcode coverage mod/reg/rm (0f 98 ...):
 ------------------------------
 X = coverage  O = overlap(!)  M = multi-byte  R = group by mod/reg/rm
-P = prefix    Mv = m/b vex
+P = prefix
 
     0 1 2 3 4 5 6 7  rm with mod==0
    ----------------
@@ -3351,7 +3351,7 @@ P = prefix    Mv = m/b vex
 Opcode coverage mod/reg/rm (0f 99 ...):
 ------------------------------
 X = coverage  O = overlap(!)  M = multi-byte  R = group by mod/reg/rm
-P = prefix    Mv = m/b vex
+P = prefix
 
     0 1 2 3 4 5 6 7  rm with mod==0
    ----------------
@@ -3401,7 +3401,7 @@ P = prefix    Mv = m/b vex
 Opcode coverage mod/reg/rm (0f 9a ...):
 ------------------------------
 X = coverage  O = overlap(!)  M = multi-byte  R = group by mod/reg/rm
-P = prefix    Mv = m/b vex
+P = prefix
 
     0 1 2 3 4 5 6 7  rm with mod==0
    ----------------
@@ -3451,7 +3451,7 @@ P = prefix    Mv = m/b vex
 Opcode coverage mod/reg/rm (0f 9b ...):
 ------------------------------
 X = coverage  O = overlap(!)  M = multi-byte  R = group by mod/reg/rm
-P = prefix    Mv = m/b vex
+P = prefix
 
     0 1 2 3 4 5 6 7  rm with mod==0
    ----------------
@@ -3501,7 +3501,7 @@ P = prefix    Mv = m/b vex
 Opcode coverage mod/reg/rm (0f 9c ...):
 ------------------------------
 X = coverage  O = overlap(!)  M = multi-byte  R = group by mod/reg/rm
-P = prefix    Mv = m/b vex
+P = prefix
 
     0 1 2 3 4 5 6 7  rm with mod==0
    ----------------
@@ -3551,7 +3551,7 @@ P = prefix    Mv = m/b vex
 Opcode coverage mod/reg/rm (0f 9d ...):
 ------------------------------
 X = coverage  O = overlap(!)  M = multi-byte  R = group by mod/reg/rm
-P = prefix    Mv = m/b vex
+P = prefix
 
     0 1 2 3 4 5 6 7  rm with mod==0
    ----------------
@@ -3601,7 +3601,7 @@ P = prefix    Mv = m/b vex
 Opcode coverage mod/reg/rm (0f 9e ...):
 ------------------------------
 X = coverage  O = overlap(!)  M = multi-byte  R = group by mod/reg/rm
-P = prefix    Mv = m/b vex
+P = prefix
 
     0 1 2 3 4 5 6 7  rm with mod==0
    ----------------
@@ -3651,7 +3651,7 @@ P = prefix    Mv = m/b vex
 Opcode coverage mod/reg/rm (0f 9f ...):
 ------------------------------
 X = coverage  O = overlap(!)  M = multi-byte  R = group by mod/reg/rm
-P = prefix    Mv = m/b vex
+P = prefix
 
     0 1 2 3 4 5 6 7  rm with mod==0
    ----------------
@@ -3701,7 +3701,7 @@ P = prefix    Mv = m/b vex
 Opcode coverage mod/reg/rm (0f ba ...):
 ------------------------------
 X = coverage  O = overlap(!)  M = multi-byte  R = group by mod/reg/rm
-P = prefix    Mv = m/b vex
+P = prefix
 
     0 1 2 3 4 5 6 7  rm with mod==0
    ----------------
@@ -3751,7 +3751,7 @@ P = prefix    Mv = m/b vex
 Opcode coverage mod/reg/rm (0f c7 ...):
 ------------------------------
 X = coverage  O = overlap(!)  M = multi-byte  R = group by mod/reg/rm
-P = prefix    Mv = m/b vex
+P = prefix
 
     0 1 2 3 4 5 6 7  rm with mod==0
    ----------------
@@ -3801,7 +3801,7 @@ P = prefix    Mv = m/b vex
 Opcode coverage mod/reg/rm (9b db ...):
 ------------------------------
 X = coverage  O = overlap(!)  M = multi-byte  R = group by mod/reg/rm
-P = prefix    Mv = m/b vex
+P = prefix
 
     0 1 2 3 4 5 6 7  rm with mod==0
    ----------------
