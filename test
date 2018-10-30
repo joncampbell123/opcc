@@ -6732,3 +6732,15 @@ if ((value("everything") > 0)) {;
     (code 0xF3 0x0F 0xC7 mrm mod(!3) reg(6));
 } if;
 
+if ((value("everything") > 0)) {;
+  opcode "POPCNT"
+    (dest=reg(v))
+    (param=rm(v))
+    (code 0xF3 0x0F 0xB8 mrm);
+
+  opcode "LZCNT"
+    (dest=reg(v))
+    (param=rm(v))
+    (code 0xF3 0x0F 0xBD mrm);
+} if;
+
