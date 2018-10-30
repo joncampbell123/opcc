@@ -6660,11 +6660,9 @@ if ((value("sss4a") > 0) or (value("everything") > 0)) {;
 
 if ((value("everything") > 0)) {;
   opcode "RDTSCP"
-    (comment "Need to check param order")
-    (writes xmm(rm))
-    (dest=xmm(rm))
-    (param(0)=a)
-    (param(1)=b)
     (code 0x0F 0x01 mrm mod(3) reg(7) rm(1));
+
+  opcode "SWAPGS"
+    (code 0x0F 0x01 mrm mod(3) reg(7) rm(0));
 } if;
 
