@@ -6375,5 +6375,33 @@ if ((value("sss41") > 0) or (value("everything") > 0)) {;
     (param=xmm(rm))
     (code 0x66 0x0F 0x38 0x3B mrm);
 
+  opcode "PMAXSB"
+    (reads xmm(rm))
+    (writes xmm(reg))
+    (dest=xmm(reg))
+    (param=xmm(rm))
+    (code 0x66 0x0F 0x38 0x3C mrm);
+
+  opcode "PMAXUW"
+    (reads xmm(rm))
+    (writes xmm(reg))
+    (dest=xmm(reg))
+    (param=xmm(rm))
+    (code 0x66 0x0F 0x38 0x3E mrm);
+
+  opcode "PMAXSD"
+    (reads xmm(rm))
+    (writes xmm(reg))
+    (dest=xmm(reg))
+    (param=xmm(rm))
+    (code 0x66 0x0F 0x38 0x3D mrm);
+
+  opcode "PMAXUD"
+    (reads xmm(rm))
+    (writes xmm(reg))
+    (dest=xmm(reg))
+    (param=xmm(rm))
+    (code 0x66 0x0F 0x38 0x3F mrm);
+
 } if;
 
