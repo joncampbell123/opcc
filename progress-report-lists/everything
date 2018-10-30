@@ -25,11 +25,11 @@ Opcodes by byte:
         SIDT r/m(u48)                                                    ; 0f 01 /1=m
         LGDT r/m(u48)                                                    ; 0f 01 /2=m
         LIDT r/m(u48)                                                    ; 0f 01 /3=m
-     MONITOR EAX, ECX, EDX                                               ; 0f 01 c8
-       MWAIT EAX, ECX                                                    ; 0f 01 c9
         SMSW r/m(uv)                                                     ; 0f 01 /4
         LMSW r/m(uv)                                                     ; 0f 01 /6
       INVLPG r/m(uv)                                                     ; 0f 01 /7=m
+     MONITOR EAX, ECX, EDX                                               ; 0f 01 c8
+       MWAIT EAX, ECX                                                    ; 0f 01 c9
          LAR reg(uv), r/m(uv)                                            ; 0f 02 /r
          LSL reg(uv), r/m(uv)                                            ; 0f 03 /r
      SYSCALL                                                             ; 0f 05
@@ -358,10 +358,57 @@ Opcodes by byte:
       PSIGNW xmm(reg), xmm(rm)                                           ; 66 0f 38 09 /r
       PSIGND xmm(reg), xmm(rm)                                           ; 66 0f 38 0a /r
     PMULHRSW xmm(reg), xmm(rm)                                           ; 66 0f 38 0b /r
+    PBLENDVB xmm(reg), xmm(rm), xmm(0)                                   ; 66 0f 38 10 /r
+    BLENDVPS xmm(reg), xmm(rm), xmm(0)                                   ; 66 0f 38 14 /r
+    BLENDVPD xmm(reg), xmm(rm), xmm(0)                                   ; 66 0f 38 15 /r
+       PTEST xmm(reg), xmm(rm)                                           ; 66 0f 38 17 /r
        PABSB xmm(reg), xmm(rm)                                           ; 66 0f 38 1c /r
        PABSW xmm(reg), xmm(rm)                                           ; 66 0f 38 1d /r
        PABSD xmm(reg), xmm(rm)                                           ; 66 0f 38 1e /r
+    PMOVSXBW xmm(reg), xmm(rm)                                           ; 66 0f 38 20 /r
+    PMOVSXBD xmm(reg), xmm(rm)                                           ; 66 0f 38 21 /r
+    PMOVSXBQ xmm(reg), xmm(rm)                                           ; 66 0f 38 22 /r
+    PMOVSXWD xmm(reg), xmm(rm)                                           ; 66 0f 38 23 /r
+    PMOVSXWQ xmm(reg), xmm(rm)                                           ; 66 0f 38 24 /r
+    PMOVSXDQ xmm(reg), xmm(rm)                                           ; 66 0f 38 25 /r
+      PMULDQ xmm(reg), xmm(rm)                                           ; 66 0f 38 28 /r
+     PCMPEQQ xmm(reg), xmm(rm)                                           ; 66 0f 38 29 /r
+    MOVNTDQA xmm(reg), xmm(rm)                                           ; 66 0f 38 2a /r=m
+    PACKUSDW xmm(reg), xmm(rm)                                           ; 66 0f 38 2b /r
+    PMOVZXBW xmm(reg), xmm(rm)                                           ; 66 0f 38 30 /r
+    PMOVZXBD xmm(reg), xmm(rm)                                           ; 66 0f 38 31 /r
+    PMOVZXBQ xmm(reg), xmm(rm)                                           ; 66 0f 38 32 /r
+    PMOVZXWD xmm(reg), xmm(rm)                                           ; 66 0f 38 33 /r
+    PMOVZXWQ xmm(reg), xmm(rm)                                           ; 66 0f 38 34 /r
+    PMOVZXDQ xmm(reg), xmm(rm)                                           ; 66 0f 38 35 /r
+      PMINSB xmm(reg), xmm(rm)                                           ; 66 0f 38 38 /r
+      PMINSD xmm(reg), xmm(rm)                                           ; 66 0f 38 39 /r
+      PMINUW xmm(reg), xmm(rm)                                           ; 66 0f 38 3a /r
+      PMINUD xmm(reg), xmm(rm)                                           ; 66 0f 38 3b /r
+      PMAXSB xmm(reg), xmm(rm)                                           ; 66 0f 38 3c /r
+      PMAXSD xmm(reg), xmm(rm)                                           ; 66 0f 38 3d /r
+      PMAXUW xmm(reg), xmm(rm)                                           ; 66 0f 38 3e /r
+      PMAXUD xmm(reg), xmm(rm)                                           ; 66 0f 38 3f /r
+      PMULLD xmm(reg), xmm(rm)                                           ; 66 0f 38 40 /r
+  PHMINPOSUW xmm(reg), xmm(rm)                                           ; 66 0f 38 41 /r
+     ROUNDPS xmm(reg), xmm(rm), I                                        ; 66 0f 3a 08 /r I=imm(u8)
+     ROUNDPD xmm(reg), xmm(rm), I                                        ; 66 0f 3a 09 /r I=imm(u8)
+     ROUNDSS xmm(reg), xmm(rm), I                                        ; 66 0f 3a 0a /r I=imm(u8)
+     ROUNDSD xmm(reg), xmm(rm), I                                        ; 66 0f 3a 0b /r I=imm(u8)
+     BLENDPS xmm(reg), xmm(rm), I                                        ; 66 0f 3a 0c /r I=imm(u8)
+     BLENDPD xmm(reg), xmm(rm), I                                        ; 66 0f 3a 0d /r I=imm(u8)
+     PBLENDW xmm(reg), xmm(rm), I                                        ; 66 0f 3a 0e /r I=imm(u8)
      PALIGNR xmm(reg), xmm(rm), I                                        ; 66 0f 3a 0f /r I=imm(u8)
+      PEXTRB r/m(u32), xmm(reg), I                                       ; 66 0f 3a 14 /r I=imm(u8)
+      PEXTRW r/m(u32), xmm(reg), I                                       ; 66 0f 3a 15 /r I=imm(u8)
+      PEXTRD r/m(u32), xmm(reg), I                                       ; 66 0f 3a 16 /r I=imm(u8)
+   EXTRACTPS xmm(rm), xmm(reg), I                                        ; 66 0f 3a 17 /r I=imm(u8)
+      PINSRB xmm(reg), r/m(u32), I                                       ; 66 0f 3a 20 /r I=imm(u8)
+    INSERTPS xmm(reg), xmm(rm), I                                        ; 66 0f 3a 21 /r I=imm(u8)
+      PINSRD xmm(reg), r/m(u32), I                                       ; 66 0f 3a 22 /r I=imm(u8)
+        DPPS xmm(reg), xmm(rm), I                                        ; 66 0f 3a 40 /r I=imm(u8)
+        DPPD xmm(reg), xmm(rm), I                                        ; 66 0f 3a 41 /r I=imm(u8)
+     MPSADBW xmm(reg), xmm(rm), I                                        ; 66 0f 3a 42 /r I=imm(u8)
     MOVMSKPD r/m(u32), xmm(reg)                                          ; 66 0f 50 /r!m; sse2
       SQRTPD xmm(reg), xmm(rm)                                           ; 66 0f 51 /r; sse2
        ANDPD xmm(reg), xmm(rm)                                           ; 66 0f 54 /r; sse2
@@ -901,6 +948,10 @@ Opcodes by name:
        ANDPD xmm(reg), xmm(rm)                                           ; 66 0f 54 /r; sse2
        ANDPS xmm(reg), xmm(rm)                                           ; 0f 54 /r; sse
         ARPL r/m(uv), reg(uv)                                            ; 63 /r
+     BLENDPD xmm(reg), xmm(rm), I                                        ; 66 0f 3a 0d /r I=imm(u8)
+     BLENDPS xmm(reg), xmm(rm), I                                        ; 66 0f 3a 0c /r I=imm(u8)
+    BLENDVPD xmm(reg), xmm(rm), xmm(0)                                   ; 66 0f 38 15 /r
+    BLENDVPS xmm(reg), xmm(rm), xmm(0)                                   ; 66 0f 38 14 /r
        BOUND reg(uv), r/m(uv)                                            ; 62 /r
          BSF reg(uv), r/m(uv)                                            ; 0f bc /r
          BSR reg(uv), r/m(uv)                                            ; 0f bd /r
@@ -997,10 +1048,13 @@ Opcodes by name:
        DIVPS xmm(reg), xmm(rm)                                           ; 0f 5e /r; sse
        DIVSD xmm(reg), xmm(rm)                                           ; f2 0f 5e /r; sse2
        DIVSS xmm(reg), xmm(rm)                                           ; f3 0f 5e /r; sse
+        DPPD xmm(reg), xmm(rm), I                                        ; 66 0f 3a 41 /r I=imm(u8)
+        DPPS xmm(reg), xmm(rm), I                                        ; 66 0f 3a 40 /r I=imm(u8)
          DS:                                                    ; prefix ; 3e
         EMMS                                                             ; 0f 77; fpu
        ENTER A, L                                                        ; c8 A=imm(u16) L=imm(u8)
          ES:                                                    ; prefix ; 26
+   EXTRACTPS xmm(rm), xmm(reg), I                                        ; 66 0f 3a 17 /r I=imm(u8)
        F2XM1 st(0), st(0)                                                ; d9 f0; fpu
         FABS st(0), st(0)                                                ; d9 e1; fpu
         FADD st(0), r/m(f32)                                             ; d8 /0=m; fpu
@@ -1162,6 +1216,7 @@ Opcodes by name:
          INC r/m(uv)                                                     ; ff /0
          INS AL, u8 [SIV]                                                ; 6c
          INS Av, uv [SIV]                                                ; 6d
+    INSERTPS xmm(reg), xmm(rm), I                                        ; 66 0f 3a 21 /r I=imm(u8)
          INT 3                                                           ; cc
          INT I                                                           ; cd I=imm(u8)
          INT 1                                                           ; f1
@@ -1287,6 +1342,7 @@ Opcodes by name:
     MOVMSKPD r/m(u32), xmm(reg)                                          ; 66 0f 50 /r!m; sse2
     MOVMSKPS r/m(uv), xmm(reg)                                           ; 0f 50 /r; sse
      MOVNTDQ xmm(rm), xmm(reg)                                           ; 66 0f e7 /r=m
+    MOVNTDQA xmm(reg), xmm(rm)                                           ; 66 0f 38 2a /r=m
       MOVNTI r/m(u32), reg(u32)                                          ; 0f c3 /r=m
      MOVNTPD xmm(rm), xmm(reg)                                           ; 66 0f 2b /r=m; sse2
      MOVNTPS xmm(rm), xmm(reg)                                           ; 0f 2b /r=m; sse
@@ -1308,6 +1364,7 @@ Opcodes by name:
       MOVUPD xmm(rm), xmm(reg)                                           ; 66 0f 11 /r; sse2
       MOVUPS xmm(reg), xmm(rm)                                           ; 0f 10 /r; sse
       MOVUPS xmm(rm), xmm(reg)                                           ; 0f 11 /r; sse
+     MPSADBW xmm(reg), xmm(rm), I                                        ; 66 0f 3a 42 /r I=imm(u8)
          MUL r/m(u8)                                                     ; f6 /4
          MUL r/m(uv)                                                     ; f7 /4
        MULPD xmm(reg), xmm(rm)                                           ; 66 0f 59 /r; sse2
@@ -1347,6 +1404,7 @@ Opcodes by name:
     PACKSSDW xmm(reg), xmm(rm)                                           ; 66 0f 6b /r; sse2
     PACKSSWB mm(reg), mm(rm)                                             ; 0f 63 /r; fpu
     PACKSSWB xmm(reg), xmm(rm)                                           ; 66 0f 63 /r; sse2
+    PACKUSDW xmm(reg), xmm(rm)                                           ; 66 0f 38 2b /r
     PACKUSWB mm(reg), mm(rm)                                             ; 0f 67 /r; fpu
     PACKUSWB xmm(reg), xmm(rm)                                           ; 66 0f 67 /r; sse2
        PADDB mm(reg), mm(rm)                                             ; 0f fc /r; fpu
@@ -1376,10 +1434,13 @@ Opcodes by name:
      PAVGUSB mm(reg), mm(rm)                                             ; 0f 0f /r bf; 3dnow
        PAVGW mm(reg), mm(rm)                                             ; 0f e3 /r
        PAVGW xmm(reg), xmm(rm)                                           ; 66 0f e3 /r; sse
+    PBLENDVB xmm(reg), xmm(rm), xmm(0)                                   ; 66 0f 38 10 /r
+     PBLENDW xmm(reg), xmm(rm), I                                        ; 66 0f 3a 0e /r I=imm(u8)
      PCMPEQB mm(reg), mm(rm)                                             ; 0f 74 /r; fpu
      PCMPEQB xmm(reg), xmm(rm)                                           ; 66 0f 74 /r; sse2
      PCMPEQD mm(reg), mm(rm)                                             ; 0f 76 /r; fpu
      PCMPEQD xmm(reg), xmm(rm)                                           ; 66 0f 76 /r; sse2
+     PCMPEQQ xmm(reg), xmm(rm)                                           ; 66 0f 38 29 /r
      PCMPEQW mm(reg), mm(rm)                                             ; 0f 75 /r; fpu
      PCMPEQW xmm(reg), xmm(rm)                                           ; 66 0f 75 /r; sse2
      PCMPGTB mm(reg), mm(rm)                                             ; 0f 64 /r; fpu
@@ -1388,7 +1449,10 @@ Opcodes by name:
      PCMPGTD xmm(reg), xmm(rm)                                           ; 66 0f 66 /r; sse2
      PCMPGTW mm(reg), mm(rm)                                             ; 0f 65 /r; fpu
      PCMPGTW xmm(reg), xmm(rm)                                           ; 66 0f 65 /r; sse2
+      PEXTRB r/m(u32), xmm(reg), I                                       ; 66 0f 3a 14 /r I=imm(u8)
+      PEXTRD r/m(u32), xmm(reg), I                                       ; 66 0f 3a 16 /r I=imm(u8)
       PEXTRW reg(u32), mm(rm), I                                         ; 0f c5 /r!m I=imm(u8)
+      PEXTRW r/m(u32), xmm(reg), I                                       ; 66 0f 3a 15 /r I=imm(u8)
       PEXTRW reg(u32), xmm(rm), I                                        ; 66 0f c5 /r!m I=imm(u8); sse
        PF2ID mm(reg), mm(rm)                                             ; 0f 0f /r 1d; 3dnow
        PF2IW mm(reg), mm(rm)                                             ; 0f 0f /r 1c; 3dnow+
@@ -1414,32 +1478,57 @@ Opcodes by name:
       PHADDD xmm(reg), xmm(rm)                                           ; 66 0f 38 02 /r
      PHADDSW xmm(reg), xmm(rm)                                           ; 66 0f 38 03 /r
       PHADDW xmm(reg), xmm(rm)                                           ; 66 0f 38 01 /r
+  PHMINPOSUW xmm(reg), xmm(rm)                                           ; 66 0f 38 41 /r
       PHSUBD xmm(reg), xmm(rm)                                           ; 66 0f 38 06 /r
      PHSUBSW xmm(reg), xmm(rm)                                           ; 66 0f 38 07 /r
       PHSUBW xmm(reg), xmm(rm)                                           ; 66 0f 38 05 /r
        PI2FD mm(reg), mm(rm)                                             ; 0f 0f /r 0d; 3dnow
        PI2FW mm(reg), mm(rm)                                             ; 0f 0f /r 0c; 3dnow+
+      PINSRB xmm(reg), r/m(u32), I                                       ; 66 0f 3a 20 /r I=imm(u8)
+      PINSRD xmm(reg), r/m(u32), I                                       ; 66 0f 3a 22 /r I=imm(u8)
       PINSRW mm(reg), r/m(u16), I                                        ; 0f c4 /r I=imm(u8)
       PINSRW xmm(reg), r/m(u16), I                                       ; 66 0f c4 /r I=imm(u8); sse
    PMADDUBSW xmm(reg), xmm(rm)                                           ; 66 0f 38 04 /r
      PMADDWD mm(reg), mm(rm)                                             ; 0f f5 /r; fpu
      PMADDWD xmm(reg), xmm(rm)                                           ; 66 0f f5 /r; sse2
+      PMAXSB xmm(reg), xmm(rm)                                           ; 66 0f 38 3c /r
+      PMAXSD xmm(reg), xmm(rm)                                           ; 66 0f 38 3d /r
       PMAXSW mm(reg), mm(rm)                                             ; 0f ee /r
       PMAXSW xmm(reg), xmm(rm)                                           ; 66 0f ee /r; sse
       PMAXUB mm(reg), mm(rm)                                             ; 0f de /r
       PMAXUB xmm(reg), xmm(rm)                                           ; 66 0f de /r; sse
+      PMAXUD xmm(reg), xmm(rm)                                           ; 66 0f 38 3f /r
+      PMAXUW xmm(reg), xmm(rm)                                           ; 66 0f 38 3e /r
+      PMINSB xmm(reg), xmm(rm)                                           ; 66 0f 38 38 /r
+      PMINSD xmm(reg), xmm(rm)                                           ; 66 0f 38 39 /r
       PMINSW mm(reg), mm(rm)                                             ; 0f ea /r
       PMINSW xmm(reg), xmm(rm)                                           ; 66 0f ea /r; sse
       PMINUB mm(reg), mm(rm)                                             ; 0f da /r
       PMINUB xmm(reg), xmm(rm)                                           ; 66 0f da /r; sse
+      PMINUD xmm(reg), xmm(rm)                                           ; 66 0f 38 3b /r
+      PMINUW xmm(reg), xmm(rm)                                           ; 66 0f 38 3a /r
     PMOVMSKB reg(u32), mm(rm)                                            ; 0f d7 /r!m
     PMOVMSKB reg(u32), xmm(rm)                                           ; 66 0f d7 /r!m; sse
+    PMOVSXBD xmm(reg), xmm(rm)                                           ; 66 0f 38 21 /r
+    PMOVSXBQ xmm(reg), xmm(rm)                                           ; 66 0f 38 22 /r
+    PMOVSXBW xmm(reg), xmm(rm)                                           ; 66 0f 38 20 /r
+    PMOVSXDQ xmm(reg), xmm(rm)                                           ; 66 0f 38 25 /r
+    PMOVSXWD xmm(reg), xmm(rm)                                           ; 66 0f 38 23 /r
+    PMOVSXWQ xmm(reg), xmm(rm)                                           ; 66 0f 38 24 /r
+    PMOVZXBD xmm(reg), xmm(rm)                                           ; 66 0f 38 31 /r
+    PMOVZXBQ xmm(reg), xmm(rm)                                           ; 66 0f 38 32 /r
+    PMOVZXBW xmm(reg), xmm(rm)                                           ; 66 0f 38 30 /r
+    PMOVZXDQ xmm(reg), xmm(rm)                                           ; 66 0f 38 35 /r
+    PMOVZXWD xmm(reg), xmm(rm)                                           ; 66 0f 38 33 /r
+    PMOVZXWQ xmm(reg), xmm(rm)                                           ; 66 0f 38 34 /r
+      PMULDQ xmm(reg), xmm(rm)                                           ; 66 0f 38 28 /r
     PMULHRSW xmm(reg), xmm(rm)                                           ; 66 0f 38 0b /r
      PMULHRW mm(reg), mm(rm)                                             ; 0f 0f /r b7; 3dnow
      PMULHUW mm(reg), mm(rm)                                             ; 0f e4 /r
      PMULHUW xmm(reg), xmm(rm)                                           ; 66 0f e4 /r; sse
       PMULHW mm(reg), mm(rm)                                             ; 0f e5 /r; fpu
       PMULHW xmm(reg), xmm(rm)                                           ; 66 0f e5 /r; sse2
+      PMULLD xmm(reg), xmm(rm)                                           ; 66 0f 38 40 /r
       PMULLW mm(reg), mm(rm)                                             ; 0f d5 /r; fpu
       PMULLW xmm(reg), xmm(rm)                                           ; 66 0f d5 /r; sse2
      PMULUDQ mm(reg), mm(rm)                                             ; 0f f4 /r; sse2
@@ -1521,6 +1610,7 @@ Opcodes by name:
        PSUBW mm(reg), mm(rm)                                             ; 0f f9 /r; fpu
        PSUBW xmm(reg), xmm(rm)                                           ; 66 0f f9 /r; sse2
       PSWAPD mm(reg), mm(rm)                                             ; 0f 0f /r bb; 3dnow+
+       PTEST xmm(reg), xmm(rm)                                           ; 66 0f 38 17 /r
    PUNPCKHBW mm(reg), mm(rm)                                             ; 0f 68 /r; fpu
    PUNPCKHBW xmm(reg), xmm(rm)                                           ; 66 0f 68 /r; sse2
    PUNPCKHDQ mm(reg), mm(rm)                                             ; 0f 6a /r; fpu
@@ -1582,6 +1672,10 @@ Opcodes by name:
          ROR r/m(uv), 1                                                  ; d1 /1
          ROR r/m(u8), CL                                                 ; d2 /1
          ROR r/m(uv), CL                                                 ; d3 /1
+     ROUNDPD xmm(reg), xmm(rm), I                                        ; 66 0f 3a 09 /r I=imm(u8)
+     ROUNDPS xmm(reg), xmm(rm), I                                        ; 66 0f 3a 08 /r I=imm(u8)
+     ROUNDSD xmm(reg), xmm(rm), I                                        ; 66 0f 3a 0b /r I=imm(u8)
+     ROUNDSS xmm(reg), xmm(rm), I                                        ; 66 0f 3a 0a /r I=imm(u8)
          RSM                                                             ; 0f aa
      RSQRTPS xmm(reg), xmm(rm)                                           ; 0f 52 /r; sse
      RSQRTSS xmm(reg), xmm(rm)                                           ; f3 0f 52 /r; sse
@@ -1956,10 +2050,10 @@ P = prefix    Pm = mandatory prefix (modifies opcodes)
     0 1 2 3 4 5 6 7 8 9 a b c d e f 
    --------------------------------
   0|X X X X X X X X X X X X         
-  1|                        X X X   
-  2|                                
-  3|                                
-  4|                                
+  1|X       X X   X         X X X   
+  2|X X X X X X     X X R X         
+  3|X X X X X X     X X X X X X X X 
+  4|X X                             
   5|                                
   6|                                
   7|                                
@@ -1979,11 +2073,11 @@ P = prefix    Pm = mandatory prefix (modifies opcodes)
 
     0 1 2 3 4 5 6 7 8 9 a b c d e f 
    --------------------------------
-  0|                              X 
-  1|                                
-  2|                                
+  0|                X X X X X X X X 
+  1|        X X X X                 
+  2|X X X                           
   3|                                
-  4|                                
+  4|X X X                           
   5|                                
   6|                                
   7|                                
@@ -6294,5 +6388,55 @@ P = prefix
  e8|X X X X X X X X  reg=5
  f0|X X X X X X X X  reg=6
  f8|X X X X X X X X  reg=7
+
+
+Opcode coverage mod/reg/rm (66 0f 38 2a ...):
+------------------------------
+X = coverage  O = overlap(!)  M = multi-byte  R = group by mod/reg/rm
+P = prefix
+
+    0 1 2 3 4 5 6 7  rm with mod==0
+   ----------------
+ 00|X X X X X X X X  reg=0
+ 08|X X X X X X X X  reg=1
+ 10|X X X X X X X X  reg=2
+ 18|X X X X X X X X  reg=3
+ 20|X X X X X X X X  reg=4
+ 28|X X X X X X X X  reg=5
+ 30|X X X X X X X X  reg=6
+ 38|X X X X X X X X  reg=7
+
+    0 1 2 3 4 5 6 7  rm with mod==1
+   ----------------
+ 40|X X X X X X X X  reg=0
+ 48|X X X X X X X X  reg=1
+ 50|X X X X X X X X  reg=2
+ 58|X X X X X X X X  reg=3
+ 60|X X X X X X X X  reg=4
+ 68|X X X X X X X X  reg=5
+ 70|X X X X X X X X  reg=6
+ 78|X X X X X X X X  reg=7
+
+    0 1 2 3 4 5 6 7  rm with mod==2
+   ----------------
+ 80|X X X X X X X X  reg=0
+ 88|X X X X X X X X  reg=1
+ 90|X X X X X X X X  reg=2
+ 98|X X X X X X X X  reg=3
+ a0|X X X X X X X X  reg=4
+ a8|X X X X X X X X  reg=5
+ b0|X X X X X X X X  reg=6
+ b8|X X X X X X X X  reg=7
+
+    0 1 2 3 4 5 6 7  rm with mod==3
+   ----------------
+ c0|                 reg=0
+ c8|                 reg=1
+ d0|                 reg=2
+ d8|                 reg=3
+ e0|                 reg=4
+ e8|                 reg=5
+ f0|                 reg=6
+ f8|                 reg=7
 
 
