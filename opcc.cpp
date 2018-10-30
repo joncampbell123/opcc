@@ -2090,6 +2090,9 @@ std::string SingleByteSpec::pretty_string(void) {
                 if (!res.empty()) res += " ";
                 res += tmp;
             }
+            else if (fpu_st.type == TOK_V) {
+                res += "xmm(v)";
+            }
             else {
                 res += "xmm(?)";
             }
