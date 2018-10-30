@@ -6709,5 +6709,15 @@ if ((value("everything") > 0)) {;
     (param=rm(qw))
     (code 0x0F 0xC7 mrm mod(!3) reg(7));
 
+  opcode "VMREAD"
+    (dest=rm(dw))
+    (param=reg(dw))
+    (code 0x0F 0x78 mrm);
+
+  opcode "VMWRITE"
+    (dest=reg(dw))
+    (param=rm(dw))
+    (code 0x0F 0x79 mrm);
+
 } if;
 
