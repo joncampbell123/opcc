@@ -221,6 +221,7 @@ enum tokentype_t {
     TOK_AMD3DNOW,
     TOK_AMD3DNOWPLUS,           // 200
     TOK_EMMI,
+    TOK_VEX,
 
     TOK_MAX
 };
@@ -427,7 +428,8 @@ const char *tokentype_str[TOK_MAX] = {
     "SSE2",
     "AMD3DNOW",
     "AMD3DNOWPLUS",             // 200
-    "EMMI"
+    "EMMI",
+    "VEX"
 };
 
 bool list_op = false;
@@ -1793,6 +1795,10 @@ bool toke(tokenstate_t &tok) {
             tok.type = TOK_EMMI;
             return true;
         }
+        if (tok.string == "VEX") {
+            tok.type = TOK_VEX;
+            return true;
+        }
     }
 
     tok.type = TOK_ERROR;
@@ -1915,10 +1921,13 @@ public:
     bool                        rep_condition_negate = false;
     bool                        fpu = false;
     bool                        sse = false;
+    bool                        vex = false;
     bool                        sse2 = false;
     bool                        emmi = false;
     bool                        amd3dnow = false;
     bool                        amd3dnowplus = false;
+    signed char                 vex_prefix_idx = -1;
+    unsigned char               vex_prefix_addidx = 0;
     std::vector<SingleByteSpec> fpu_stack_ops;              // push or pop
     unsigned int                fpu_stack_op_dir = 0;       // TOK_PUSH or TOK_POP
 public:
@@ -2607,6 +2616,31 @@ std::string OpcodeSpec::to_string(void) {
             i++;
             if (i != bytes.end()) res += " ";
         }
+        res += ")";
+    }
+
+    if (vex) {
+        std::string str;
+
+        if (!str.empty()) str += ",";
+        switch (vex_prefix_addidx) {
+            case 0x01:  str += "0x66"; break;
+            case 0x02:  str += "0xF3"; break;
+            case 0x03:  str += "0xF2"; break;
+        };
+
+        if (vex_prefix_idx >= 0) {
+            if (!str.empty()) str += ",";
+            switch (vex_prefix_idx) {
+                case 1: str += "0x0F"; break;
+                case 2: str += "0x0F,0x38"; break;
+                case 3: str += "0x0F,0x3A"; break;
+            };
+        }
+
+        if (!res.empty()) res += ",";
+        res += "vex-prefix(";
+        res += str;
         res += ")";
     }
 
@@ -3640,6 +3674,7 @@ bool parse_code_st_spec(tokenstate_t &st,tokenlist &tokens) {
             case TOK_UINT:
             case TOK_REG:
             case TOK_RM:
+            case TOK_V: // for the "v" field in VEX encodings
             case TOK_IMPLIED: // allowed for Cyrix "implied mmx register"
             case TOK_ALL:
                 if (st.type != 0)
@@ -4594,6 +4629,96 @@ bool read_opcode_spec_opcode_parens(tokenlist &parent_tokens,OpcodeSpec &spec) {
 
                 bs.meaning = TOK_MRM;
                 spec.bytes.push_back(bs);
+            }
+            else if (tokens.peek(0).type == TOK_VEX && tokens.peek(1).type == TOK_OPEN_PARENS) {
+                tokens.discard(2);
+
+                bs.meaning = TOK_VEX;
+                spec.bytes.push_back(bs);
+
+                do {
+                    if (tokens.eof())
+                        break;
+
+                    auto &n = tokens.next();
+
+                    if (n.type == TOK_CLOSE_PARENS)
+                        break;
+                    else if (n.type == TOK_ERROR)
+                        return false;
+                    else if (n.type == TOK_PREFIX) {
+                        if (tokens.next().type != TOK_OPEN_PARENS)
+                            return false;
+
+                        std::vector<uint8_t> prefix;
+
+                        do {
+                            n = tokens.next();
+                            if (n.type == TOK_UINT) {
+                                if (n.intval.u > 255ull)
+                                    return false;
+
+                                prefix.push_back((uint8_t)n.intval.u);
+
+                                n = tokens.next();
+                                if (n.type == TOK_CLOSE_PARENS)
+                                    break;
+                                else if (n.type == TOK_COMMA)
+                                    continue;
+                                else {
+                                    fprintf(stderr,"vex() unexpected token #1\n");
+                                    return false;
+                                }
+                            }
+                            else {
+                                fprintf(stderr,"vex() unexpected token #2, %s\n",n.type_str());
+                                return false;
+                            }
+                        } while (1);
+
+                        if (prefix.size() > 0) {
+                            if (prefix[0] == 0x66) {
+                                spec.vex_prefix_addidx = 1;
+                                prefix.erase(prefix.begin(),prefix.begin()+1);
+                            }
+                            else if (prefix[0] == 0xF3) {
+                                spec.vex_prefix_addidx = 2;
+                                prefix.erase(prefix.begin(),prefix.begin()+1);
+                            }
+                            else if (prefix[0] == 0xF2) {
+                                spec.vex_prefix_addidx = 3;
+                                prefix.erase(prefix.begin(),prefix.begin()+1);
+                            }
+                        }
+
+                        if (prefix.size() > 0 && prefix[0] == 0x0F) {
+                            spec.vex_prefix_idx = 1;
+                        }
+                        else if (prefix.size() > 1 && prefix[0] == 0x0F && prefix[1] == 0x38) {
+                            spec.vex_prefix_idx = 2;
+                        }
+                        else if (prefix.size() > 1 && prefix[0] == 0x0F && prefix[1] == 0x3A) {
+                            spec.vex_prefix_idx = 3;
+                        }
+                        else {
+                            fprintf(stderr,"Unsupported vex prefix ");
+                            for (const auto &b : prefix) fprintf(stderr,"%02x ",b);
+                            fprintf(stderr,"\n");
+                            return false;
+                        }
+                    }
+                    else {
+                        fprintf(stderr,"vex() unexpected tokens\n");
+                        return false;
+                    }
+                } while (1);
+
+                if (spec.vex_prefix_idx < 0) {
+                    fprintf(stderr,"vex() prefix not specified\n");
+                    return false;
+                }
+
+                spec.vex = true;
             }
             else if ((tokens.peek(0).type == TOK_REG || tokens.peek(0).type == TOK_RM) && tokens.peek(1).type == TOK_OPEN_PARENS) {
                 unsigned int typ = tokens.peek(0).type;
@@ -5998,6 +6123,14 @@ int main(int argc,char **argv) {
         }
 
         /* bytes[0] must be actual bytes */
+        /* VEX instructions are the only exception to the rule.
+         * It's like a compressed prefix, in a way, that Intel can extend in the future as well. */
+        if (opcode.vex) {
+            // TODO
+            fprintf(stderr,"WARNING: opcode '%s' ignored, VEX instructions not yet supported\n",opcode.name.c_str());
+            continue;
+        }
+
         if (opcode.bytes[0].meaning != 0) {
             fprintf(stderr,"ERROR: opcode '%s' first entry not a byte value\n",opcode.name.c_str());
             continue;
