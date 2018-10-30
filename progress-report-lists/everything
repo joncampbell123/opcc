@@ -25,11 +25,13 @@ Opcodes by byte:
         SIDT r/m(u48)                                                    ; 0f 01 /1=m
         LGDT r/m(u48)                                                    ; 0f 01 /2=m
         LIDT r/m(u48)                                                    ; 0f 01 /3=m
-       MWAIT EAX, ECX                                                    ; 0f 01 c9
         SMSW r/m(uv)                                                     ; 0f 01 /4
         LMSW r/m(uv)                                                     ; 0f 01 /6
       INVLPG r/m(uv)                                                     ; 0f 01 /7=m
      MONITOR EAX, ECX, EDX                                               ; 0f 01 c8
+       MWAIT EAX, ECX                                                    ; 0f 01 c9
+      SWAPGS                                                             ; 0f 01 f8
+      RDTSCP                                                             ; 0f 01 f9
          LAR reg(uv), r/m(uv)                                            ; 0f 02 /r
          LSL reg(uv), r/m(uv)                                            ; 0f 03 /r
      SYSCALL                                                             ; 0f 05
@@ -833,6 +835,8 @@ Opcodes by byte:
      MOVNTSD xmm(rm), xmm(reg)                                           ; f2 0f 2b /r=m
    CVTTSD2SI reg(u32), xmm(rm)                                           ; f2 0f 2c /r; sse2
     CVTSD2SI reg(u32), xmm(rm)                                           ; f2 0f 2d /r; sse2
+       CRC32 r/m(u32), r/m(u8)                                           ; f2 0f 38 f0 /r
+       CRC32 r/m(u32), r/m(uv)                                           ; f2 0f 38 f1 /r
       SQRTSD xmm(reg), xmm(rm)                                           ; f2 0f 51 /r; sse2
        ADDSD xmm(reg), xmm(rm)                                           ; f2 0f 58 /r; sse2
        MULSD xmm(reg), xmm(rm)                                           ; f2 0f 59 /r; sse2
@@ -1024,6 +1028,8 @@ Opcodes by name:
       COMISD xmm(reg), xmm(rm)                                           ; 66 0f 2f /r; sse2
       COMISS xmm(reg), xmm(rm)                                           ; 0f 2f /r; sse
        CPUID                                                             ; 0f a2
+       CRC32 r/m(u32), r/m(u8)                                           ; f2 0f 38 f0 /r
+       CRC32 r/m(u32), r/m(uv)                                           ; f2 0f 38 f1 /r
          CS:                                                    ; prefix ; 2e
     CVTDQ2PD xmm(reg), xmm(rm)                                           ; f3 0f e6 /r; sse2
     CVTDQ2PS xmm(reg), xmm(rm)                                           ; 0f 5b /r; sse2
@@ -1676,6 +1682,7 @@ Opcodes by name:
        RDMSR                                                             ; 0f 32
        RDPMC                                                             ; 0f 33
        RDTSC                                                             ; 0f 31
+      RDTSCP                                                             ; 0f 01 f9
        REPNZ                                                    ; prefix ; f2
         REPZ                                                    ; prefix ; f3
          RET C                                                           ; c2 C=imm(u16)
@@ -1782,6 +1789,7 @@ Opcodes by name:
        SUBPS xmm(reg), xmm(rm)                                           ; 0f 5c /r; sse
        SUBSD xmm(reg), xmm(rm)                                           ; f2 0f 5c /r; sse2
        SUBSS xmm(reg), xmm(rm)                                           ; f3 0f 5c /r; sse
+      SWAPGS                                                             ; 0f 01 f8
      SYSCALL                                                             ; 0f 05
     SYSENTER                                                             ; 0f 34
      SYSEXIT                                                             ; 0f 35
@@ -2026,7 +2034,7 @@ P = prefix    Pm = mandatory prefix (modifies opcodes)
   0|                                
   1|X X X                           
   2|                    X R X X     
-  3|                                
+  3|                M               
   4|                                
   5|  X             X X X   X X X X 
   6|                                
@@ -2111,6 +2119,30 @@ P = prefix    Pm = mandatory prefix (modifies opcodes)
   d|                                
   e|                                
   f|                                
+
+Opcode coverage (f2 0f 38 ...):
+------------------------------
+X = coverage  O = overlap(!)  M = multi-byte  R = group by mod/reg/rm
+P = prefix    Pm = mandatory prefix (modifies opcodes)
+
+    0 1 2 3 4 5 6 7 8 9 a b c d e f 
+   --------------------------------
+  0|                                
+  1|                                
+  2|                                
+  3|                                
+  4|                                
+  5|                                
+  6|                                
+  7|                                
+  8|                                
+  9|                                
+  a|                                
+  b|                                
+  c|                                
+  d|                                
+  e|                                
+  f|X X                             
 
 Opcode coverage mod/reg/rm (80 ...):
 ------------------------------
@@ -3609,7 +3641,7 @@ P = prefix
  e0|X X X X X X X X  reg=4
  e8|                 reg=5
  f0|X X X X X X X X  reg=6
- f8|                 reg=7
+ f8|X X              reg=7
 
 
 Opcode coverage mod/reg/rm (0f 0d ...):
