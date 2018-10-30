@@ -6443,5 +6443,89 @@ if ((value("sss41") > 0) or (value("everything") > 0)) {;
     (param(1)=i)
     (code 0x66 0x0F 0x3A 0x16 mrm i=immediate(b));
 
+  opcode "PMOVSXBW"
+    (reads xmm(rm))
+    (writes xmm(reg))
+    (dest=xmm(reg))
+    (param=xmm(rm))
+    (code 0x66 0x0F 0x38 0x20 mrm);
+
+  opcode "PMOVZXBW"
+    (reads xmm(rm))
+    (writes xmm(reg))
+    (dest=xmm(reg))
+    (param=xmm(rm))
+    (code 0x66 0x0F 0x38 0x30 mrm);
+
+  opcode "PMOVSXBD"
+    (reads xmm(rm))
+    (writes xmm(reg))
+    (dest=xmm(reg))
+    (param=xmm(rm))
+    (code 0x66 0x0F 0x38 0x21 mrm);
+
+  opcode "PMOVZXBD"
+    (reads xmm(rm))
+    (writes xmm(reg))
+    (dest=xmm(reg))
+    (param=xmm(rm))
+    (code 0x66 0x0F 0x38 0x31 mrm);
+
+  opcode "PMOVSXBQ"
+    (reads xmm(rm))
+    (writes xmm(reg))
+    (dest=xmm(reg))
+    (param=xmm(rm))
+    (code 0x66 0x0F 0x38 0x22 mrm);
+
+  opcode "PMOVZXBQ"
+    (reads xmm(rm))
+    (writes xmm(reg))
+    (dest=xmm(reg))
+    (param=xmm(rm))
+    (code 0x66 0x0F 0x38 0x32 mrm);
+
+  opcode "PMOVSXWD"
+    (reads xmm(rm))
+    (writes xmm(reg))
+    (dest=xmm(reg))
+    (param=xmm(rm))
+    (code 0x66 0x0F 0x38 0x23 mrm);
+
+  opcode "PMOVZXWD"
+    (reads xmm(rm))
+    (writes xmm(reg))
+    (dest=xmm(reg))
+    (param=xmm(rm))
+    (code 0x66 0x0F 0x38 0x33 mrm);
+
+  opcode "PMOVSXWQ"
+    (reads xmm(rm))
+    (writes xmm(reg))
+    (dest=xmm(reg))
+    (param=xmm(rm))
+    (code 0x66 0x0F 0x38 0x24 mrm);
+
+  opcode "PMOVZXWQ"
+    (reads xmm(rm))
+    (writes xmm(reg))
+    (dest=xmm(reg))
+    (param=xmm(rm))
+    (code 0x66 0x0F 0x38 0x34 mrm);
+
+  opcode "PMOVSXDQ"
+    (reads xmm(rm))
+    (writes xmm(reg))
+    (dest=xmm(reg))
+    (param=xmm(rm))
+    (code 0x66 0x0F 0x38 0x25 mrm);
+
+  opcode "PMOVZXDQ"
+    (reads xmm(rm))
+    (writes xmm(reg))
+    (dest=xmm(reg))
+    (param=xmm(rm))
+    (code 0x66 0x0F 0x38 0x35 mrm);
+
 } if;
 
