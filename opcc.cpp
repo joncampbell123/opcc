@@ -2876,6 +2876,10 @@ std::vector<ByteSpec> bytes_only_bytes(const std::vector<ByteSpec> &s) {
 }
 
 bool opcode_sort_func(const OpcodeSpec &a,const OpcodeSpec &b) {
+    /* vex instructions belong in their own little weirdness */
+             if (a.vex              < b.vex)                    return true;
+        else if (a.vex              > b.vex)                    return false;
+
     {
         std::vector<ByteSpec> ab = bytes_only_bytes(a.bytes);
         std::vector<ByteSpec> bb = bytes_only_bytes(b.bytes);
