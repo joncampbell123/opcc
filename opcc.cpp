@@ -5881,6 +5881,59 @@ bool enter_opcode_bytes(const OpcodeSpec &opcode,size_t opcode_index,std::shared
     return true;
 }
 
+bool enter_opcode_bytes_vex(const OpcodeSpec &opcode,size_t opcode_index,std::shared_ptr<OpcodeGroupBlock> groups) {
+    if (opcode.bytes.size() <= 1) /* VEX something */
+        return false;
+
+    auto i = opcode.bytes.begin();
+
+    assert(i != opcode.bytes.end());
+    if ((*i).meaning != TOK_VEX) return false;
+    i++;
+
+    /* next must be byte value, first of the opcode */
+    assert(i != opcode.bytes.end());
+    if ((*i).meaning != 0) return false;
+
+    /* VEX encoding requires the overload of invalid LDS/LES encodings */
+    {
+        auto &gs = *groups;
+
+        if (gs.maptype == OpcodeGroupBlock::NONE)
+            gs.maptype = OpcodeGroupBlock::LINEAR;
+        else if (gs.maptype != OpcodeGroupBlock::LINEAR) {
+            gs.overlap_error = true;
+            fprintf(stderr,"map overlap error for opcode '%s', top level map is not linear\n",opcode.name.c_str());
+            return false;
+        }
+    }
+
+    if (opcode.vex_prefix_idx == 1) { /* 2-byte VEX */
+        auto gsr = (*groups).map_get_alloc(0xC5);
+        if (gsr.get() == nullptr) return false;
+
+        auto &gs = *gsr;
+        if (gs.maptype == OpcodeGroupBlock::NONE) {
+            gs.maptype = OpcodeGroupBlock::MODREGRM;
+        }
+        else if (gs.maptype != OpcodeGroupBlock::MODREGRM) {
+            gs.overlap_error = true;
+            fprintf(stderr,"map overlap error for opcode '%s', map of 0xC5 is not mod/reg/rm\n",opcode.name.c_str());
+            return false;
+        }
+    }
+
+    /* if the prefix is 0x0F (not including 0x66/0xF2/0xF3) then add the 2-byte encoding */
+    if (opcode.vex_prefix_idx == 1) {
+
+    }
+    else {
+        return false;
+    }
+
+    return true;
+}
+
 int main(int argc,char **argv) {
     /* setup predefined values */
     defines["dialect"] = "intel-x86";
@@ -6154,6 +6207,11 @@ int main(int argc,char **argv) {
                     fprintf(stderr,"ERROR: opcode '%s' unexpected byte entries\n",opcode.name.c_str());
                     continue;
                 }
+            }
+
+            if (!enter_opcode_bytes_vex(opcode,(size_t)(op_i-opcodes.begin()),opcode_groups)) {
+                fprintf(stderr,"Opcode byte to map error\n");
+                continue;
             }
 
             continue;
