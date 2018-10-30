@@ -6746,34 +6746,73 @@ if ((value("everything") > 0)) {;
 
 if ((value("everything") > 0)) {;
   opcode "AESDEC"
-    (dest=reg(v))
-    (param=rm(v))
+    (dest=xmm(reg))
+    (param=xmm(rm))
     (code 0x66 0x0F 0x38 0xDE mrm);
 
   opcode "AESDECLAST"
-    (dest=reg(v))
-    (param=rm(v))
+    (dest=xmm(reg))
+    (param=xmm(rm))
     (code 0x66 0x0F 0x38 0xDF mrm);
 
   opcode "AESENC"
-    (dest=reg(v))
-    (param=rm(v))
+    (dest=xmm(reg))
+    (param=xmm(rm))
     (code 0x66 0x0F 0x38 0xDC mrm);
 
   opcode "AESENCLAST"
-    (dest=reg(v))
-    (param=rm(v))
+    (dest=xmm(reg))
+    (param=xmm(rm))
     (code 0x66 0x0F 0x38 0xDD mrm);
 
   opcode "AESIMC"
-    (dest=reg(v))
-    (param=rm(v))
+    (dest=xmm(reg))
+    (param=xmm(rm))
     (code 0x66 0x0F 0x38 0xDB mrm);
 
   opcode "AESKEYGENASSIST"
-    (dest=reg(v))
-    (param=rm(v))
+    (dest=xmm(reg))
+    (param=xmm(rm))
     (param(1)=i)
     (code 0x66 0x0F 0x3A 0xDF mrm i=immediate(b));
+} if;
+
+if ((value("everything") > 0)) {;
+  opcode "SHA1RNDS4"
+    (dest=xmm(reg))
+    (param=xmm(rm))
+    (param(1)=i)
+    (code 0x0F 0x3A 0xCC mrm i=immediate(b));
+
+  opcode "SHA1NEXTE"
+    (dest=xmm(reg))
+    (param=xmm(rm))
+    (code 0x0F 0x38 0xC8 mrm);
+
+  opcode "SHA1MSG1"
+    (dest=xmm(reg))
+    (param=xmm(rm))
+    (code 0x0F 0x38 0xC9 mrm);
+
+  opcode "SHA1MSG2"
+    (dest=xmm(reg))
+    (param=xmm(rm))
+    (code 0x0F 0x38 0xCA mrm);
+
+  opcode "SHA256RNDS2"
+    (dest=xmm(reg))
+    (param=xmm(rm))
+    (param(1)=xmm(0))
+    (code 0x0F 0x38 0xCB mrm);
+
+  opcode "SHA256MSG1"
+    (dest=xmm(reg))
+    (param=xmm(rm))
+    (code 0x0F 0x38 0xCC mrm);
+
+  opcode "SHA256MSG2"
+    (dest=xmm(reg))
+    (param=xmm(rm))
+    (code 0x0F 0x38 0xCD mrm);
 } if;
 
