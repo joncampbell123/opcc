@@ -19,7 +19,7 @@
 [x] SSE3
 [x] SSSE3
 [x] SSE4.1
-[ ] SSE4a       TODO find AMD datasheet describing EXTRQ/INSERTQ/MOVNTSD/MOVNTSS
+[x] SSE4a
 [x] SSE4.2
 [ ] SSE5        TODO find datasheets
 [ ] XOP         TODO find datasheets
