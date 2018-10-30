@@ -25,7 +25,7 @@
 [x] Intel VT-x
 [x] ABM
 [x] AES
-[ ] SHA         TODO find datasheets
+[x] SHA
 
 Reminder:
 - No AVX, AVX2, AVX512 or any other VEX encoded instructions.
