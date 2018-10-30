@@ -25,11 +25,19 @@ Opcodes by byte:
         SIDT r/m(u48)                                                    ; 0f 01 /1=m
         LGDT r/m(u48)                                                    ; 0f 01 /2=m
         LIDT r/m(u48)                                                    ; 0f 01 /3=m
-        SMSW r/m(uv)                                                     ; 0f 01 /4
-        LMSW r/m(uv)                                                     ; 0f 01 /6
       INVLPG r/m(uv)                                                     ; 0f 01 /7=m
      MONITOR EAX, ECX, EDX                                               ; 0f 01 c8
        MWAIT EAX, ECX                                                    ; 0f 01 c9
+       VMRUN                                                             ; 0f 01 d8
+     VMMCALL                                                             ; 0f 01 d9
+      VMLOAD                                                             ; 0f 01 da
+      VMSAVE                                                             ; 0f 01 db
+        STGI                                                             ; 0f 01 dc
+        CLGI                                                             ; 0f 01 dd
+      SKINIT                                                             ; 0f 01 de
+     INVLPGA                                                             ; 0f 01 df
+        SMSW r/m(uv)                                                     ; 0f 01 /4
+        LMSW r/m(uv)                                                     ; 0f 01 /6
       SWAPGS                                                             ; 0f 01 f8
       RDTSCP                                                             ; 0f 01 f9
          LAR reg(uv), r/m(uv)                                            ; 0f 02 /r
@@ -987,6 +995,7 @@ Opcodes by name:
          CLC                                                             ; f8
          CLD                                                             ; fc
      CLFLUSH r/m(u8)                                                     ; 0f ae /7=m
+        CLGI                                                             ; 0f 01 dd
          CLI                                                             ; fa
         CLTS                                                             ; 0f 06 /r
          CMC                                                             ; f5
@@ -1244,6 +1253,7 @@ Opcodes by name:
         INTO                                                             ; ce
         INVD                                                             ; 0f 08
       INVLPG r/m(uv)                                                     ; 0f 01 /7=m
+     INVLPGA                                                             ; 0f 01 df
         IRET                                                             ; cf
           JA N                                                           ; 0f 87 P=imm(iv); N=(IPV+P)
           JA N                                                           ; 77 P=imm(i8); N=(IPV+P)
@@ -1761,6 +1771,7 @@ Opcodes by name:
       SHUFPD xmm(reg), xmm(rm), I                                        ; 66 0f c6 /r I=imm(u8); sse2
       SHUFPS xmm(reg), xmm(rm), I                                        ; 0f c6 /r I=imm(u8); sse
         SIDT r/m(u48)                                                    ; 0f 01 /1=m
+      SKINIT                                                             ; 0f 01 de
         SLDT r/m(uv)                                                     ; 0f 00 /0
         SMSW r/m(uv)                                                     ; 0f 01 /4
       SQRTPD xmm(reg), xmm(rm)                                           ; 66 0f 51 /r; sse2
@@ -1770,6 +1781,7 @@ Opcodes by name:
          SS:                                                    ; prefix ; 36
          STC                                                             ; f9
          STD                                                             ; fd
+        STGI                                                             ; 0f 01 dc
          STI                                                             ; fb
      STMXCSR r/m(u32)                                                    ; 0f ae /3=m
         STOS u8 ES:[DIV], AL                                             ; aa
@@ -1810,6 +1822,10 @@ Opcodes by name:
     UNPCKLPS xmm(reg), xmm(rm)                                           ; 0f 14 /r; sse
         VERR r/m(uv)                                                     ; 0f 00 /4
         VERW r/m(uv)                                                     ; 0f 00 /5
+      VMLOAD                                                             ; 0f 01 da
+     VMMCALL                                                             ; 0f 01 d9
+       VMRUN                                                             ; 0f 01 d8
+      VMSAVE                                                             ; 0f 01 db
         WAIT                                                    ; prefix ; 9b
       WBINVD                                                             ; 0f 09
        WRMSR                                                             ; 0f 30
@@ -3637,7 +3653,7 @@ P = prefix
  c0|                 reg=0
  c8|X X              reg=1
  d0|                 reg=2
- d8|                 reg=3
+ d8|X X X X X X X X  reg=3
  e0|X X X X X X X X  reg=4
  e8|                 reg=5
  f0|X X X X X X X X  reg=6
